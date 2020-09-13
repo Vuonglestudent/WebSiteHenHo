@@ -1,5 +1,5 @@
 <footer class="footer" [ngClass]="{'has-cards': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'}">
-  <div class="container container-lg" *ngIf="getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'">
+  <!-- <div class="container container-lg" *ngIf="getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'">
     <div class="row">
       <div class="col-md-6 mb-5 mb-md-0">
         <div class="card card-lift--hover shadow border-0">
@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="container">
     <div class="row row-grid align-items-center" [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
       <div class="col-lg-6">
