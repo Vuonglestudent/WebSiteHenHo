@@ -37,13 +37,14 @@
               <div class="text-center text-muted mb-4">
                 <small>Or sign in with credentials</small>
               </div>
-              <form role="form">
+              <alert></alert>
+              <form role="form" #Login="ngForm">
                 <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email" type="email" (focus)="focus=true" (blur)="focus=false">
+                    <input matInput name="Email" ngModel #From="ngModel" class="form-control" placeholder="Email" type="email" (focus)="focus=true" (blur)="focus=false">
                   </div>
                 </div>
                 <div class="form-group" [ngClass]="{'focused':focus1===true}">
@@ -51,7 +52,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" (focus)="focus1=true" (blur)="focus1=false">
+                    <input matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password" type="password" (focus)="focus1=true" (blur)="focus1=false">
                   </div>
                 </div>
                 <div class="custom-control custom-control-alternative custom-checkbox">
@@ -61,7 +62,15 @@
                   </label>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Sign in</button>
+                  <button *ngIf="Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
+                    <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    Loading...
+                    </button>
+
+                    <button *ngIf="!Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
+                      <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+                      Sign In
+                      </button>
                 </div>
               </form>
             </div>
