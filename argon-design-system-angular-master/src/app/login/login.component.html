@@ -16,7 +16,7 @@
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-white pb-5">
               <div class="text-muted text-center mb-3">
-                <small>Sign in with</small>
+                <small>Đăng nhập bằng...</small>
               </div>
               <div class="btn-wrapper text-center">
                 <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
@@ -35,16 +35,22 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
+                <small *ngIf="Index == 1">Đăng nhập bằng tài khoản hệ thống</small>
+                <small *ngIf="Index == 2">Nhập địa chỉ email của bạn!</small>
+                <small *ngIf="Index == 3">Nhập mã xác nhận trong email của bạn!</small>
+                <small *ngIf="Index == 3">Thời hạn đến </small>
               </div>
               <alert></alert>
-              <form role="form" #Login="ngForm">
+
+              <!-- Đăng nhập -->
+              <form *ngIf="Index == 1" role="form" #Login="ngForm">
                 <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input matInput name="Email" ngModel #From="ngModel" class="form-control" placeholder="Email" type="email" (focus)="focus=true" (blur)="focus=false">
+                    <input matInput name="Email" ngModel #From="ngModel" class="form-control" placeholder="Email"
+                      type="email" (focus)="focus=true" (blur)="focus=false">
                   </div>
                 </div>
                 <div class="form-group" [ngClass]="{'focused':focus1===true}">
@@ -52,7 +58,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password" type="password" (focus)="focus1=true" (blur)="focus1=false">
+                    <input matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password"
+                      type="password" (focus)="focus1=true" (blur)="focus1=false">
                   </div>
                 </div>
                 <div class="custom-control custom-control-alternative custom-checkbox">
@@ -63,26 +70,114 @@
                 </div>
                 <div class="text-center">
                   <button *ngIf="Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
-                    <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                     Loading...
-                    </button>
+                  </button>
 
-                    <button *ngIf="!Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
-                      <fa-icon size="1x" [icon]="faCheck"></fa-icon>
-                      Sign In
-                      </button>
+                  <button *ngIf="!Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+                    Sign In
+                  </button>
                 </div>
               </form>
+
+              <!-- Xác nhận email -->
+              <form *ngIf="Index == 2" role="form" #ForgotPassword="ngForm">
+                <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input matInput name="Email" ngModel #From="ngModel" class="form-control" placeholder="Email"
+                      type="email" (focus)="focus=true" (blur)="focus=false">
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button *ngIf="Loading" (click)="confirmEmail(ForgotPassword)" type="button"
+                    class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    Loading...
+                  </button>
+
+                  <button *ngIf="!Loading" (click)="confirmEmail(ForgotPassword)" type="button"
+                    class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+                    Confirm
+                  </button>
+
+                  <button (click)="cancelClick()" type="button"
+                    class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faArrowLeft"></fa-icon>
+                    Back
+                  </button>
+
+                </div>
+              </form>
+
+              <!-- Confirm code -->
+              <form *ngIf="Index == 3" role="form" #Confirm="ngForm">
+                <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input matInput name="Code" ngModel #From="ngModel" class="form-control" placeholder="Your code"
+                      type="text" (focus)="focus=true" (blur)="focus=false">
+                  </div>
+                </div>
+
+                <div class="form-group" [ngClass]="{'focused':focus1===true}">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input matInput name="NewPassword" ngModel #From="ngModel" class="form-control" placeholder="New password"
+                      type="password" (focus)="focus1=true" (blur)="focus1=false">
+                  </div>
+                </div>
+
+
+                <div class="form-group" [ngClass]="{'focused':focus1===true}">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input matInput name="ConfirmPassword" ngModel #From="ngModel" class="form-control" placeholder="Confirm password"
+                      type="password" (focus)="focus1=true" (blur)="focus1=false">
+                  </div>
+                </div>
+
+
+                <div class="text-center">
+                  <button *ngIf="Loading" type="button" class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    Loading...
+                  </button>
+
+                  <button *ngIf="!Loading" (click)="confirmCode(Confirm)" type="button" class="btn btn-primary mt-4">
+                    <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+                    Confirm
+                  </button>
+
+                  <button (click)="cancelClick()" type="button"
+                  class="btn btn-primary mt-4">
+                  <fa-icon size="1x" [icon]="faArrowLeft"></fa-icon>
+                  Back
+                </button>
+                </div>
+              </form>
+
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-6">
-              <a href="javascript:void(0)" class="text-light">
+              <a style="cursor: pointer" (click)="ClickForgot()" class="text-light">
                 <small>Forgot password?</small>
               </a>
             </div>
             <div class="col-6 text-right">
-              <a href="javascript:void(0)" class="text-light">
+              <a href="/#/register" class="text-light">
                 <small>Create new account</small>
               </a>
             </div>

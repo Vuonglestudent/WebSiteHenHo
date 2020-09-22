@@ -33,4 +33,24 @@ export class AuthenticationService {
 
     return this.http.post<any>(this.mainUrl + path, data).toPromise();
   }
+
+  public ForgotPasswordRequest = (email: string) =>{
+    var data = new FormData();
+    data.append("Email", email);
+
+    var path = '/forgotPassword';
+
+    return this.http.post<any>(this.mainUrl + path, data).toPromise();
+  }
+
+  public CodeValidation = (code: string, email:string, newPassword:string) =>{
+    var data = new FormData();
+    data.append("Email", email);
+    data.append("Code", code);
+    data.append("NewPassword", newPassword);
+
+    var path = '/CodeValidation';
+
+    return this.http.post<any>(this.mainUrl + path, data).toPromise();
+  }
 }
