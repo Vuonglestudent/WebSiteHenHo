@@ -1,0 +1,20 @@
+<br>
+<br>
+<br>
+<br>
+<div class="container" *ngIf="!IsOk" id="ko">
+    <h3 class=" text-center chat_header">Fill UserId to Chat...!</h3>
+    <p>UserId 1:</p>
+    <p>ec826af8-0310-48cf-8a14-da11bdb1c96e</p>
+    <p>UserId 2:</p>
+    <p>ec826af8-0310-48cf-8a14-da11bdb1c96d</p>
+    <form #UserData="ngForm">
+        <input matInput name="From" ngModel #From="ngModel" placeholder="From UserId">
+        <input matInput name="To" ngModel #To="ngModel" placeholder="To UserId">
+        <button type="submit" (click)="onSubmit(UserData)" mat-raised-button color="primary">Save</button>
+    </form>
+</div>
+
+<div *ngIf="IsOk" id="ok">
+    <app-chat></app-chat>
+</div>
