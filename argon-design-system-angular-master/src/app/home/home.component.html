@@ -67,59 +67,6 @@
       </div>
 
 
-      <div *ngIf="!IsOk" id="ko">
-        <h3 class=" text-center chat_header">Fill UserId to Chat...!</h3>
-        <p>UserId 1:</p>
-        <p>ec826af8-0310-48cf-8a14-da11bdb1c96e</p>
-        <p>UserId 2:</p>
-        <p>ec826af8-0310-48cf-8a14-da11bdb1c96d</p>
-        <form #UserData="ngForm">
-          <input matInput name="From" ngModel #From="ngModel" placeholder="From UserId">
-          <input matInput name="To" ngModel #To="ngModel" placeholder="To UserId">
-          <button type="submit" (click)="onSubmit(UserData)" mat-raised-button color="primary">Save</button>
-        </form>
-        <!-- <div class="messaging">
-          <div class="inbox_msg">
-            <div class="mesgs">
-              <div class="msg_history">
-                <div *ngFor="let msg of messages">
-                <div class="incoming_msg" *ngIf="msg.Type == 'received'">
-                  <div class="incoming_msg_img"> </div>
-                  <div class="received_msg">
-                    <div class="received_withd_msg">
-                      <p>
-                       {{msg.Content}} 
-                      </p>
-                      <span class="time_date"> {{msg.SentAt | date:'medium'}} </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="outgoing_msg" *ngIf="msg.Type == 'sent'">
-                  <div class="sent_msg">
-                    <p>
-                        {{msg.Content}} 
-                    </p>
-                    <span class="time_date"> {{msg.SentAt | date:'medium'}}</span>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <div class="type_msg">
-                <div class="input_msg_write">
-                  <input type="text" class="write_msg" [value]="txtMessage"
-                  (input)="txtMessage=$event.target.value" (keydown.enter)="sendMessage()" placeholder="Type a message" />
-                  <button class="msg_send_btn" type="button"  (click)="sendMessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </div>
-      
-      <div *ngIf="IsOk" id="ok">
-        <app-chat></app-chat>
-      </div>
-
 
       <!-- SVG separator -->
       <div class="separator separator-bottom separator-skew zindex-100">

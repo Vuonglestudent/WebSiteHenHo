@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 @Component({
@@ -25,25 +25,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() { }
 
 
-    public From: string;
-    public To: string;
 
-
-    IsOk = false;
-    onSubmit(f: NgForm) {
-        if (f.value.From == "" || f.value.To == "") {
-            alert("Điền đầy đủ thông tin người nhận người gửi!");
-            return;
-        }
-        //this.CurrentUserId = f.value.From;
-        //this.DestUserId = f.value.To;
-
-        localStorage.setItem("CurrentUserId", f.value.From);
-        localStorage.setItem("DestUserId", f.value.To);
-        this.IsOk = true;
-        alert("Ok let start chat!");
-        //this.router.navigateByUrl('/chat');
-    }
 
 
     // model = {

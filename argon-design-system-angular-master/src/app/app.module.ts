@@ -20,12 +20,13 @@ import { AlertModule } from './_alert';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-
+import { ChatComponent } from './chat/chat.component';
 import {
   GoogleLoginProvider,
   FacebookLoginProvider,
   AmazonLoginProvider,
 } from 'angularx-social-login';
+import { FriendListComponent } from './friend-list/friend-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,9 @@ import {
     FooterComponent,
     LoginComponent,
     ConfirmEmailComponent,
-    FacebookLoginComponent
+    FacebookLoginComponent,
+    FriendListComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

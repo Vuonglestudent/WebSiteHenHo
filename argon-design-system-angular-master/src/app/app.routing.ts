@@ -9,6 +9,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
+import {FriendListComponent} from './friend-list/friend-list.component'
 
 const routes: Routes =[
     { path: 'home',             component: HomeComponent },
@@ -17,7 +18,8 @@ const routes: Routes =[
     { path: 'landing',          component: LandingComponent },
     { path: 'login',          component: LoginComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    {path:'facebooklogin', component: FacebookLoginComponent}
+    {path:'facebooklogin', component: FacebookLoginComponent},
+    {path: 'friendlist', component: FriendListComponent}
 ];
 
 @NgModule({
