@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { timer } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -21,8 +22,6 @@ export class HomeComponent implements OnInit {
         {title:'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg'},
         {title:'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg'},
         {title:'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg'},
-        {title:'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg'},
-        {title:'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg'},
     ]
     constructor() { }
 
@@ -31,7 +30,15 @@ export class HomeComponent implements OnInit {
         var firstLiCarousel = <HTMLInputElement> document.getElementById("liCarousel_0");
         firstCarousel.setAttribute('class', 'carousel-item active');
         firstLiCarousel.setAttribute('class', 'active');
+        const source = timer(1000, 2000);
+        const subscribe = source.subscribe(val => {
+            console.log(val)
+            if (val%2 == 0){
+                this.nextCarousel();
+            }
+        });
     }
+    
     ngOnInit() {}
 
     changeCarousel =(event) => {
@@ -86,6 +93,7 @@ export class HomeComponent implements OnInit {
         var next = target.getAttribute('id').split('_')[1];
         this.setCarousel(Number(next));
     }
+
     setCarousel = (next: number) => {
         var liCarousel = <HTMLInputElement> document.getElementById(`liCarousel_${next}`);
         var carousel = <HTMLInputElement> document.getElementById(`carousel_${next}`);
