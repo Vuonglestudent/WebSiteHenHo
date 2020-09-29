@@ -9,7 +9,7 @@ export class AuthenticationService {
     private http:HttpClient
   ) { }
 
-  private mainUrl = "http://localhost:5000/api/users";
+  private mainUrl = "http://localhost:5000/api/Authenticates";
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     

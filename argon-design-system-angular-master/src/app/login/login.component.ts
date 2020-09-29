@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
         var outPut = JSON.parse(GetUserInfo);
         console.log(outPut);
         //this.alertService.success('Success!!', this.options);
-        //this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home');
       })
       .catch(error => {
         console.log(error.error);

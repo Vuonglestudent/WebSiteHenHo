@@ -36,3 +36,21 @@ export class Profile{
     Smoking: string;
     DrinkBeer: string;
 }
+
+export class SocialUser{
+    provider: string;  
+    id: string;  
+    image?: string;  
+    email: string;  
+    name: string;  
+    token?: string;  
+    idToken?: string;  
+}
+export class Message{
+    Id: number;
+    SenderId: string;
+    ReceiverId: string;
+    Content : string;
+    SentAt : Date;
+    Type: string;
+}

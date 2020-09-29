@@ -18,6 +18,14 @@ import { LoginComponent } from './login/login.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './_alert';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  AmazonLoginProvider,
+} from 'angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +35,8 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
     NavbarComponent,
     FooterComponent,
     LoginComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    FacebookLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -38,9 +47,35 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
     HomeModule,
     HttpClientModule,
     FontAwesomeModule,
-    AlertModule
+    AlertModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          // {
+          //   id: GoogleLoginProvider.PROVIDER_ID,
+          //   provider: new GoogleLoginProvider(
+          //     '353461452701978'
+          //   ),
+          // },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('353461452701978'),
+          },
+          // {
+          //   id: AmazonLoginProvider.PROVIDER_ID,
+          //   provider: new AmazonLoginProvider(
+          //     '353461452701978'
+          //   ),
+          // },
+        ],
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
