@@ -116,6 +116,7 @@ export class LoginComponent implements OnInit {
         this.UserData.Email = response.userData.email;
         this.UserData.FullName = response.userData.fullName;
         this.UserData.AvatarPath = response.userData.avatarPath;
+        this.UserData.HasAvatar = response.userData.hasAvatar;
         console.log(this.UserData);
         this.Index = 3;
       })
