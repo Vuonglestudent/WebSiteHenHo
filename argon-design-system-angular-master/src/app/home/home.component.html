@@ -16,18 +16,17 @@
         <span class="span-100"></span>
       </div>
       <div class="p-carousel">
-        <div id="carouselExampleCaptions" class="carousel slide img-n card-img thumb" data-ride="carousel" 
-        style="background-image: url('./assets/img/theme/team-1-800x800.jpg')">
+        <div id="carouselExampleCaptions" class="carousel slide img-n card-img thumb" data-ride="carousel"
+          style="background-image: url('./assets/img/theme/team-1-800x800.jpg')">
           <ol class="carousel-indicators">
-            <li *ngFor="let item of imageCarousel; let i=index" 
-            data-target="#carouselExampleCaptions" (click)="changeCarousel($event)" id="liCarousel_{{i}}"></li>
+            <li *ngFor="let item of imageCarousel; let i = index" data-target="#carouselExampleCaptions"
+              (click)="changeCarousel($event)" id="liCarousel_{{ i }}"></li>
           </ol>
           <div class="carousel-inner">
-            <div *ngFor="let item of imageCarousel; let i=index" class="carousel-item"  id="carousel_{{i}}">
+            <div *ngFor="let item of imageCarousel; let i = index" class="carousel-item" id="carousel_{{ i }}">
               <div class="carousel-caption d-md-block">
-                <h5>{{item.title}}</h5>
-                <p>{{item.description}}</p>
-                
+                <h5>{{ item.title }}</h5>
+                <p>{{ item.description }}</p>
               </div>
             </div>
           </div>
@@ -42,11 +41,10 @@
         </div>
       </div>
 
-
-
       <!-- SVG separator -->
       <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
           <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
         </svg>
       </div>
@@ -54,37 +52,80 @@
     <div class="container">
       <div class="row">
         <div>
-          <table class="table" style="width: 100%;">
+          <table class="table" style="width: 100%">
             <tr *ngFor="let item of imageCarousel">
               <th>
                 <table class="table" border="0">
-                    <tr>
-                      <td style="width: 30%;">
-                        <img src="{{item.img}}" alt="" width="100%" class="thumb-table">
-                      </td>
-                      <td>
-                        <h5>{{item.title}}</h5>
-                        <p>{{item.description}}</p>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td style="width: 30%">
+                      <img src="{{ item.img }}" alt="" width="100%" class="thumb-table" />
+                    </td>
+                    <td>
+                      <h5>{{ item.title }}</h5>
+                      <p>{{ item.description }}</p>
+                    </td>
+                  </tr>
                 </table>
               </th>
             </tr>
           </table>
           <div class="d-flex justify-content-center">
-            <a [routerLink]="['/register']"  class="btn btn-info btn-icon">
+            <a [routerLink]="['/register']" class="btn btn-info btn-icon">
               <span class="btn-inner--icon">
-                <i class="fa fa-arrow-right mr-2"></i>
+                <i class="fa fa-arrow-right mr-1"></i>
               </span>
-              <span class="nav-link-inner--text"><a >Xem Them</a></span>
+              <span class="nav-link-inner--text"><a>Xem Them</a></span>
             </a>
           </div>
         </div>
-        <div>
-
+        <div style="width: 30%" class="pl-5">
+          <div class="d-flex justify-content-start">
+            <div class="col">
+              <div class="text-box">
+                <h6 class="d-flex justify-content-center" style="padding-top: 10px;">
+                  <span>
+                    <i class="fa fa-search mr-2 text-white"></i>
+                  </span>
+                  <span class="text-white"> Tìm kiếm bạn bè </span>
+                </h6>
+              </div>
+              <form class="form-search" action="">
+                <select class="form-control" id="GioiTinh">
+                  <option>Tất cả giới tính</option>
+                  <option>Tìm bạn nam</option>
+                  <option>Tìm bạn nữ</option>
+                </select>
+                <select class="form-control" id="TuoiBatDau">
+                  <option>1 tuổi</option>
+                  <option>2 tuổi</option>
+                  <option>3 tuổi</option>
+                  <option>4 tuổi</option>
+                  <option>5 tuổi</option>
+                </select>
+                <select class="form-control" id="TuoiKetThuc">
+                  <option>60 tuổi</option>
+                  <option>1 tuổi</option>
+                  <option>2 tuổi</option>
+                  <option>3 tuổi</option>
+                  <option>4 tuổi</option>
+                  <option>5 tuổi</option>
+                </select>
+                <select class="form-control" id="ThanhPho">
+                  <option>Tất cả thành phố</option>
+                  <option>Hồ Chí Minh</option>
+                  <option>Hà Nội</option>
+                  <option>Đà Nẵng</option>
+                  <option>Đà Lạt</option>
+                  <option>Cam Ranh</option>
+                </select>
+                <button class="btn btn-success">
+                    Tìm kiếm
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-      
     </div>
   </div>
   <!-- <app-sections></app-sections> -->

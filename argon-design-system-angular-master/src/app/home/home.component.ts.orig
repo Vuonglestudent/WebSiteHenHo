@@ -15,6 +15,20 @@ export class HomeComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
     ) { }
+
+
+    ngAfterViewInit(): void {
+        var firstCarousel = <HTMLInputElement>document.getElementById("carousel_0");
+        var firstLiCarousel = <HTMLInputElement>document.getElementById("liCarousel_0");
+        firstCarousel.setAttribute('class', 'carousel-item active');
+        firstLiCarousel.setAttribute('class', 'active');
+    }
+    ngOnInit() { }
+
+
+
+
+
     // model = {
     //     left: true,
     //     middle: false,
@@ -26,12 +40,20 @@ export class HomeComponent implements OnInit {
 
     count = 0;
     imageCarousel = [
+<<<<<<< HEAD
+        {title:'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg'},
+        {title:'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg'},
+        {title:'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg'},
+=======
         { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
         { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
+        { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
+        { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
+>>>>>>> deb4d8cdabded0063619f27688cacdb6dea3726e
     ]
 
-
+<<<<<<< HEAD
     ngAfterViewInit(): void {
         var firstCarousel = <HTMLInputElement> document.getElementById("carousel_0");
         var firstLiCarousel = <HTMLInputElement> document.getElementById("liCarousel_0");
@@ -47,6 +69,10 @@ export class HomeComponent implements OnInit {
     }
     
     ngOnInit() {}
+=======
+>>>>>>> deb4d8cdabded0063619f27688cacdb6dea3726e
+
+
 
     changeCarousel = (event) => {
         var target = event.target;
