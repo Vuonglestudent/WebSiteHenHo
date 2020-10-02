@@ -27,6 +27,7 @@ import {
   AmazonLoginProvider,
 } from 'angularx-social-login';
 import { FriendListComponent } from './friend-list/friend-list.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { FriendListComponent } from './friend-list/friend-list.component';
     ConfirmEmailComponent,
     FacebookLoginComponent,
     FriendListComponent,
-    ChatComponent
+    ChatComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

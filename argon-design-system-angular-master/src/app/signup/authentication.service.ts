@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import{SocialUser} from '../Models/Models'
 @Injectable({
   providedIn: 'root'
 })
@@ -50,6 +51,22 @@ export class AuthenticationService {
     data.append("NewPassword", newPassword);
 
     var path = '/CodeValidation';
+
+    return this.http.post<any>(this.mainUrl + path, data).toPromise();
+  }
+
+  public FacebookLogin = (facebookAccount: SocialUser) =>{
+    var path = '/facebook';
+    var str = facebookAccount.photoUrl; 
+  
+    var re = /normal/gi;  
+  
+    // Use of String replace() Method 
+    var newstr = str.replace(re, "large");    
+    var data = new FormData();
+    data.append("Email", facebookAccount.email);
+    data.append("FullName", facebookAccount.name);
+    data.append("Avatar", str);
 
     return this.http.post<any>(this.mainUrl + path, data).toPromise();
   }

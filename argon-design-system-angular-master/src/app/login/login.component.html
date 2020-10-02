@@ -19,13 +19,14 @@
                 <small>Đăng nhập bằng...</small>
               </div>
               <div class="btn-wrapper text-center">
-                <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
+                <a style="cursor: pointer" (click)="onFacebookLogin()" class="btn btn-neutral btn-icon">
                   <span class="btn-inner--icon">
                     <img src="./assets/img/icons/common/github.svg">
+                    
                   </span>
-                  <span class="btn-inner--text">Github</span>
+                  <span class="btn-inner--text">Facebook</span>
                 </a>
-                <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
+                <a style="cursor: pointer" (click)="onGoogleLogin()" class="btn btn-neutral btn-icon">
                   <span class="btn-inner--icon">
                     <img src="./assets/img/icons/common/google.svg">
                   </span>
