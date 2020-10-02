@@ -65,11 +65,13 @@
         <li class="nav-item dropdown">
           <a class="nav-link no-caret" data-toggle="dropdown" role="button">
             <i class="ni ni-collection d-lg-none"></i>
-            <span class="nav-link-inner--text">Examples</span>
+            <span class="nav-link-inner--text">Danh mục</span>
           </a>
           <div class="dropdown-menu">
-            <a [routerLink]="['/landing']" class="dropdown-item">Landing</a>
-            <a [routerLink]="['/user-profile']" class="dropdown-item">Profile</a>
+            <a [routerLink]="['/landing']" class="dropdown-item">Tìm người yêu</a>
+            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn đời</a>
+            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn tâm sự</a>
+            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn mới</a>
           </div>
         </li>
       </ul>
@@ -98,20 +100,20 @@
             <span class="nav-link-inner--text d-lg-none">Github</span>
           </a>
         </li>
-        <li class="nav-item d-none d-lg-block ml-lg-4">
+        <li *ngIf="token == null" class="nav-item d-none d-lg-block ml-lg-4">
           <a [routerLink]="['/login']"  class="btn btn-neutral btn-icon">
             <span class="btn-inner--icon">
               <i class="fa fa-sign-in mr-2"></i>
             </span>
-            <span class="nav-link-inner--text"><a >Login</a></span>
+            <span class="nav-link-inner--text"><a >Đăng nhập</a></span>
           </a>
         </li>
-        <li class="nav-item d-none d-lg-block">
+        <li *ngIf="token == null" class="nav-item d-none d-lg-block">
           <a [routerLink]="['/register']"  class="btn btn-neutral btn-icon">
             <span class="btn-inner--icon">
               <i class="fa fa-plus mr-2"></i>
             </span>
-            <span class="nav-link-inner--text"><a >Register</a></span>
+            <span class="nav-link-inner--text"><a >Đăng kí</a></span>
           </a>
         </li>
       </ul>

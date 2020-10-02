@@ -11,33 +11,38 @@ export class NavbarComponent implements OnInit {
     public isCollapsed = true;
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
-
+    token: string
     constructor(public location: Location, private router: Router) {
     }
 
     ngOnInit() {
-      this.router.events.subscribe((event) => {
-        this.isCollapsed = true;
-        if (event instanceof NavigationStart) {
-           if (event.url != this.lastPoppedUrl)
-               this.yScrollStack.push(window.scrollY);
-       } else if (event instanceof NavigationEnd) {
-           if (event.url == this.lastPoppedUrl) {
-               this.lastPoppedUrl = undefined;
-               window.scrollTo(0, this.yScrollStack.pop());
-           } else
-               window.scrollTo(0, 0);
-       }
-     });
-     this.location.subscribe((ev:PopStateEvent) => {
-         this.lastPoppedUrl = ev.url;
-     });
+        localStorage.removeItem('UserInfo')
+        var user = JSON.parse(localStorage.getItem('UserInfo'))
+        console.log(user.token)
+        this.token = user.token
+        this.router.events.subscribe((event) => {
+            this.isCollapsed = true;
+            if (event instanceof NavigationStart) {
+                if (event.url != this.lastPoppedUrl)
+                    this.yScrollStack.push(window.scrollY);
+            } else if (event instanceof NavigationEnd) {
+                if (event.url == this.lastPoppedUrl) {
+                    this.lastPoppedUrl = undefined;
+                    window.scrollTo(0, this.yScrollStack.pop());
+                } else
+                    window.scrollTo(0, 0);
+            }
+        });
+
+        this.location.subscribe((ev: PopStateEvent) => {
+            this.lastPoppedUrl = ev.url;
+        });
     }
 
     isHome() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
 
-        if( titlee === '#/home' ) {
+        if (titlee === '#/home') {
             return true;
         }
         else {
@@ -46,11 +51,15 @@ export class NavbarComponent implements OnInit {
     }
     isDocumentation() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '#/documentation' ) {
+        if (titlee === '#/documentation') {
             return true;
         }
         else {
             return false;
         }
+    }
+
+    ngAfterViewInit(): void {
+        
     }
 }
