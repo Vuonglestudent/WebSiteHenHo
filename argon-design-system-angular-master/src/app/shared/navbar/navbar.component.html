@@ -1,7 +1,7 @@
 <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned">
-  <div class="container">
-    <a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
-      <img src="./assets/img/brand/argon-white.png">
+  <div class="container-fluid">
+    <a class="navbar-brand ml-lg-5 mr-lg-5" [routerLink]="['/home']">
+      <img src="./assets/img/brand/argon-white.png" style="height: 45px;">
     </a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
@@ -28,7 +28,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link no-caret" data-toggle="dropdown" role="button">
             <i class="ni ni-ui-04 d-lg-none"></i>
-            <span class="nav-link-inner--text">Components</span>
+            <h4 class="text-white"><span class="nav-link-inner--text">Components</span></h4>
           </a>
           <div class="dropdown-menu-xl dropdown-menu" >
             <div class="dropdown-menu-inner">
@@ -65,7 +65,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link no-caret" data-toggle="dropdown" role="button">
             <i class="ni ni-collection d-lg-none"></i>
-            <span class="nav-link-inner--text">Danh mục</span>
+            <h4 class="text-white"><span class="nav-link-inner--text">Danh mục</span></h4>
           </a>
           <div class="dropdown-menu">
             <a [routerLink]="['/landing']" class="dropdown-item">Tìm người yêu</a>

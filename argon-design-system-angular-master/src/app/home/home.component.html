@@ -49,29 +49,17 @@
       </div>
     </section>
     <div class="container">
-      <div class="row">
+      <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
-          <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-            <strong>New!</strong> Bạn mới tham gia!
-        </div>
-          <div class="row pr-3 pl-3">
-            <div  class="card-deck" style="margin-bottom: 10px;">
-              <div *ngFor="let item of imageCarousel" class="card">
-                <img class="card-img-top" src="{{item.img}}" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title" style="margin-bottom: 2px;">{{item.title}}</h5>
-                  <p class="card-text limit-text"><small class="text-muted">{{item.description}}</small></p>
-                </div>
-              </div>
-            </div>
+          <div class="alert alert-success" style="margin-bottom: 0px;" role="alert">
+            <h4 class="text-white"><strong class="text-danger">Hot!</strong><span> Những người nổi tiếng!</span></h4>
           </div>
-          <div class="d-flex justify-content-center">
-            <a [routerLink]="['/register']" class="btn btn-info btn-icon">
-              <span class="btn-inner--icon">
-                <i class="fa fa-arrow-right mr-1"></i>
-              </span>
-              <span class="nav-link-inner--text"><a>Xem Them</a></span>
-            </a>
+          <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+            <div *ngFor="let item of imageCarousel;" class="gallery-cell text-center"
+              style="background-image: url('{{item.img}}')">
+              <h5>{{ item.title }}</h5>
+              <p>{{ item.description }}</p>
+            </div>
           </div>
         </div>
         <div style="width: 30%" class="pl-5">
@@ -115,14 +103,65 @@
                   <option>Cam Ranh</option>
                 </select>
                 <button class="btn btn-success">
-                    Tìm kiếm
+                  Tìm kiếm
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div style="width: 70%;">
+          <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+            <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
+          </div>
+          <div class="row pr-3 pl-3">
+            <div class="card-deck">
+              <div *ngFor="let item of imageCarousel" class="card">
+                <img class="card-img-top" src="{{item.img}}" alt="Card image cap">
+                <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                  <h5 class="card-title" style="margin-bottom: 2px;">{{item.title}}</h5>
+                  <p class="card-text limit-text"><small class="text-muted">{{item.description}}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center" style="padding-bottom: 15px; padding-top: 15px;">
+            <a [routerLink]="['/register']" class="btn btn-info btn-icon">
+              <span class="btn-inner--icon">
+                <i class="fa fa-arrow-right mr-1"></i>
+              </span>
+              <span class="nav-link-inner--text"><a>Xem Them</a></span>
+            </a>
+          </div>
+        </div>
+        <div class="pl-5" style="width: 30%;">
+          <div class="col">
+            <div class="alert text-center" style="margin-bottom: 0px;" role="alert">
+              <h4 class="text-white"><strong class="text-danger">Thông tin khác</strong></h4>
+            </div>
+            <table class="table" border="0">
+              <div *ngFor="let item of imageCarousel;" style="margin-bottom: 10px;">
+                <tr>
+                  <td>
+                    <div>
+                      <img src="{{item.img}}" alt="..." class="img-thumbnail">
+                    </div>
+                  </td>
+                  <td style="padding-left: 5px;">
+                    <p style="margin-bottom: 2px;"><strong>{{item.title}}</strong></p>
+                    <p class="limit-text" style=" -webkit-line-clamp: 1;"><small>{{item.description}}</small></p>
+                  </td>
+                </tr>
+              </div>
+            </table>
+
+
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
   <!-- <app-sections></app-sections> -->
 </main>
