@@ -4,7 +4,9 @@ import { AuthenticationService } from '../signup/authentication.service';
 import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AlertService } from '../_alert';
-import {User} from '../Models/Models';
+import { User, SocialUser } from '../Models/Models';
+import { SocialAuthService } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    protected alertService: AlertService
+    protected alertService: AlertService,
+    private authService: SocialAuthService
   ) { }
 
   options = {
@@ -24,7 +27,34 @@ export class LoginComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.authService.authState.subscribe((user) => {
+      console.log(user);
+      this.user = user;
+      this.authenticationService.FacebookLogin(this.user)
+        .then(response => {
+          this.loggedIn = true;
+          var userInfo = {
+            Id: response.id,
+            UserName: response.userName,
+            FullName: response.fullName,
+            Email: response.email,
+            token: response.token
+          };
+          // Put the object into storage
+          localStorage.setItem('UserInfo', JSON.stringify(userInfo));
+          this.alertService.clear();
+          this.alertService.success("Đăng nhập thành công!", this.options)
+        })
+        .catch(error => {
+          this.loggedIn = false;
+          this.alertService.clear();
+          this.alertService.error(error.error.message, this.options);
+        })
+    })
   }
+
+  user: SocialUser;
+  loggedIn: boolean;
 
   Index = 1;
   Duration = new Date();
@@ -36,6 +66,7 @@ export class LoginComponent implements OnInit {
   faSpinner = faSpinner;
   faCheck = faCheck;
   faArrowLeft = faArrowLeft;
+
   //
 
   Loading = false;
@@ -81,6 +112,11 @@ export class LoginComponent implements OnInit {
     //   })
     this.Loading = false;
         var userInfo = {
+          // Id: response.id,
+          // UserName: response.userName,
+          // FullName: response.fullName,
+          // Email: response.email,
+          // token: response.token
           UserName: 'vuong',
           FullName: 'vuong',
           Email: 'vuongvaba1v2@gmail.com',
@@ -125,7 +161,7 @@ export class LoginComponent implements OnInit {
         console.log(error);
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
-        
+
       })
   }
 
@@ -133,24 +169,24 @@ export class LoginComponent implements OnInit {
     console.log(f.value.Code);
     console.log(f.value.NewPassword);
     console.log(f.value.ConfirmPassword);
-    
-    if(this.Loading){
+
+    if (this.Loading) {
       return;
     }
 
-    if(f.value.Code == "" || f.value.NewPassword == "" || f.value.ConfirmPassword == ""){
+    if (f.value.Code == "" || f.value.NewPassword == "" || f.value.ConfirmPassword == "") {
       this.alertService.clear();
       this.alertService.warn("Vui lòng nhập đầy đủ thông tin!", this.options);
       return;
     }
 
-    if(f.value.NewPassword != f.value.ConfirmPassword){
+    if (f.value.NewPassword != f.value.ConfirmPassword) {
       this.alertService.clear();
       this.alertService.warn("Xác nhận mật khẩu không chính xác, vui lòng nhập lại!", this.options);
       return;
     }
 
-    if(this.UserData == null || this.UserData.Email == ""){
+    if (this.UserData == null || this.UserData.Email == "") {
       this.alertService.clear();
       this.alertService.warn("Nhập email của bạn!", this.options);
       this.Index = 2;
@@ -160,13 +196,13 @@ export class LoginComponent implements OnInit {
     this.Loading = true;
 
     this.authenticationService.CodeValidation(f.value.Code, this.UserData.Email, f.value.NewPassword)
-      .then(response =>{
+      .then(response => {
         this.Loading = false;
         this.alertService.clear();
         this.alertService.success("Mật khẩu đã được thay đổi thành công, vui lòng đăng nhập!", this.options);
         this.Index = 1;
       })
-      .catch(error =>{
+      .catch(error => {
         this.Loading = false;
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
@@ -184,5 +220,27 @@ export class LoginComponent implements OnInit {
   validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  onFacebookLogin = () => {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  onGoogleLogin = () => {
+
+  }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    console.log(FacebookLoginProvider.PROVIDER_ID)
+
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 }

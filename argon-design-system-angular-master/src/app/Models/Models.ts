@@ -40,7 +40,7 @@ export class Profile{
 export class SocialUser{
     provider: string;  
     id: string;  
-    image?: string;  
+    photoUrl: string;
     email: string;  
     name: string;  
     token?: string;  
