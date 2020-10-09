@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        localStorage.removeItem('UserInfo')
+        //localStorage.removeItem('UserInfo')
         var user = JSON.parse(localStorage.getItem('UserInfo'))
         console.log(user.token)
         this.token = user.token
@@ -59,6 +59,15 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    clickAvatar = () => {
+        var dropdownId = <HTMLElement> document.getElementById('dropdownAvatar')
+        var avatarId = <HTMLElement> document.getElementById('avatarUser')
+        var menuAvatarId = <HTMLElement> document.getElementById('menuAvatar')
+
+        dropdownId.setAttribute('class' , 'show')
+        //avatarId.setAttribute('aria-expanded', 'true')
+        menuAvatarId.setAttribute('class' , 'show')
+    }
     ngAfterViewInit(): void {
         
     }
