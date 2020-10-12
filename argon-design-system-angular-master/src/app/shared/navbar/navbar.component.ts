@@ -12,6 +12,8 @@ export class NavbarComponent implements OnInit {
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
     token: string
+    imgAvatar = './assets/img/theme/team-3-800x800.jpg'
+    messageAwait = 4
     constructor(public location: Location, private router: Router) {
     }
 
@@ -59,15 +61,11 @@ export class NavbarComponent implements OnInit {
         }
     }
 
-    clickAvatar = () => {
-        var dropdownId = <HTMLElement> document.getElementById('dropdownAvatar')
-        var avatarId = <HTMLElement> document.getElementById('avatarUser')
-        var menuAvatarId = <HTMLElement> document.getElementById('menuAvatar')
-
-        dropdownId.setAttribute('class' , 'show')
-        //avatarId.setAttribute('aria-expanded', 'true')
-        menuAvatarId.setAttribute('class' , 'show')
+    logout = () => {
+       localStorage.removeItem('UserInfo')
     }
+
+
     ngAfterViewInit(): void {
         
     }

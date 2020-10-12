@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit {
         firstLiCarousel.setAttribute('class', 'active');
         const source = timer(1000, 2000);
         const subscribe = source.subscribe(val => {
-            console.log(val)
             if (val%2 == 0){
                 this.nextCarousel();
             }

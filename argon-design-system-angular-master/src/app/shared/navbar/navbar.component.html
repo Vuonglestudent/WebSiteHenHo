@@ -69,7 +69,7 @@
             </div>
           </div>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link no-caret" data-toggle="dropdown" role="button">
             <i class="ni ni-collection d-lg-none"></i>
             <h4 class="text-white"><span class="nav-link-inner--text">Danh mục</span></h4>
@@ -80,10 +80,10 @@
             <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn tâm sự</a>
             <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn mới</a>
           </div>
-        </li>
+        </li> -->
       </ul>
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip" title="Like us on Facebook">
             <i class="fa fa-facebook-square"></i>
             <span class="nav-link-inner--text d-lg-none">Facebook</span>
@@ -107,8 +107,16 @@
             <i class="fa fa-github"></i>
             <span class="nav-link-inner--text d-lg-none">Github</span>
           </a>
+        </li> -->
+        <li *ngIf="token != null" class="nav-item">
+          <button class="btn icons">
+            <i class="ni ni-chat-round" style="font-size: 20px;"></i>
+          </button>
+          <div class="label-icons">
+            <span class="text-white"><small>{{messageAwait}}</small></span>
+          </div>
         </li>
-        <li *ngIf="token == null" class="nav-item d-none d-lg-block ml-lg-4">
+        <li *ngIf="token == null;" class="nav-item d-none d-lg-block ml-lg-4">
           <a [routerLink]="['/login']" class="btn btn-neutral btn-icon">
             <span class="btn-inner--icon">
               <i class="fa fa-sign-in mr-2"></i>
@@ -124,31 +132,35 @@
             <span class="nav-link-inner--text"><a>Đăng kí</a></span>
           </a>
         </li>
-        <li>
+        <li *ngIf="token != null">
           <div class="dropleft">
             <div class="btn" style="padding: 0%; border-radius: 50%;"
               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img class="imgAvatar" src="./assets/img/theme/team-3-800x800.jpg" alt="">
+              <img class="imgAvatar" src="{{imgAvatar}}" alt="">
             </div>
             <div class="dropdown-menu">
-              <a href="javascript:;" class="dropdown-item">
+              <a [routerLink]="['/user-profile']" class="dropdown-item">
                 <i class="ni ni-single-02"></i>
-                <span>My profile</span>
+                <span>Xem hồ sơ</span>
+              </a>
+              <a href="javascript:;" class="dropdown-item">
+                <i class="ni ni-image"></i>
+                <span>Ảnh</span>
+              </a>
+              <a href="javascript:;" class="dropdown-item">
+                <i class="ni ni-chat-round"></i>
+                <span>Tin nhắn<sup class="text-danger">{{messageAwait}}</sup></span>
               </a>
               <a href="javascript:;" class="dropdown-item">
                 <i class="ni ni-settings-gear-65"></i>
-                <span>Settings</span>
-              </a>
-              <a href="javascript:;" class="dropdown-item">
-                <i class="ni ni-calendar-grid-58"></i>
-                <span>Activity</span>
+                <span>Cài đặt</span>
               </a>
               <a href="javascript:;" class="dropdown-item">
                 <i class="ni ni-support-16"></i>
                 <span>Support</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="javascript:;" class="dropdown-item">
+              <a href="javascript:;" class="dropdown-item" (click)="logout()">
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>
               </a>
