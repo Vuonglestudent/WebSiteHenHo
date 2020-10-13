@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../service/users.service';
 import { AlertService } from '../_alert';
+import { AuthenticationService } from '../signup/authentication.service';
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -18,7 +20,8 @@ export class HomeComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private usersService: UsersService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private authenticationService: AuthenticationService
     ) { }
 
     options = {
@@ -35,11 +38,16 @@ export class HomeComponent implements OnInit {
     Loading = false;
 
     ngOnInit() {
+
+        var GetUserInfo = localStorage.getItem('UserInfo');
+        this.authenticationService.UserInfo = JSON.parse(GetUserInfo);
+
         this.Loading = true;
         this.usersService.GetPagingUsers(this.PageIndex, this.PageSize)
             .then(response => {
                 this.Loading = false;
                 this.PagingUsers = response;
+                console.log(this.PagingUsers);
             })
             .catch(error => {
                 this.Loading = false;
@@ -60,7 +68,28 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-
+    GetUserInfo = (userId: string) => {
+        this.alertService.clear();
+        this.alertService.success('OK', this.options);
+    }
+    Favorite = (userId: string, event) => {
+        console.log(userId)
+        var target = event.target;
+        this.usersService.Favorite(userId)
+            .then(response => {
+                this.alertService.clear();
+                this.alertService.success(response.message, this.options);
+                if (response.message == 'Favorited') {
+                    target.className = 'ni ni-favourite-28 text-danger'
+                } else {
+                    target.className = 'ni ni-favourite-28'
+                }
+            })
+            .catch(error => {
+                this.alertService.clear();
+                this.alertService.error(error.error.message, this.options);
+            })
+    }
 
 
     count = 0;

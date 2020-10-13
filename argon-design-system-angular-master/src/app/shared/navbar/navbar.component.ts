@@ -17,15 +17,26 @@ export class NavbarComponent implements OnInit {
     imgAvatar = './assets/img/theme/team-3-800x800.jpg'
     messageAwait = 4
 
-    constructor(public location: Location, private router: Router, private authenticationService: AuthenticationService) {
+    constructor(
+        public location: Location,
+        private router: Router,
+        private authenticationService: AuthenticationService
+    ) {
     }
 
     ngOnInit() {
         //localStorage.removeItem('UserInfo')
         var user = JSON.parse(localStorage.getItem('UserInfo'))
-        this.token = user.token
-        if (this.token != null) {
-            this.authenticationService.IsLogin = true;
+        if (user != null) {
+            this.token = user.token
+            if (this.token != null) {
+                this.authenticationService.IsLogin = true;
+                this.authenticationService.UserInfo = user;
+            }
+            else {
+                this.authenticationService.IsLogin = false;
+                this.authenticationService.UserInfo = null;
+            }
         }
         this.router.events.subscribe((event) => {
             this.isCollapsed = true;
@@ -66,7 +77,9 @@ export class NavbarComponent implements OnInit {
     }
 
     logout = () => {
-        localStorage.removeItem('UserInfo')
+        this.authenticationService.Logout();
+
+        localStorage.removeItem('UserInfo');
         this.token = null;
         this.authenticationService.IsLogin = false;
         this.router.navigateByUrl('/home');

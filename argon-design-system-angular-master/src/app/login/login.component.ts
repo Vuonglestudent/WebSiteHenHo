@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       this.user = user;
       this.authenticationService.FacebookLogin(this.user)
         .then(response => {
+          console.log(response)
           this.loggedIn = true;
           var userInfo = {
             Id: response.id,
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
             token: response.token
           };
           this.authenticationService.IsLogin = true;
+          this.authenticationService.UserInfo = userInfo;
           // Put the object into storage
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           this.alertService.clear();
@@ -98,13 +100,11 @@ export class LoginComponent implements OnInit {
         };
 
         this.authenticationService.IsLogin = true;
+        this.authenticationService.UserInfo = userInfo;
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
         
         // Retrieve the object from storage
-        var GetUserInfo = localStorage.getItem('UserInfo');
-        var outPut = JSON.parse(GetUserInfo);
-        console.log(outPut);
         this.alertService.success('Success!!', this.options);
         this.router.navigateByUrl('/home');
       })

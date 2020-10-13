@@ -110,23 +110,29 @@
           </div>
         </div>
       </div>
+      <alert style="padding-left: 0%;"></alert>
       <div class="row">
+        
         <div style="width: 70%;">
           <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+            
             <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
           </div>
           <div class="row pr-3 pl-3">
             <div class="card-deck">
-              <div *ngFor="let item of imageCarousel" class="card">
-                <img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar">
-                <img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.imagePath}}" alt="Avatar">
+              <div *ngFor="let item of PagingUsers" class="card">
+
+                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.avatarPath}}" alt="Avatar"></a>
+                
                 <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                  <h5 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h5>
+                  <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><h6 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h6></a>
                   <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
                   <div class="d-flex">
                     <div>
                       <button class="btn-icon-card">
-                        <i class="ni ni-favourite-28"></i>
+                        <a *ngIf="item.favorited == true" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"></i></a>
+                        <a *ngIf="item.favorited == false" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"></i></a>
                       </button>
                     </div>
                     <div class="flex-grow-1 ml-2">
@@ -163,12 +169,13 @@
                 <tr>
                   <td>
                     <div>
-                      <img src="{{item.imagePath}}" alt="..." class="img-thumbnail">
+                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
                   </td>
                   <td style="padding-left: 5px;">
-                    <p style="margin-bottom: 2px;"><strong>{{item.title}}</strong></p>
-                    <p class="limit-text" style=" -webkit-line-clamp: 1;"><small>{{item.description}}</small></p>
+                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><p style="margin-bottom: 2px;"><strong>{{item.fullName}}</strong></p></a>
+                    <p class="limit-text" style=" -webkit-line-clamp: 1;"><small>{{item.summary}}</small></p>
                   </td>
                 </tr>
               </div>
