@@ -12,11 +12,13 @@ export class NavbarComponent implements OnInit {
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
     token: string
+    imgAvatar = './assets/img/theme/team-3-800x800.jpg'
+    messageAwait = 4
     constructor(public location: Location, private router: Router) {
     }
 
     ngOnInit() {
-        localStorage.removeItem('UserInfo')
+        //localStorage.removeItem('UserInfo')
         var user = JSON.parse(localStorage.getItem('UserInfo'))
         console.log(user.token)
         this.token = user.token
@@ -58,6 +60,11 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
+
+    logout = () => {
+       localStorage.removeItem('UserInfo')
+    }
+
 
     ngAfterViewInit(): void {
         

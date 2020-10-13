@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.btn-icon-card {
+    border: none;
+    background-color: white;
+  }
+  
+  .btn-icon-card:active {
+    transform: translateY(4px);
+  }
