@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
         var GetUserInfo = localStorage.getItem('UserInfo');
         var outPut = JSON.parse(GetUserInfo);
         console.log(outPut);
-        //this.alertService.success('Success!!', this.options);
+        this.alertService.success('Success!!', this.options);
         this.router.navigateByUrl('/home');
       })
       .catch(error => {
@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit {
         this.alertService.error(error.error.message, this.options);
         this.Loading = false;
       })
-    this.Loading = false;
+
   }
 
   confirmEmail(f: NgForm) {
