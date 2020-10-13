@@ -56,9 +56,9 @@
   <div class="row justify-content-start">
     <div class="col-md-5 col-xl-3 chat" style="padding-left: 0px; padding-right: 0px;">
       <div class="card mb-sm-3 mb-md-0 contacts_card">
-        <div class="card-header" style="padding: 2.0rem;">
+        <div class="card-header">
           <div class="input-group">
-            <input type="text" placeholder="Search..." name="" class="form-control search" style="color: whitesmoke;">
+            <input type="text" placeholder="Search..." name="" class="form-control search" style="color: whitesmoke; height: auto;">
             <div class="input-group-prepend">
               <span class="input-group-text search_btn"><i class="fa fa-search"></i></span>
             </div>
@@ -136,7 +136,7 @@
                 <div class="img_cont">
                   <img src="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg"
                     class="rounded-circle user_img">
-                  <span class="online_icon offline"></span>
+                  <!-- <span class="online_icon offline"></span> -->
                 </div>
                 <div class="user_info">
                   <span>Rashid Samim</span>
@@ -149,7 +149,7 @@
                 <div class="img_cont">
                   <img src="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg"
                     class="rounded-circle user_img">
-                  <span class="online_icon offline"></span>
+                  <!-- <span class="online_icon offline"></span> -->
                 </div>
                 <div class="user_info">
                   <span>Rashid Samim</span>
@@ -162,7 +162,7 @@
                 <div class="img_cont">
                   <img src="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg"
                     class="rounded-circle user_img">
-                  <span class="online_icon offline"></span>
+                  <!-- <span class="online_icon offline"></span> -->
                 </div>
                 <div class="user_info">
                   <span>Rashid Samim</span>
@@ -174,13 +174,13 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8 col-xl-9 chat" style="padding-right: 0px; padding-left: 0px;">
+    <div class="col-md-7 col-xl-9 chat" style="padding-right: 0px; padding-left: 0px;">
       <div class="card">
         <div class="card-header msg_head">
-          <div class="d-flex bd-highlight">
+          <div class="d-flex bd-highlight" style="height: 40px;">
             <div class="img_cont">
               <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-              <span class="online_icon"></span>
+              <!-- <span class="online_icon"></span> -->
             </div>
             <div class="user_info">
               <span>Chat with Khalid</span>
@@ -191,14 +191,14 @@
               <span><i class="fa fa-phone"></i></span>
             </div>
           </div>
-          <span id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
-          <div class="action_menu">
-            <ul>
-              <li><i class="fa fa-user-circle"></i> View profile</li>
-              <li><i class="fa fa-users"></i> Add to close friends</li>
-              <li><i class="fa fa-plus"></i> Add to group</li>
-              <li><i class="fa fa-ban"></i> Block</li>
-            </ul>
+          <div id="action_menu_btn" class="dropleft">
+            <span role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></span>
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item"><i class="fa fa-user-circle"></i> View profile</a>
+              <a href="#" class="dropdown-item"><i class="fa fa-users"></i> Add to close friends</a>
+              <a href="#" class="dropdown-item"><i class="fa fa-plus"></i> Add to group</a>
+              <a href="#" class="dropdown-item"><i class="fa fa-ban"></i> Block</a>
+            </div>
           </div>
         </div>
         <div class="card-body msg_card_body">
@@ -272,14 +272,17 @@
             </div>
           </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer" style="padding-top: 0%; padding-bottom: 0;">
           <div class="input-group">
             <div class="input-group-append">
               <span class="input-group-text attach_btn"><i class="fa fa-paperclip"></i></span>
             </div>
+            <div class="input-group-append">
+              <span class="input-group-text attach_btn"><i class="ni ni-camera-compact"></i></span>
+            </div>
             <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
             <div class="input-group-append">
-              <span class="input-group-text send_btn"><i class="fa fa-location-arrow"></i></span>
+              <span class="input-group-text send_btn"><i class="ni ni-favourite-28 text-danger"></i></span>
             </div>
           </div>
         </div>

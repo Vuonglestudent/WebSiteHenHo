@@ -236,6 +236,7 @@ img {
 }
 .card-footer {
   border-top: 0 !important;
+  background-color: #66a3ff;
 }
 .container {
   align-content: center;
@@ -250,29 +251,41 @@ img {
   outline: 0px !important;
 }
 .type_msg {
-  background-color: rgba(0, 0, 0, 0.3) !important;
-  border: 0 !important;
-  color: white !important;
+  border: 1  #66a3ff solid !important;
+  color: black !important;
   height: 60px !important;
   overflow-y: auto;
+  margin-left: 2%;
+  margin-right: 5px;
+  border-radius: 15px 15px 15px 15px !important;
 }
 .type_msg:focus {
   box-shadow: none !important;
   outline: 0px !important;
 }
+
 .attach_btn {
-  border-radius: 15px 0 0 15px !important;
+  border-radius: 50% !important;
   background-color: rgba(0, 0, 0, 0.3) !important;
   border: 0 !important;
   color: white !important;
   cursor: pointer;
+  height: 40px;
+  width: 40px;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .send_btn {
-  border-radius: 0 15px 15px 0 !important;
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-radius: 50% !important;
   border: 0 !important;
   color: white !important;
   cursor: pointer;
+  height: 40px;
+  width: 40px;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .search_btn {
   border-radius: 0 15px 15px 0 !important;
@@ -294,8 +307,8 @@ img {
   background-color: rgba(0, 0, 0, 0.3);
 }
 .user_img {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   border: 1.5px solid #f5f6fa;
 }
 .user_img_msg {
@@ -384,7 +397,7 @@ img {
 }
 #action_menu_btn {
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 10px;
   color: white;
   cursor: pointer;
