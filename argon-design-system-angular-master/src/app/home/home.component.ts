@@ -1,8 +1,13 @@
+import { User } from './../Models/Models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { UsersService } from '../service/users.service';
+import { AlertService } from '../_alert';
+import { AuthenticationService } from '../signup/authentication.service';
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -14,15 +19,78 @@ export class HomeComponent implements OnInit {
     constructor(
         private router: Router,
         private http: HttpClient,
+        private usersService: UsersService,
+        private alertService: AlertService,
+        private authenticationService: AuthenticationService
     ) { }
-    // model = {
-    //     left: true,
-    //     middle: false,
-    //     right: false
-    // };
 
-    // focus;
-    // focus1;
+    options = {
+        autoClose: false,
+        keepAfterRouteChange: false
+    };
+
+    // Phân trang user
+    PagingUsers: User[] = new Array();
+    PageIndex = 1;
+    PageSize = 10;
+
+    //
+    Loading = false;
+
+    ngOnInit() {
+
+        var GetUserInfo = localStorage.getItem('UserInfo');
+        this.authenticationService.UserInfo = JSON.parse(GetUserInfo);
+
+        this.Loading = true;
+        this.usersService.GetPagingUsers(this.PageIndex, this.PageSize)
+            .then(response => {
+                this.Loading = false;
+                this.PagingUsers = response;
+                console.log(this.PagingUsers);
+            })
+            .catch(error => {
+                this.Loading = false;
+                this.alertService.clear();
+                this.alertService.error(error.error.message, this.options);
+            })
+    }
+
+    ngAfterViewInit(): void {
+        var firstCarousel = <HTMLInputElement>document.getElementById("carousel_0");
+        var firstLiCarousel = <HTMLInputElement>document.getElementById("liCarousel_0");
+        firstCarousel.setAttribute('class', 'carousel-item active');
+        firstLiCarousel.setAttribute('class', 'active');
+        const source = timer(1000, 2000);
+        const subscribe = source.subscribe(val => {
+            if (val % 2 == 0) {
+                this.nextCarousel();
+            }
+        });
+    }
+    GetUserInfo = (userId: string) => {
+        this.alertService.clear();
+        this.alertService.success('OK', this.options);
+    }
+    Favorite = (userId: string, event) => {
+        console.log(userId)
+        var target = event.target;
+        this.usersService.Favorite(userId)
+            .then(response => {
+                this.alertService.clear();
+                this.alertService.success(response.message, this.options);
+                if (response.message == 'Favorited') {
+                    target.className = 'ni ni-favourite-28 text-danger'
+                } else {
+                    target.className = 'ni ni-favourite-28'
+                }
+            })
+            .catch(error => {
+                this.alertService.clear();
+                this.alertService.error(error.error.message, this.options);
+            })
+    }
+
 
     count = 0;
     imageCarousel = [
@@ -30,22 +98,6 @@ export class HomeComponent implements OnInit {
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
         { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
     ]
-
-
-    ngAfterViewInit(): void {
-        var firstCarousel = <HTMLInputElement> document.getElementById("carousel_0");
-        var firstLiCarousel = <HTMLInputElement> document.getElementById("liCarousel_0");
-        firstCarousel.setAttribute('class', 'carousel-item active');
-        firstLiCarousel.setAttribute('class', 'active');
-        const source = timer(1000, 2000);
-        const subscribe = source.subscribe(val => {
-            if (val%2 == 0){
-                this.nextCarousel();
-            }
-        });
-    }
-    
-    ngOnInit() {}
 
     changeCarousel = (event) => {
         var target = event.target;

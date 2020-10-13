@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SocialUser } from '../Models/Models'
 import { Component, OnInit } from '@angular/core';
 
@@ -14,10 +14,9 @@ export class AuthenticationService {
   ) { }
   
   public IsLogin = false;
+  public UserInfo = null;
 
   private mainUrl = "http://localhost:5000/api/Authenticates";
-
-
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     
@@ -73,8 +72,21 @@ export class AuthenticationService {
     var data = new FormData();
     data.append("Email", facebookAccount.email);
     data.append("FullName", facebookAccount.name);
-    data.append("Avatar", str);
-
+    data.append("Avatar", newstr);
+    
     return this.http.post<any>(this.mainUrl + path, data).toPromise();
+  }
+
+  public Logout = () =>{
+    let headers = this.GetHeader();
+    var path = '/logout';
+    return this.http.post<any>(this.mainUrl + path, null, {headers}).toPromise();
+  }
+
+  public GetHeader = ():HttpHeaders=>{
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Authorization',`Bearer ${this.UserInfo.token}`);
+    
+    return headers;
   }
 }

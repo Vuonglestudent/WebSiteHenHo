@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       this.user = user;
       this.authenticationService.FacebookLogin(this.user)
         .then(response => {
+          console.log(response)
           this.loggedIn = true;
           var userInfo = {
             Id: response.id,
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
             token: response.token
           };
           this.authenticationService.IsLogin = true;
+          this.authenticationService.UserInfo = userInfo;
           // Put the object into storage
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           this.alertService.clear();
@@ -98,13 +100,11 @@ export class LoginComponent implements OnInit {
         };
 
         this.authenticationService.IsLogin = true;
+        this.authenticationService.UserInfo = userInfo;
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
         
         // Retrieve the object from storage
-        var GetUserInfo = localStorage.getItem('UserInfo');
-        var outPut = JSON.parse(GetUserInfo);
-        console.log(outPut);
         this.alertService.success('Success!!', this.options);
         this.router.navigateByUrl('/home');
       })
@@ -133,10 +133,10 @@ export class LoginComponent implements OnInit {
         console.log(response);
         this.alertService.clear();
         this.alertService.success(response.message, this.options);
-        this.UserData.Email = response.userData.email;
-        this.UserData.FullName = response.userData.fullName;
-        this.UserData.AvatarPath = response.userData.avatarPath;
-        this.UserData.HasAvatar = response.userData.hasAvatar;
+        this.UserData.email = response.userData.email;
+        this.UserData.fullName = response.userData.fullName;
+        this.UserData.avatarPath = response.userData.avatarPath;
+        this.UserData.hasAvatar = response.userData.hasAvatar;
         console.log(this.UserData);
         this.Index = 3;
       })
@@ -170,7 +170,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    if (this.UserData == null || this.UserData.Email == "") {
+    if (this.UserData == null || this.UserData.email == "") {
       this.alertService.clear();
       this.alertService.warn("Nhập email của bạn!", this.options);
       this.Index = 2;
@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit {
 
     this.Loading = true;
 
-    this.authenticationService.CodeValidation(f.value.Code, this.UserData.Email, f.value.NewPassword)
+    this.authenticationService.CodeValidation(f.value.Code, this.UserData.email, f.value.NewPassword)
       .then(response => {
         this.Loading = false;
         this.alertService.clear();
