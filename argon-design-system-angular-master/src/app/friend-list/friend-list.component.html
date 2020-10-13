@@ -1,20 +1,39 @@
-<br>
-<br>
-<br>
-<br>
-<div class="container" *ngIf="!IsOk" id="ko">
-    <h3 class=" text-center chat_header">Fill UserId to Chat...!</h3>
-    <p>UserId 1:</p>
-    <p>ec826af8-0310-48cf-8a14-da11bdb1c96e</p>
-    <p>UserId 2:</p>
-    <p>ec826af8-0310-48cf-8a14-da11bdb1c96d</p>
-    <form #UserData="ngForm">
-        <input matInput name="From" ngModel #From="ngModel" placeholder="From UserId">
-        <input matInput name="To" ngModel #To="ngModel" placeholder="To UserId">
-        <button type="submit" (click)="onSubmit(UserData)" mat-raised-button color="primary">Save</button>
-    </form>
-</div>
-
-<div *ngIf="IsOk" id="ok">
-    <app-chat></app-chat>
-</div>
+<main class="container-fluid">
+    <div class="position-relative">
+        <section class="section section-shaped" style="padding-top: 2rem;">
+            <div class="shape shape-style-1 shape-primary">
+                <span class="span-150"></span>
+                <span class="span-50"></span>
+                <span class="span-50"></span>
+                <span class="span-75"></span>
+                <span class="span-100"></span>
+                <span class="span-75"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+            </div>
+            <!-- <div class="separator separator-bottom separator-skew zindex-100">
+                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+                </svg>
+            </div> -->
+        </section>
+        <!-- <div *ngIf="!IsOk" id="ko">
+            <h3 class=" text-center chat_header">Fill UserId to Chat...!</h3>
+            <p>UserId 1:</p>
+            <p>ec826af8-0310-48cf-8a14-da11bdb1c96e</p>
+            <p>UserId 2:</p>
+            <p>ec826af8-0310-48cf-8a14-da11bdb1c96d</p>
+            <form #UserData="ngForm">
+                <input matInput name="From" ngModel #From="ngModel" placeholder="From UserId">
+                <input matInput name="To" ngModel #To="ngModel" placeholder="To UserId">
+                <button type="submit" (click)="onSubmit(UserData)" mat-raised-button color="primary">Save</button>
+            </form>
+        </div> -->
+        <div>
+            <app-chat></app-chat>
+        </div>
+    </div>
+</main>
