@@ -1,8 +1,11 @@
+import { User } from './../Models/Models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { UsersService } from '../service/users.service';
+import { AlertService } from '../_alert';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -14,15 +17,51 @@ export class HomeComponent implements OnInit {
     constructor(
         private router: Router,
         private http: HttpClient,
+        private usersService: UsersService,
+        private alertService: AlertService
     ) { }
-    // model = {
-    //     left: true,
-    //     middle: false,
-    //     right: false
-    // };
 
-    // focus;
-    // focus1;
+    options = {
+        autoClose: false,
+        keepAfterRouteChange: false
+    };
+
+    // Phân trang user
+    PagingUsers: User[] = new Array();
+    PageIndex = 1;
+    PageSize = 10;
+
+    //
+    Loading = false;
+
+    ngOnInit() {
+        this.Loading = true;
+        this.usersService.GetPagingUsers(this.PageIndex, this.PageSize)
+            .then(response => {
+                this.Loading = false;
+                this.PagingUsers = response;
+            })
+            .catch(error => {
+                this.Loading = false;
+                this.alertService.clear();
+                this.alertService.error(error.error.message, this.options);
+            })
+    }
+
+    ngAfterViewInit(): void {
+        var firstCarousel = <HTMLInputElement>document.getElementById("carousel_0");
+        var firstLiCarousel = <HTMLInputElement>document.getElementById("liCarousel_0");
+        firstCarousel.setAttribute('class', 'carousel-item active');
+        firstLiCarousel.setAttribute('class', 'active');
+        const source = timer(1000, 2000);
+        const subscribe = source.subscribe(val => {
+            if (val % 2 == 0) {
+                this.nextCarousel();
+            }
+        });
+    }
+
+
 
     count = 0;
     imageCarousel = [
@@ -30,22 +69,6 @@ export class HomeComponent implements OnInit {
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
         { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
     ]
-
-
-    ngAfterViewInit(): void {
-        var firstCarousel = <HTMLInputElement> document.getElementById("carousel_0");
-        var firstLiCarousel = <HTMLInputElement> document.getElementById("liCarousel_0");
-        firstCarousel.setAttribute('class', 'carousel-item active');
-        firstLiCarousel.setAttribute('class', 'active');
-        const source = timer(1000, 2000);
-        const subscribe = source.subscribe(val => {
-            if (val%2 == 0){
-                this.nextCarousel();
-            }
-        });
-    }
-    
-    ngOnInit() {}
 
     changeCarousel = (event) => {
         var target = event.target;

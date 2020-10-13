@@ -118,10 +118,11 @@
           <div class="row pr-3 pl-3">
             <div class="card-deck">
               <div *ngFor="let item of imageCarousel" class="card">
-                <img class="card-img-top" src="{{item.img}}" alt="Card image cap">
+                <img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar">
+                <img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.imagePath}}" alt="Avatar">
                 <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                  <h5 class="card-title" style="margin-bottom: 2px;">{{item.title}}</h5>
-                  <p class="card-text limit-text"><small class="text-muted">{{item.description}}</small></p>
+                  <h5 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h5>
+                  <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
                   <div class="d-flex">
                     <div>
                       <button class="btn-icon-card">
@@ -158,11 +159,11 @@
               <h4 class="text-white"><strong class="text-danger">Thông tin khác</strong></h4>
             </div>
             <table class="table" border="0">
-              <div *ngFor="let item of imageCarousel;" style="margin-bottom: 10px;">
+              <div *ngFor="let item of PagingUsers;" style="margin-bottom: 10px;">
                 <tr>
                   <td>
                     <div>
-                      <img src="{{item.img}}" alt="..." class="img-thumbnail">
+                      <img src="{{item.imagePath}}" alt="..." class="img-thumbnail">
                     </div>
                   </td>
                   <td style="padding-left: 5px;">

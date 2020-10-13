@@ -1,40 +1,47 @@
-export class User{
-    Id:string;
-    Email: string;
-    UserName: string;
-    Role: string;
-    FullName: string;
-    Gender: string;
-    AvatarPath: string;
-    Location:string;
-    Status: string;
-    PhoneNumber: string;
-    Point:number;
-    HasAvatar:boolean;
-    Job: string;
+export class Profile {
+    title: string;
+    findPeople: string;
+    weight: number;
+    height: number;
+    dob: Date;
+    iAm: string;
+    job: string;
+    location: string;
+    marriage: string;
+    target: string;
+    education: string;
+    body: string;
+    character: string;
+    lifeStyle: string;
+    mostValuable: string;
+    religion: string;
+    favoriteMovie: string;
+    atmosphereLike: string;
+    smoking: string;
+    drinkBeer: string;
 }
 
-export class Profile{
-    Title: string;
-    IAm: string;
-    Summary: string;
-    FindPeople: string;
-    Weight:number;
-    Height:number;
-    Dob: Date;
-
-    Marriage: string;
-    Target: string;
-    Education: string;
-    Body: string;
-    Character: string;
-    LifeStyle: string;
-    MostValuable: string;
-    Religion: string;
-    FavoriteMovie: string;
-    AtmosphereLike: string;
-    Smoking: string;
-    DrinkBeer: string;
+export class User {
+    id: string;
+    userName: string;
+    fullName: string;
+    gender: string;
+    avatarPath: string;
+    status: string;
+    email: string;
+    phoneNumber: string;
+    point: number;
+    hasAvatar: boolean;
+    summary: string;
+    numberOfFollowing: number;
+    numberOfFollowers: number;
+    numberOfFavoriting: number;
+    numberOfFavoritors: number;
+    followed: boolean;
+    favorited: boolean;
+    isInfoUpdated: number;
+    token?: any;
+    profile: Profile;
 }
 
 export class SocialUser{

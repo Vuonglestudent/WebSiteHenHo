@@ -129,10 +129,10 @@ export class LoginComponent implements OnInit {
         console.log(response);
         this.alertService.clear();
         this.alertService.success(response.message, this.options);
-        this.UserData.Email = response.userData.email;
-        this.UserData.FullName = response.userData.fullName;
-        this.UserData.AvatarPath = response.userData.avatarPath;
-        this.UserData.HasAvatar = response.userData.hasAvatar;
+        this.UserData.email = response.userData.email;
+        this.UserData.fullName = response.userData.fullName;
+        this.UserData.avatarPath = response.userData.avatarPath;
+        this.UserData.hasAvatar = response.userData.hasAvatar;
         console.log(this.UserData);
         this.Index = 3;
       })
@@ -166,7 +166,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    if (this.UserData == null || this.UserData.Email == "") {
+    if (this.UserData == null || this.UserData.email == "") {
       this.alertService.clear();
       this.alertService.warn("Nhập email của bạn!", this.options);
       this.Index = 2;
@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit {
 
     this.Loading = true;
 
-    this.authenticationService.CodeValidation(f.value.Code, this.UserData.Email, f.value.NewPassword)
+    this.authenticationService.CodeValidation(f.value.Code, this.UserData.email, f.value.NewPassword)
       .then(response => {
         this.Loading = false;
         this.alertService.clear();
