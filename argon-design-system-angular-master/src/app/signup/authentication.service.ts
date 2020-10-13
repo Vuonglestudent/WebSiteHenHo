@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import{SocialUser} from '../Models/Models'
+import { SocialUser } from '../Models/Models'
+import { Component, OnInit } from '@angular/core';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
   constructor(
-    private http:HttpClient
+    private http:HttpClient,
   ) { }
+  
+  public IsLogin = false;
 
   private mainUrl = "http://localhost:5000/api/Authenticates";
+
+
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     

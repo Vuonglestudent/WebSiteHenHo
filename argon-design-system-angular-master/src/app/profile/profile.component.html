@@ -1,3 +1,4 @@
+
 <main class="profile-page">
   <section class="section-profile-cover section-shaped my-0">
     <!-- Circles background -->
@@ -35,9 +36,9 @@
             </div>
             <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
               <div class="card-profile-actions py-4 mt-lg-0">
-                <a *ngIf="" href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Theo dõi</a>
-                <a *ngIf="" href="javascript:void(0)" class="btn btn-sm btn-default float-right">Nhắn tin</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">Chỉnh sửa</a>
+                <a  href="javascript:void(0)" (click)="clickFollow($event)" class="btn btn-sm btn-info mr-4">Theo dõi</a>
+                <a  href="javascript:void(0)" class="btn btn-sm btn-default float-right">Nhắn tin</a>
+                <a *ngIf="" href="javascript:void(0)" class="btn btn-sm btn-default float-right">Chỉnh sửa</a>
               </div>
             </div>
             <div class="col-lg-4 order-lg-1">
@@ -72,6 +73,12 @@
           <div class="mt-5 py-5 border-top text-center">
             <div class="row justify-content-center">
               <div class="col-lg-9">
+                <table class="table">
+                  <tr>
+                    <th></th>
+                    <td></td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

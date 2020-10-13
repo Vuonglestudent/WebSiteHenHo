@@ -7,6 +7,7 @@ import { AlertService } from '../_alert';
 import { User, SocialUser } from '../Models/Models';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+  import { from } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
             Email: response.email,
             token: response.token
           };
+          this.authenticationService.IsLogin = true;
           // Put the object into storage
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           this.alertService.clear();
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit {
   }
 
   user: SocialUser;
-  loggedIn: boolean;
+  public loggedIn: boolean;
 
   Index = 1;
   Duration = new Date();
@@ -83,45 +85,19 @@ export class LoginComponent implements OnInit {
     }
 
     this.Loading = true;
-    // this.authenticationService.Login(f.value.Email, f.value.Password)
-    //   .then(response => {
-    //     console.log(response);
-    //     //alert("Login success!");
-    //     this.Loading = false;
-    //     var userInfo = {
-    //       UserName: response.userName,
-    //       FullName: response.fullName,
-    //       Email: response.email,
-    //       token: response.token
-    //     };
-    //     // Put the object into storage
-    //     localStorage.setItem('UserInfo', JSON.stringify(userInfo));
-        
-    //     // Retrieve the object from storage
-    //     var GetUserInfo = localStorage.getItem('UserInfo');
-    //     var outPut = JSON.parse(GetUserInfo);
-    //     console.log(outPut);
-    //     //this.alertService.success('Success!!', this.options);
-    //     this.router.navigateByUrl('/home');
-    //   })
-    //   .catch(error => {
-    //     console.log(error.error);
-    //     this.alertService.clear();
-    //     this.alertService.error(error.error.message, this.options);
-    //     this.Loading = false;
-    //   })
-    this.Loading = false;
+    this.authenticationService.Login(f.value.Email, f.value.Password)
+      .then(response => {
+        console.log(response);
+        //alert("Login success!");
+        this.Loading = false;
         var userInfo = {
-          // Id: response.id,
-          // UserName: response.userName,
-          // FullName: response.fullName,
-          // Email: response.email,
-          // token: response.token
-          UserName: 'vuong',
-          FullName: 'vuong',
-          Email: 'vuongvaba1v2@gmail.com',
-          token: '123213213'
+          UserName: response.userName,
+          FullName: response.fullName,
+          Email: response.email,
+          token: response.token
         };
+
+        this.authenticationService.IsLogin = true;
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
         
@@ -131,6 +107,14 @@ export class LoginComponent implements OnInit {
         console.log(outPut);
         //this.alertService.success('Success!!', this.options);
         this.router.navigateByUrl('/home');
+      })
+      .catch(error => {
+        console.log(error.error);
+        this.alertService.clear();
+        this.alertService.error(error.error.message, this.options);
+        this.Loading = false;
+      })
+    this.Loading = false;
   }
 
   confirmEmail(f: NgForm) {
