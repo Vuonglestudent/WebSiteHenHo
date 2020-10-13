@@ -1,6 +1,8 @@
+import { AuthenticationService } from './../../signup/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';
+
 
 @Component({
     selector: 'app-navbar',
@@ -14,14 +16,17 @@ export class NavbarComponent implements OnInit {
     token: string
     imgAvatar = './assets/img/theme/team-3-800x800.jpg'
     messageAwait = 4
-    constructor(public location: Location, private router: Router) {
+
+    constructor(public location: Location, private router: Router, private authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
         //localStorage.removeItem('UserInfo')
         var user = JSON.parse(localStorage.getItem('UserInfo'))
-        console.log(user.token)
         this.token = user.token
+        if (this.token != null) {
+            this.authenticationService.IsLogin = true;
+        }
         this.router.events.subscribe((event) => {
             this.isCollapsed = true;
             if (event instanceof NavigationStart) {
@@ -35,7 +40,6 @@ export class NavbarComponent implements OnInit {
                     window.scrollTo(0, 0);
             }
         });
-
         this.location.subscribe((ev: PopStateEvent) => {
             this.lastPoppedUrl = ev.url;
         });
@@ -62,11 +66,14 @@ export class NavbarComponent implements OnInit {
     }
 
     logout = () => {
-       localStorage.removeItem('UserInfo')
+        localStorage.removeItem('UserInfo')
+        this.token = null;
+        this.authenticationService.IsLogin = false;
+        this.router.navigateByUrl('/home');
     }
 
 
     ngAfterViewInit(): void {
-        
+
     }
 }

@@ -7,6 +7,7 @@ import { AlertService } from '../_alert';
 import { User, SocialUser } from '../Models/Models';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+  import { from } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
             Email: response.email,
             token: response.token
           };
+          this.authenticationService.IsLogin = true;
           // Put the object into storage
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           this.alertService.clear();
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit {
   }
 
   user: SocialUser;
-  loggedIn: boolean;
+  public loggedIn: boolean;
 
   Index = 1;
   Duration = new Date();
@@ -94,6 +96,8 @@ export class LoginComponent implements OnInit {
           Email: response.email,
           token: response.token
         };
+
+        this.authenticationService.IsLogin = true;
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
         

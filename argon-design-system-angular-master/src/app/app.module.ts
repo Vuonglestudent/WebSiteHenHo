@@ -1,3 +1,4 @@
+import { SectionsModule } from './sections/sections.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeModule } from './home/home.module';
+//import { HomeModule } from './home/home.module';
 import { LoginComponent } from './login/login.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './_alert';
@@ -28,6 +29,7 @@ import {
 } from 'angularx-social-login';
 import { FriendListComponent } from './friend-list/friend-list.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     FacebookLoginComponent,
     FriendListComponent,
     ChatComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,11 +52,13 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     FormsModule,
     RouterModule,
     AppRoutingModule,
-    HomeModule,
+    //HomeModule,
     HttpClientModule,
     FontAwesomeModule,
     AlertModule,
-    SocialLoginModule
+    SocialLoginModule,
+    CommonModule,
+    SectionsModule
   ],
   providers: [
     {

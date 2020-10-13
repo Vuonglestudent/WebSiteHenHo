@@ -24,9 +24,23 @@ export class ProfileComponent implements OnInit {
         var target = e.target;
         if (target.className == 'ni ni-favourite-28') {
             target.setAttribute('class' , 'ni ni-favourite-28 text-danger')
+            this.favourites = this.favourites + 1;
         } else {
             target.setAttribute('class' , 'ni ni-favourite-28')
+            this.favourites = this.favourites - 1;
         }
+    }
 
+    clickFollow = (e) => {
+        var target = e.target;
+        if (target.innerHTML == 'Theo dõi'){
+            target.className = 'btn btn-sm btn-danger mr-4';
+            target.innerHTML = 'Hủy theo dõi';
+            this.friends = this.friends + 1;
+        } else {
+            target.className = 'btn btn-sm btn-info mr-4'
+            target.innerHTML = 'Theo dõi'
+            this.friends = this.friends - 1;
+        }
     }
 }
