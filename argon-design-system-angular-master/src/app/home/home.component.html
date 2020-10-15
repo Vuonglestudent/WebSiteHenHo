@@ -51,36 +51,50 @@
     <div class="container">
       <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
-          <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-            
-            <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
+          <alert style="padding-left: 15px; padding-right: 15px;"></alert>
+          <div style="padding-right: 15px; padding-left: 15px;">
+            <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+              <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
+            </div>
           </div>
           <div class="row pr-3 pl-3">
             <div class="card-deck">
-              <div *ngFor="let item of PagingUsers" class="card">
-
-                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.avatarPath}}" alt="Avatar"></a>
-                
-                <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                  <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><h6 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h6></a>
-                  <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
-                  <div class="d-flex">
-                    <div>
-                      <button class="btn-icon-card">
-                        <a *ngIf="item.favorited == true" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"></i></a>
-                        <a *ngIf="item.favorited == false" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"></i></a>
-                      </button>
+              <div *ngFor="let item of PagingUsers; let i = index" class="col-md-4 col-xl-4"
+                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                <div class="card">
+                  <div class="d-flex justify-content-center">
+                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
+                        class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
+                        alt="Avatar"></a>
+                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar"
+                        class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                  </div>
+                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                    <div style="height: 90px;">
+                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)">
+                        <h6 class="card-title limit-title" style="margin-bottom: 2px;">{{item.fullName}}</h6>
+                      </a>
+                      <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
                     </div>
-                    <div class="flex-grow-1 ml-2">
-                      <button class="btn-icon-card">
-                        <i class="ni ni-chat-round"></i>
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn-icon-card">
-                        <i class="ni ni-camera-compact"></i>
-                      </button>
+                    <div class="d-flex">
+                      <div>
+                        <button class="btn-icon-card">
+                          <a *ngIf="item.favorited == true" style="cursor: pointer"
+                            (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"><span><small class="text-dark" style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
+                          <a *ngIf="item.favorited == false" style="cursor: pointer"
+                            (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"><span><small style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
+                        </button>
+                      </div>
+                      <div class="flex-grow-1 ml-2">
+                        <button class="btn-icon-card">
+                          <i class="ni ni-chat-round"></i>
+                        </button>
+                      </div>
+                      <div>
+                        <button class="btn-icon-card">
+                          <i class="ni ni-camera-compact"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -151,12 +165,16 @@
                 <tr>
                   <td>
                     <div>
-                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
+                          class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar"
+                          class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
                   </td>
                   <td style="padding-left: 5px;">
-                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><p style="margin-bottom: 2px;"><strong>{{item.fullName}}</strong></p></a>
+                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)">
+                      <p style="margin-bottom: 2px;"><strong>{{item.fullName}}</strong></p>
+                    </a>
                     <p class="limit-text" style=" -webkit-line-clamp: 1;"><small>{{item.summary}}</small></p>
                   </td>
                 </tr>
@@ -165,10 +183,8 @@
           </div>
         </div>
       </div>
-      <alert style="padding-left: 0%;"></alert>
       <div class="row">
         <div class="pl-5" style="width: 30%;">
-          
         </div>
       </div>
     </div>
