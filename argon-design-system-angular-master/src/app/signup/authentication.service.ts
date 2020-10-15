@@ -85,8 +85,9 @@ export class AuthenticationService {
 
   public GetHeader = ():HttpHeaders=>{
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Authorization',`Bearer ${this.UserInfo.token}`);
-    
+    if(this.UserInfo.token != null){
+      headers = headers.append('Authorization',`Bearer ${this.UserInfo.token}`);
+    }
     return headers;
   }
 }
