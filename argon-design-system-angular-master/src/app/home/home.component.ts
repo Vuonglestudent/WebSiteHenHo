@@ -81,14 +81,17 @@ export class HomeComponent implements OnInit {
 
         console.log(userId)
         var target = event.target;
+        var favouritesCurrent = Number(target.innerText)
         this.usersService.Favorite(userId)
             .then(response => {
                 this.alertService.clear();
                 this.alertService.success(response.message, this.options);
                 if (response.message == 'Favorited') {
                     target.className = 'ni ni-favourite-28 text-danger'
+                    target.innerHTML = `<span><small class="text-dark" style="font-size: 60%;">${favouritesCurrent + 1}</small></span>`
                 } else {
                     target.className = 'ni ni-favourite-28'
+                    target.innerHTML = `<span><small class="text-dark" style="font-size: 60%;">${favouritesCurrent - 1}</small></span>`
                 }
             })
             .catch(error => {
