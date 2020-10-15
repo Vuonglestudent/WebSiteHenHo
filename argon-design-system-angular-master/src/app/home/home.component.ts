@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
             .catch(error => {
                 this.Loading = false;
                 this.alertService.clear();
-                this.alertService.error(error.error.message, this.options);
+                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
             })
     }
 
@@ -73,6 +73,12 @@ export class HomeComponent implements OnInit {
         this.alertService.success('OK', this.options);
     }
     Favorite = (userId: string, event) => {
+        
+        if(!this.authenticationService.IsLogin){
+            this.LoginRequired();
+            return;
+        }
+
         console.log(userId)
         var target = event.target;
         this.usersService.Favorite(userId)
@@ -91,6 +97,14 @@ export class HomeComponent implements OnInit {
             })
     }
 
+    
+    LoginRequired = () => {
+        this.alertService.clear();
+        this.alertService.warn("Vui lòng đăng nhập để tiếp tục!", this.options);
+        setTimeout(() => {
+            this.router.navigateByUrl('/login');
+        }, 3000);
+    }
 
     count = 0;
     imageCarousel = [
