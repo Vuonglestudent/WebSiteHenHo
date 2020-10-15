@@ -51,15 +51,49 @@
     <div class="container">
       <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
-          <div class="alert alert-success" style="margin-bottom: 0px;" role="alert">
-            <h4 class="text-white"><strong class="text-danger">Hot!</strong><span> Những người nổi tiếng!</span></h4>
+          <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+            
+            <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
           </div>
-          <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
-            <div *ngFor="let item of imageCarousel;" class="gallery-cell text-center"
-              style="background-image: url('{{item.img}}')">
-              <h5>{{ item.title }}</h5>
-              <p>{{ item.description }}</p>
+          <div class="row pr-3 pl-3">
+            <div class="card-deck">
+              <div *ngFor="let item of PagingUsers" class="card">
+
+                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.avatarPath}}" alt="Avatar"></a>
+                
+                <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                  <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><h6 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h6></a>
+                  <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
+                  <div class="d-flex">
+                    <div>
+                      <button class="btn-icon-card">
+                        <a *ngIf="item.favorited == true" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"></i></a>
+                        <a *ngIf="item.favorited == false" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"></i></a>
+                      </button>
+                    </div>
+                    <div class="flex-grow-1 ml-2">
+                      <button class="btn-icon-card">
+                        <i class="ni ni-chat-round"></i>
+                      </button>
+                    </div>
+                    <div>
+                      <button class="btn-icon-card">
+                        <i class="ni ni-camera-compact"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="d-flex justify-content-center" style="padding-bottom: 15px; padding-top: 15px;">
+            <a [routerLink]="['/register']" class="btn btn-info btn-icon">
+              <span class="btn-inner--icon">
+                <i class="fa fa-arrow-right mr-1"></i>
+              </span>
+              <span class="nav-link-inner--text"><a>Xem Them</a></span>
+            </a>
           </div>
         </div>
         <div style="width: 30%" class="pl-5">
@@ -108,58 +142,6 @@
               </form>
             </div>
           </div>
-        </div>
-      </div>
-      <alert style="padding-left: 0%;"></alert>
-      <div class="row">
-        
-        <div style="width: 70%;">
-          <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-            
-            <h4 class="text-white"><strong class="text-warning">New!</strong><span> Bạn mới tham gia</span></h4>
-          </div>
-          <div class="row pr-3 pl-3">
-            <div class="card-deck">
-              <div *ngFor="let item of PagingUsers" class="card">
-
-                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar" class="card-img-top" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar" class="card-img-top" src="{{item.avatarPath}}" alt="Avatar"></a>
-                
-                <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                  <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><h6 class="card-title" style="margin-bottom: 2px;">{{item.fullName}}</h6></a>
-                  <p class="card-text limit-text"><small class="text-muted">{{item.summary}}</small></p>
-                  <div class="d-flex">
-                    <div>
-                      <button class="btn-icon-card">
-                        <a *ngIf="item.favorited == true" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"></i></a>
-                        <a *ngIf="item.favorited == false" style="cursor: pointer" (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"></i></a>
-                      </button>
-                    </div>
-                    <div class="flex-grow-1 ml-2">
-                      <button class="btn-icon-card">
-                        <i class="ni ni-chat-round"></i>
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn-icon-card">
-                        <i class="ni ni-camera-compact"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center" style="padding-bottom: 15px; padding-top: 15px;">
-            <a [routerLink]="['/register']" class="btn btn-info btn-icon">
-              <span class="btn-inner--icon">
-                <i class="fa fa-arrow-right mr-1"></i>
-              </span>
-              <span class="nav-link-inner--text"><a>Xem Them</a></span>
-            </a>
-          </div>
-        </div>
-        <div class="pl-5" style="width: 30%;">
           <div class="col">
             <div class="alert text-center" style="margin-bottom: 0px;" role="alert">
               <h4 class="text-white"><strong class="text-danger">Thông tin khác</strong></h4>
@@ -181,6 +163,12 @@
               </div>
             </table>
           </div>
+        </div>
+      </div>
+      <alert style="padding-left: 0%;"></alert>
+      <div class="row">
+        <div class="pl-5" style="width: 30%;">
+          
         </div>
       </div>
     </div>
