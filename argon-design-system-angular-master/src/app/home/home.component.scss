@@ -134,3 +134,20 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'sans-serif';
   font-weight: 600;
 }
+.icon-hover{
+  padding-bottom: 15%;
+  margin-bottom: 8%;
+  transition: 0.5s;
+
+}
+
+.icon-hover:hover{
+  font-size:150%;
+  transition: 0.5s;
+  padding-bottom: 0%;
+  background-color: #f0e1f7;
+}
+.card-hover:hover{
+  background-color: #f0e1f7;
+  transition: 0.5s;
+}

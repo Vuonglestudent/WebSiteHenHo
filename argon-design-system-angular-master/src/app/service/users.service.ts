@@ -77,7 +77,7 @@ export class UsersService {
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
 
-  public GetNewest = (pageIndex:number, pageSize: number) =>{
+  public GetNewUsers = (pageIndex:number, pageSize: number) =>{
     let headers = this.authenticationService.GetHeader();
     var path = `/newUsers?PageIndex=${pageIndex}&pageSize=${pageSize}`;
 

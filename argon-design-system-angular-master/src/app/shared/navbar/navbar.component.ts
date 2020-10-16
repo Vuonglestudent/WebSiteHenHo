@@ -26,18 +26,7 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit() {
         //localStorage.removeItem('UserInfo')
-        var user = JSON.parse(localStorage.getItem('UserInfo'))
-        if (user != null) {
-            this.token = user.token
-            if (this.token != null) {
-                this.authenticationService.IsLogin = true;
-                this.authenticationService.UserInfo = user;
-            }
-            else {
-                this.authenticationService.IsLogin = false;
-                this.authenticationService.UserInfo = null;
-            }
-        }
+
         this.router.events.subscribe((event) => {
             this.isCollapsed = true;
             if (event instanceof NavigationStart) {
