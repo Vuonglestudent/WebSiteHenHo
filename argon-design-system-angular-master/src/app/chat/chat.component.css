@@ -365,18 +365,20 @@ img {
   margin-bottom: auto;
   margin-left: 10px;
   border-radius: 25px;
-  background-color: #82ccdd;
+  background-color:#f1f0f0;
   padding: 10px;
   position: relative;
+  color: black;
 }
 .msg_cotainer_send {
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 10px;
   border-radius: 25px;
-  background-color: #78e08f;
+  background-color: #0084ff;
   padding: 10px;
   position: relative;
+  color: white;
 }
 .msg_time {
   position: absolute;

@@ -37,8 +37,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.CurrentUserId = localStorage.getItem("CurrentUserId");
-    this.DestUserId = localStorage.getItem("DestUserId");
+    this.CurrentUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96e";
+    this.DestUserId 
 
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener(this.CurrentUserId);
@@ -166,6 +166,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       .catch(error =>{
 
       })
+  }
+
+
+  clickSendUser = (idUser) => {
+    console.log(idUser)
+    this.DestUserId = idUser;
   }
 
 }
