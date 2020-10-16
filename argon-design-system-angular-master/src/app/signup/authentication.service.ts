@@ -83,9 +83,15 @@ export class AuthenticationService {
     return this.http.post<any>(this.mainUrl + path, null, {headers}).toPromise();
   }
 
+  public ValidateToken = () => {
+    var path = '/validateToken';
+    var headers = this.GetHeader();
+    return this.http.post<any>(this.mainUrl + path, null, {headers: headers}).toPromise();
+  }
+
   public GetHeader = ():HttpHeaders=>{
     let headers: HttpHeaders = new HttpHeaders();
-    if(this.UserInfo.token != null){
+    if(this.UserInfo != null){
       headers = headers.append('Authorization',`Bearer ${this.UserInfo.token}`);
     }
     return headers;

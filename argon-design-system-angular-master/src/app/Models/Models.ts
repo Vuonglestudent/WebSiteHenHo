@@ -37,6 +37,7 @@ export class User {
     numberOfFollowers: number;
     numberOfFavoriting: number;
     numberOfFavoritors: number;
+    numberOfImages: number;
     followed: boolean;
     favorited: boolean;
     isInfoUpdated: number;

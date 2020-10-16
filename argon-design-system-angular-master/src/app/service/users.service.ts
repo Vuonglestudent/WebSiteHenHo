@@ -69,4 +69,18 @@ export class UsersService {
 
     return this.http.get<any>(this.mainUrl + path, {headers}).toPromise();
   }
+
+  public GetFavoritest = (pageIndex:number, pageSize: number) =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = `/favoritest?PageIndex=${pageIndex}&pageSize=${pageSize}`;
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
+
+  public GetNewUsers = (pageIndex:number, pageSize: number) =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = `/newUsers?PageIndex=${pageIndex}&pageSize=${pageSize}`;
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
 }

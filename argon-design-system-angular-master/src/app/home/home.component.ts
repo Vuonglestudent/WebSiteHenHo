@@ -30,27 +30,38 @@ export class HomeComponent implements OnInit {
     };
 
     // Phân trang user
-    PagingUsers: User[] = new Array();
-    PageIndex = 1;
-    PageSize = 10;
+    Favoritors: User[] = new Array();
+    PageIndexFavorite = 1;
+    PageSizeFavorite = 10;
+
+    // Phân trang user
+    NewUsers: User[] = new Array();
+    PageIndexNewUser = 1;
+    PageSizeNewUser = 10;
 
     //
     Loading = false;
 
     ngOnInit() {
 
-        var GetUserInfo = localStorage.getItem('UserInfo');
-        this.authenticationService.UserInfo = JSON.parse(GetUserInfo);
-
         this.Loading = true;
-        this.usersService.GetPagingUsers(this.PageIndex, this.PageSize)
+        this.usersService.GetFavoritest(this.PageIndexFavorite, this.PageSizeFavorite)
             .then(response => {
                 this.Loading = false;
-                this.PagingUsers = response;
-                console.log(this.PagingUsers);
+                this.Favoritors = response;
+                console.log(this.Favoritors);
             })
             .catch(error => {
                 this.Loading = false;
+                this.alertService.clear();
+                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
+            })
+
+        this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
+            .then(response=>{
+                this.NewUsers = response;
+            })
+            .catch(error=>{
                 this.alertService.clear();
                 this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
             })
@@ -73,8 +84,8 @@ export class HomeComponent implements OnInit {
         this.alertService.success('OK', this.options);
     }
     Favorite = (userId: string, event) => {
-        
-        if(!this.authenticationService.IsLogin){
+
+        if (!this.authenticationService.IsLogin) {
             this.LoginRequired();
             return;
         }
@@ -95,12 +106,16 @@ export class HomeComponent implements OnInit {
                 }
             })
             .catch(error => {
+                if(error.status == 401){
+                    this.LoginRequired();
+                    return;
+                }
                 this.alertService.clear();
                 this.alertService.error(error.error.message, this.options);
             })
     }
 
-    
+
     LoginRequired = () => {
         this.alertService.clear();
         this.alertService.warn("Vui lòng đăng nhập để tiếp tục!", this.options);
