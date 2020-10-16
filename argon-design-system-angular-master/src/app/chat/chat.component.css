@@ -220,7 +220,7 @@ img {
   margin-bottom: auto;
 }
 .card {
-  height: 650px;
+  height: 653.5px;
 }
 .contacts_body {
   padding: 0.75rem 0 !important;
@@ -231,8 +231,9 @@ img {
   overflow-y: auto;
 }
 .card-header {
-  border-bottom: 0 !important;
-  background-color: #66a3ff;
+  border-bottom: 0.1250rem solid rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  min-height: 83px;
 }
 .card-footer {
   border-top: 0 !important;
@@ -242,9 +243,11 @@ img {
   align-content: center;
 }
 .search {
-  border-radius: 15px 0 0 15px !important;
+  border-radius: 0px 15px 15px 0px !important;
   border: 0 !important;
   color: black !important;
+  background-color: rgba(0, 0, 0, .04) !important;
+  padding-left: 15px;
 }
 .search:focus {
   box-shadow: none !important;
@@ -288,10 +291,10 @@ img {
   margin-right: 5px;
 }
 .search_btn {
-  border-radius: 0 15px 15px 0 !important;
-  background-color: rgba(0, 0, 0, 0.3) !important;
-  border: 0 !important;
-  color: white !important;
+  border-radius: 15px 0px 0px 15px !important;
+  background-color:rgba(0, 0, 0, .04) !important;
+  border: 0px !important;
+  color: rgba(0, 0, 0, 0.4) !important;
   cursor: pointer;
 }
 .contacts {
@@ -437,4 +440,9 @@ img {
   .contacts_card {
     margin-bottom: 15px !important;
   }
+}
+
+.input-group .form-control:not(:first-child) {
+  border-left: 0;
+  padding-left: 15px; 
 }

@@ -141,13 +141,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
-.icon-hover:hover{
+.btn-icon-card:hover{
   font-size:150%;
   transition: 0.5s;
   padding-bottom: 0%;
-  background-color: #f0e1f7;
 }
-.card-hover:hover{
+.card:hover{
   background-color: #f0e1f7;
   transition: 0.5s;
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition:  box-shadow .2s ease-in;
+  .btn-icon-card{
+    background-color: #f0e1f7;
+    transition: 0.5s;
+  }
 }
