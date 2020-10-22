@@ -55,11 +55,23 @@ export class AppComponent implements OnInit {
     };
     ngOnInit() {
 
-        var user = JSON.parse(localStorage.getItem('UserInfo'))
-        if (user != null) {
-            if (user.token != null) {
-                this.authenticationService.IsLogin = true;
-                this.authenticationService.UserInfo = user;
+        this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
+        if (this.authenticationService.UserInfo != null) {
+            if (this.authenticationService.UserInfo.token != null) {
+                this.authenticationService.ValidateToken()
+                .then(() => {
+                    this.authenticationService.IsLogin = true;
+                    console.log('Valid token')
+                })
+                .catch(error => {
+                    if (error.status == 401) {
+                        console.log('Token Invalid');
+                        localStorage.clear();
+                        this.authenticationService.IsLogin = false;
+                        this.authenticationService.UserInfo = null;
+                    }
+                })
+
             }
             else {
                 this.authenticationService.IsLogin = false;
@@ -67,15 +79,7 @@ export class AppComponent implements OnInit {
             }
         }
 
-        this.authenticationService.ValidateToken()
-            .then(() => console.log('Valid token'))
-            .catch(error => {
-                if (error.status == 401) {
-                    localStorage.clear();
-                    this.authenticationService.IsLogin = false;
-                    this.authenticationService.UserInfo = null;
-                }
-            })
+
 
 
         var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];

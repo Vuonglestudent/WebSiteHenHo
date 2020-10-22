@@ -93,6 +93,7 @@ export class LoginComponent implements OnInit {
         //alert("Login success!");
         this.Loading = false;
         var userInfo = {
+          Id : response.id,
           UserName: response.userName,
           FullName: response.fullName,
           Email: response.email,

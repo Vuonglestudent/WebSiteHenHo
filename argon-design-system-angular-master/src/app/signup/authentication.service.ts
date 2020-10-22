@@ -85,7 +85,8 @@ export class AuthenticationService {
 
   public ValidateToken = () => {
     var path = '/validateToken';
-    var headers = this.GetHeader();
+    var headers = new HttpHeaders();
+    headers = this.GetHeader();
     return this.http.post<any>(this.mainUrl + path, null, {headers: headers}).toPromise();
   }
 

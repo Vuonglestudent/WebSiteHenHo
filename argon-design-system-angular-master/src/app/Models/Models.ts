@@ -54,11 +54,32 @@ export class SocialUser{
     token?: string;  
     idToken?: string;  
 }
-export class Message{
-    Id: number;
-    SenderId: string;
-    ReceiverId: string;
-    Content : string;
-    SentAt : Date;
-    Type: string;
+
+export class UserDisplay {
+    id: string;
+    fullName: string;
+    dob: Date;
+    createdAt: Date;
+    avatarPath: string;
+    hasAvatar: boolean;
+    summary: string;
+    numberOfFollowers: number;
+    followed: boolean;
+    numberOfFavoritors: number;
+    favorited: boolean;
+    numberOfImages: number;
+}
+
+export class Message {
+    id: number;
+    senderId: string;
+    receiverId: string;
+    content: string;
+    sentAt: Date;
+    type: string;
+}
+
+export class ChatFriend {
+    user: UserDisplay;
+    messages: Message[];
 }
