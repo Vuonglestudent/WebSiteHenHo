@@ -83,4 +83,11 @@ export class UsersService {
 
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
+
+  public GetDisplayUser = (userId: string) =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = `/display/${userId}`;
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
 }

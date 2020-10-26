@@ -1,3 +1,4 @@
+import { UserDisplay } from './../Models/Models';
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';
@@ -5,6 +6,7 @@ import { Message, ChatFriend } from '../Models/Models';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
+import { UsersService } from '../service/users.service';
 
 @Component({
   selector: 'app-chat',
@@ -18,10 +20,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private http: HttpClient,
     private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private usersService: UsersService,
   ) {
     this.subscribeToEvents();
-   }
+  }
 
   IsStarted = false;
 
@@ -32,6 +35,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public PageSize = 20;
   public From: string;
   public To: string;
+  public UserIndex = 0;
 
   SenderId: string;
   ReceiverId: string;
@@ -46,57 +50,43 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-    
+
     this.messageService.GetFriendList(this.CurrentUserId)
-      .then(response =>{
+      .then(response => {
         this.friendList = response;
         console.log('this is friend list')
         console.log(this.friendList);
+        this.PageIndex = 1;
+        this.messages = new Array<Message>();
+        this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
       })
-      .catch(error =>{
+      .catch(error => {
         console.log('this is error');
         console.log(error);
       });
   }
   ngAfterViewInit(): void {
-    this.PageIndex = 1;
-    this.messages = new Array<Message>();
-    this.MoreMessages();
+
   }
 
-  // private startHttpRequest = () => {
-  //   this.ReceiverId = this.DestUserId;
-  //   this.SenderId = this.CurrentUserId;
-
-  //   var formdata = new FormData();
-  //   formdata.append("SenderId", this.SenderId);
-  //   formdata.append("ReceiverId", this.ReceiverId);
-  //   formdata.append("Content", this.txtMessage);
-  //   this.http.post('http://localhost:5000/api/chats', formdata)
-  //     .subscribe(res => {
-  //       console.log('this is res');
-  //       console.log(res);
-  //     });
-  // }
 
   sendMessage(): void {
-    if(this.CurrentUserId == "" || this.DestUserId == ""){
+    if (this.CurrentUserId == "" || this.DestUserId == "") {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
-    
+
     if (this.txtMessage != '') {
       this.message = new Message();
       this.messages.push(this.message);
 
-      //this.startHttpRequest();
       this.messageService.SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
-      .then(data =>{
-        console.log(data)
-      })
-      .catch(error=>{
-        console.log(error)
-      });
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        });
 
       this.txtMessage = '';
     }
@@ -105,6 +95,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
+        console.log('this is res');
         console.log(response);
         var message = new Message();
         message = response;
@@ -112,6 +103,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
         if (message.senderId == this.CurrentUserId) {
           message.type = 'sent';
           console.log('sender');
+
+          var userIndex = this.getUserIndex(message.receiverId);
+
+          if (userIndex == -1) {
+            var newUser = new UserDisplay();
+            this.usersService.GetDisplayUser(message.receiverId)
+              .then(response=>{
+                newUser = response;
+              })
+              .catch(error =>{
+                alert("Can not get display user");
+                return;
+              })
+          }
+
           this.messages.push(message);
         } else if (message.receiverId == this.CurrentUserId) {
           message.type = 'received';
@@ -121,14 +127,26 @@ export class ChatComponent implements OnInit, AfterViewInit {
           console.log("nothing!");
         }
 
+        // if (message.senderId == this.CurrentUserId) {
+        //   message.type = 'sent';
+        //   console.log('sender');
+        //   this.messages.push(message);
+        // } else if (message.receiverId == this.CurrentUserId) {
+        //   message.type = 'received';
+        //   console.log('receiver');
+        //   this.messages.push(message);
+        // } else {
+        //   console.log("nothing!");
+        // }
+
       })
 
       console.log(JSON.stringify(this.messages));
     })
   }
 
-  onSubmit(f: NgForm){
-    if(f.value.From == "" || f.value.To == ""){
+  onSubmit(f: NgForm) {
+    if (f.value.From == "" || f.value.To == "") {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
@@ -139,55 +157,66 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   IsExist = (messageId: number) => {
     this.messages.forEach(element => {
-      if(element.Id == messageId){
+      if (element.id == messageId) {
         return false;
       }
     });
     return true;
   }
 
-  MoreMessages = () =>{
-    this.messageService.moreMessages(this.PageIndex, this.PageSize, this.CurrentUserId, this.DestUserId)
-      .then(data =>{
-        console.log(data);
-        this.PageIndex += 1;
+  getUserIndex = (userId: string) => {
+    var index = -1;
+    for (let i = 0; i < this.friendList.length; i++) {
+      if (this.friendList[i].user.id == userId) {
+        return i;
+      }
+    }
+  }
 
+  MoreMessages = (userId: string, userIndex: number) => {
+    this.messageService.moreMessages(1, this.PageSize, this.CurrentUserId, userId)
+      .then(data => {
+        //console.log(data);
+        //this.PageIndex += 1;
+        this.messages = new Array<Message>();
         data.forEach(element => {
-          if(this.IsExist(element.id)){
-            //            
-            var message = new Message();
-            message.content = element.content;
-            message.senderId = element.senderId;
-            message.receiverId = element.receiverId;
-            message.sentAt = element.sentAt;
-            message.id = element.id;
-    
-            if (message.senderId == this.CurrentUserId) {
-              message.type = 'sent';
-              console.log('sender');
-              console.log(message);
-              this.messages.splice(0, 0, message);
-            } else if (message.receiverId == this.CurrentUserId) {
-              message.type = 'received';
-              console.log('receiver');
-              console.log(message);
-              this.messages.splice(0, 0, message);
-            }
-
+          if (this.IsExist(element.id)) {
             //
+            var message = new Message();
+            message = element;
 
-          }  
+            this.messages.splice(0, 0, message);
+          }
         });
-        console.log(this.messages)
+        this.friendList[userIndex].messages = this.messages;
+        console.log(this.friendList[userIndex].messages)
       })
-      .catch(error =>{
+      .catch(error => {
 
       })
   }
 
   clickSendUser = (idUser) => {
-    console.log(idUser)
+    console.log(idUser);
     this.DestUserId = idUser;
+    var userIndex = this.getUserIndex(idUser);
+    this.UserIndex = userIndex;
+    this.MoreMessages(idUser, this.UserIndex);
   }
 
 }
+
+
+            // if (message.senderId == this.CurrentUserId) {
+            //   message.type = 'sent';
+            //   console.log('sender');
+            //   console.log(message);
+            //   this.messages.splice(0, 0, message);
+            // } else if (message.receiverId == this.CurrentUserId) {
+            //   message.type = 'received';
+            //   console.log('receiver');
+            //   console.log(message);
+            //   this.messages.splice(0, 0, message);
+            // }
+
+            //
