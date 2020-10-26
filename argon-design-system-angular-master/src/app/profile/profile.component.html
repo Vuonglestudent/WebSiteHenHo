@@ -20,7 +20,8 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image dropdown" style="display: block;">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img src="{{imgAvatar}}" class="rounded-circle">
+                  <img *ngIf="UserProfile.hasAvatar"src="data:image/gif;base64,{{UserProfile.avatarPath}}" class="rounded-circle">
+                  <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle">
                 </a>
                 <div id="changeAvatar" class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
                   <a href="javascript:;" class="dropdown-item">
@@ -44,19 +45,19 @@
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
                 <div>
-                  <span class="heading">{{friends}}</span>
+                  <span class="heading">{{UserProfile.numberOfFollowing}}</span>
                   <button class="btn-icon-card">
                     <span class="description"><i class="fa fa-user text-info"></i></span> <!--Danh sách bạn bè-->
                   </button>
                 </div>
                 <div>
-                  <span class="heading">{{imgArray}}</span>
+                  <span class="heading">{{UserProfile.numberOfImages}}</span>
                   <button class="btn-icon-card">
                     <span class="description"><i class="fa fa-camera text-dark"></i></span> <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
                 <div>
-                  <span class="heading">{{favourites}}</span>
+                  <span class="heading">{{UserProfile.numberOfFavoriting}}</span>
                   <button class="btn-icon-card" (click)="checkFavourite($event)">
                     <span span class="description"><i class="ni ni-favourite-28"></i></span> <!--Lượt yêu thích từ mọi người chưa yêu thích-->
                   </button>
@@ -66,9 +67,11 @@
           </div>
           <div class="text-center mt-5">
             <h3>{{nameUser}}
-              <span class="font-weight-light">- {{ageUser}}</span>
+              
             </h3>
-            <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-2"></i>{{addressUser}}</div>
+            <span class="font-weight-light">{{UserProfile.age}} Tuổi</span>
+            <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-2"></i>{{UserProfile.profile.location}}</div>
+
           </div>
           <div class="mt-5 py-5 border-top text-center">
             <div class="row justify-content-center">

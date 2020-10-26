@@ -27,22 +27,13 @@ export class SignalRService {
       })
   }
 
-  public addTransferChartDataListener = (currentUserId) => {
+  public addTransferChartDataListener = () => {
     this.hubConnection.on('transferData', (data) => {
       this.messageReceived.emit(data);
     });
   }
 
-  public moreMessages = (PageIndex: number, PageSize: number, SenderId: string, ReceiverId: string) => {
-    var query = `?PageIndex=${PageIndex}&PageSize=${PageSize}&SenderId=${SenderId}&ReceiverId=${ReceiverId}`;
-    var url = this.MainUrl + '/api/Chats/MoreMessages'+ query;
-    console.log(url);
-    var data = {
-      SenderId: SenderId,
-      ReceiverId: ReceiverId
-    }
-    return this.httpClient.get<any>(url).toPromise();
-  }
+
 
 
   constructor(

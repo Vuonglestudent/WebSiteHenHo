@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/common';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { AuthenticationService } from './signup/authentication.service';
+import { SignalRService } from './service/signal-r.service';
 
 var didScroll;
 var lastScrollTop = 0;
@@ -19,7 +20,12 @@ var navbarHeight = 0;
 export class AppComponent implements OnInit {
     private _router: Subscription;
 
-    constructor(private renderer: Renderer2, private router: Router, @Inject(DOCUMENT,) private document: any, private element: ElementRef, public location: Location, private authenticationService: AuthenticationService) { }
+    constructor(private renderer: Renderer2,
+        private router: Router, @Inject(DOCUMENT,) private document: any,
+        private element: ElementRef,
+        public location: Location,
+        private authenticationService: AuthenticationService,
+        public signalRService: SignalRService) { }
     @HostListener('window:scroll', ['$event'])
     hasScrolled() {
 
@@ -55,11 +61,25 @@ export class AppComponent implements OnInit {
     };
     ngOnInit() {
 
-        var user = JSON.parse(localStorage.getItem('UserInfo'))
-        if (user != null) {
-            if (user.token != null) {
-                this.authenticationService.IsLogin = true;
-                this.authenticationService.UserInfo = user;
+        this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
+        if (this.authenticationService.UserInfo != null) {
+            if (this.authenticationService.UserInfo.token != null) {
+                this.authenticationService.ValidateToken()
+                    .then(() => {
+                        this.authenticationService.IsLogin = true;
+                        console.log('Valid token')
+                        //this.signalRService.startConnection();
+                        
+                    })
+                    .catch(error => {
+                        if (error.status == 401) {
+                            console.log('Token Invalid');
+                            localStorage.clear();
+                            this.authenticationService.IsLogin = false;
+                            this.authenticationService.UserInfo = null;
+                        }
+                    })
+
             }
             else {
                 this.authenticationService.IsLogin = false;
@@ -67,15 +87,7 @@ export class AppComponent implements OnInit {
             }
         }
 
-        this.authenticationService.ValidateToken()
-            .then(() => console.log('Valid token'))
-            .catch(error => {
-                if (error.status == 401) {
-                    localStorage.clear();
-                    this.authenticationService.IsLogin = false;
-                    this.authenticationService.UserInfo = null;
-                }
-            })
+
 
 
         var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];

@@ -1,8 +1,12 @@
+import { UserDisplay } from './../Models/Models';
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '../Models/Models';
+import { Message, ChatFriend } from '../Models/Models';
 import { NgForm } from '@angular/forms';
+import { AuthenticationService } from '../signup/authentication.service';
+import { MessageService } from '../service/message.service';
+import { UsersService } from '../service/users.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,70 +18,77 @@ export class ChatComponent implements OnInit, AfterViewInit {
   constructor(
     public signalRService: SignalRService,
     private http: HttpClient,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private authenticationService: AuthenticationService,
+    private messageService: MessageService,
+    private usersService: UsersService,
   ) {
     this.subscribeToEvents();
-   }
+  }
 
   IsStarted = false;
 
-  public CurrentUserId = '';
+  public CurrentUserId = 'EC826AF8-0310-48CF-8A14-DA11BDB1C96D';
 
-  public DestUserId = "";
+  public DestUserId = "EC826AF8-0310-48CF-8A14-DA11BDB1C96E";
   public PageIndex = 1;
   public PageSize = 20;
   public From: string;
   public To: string;
+  public UserIndex = 0;
 
   SenderId: string;
   ReceiverId: string;
   txtMessage: string = '';
   messages = new Array<Message>();
   message = new Message();
+  friendList = new Array<ChatFriend>();
   
 
   ngOnInit(): void {
 
-    this.CurrentUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96d";
-    this.DestUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96e"
+    this.CurrentUserId = this.authenticationService.UserInfo.Id;
 
     this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener(this.CurrentUserId);
-    
-    //this.startHttpRequest();
-  }
-  ngAfterViewInit(): void {
-    this.PageIndex = 1;
-    this.messages = new Array<Message>();
-    this.MoreMessages();
-  }
+    this.signalRService.addTransferChartDataListener();
 
-  private startHttpRequest = () => {
-    this.ReceiverId = this.DestUserId;
-    this.SenderId = this.CurrentUserId;
-
-    var formdata = new FormData();
-    formdata.append("SenderId", this.SenderId);
-    formdata.append("ReceiverId", this.ReceiverId);
-    formdata.append("Content", this.txtMessage);
-    this.http.post('http://localhost:5000/api/chats', formdata)
-      .subscribe(res => {
-        console.log('this is res');
-        console.log(res);
+    this.messageService.GetFriendList(this.CurrentUserId)
+      .then(response => {
+        this.friendList = response;
+        console.log('this is friend list')
+        console.log(this.friendList);
+        this.PageIndex = 1;
+        this.messages = new Array<Message>();
+        this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
+      })
+      .catch(error => {
+        console.log('this is error');
+        console.log(error);
       });
   }
+  ngAfterViewInit(): void {
+
+  }
+
 
   sendMessage(): void {
-    if(this.CurrentUserId == "" || this.DestUserId == ""){
+    if (this.CurrentUserId == "" || this.DestUserId == "") {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
-    
+
     if (this.txtMessage != '') {
       this.message = new Message();
       this.messages.push(this.message);
 
-      this.startHttpRequest();
+      this.messageService.SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        });
+
       this.txtMessage = '';
     }
   }
@@ -85,25 +96,49 @@ export class ChatComponent implements OnInit, AfterViewInit {
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
+        console.log('this is res');
         console.log(response);
         var message = new Message();
-        message.Content = response.content;
-        message.SenderId = response.senderId;
-        message.ReceiverId = response.receiverId;
-        message.SentAt = response.sentAt;
-        message.Id = response.id;
+        message = response;
 
-        if (message.SenderId == this.CurrentUserId) {
-          message.Type = 'sent';
+        if (message.senderId == this.CurrentUserId) {
+          message.type = 'sent';
           console.log('sender');
+
+          var userIndex = this.getUserIndex(message.receiverId);
+
+          if (userIndex == -1) {
+            var newUser = new UserDisplay();
+            this.usersService.GetDisplayUser(message.receiverId)
+              .then(response=>{
+                newUser = response;
+              })
+              .catch(error =>{
+                alert("Can not get display user");
+                return;
+              })
+          }
+
           this.messages.push(message);
-        } else if (message.ReceiverId == this.CurrentUserId) {
-          message.Type = 'received';
+        } else if (message.receiverId == this.CurrentUserId) {
+          message.type = 'received';
           console.log('receiver');
           this.messages.push(message);
         } else {
           console.log("nothing!");
         }
+
+        // if (message.senderId == this.CurrentUserId) {
+        //   message.type = 'sent';
+        //   console.log('sender');
+        //   this.messages.push(message);
+        // } else if (message.receiverId == this.CurrentUserId) {
+        //   message.type = 'received';
+        //   console.log('receiver');
+        //   this.messages.push(message);
+        // } else {
+        //   console.log("nothing!");
+        // }
 
       })
 
@@ -111,8 +146,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onSubmit(f: NgForm){
-    if(f.value.From == "" || f.value.To == ""){
+  onSubmit(f: NgForm) {
+    if (f.value.From == "" || f.value.To == "") {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
@@ -123,57 +158,51 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   IsExist = (messageId: number) => {
     this.messages.forEach(element => {
-      if(element.Id == messageId){
+      if (element.id == messageId) {
         return false;
       }
     });
     return true;
   }
 
-  MoreMessages = () =>{
-    this.signalRService.moreMessages(this.PageIndex, this.PageSize, this.CurrentUserId, this.DestUserId)
-      .then(data =>{
-        console.log(data);
-        this.PageIndex += 1;
+  getUserIndex = (userId: string) => {
+    var index = -1;
+    for (let i = 0; i < this.friendList.length; i++) {
+      if (this.friendList[i].user.id == userId) {
+        return i;
+      }
+    }
+  }
 
+  MoreMessages = (userId: string, userIndex: number) => {
+    this.messageService.moreMessages(1, this.PageSize, this.CurrentUserId, userId)
+      .then(data => {
+        //console.log(data);
+        //this.PageIndex += 1;
+        this.messages = new Array<Message>();
         data.forEach(element => {
-          if(this.IsExist(element.id)){
-            //            
-            var message = new Message();
-            message.Content = element.content;
-            message.SenderId = element.senderId;
-            message.ReceiverId = element.receiverId;
-            message.SentAt = element.sentAt;
-            message.Id = element.id;
-    
-            if (message.SenderId == this.CurrentUserId) {
-              message.Type = 'sent';
-              console.log('sender');
-              console.log(message);
-              this.messages.splice(0, 0, message);
-            } else if (message.ReceiverId == this.CurrentUserId) {
-              message.Type = 'received';
-              console.log('receiver');
-              console.log(message);
-              this.messages.splice(0, 0, message);
-            }
-
+          if (this.IsExist(element.id)) {
             //
+            var message = new Message();
+            message = element;
 
-          }  
+            this.messages.splice(0, 0, message);
+          }
         });
-        console.log(this.messages)
+        this.friendList[userIndex].messages = this.messages;
+        console.log(this.friendList[userIndex].messages)
       })
-      .catch(error =>{
+      .catch(error => {
 
       })
   }
 
-
   clickSendUser = (idUser) => {
-    console.log(idUser)
+    console.log(idUser);
     this.DestUserId = idUser;
-    console.log(this.messages)
+    var userIndex = this.getUserIndex(idUser);
+    this.UserIndex = userIndex;
+    this.MoreMessages(idUser, this.UserIndex);
   }
 
   breakRow = (e) => {
@@ -186,3 +215,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
     console.log(msg);
   }
 }
+
+
+            // if (message.senderId == this.CurrentUserId) {
+            //   message.type = 'sent';
+            //   console.log('sender');
+            //   console.log(message);
+            //   this.messages.splice(0, 0, message);
+            // } else if (message.receiverId == this.CurrentUserId) {
+            //   message.type = 'received';
+            //   console.log('receiver');
+            //   console.log(message);
+            //   this.messages.splice(0, 0, message);
+            // }
+
+            //

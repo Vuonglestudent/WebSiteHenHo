@@ -52,8 +52,8 @@ export class UsersService {
 
   public GetById = (userId:string) =>{
     var path = `/${userId}`;
-    
-    return this.http.get<any>(this.mainUrl + path).toPromise();
+    var headers = this.authenticationService.GetHeader();
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
 
   public GetFollowers = (userId: string) =>{
@@ -80,6 +80,13 @@ export class UsersService {
   public GetNewUsers = (pageIndex:number, pageSize: number) =>{
     let headers = this.authenticationService.GetHeader();
     var path = `/newUsers?PageIndex=${pageIndex}&pageSize=${pageSize}`;
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
+
+  public GetDisplayUser = (userId: string) =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = `/display/${userId}`;
 
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
