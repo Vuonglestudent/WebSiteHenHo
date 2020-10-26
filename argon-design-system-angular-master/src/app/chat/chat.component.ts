@@ -34,11 +34,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
   txtMessage: string = '';
   messages = new Array<Message>();
   message = new Message();
+  
 
   ngOnInit(): void {
 
-    this.CurrentUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96e";
-    this.DestUserId 
+    this.CurrentUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96d";
+    this.DestUserId = "ec826af8-0310-48cf-8a14-da11bdb1c96e"
 
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener(this.CurrentUserId);
@@ -172,6 +173,16 @@ export class ChatComponent implements OnInit, AfterViewInit {
   clickSendUser = (idUser) => {
     console.log(idUser)
     this.DestUserId = idUser;
+    console.log(this.messages)
   }
 
+  breakRow = (e) => {
+    var message = e.target
+    this.txtMessage = this.txtMessage + "\n"
+    message.setAttribute('value' , `${this.txtMessage}`)   
+  }
+
+  convertMessage = (msg) => {
+    console.log(msg);
+  }
 }

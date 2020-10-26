@@ -134,7 +134,7 @@
           </div>
           <!-- Thuc te -->
           <div *ngFor="let msg of messages">
-            <div class="d-flex justify-content-start mb-4">
+            <div class="d-flex justify-content-start mb-4" style="margin-right: 40%;">
               <div class="incoming_msg" *ngIf="msg.Type == 'received'">
                 <div class="received_msg">
                   <div class="msg_cotainer">
@@ -146,9 +146,9 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-end mb-4">
+            <div class="d-flex justify-content-end mb-4" style="margin-left: 40%;">
               <div class="" *ngIf="msg.Type == 'sent'">
-                <div class="msg_cotainer_send">
+                <div class="msg_cotainer_send" (loadstart)="convertMessage(msg.Content)">
                   {{msg.Content}}
                 </div>
                 <span class="msg_time text-dark"> {{msg.SentAt | date:'medium'}}</span>
@@ -166,7 +166,7 @@
               <span class="input-group-text attach_btn"><i class="ni ni-camera-compact"></i></span>
             </div>
             <textarea name="" class="form-control type_msg" [value]="txtMessage"
-              (input)="txtMessage=$event.target.value" (keydown.enter)="sendMessage()"
+              (input)="txtMessage=$event.target.value" (keyup.enter)="sendMessage()" (keyup.alt.enter)="breakRow($event)"
               placeholder="Type a message"></textarea>
             <div class="input-group-append">
               <span class="input-group-text send_btn"><i class="ni ni-favourite-28 text-danger"></i></span>
