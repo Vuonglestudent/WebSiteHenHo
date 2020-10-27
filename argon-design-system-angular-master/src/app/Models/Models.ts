@@ -40,21 +40,23 @@ export class User {
     numberOfFavoritors: number;
     numberOfImages: number;
     followed: boolean;
-    favorited: boolean; 
+    favorited: boolean;
     blocked: boolean;
     isInfoUpdated: number;
     token?: any;
     profile: Profile;
+
+
 }
 
-export class SocialUser{
-    provider: string;  
-    id: string;  
+export class SocialUser {
+    provider: string;
+    id: string;
     photoUrl: string;
-    email: string;  
-    name: string;  
-    token?: string;  
-    idToken?: string;  
+    email: string;
+    name: string;
+    token?: string;
+    idToken?: string;
 }
 
 export class UserDisplay {
@@ -84,4 +86,26 @@ export class Message {
 export class ChatFriend {
     user: UserDisplay;
     messages: Message[];
+}
+
+export class ProfileData {
+    atmosphereLike: string[];
+    body: string[];
+    character: string[];
+    drinkBeer: string[];
+    education: string[];
+    favoriteMovie: string[];
+    gender: string[];
+    iAm: string[];
+    job: string[];
+    lifeStyle: string[];
+    location: string[];
+    marriage: string[];
+    mostValuable: string[];
+    operationType: string[];
+    religion: string[];
+    smoking: string[];
+    target: string[];
+    typeAccount: string[];
+    userStatus: string[];
 }

@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
             .then(data =>{
                 this.UserProfile = data;
                 console.log(this.UserProfile);
+                this.replaceCharacter(this.UserProfile);
+                console.log(this.UserProfile);
             })
             .catch(error =>{
                 alert("không lấy được không tin!");
@@ -60,4 +62,23 @@ export class ProfileComponent implements OnInit {
             this.friends = this.friends - 1;
         }
     }
+
+    replaceCharacter = (userProfile: User) => {
+        userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
+        userProfile.profile.iAm = userProfile.profile.iAm.replace(/_/g, " ");
+        userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
+        userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
+        userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
+        userProfile.profile.target = userProfile.profile.target.replace(/_/g, " ");
+        userProfile.profile.education = userProfile.profile.education.replace(/_/g, " ");
+        userProfile.profile.body = userProfile.profile.body.replace(/_/g, " ");
+        userProfile.profile.character = userProfile.profile.character.replace(/_/g, " ");
+        userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/_/g, " ");
+        userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/_/g, " ");
+        userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
+        userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/_/g, " ");
+        userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/_/g, " ");
+        userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
+        userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
+    };
 }

@@ -90,4 +90,11 @@ export class UsersService {
 
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
+
+  public GetProfileData = () =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = '/features';
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
 }
