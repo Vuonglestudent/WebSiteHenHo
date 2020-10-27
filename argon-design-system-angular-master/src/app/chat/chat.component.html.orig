@@ -56,7 +56,7 @@
   <div class="row justify-content-start">
     <div class="col-md-5 col-xl-3 chat" style="padding-left: 0px; padding-right: 0px;">
       <div class="card mb-sm-3 mb-md-0 contacts_card">
-        <div class="card-header">
+        <div class="card-header" style="border-bottom: none;">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text search_btn"><i class="fa fa-search"></i></span>
@@ -65,21 +65,19 @@
               style="color: whitesmoke; height: auto;">
           </div>
         </div>
-        <div class="contacts_body">
+        <div *ngFor="let friend of friendList" class="contacts_body">
           <ul class="contacts">
-            <li *ngFor="let friend of friendList" (click)="clickSendUser(friend.user.id, friend.user.fullName)"
-              style="cursor: pointer;">
-              <div id="DestUserId_{{friend.user.id}}" class="d-flex bd-highlight">
-                <div class="d-flex img_cont" style="padding-left: 15px;">
-                  <img *ngIf="!friend.user.hasAvatar" src="friend.user.avatarPath"
-                    class="rounded-circle user_img align-self-center">
+            <li class="active">
+              <div class="d-flex bd-highlight" (click)="clickSendUser(friend.user.id)">
+                <div class="img_cont">
+                  <img *ngIf="!friend.user.hasAvatar" src="friend.user.avatarPath" class="rounded-circle user_img">
                   <img *ngIf="friend.user.hasAvatar" src="data:image/gif;base64,{{friend.user.avatarPath}}"
-                    class="rounded-circle user_img align-self-center">
+                    class="rounded-circle user_img">
                   <!-- <span class="online_icon"></span> -->
                 </div>
                 <div class="user_info">
                   <span>{{friend.user.fullName}}</span>
-                  <p class="limit-title">{{friend.messages[friend.messages.length - 1].content}}</p>
+                  <p>{{friend.messages[friend.messages.length - 1].content}}</p>
                 </div>
               </div>
             </li>
@@ -96,8 +94,8 @@
               <!-- <span class="online_icon"></span> -->
             </div>
             <div class="user_info">
-              <span>{{nameReceiver}}</span>
-              <!-- <p>1767 Messages</p> -->
+              <span>Chat with Khalid</span>
+              <p>1767 Messages</p>
             </div>
             <div class="video_cam">
               <span><i class="fa fa-video"></i></span>
@@ -115,43 +113,65 @@
             </div>
           </div>
         </div>
-        <div id="contentMessage" class="card-body msg_card_body" (scroll)="onScroll()">
+        <div class="card-body msg_card_body">
           <!-- nguoi gui -->
-          <!-- <div class="d-flex justify-content-end mb-4">
+          <div class="d-flex justify-content-end mb-4">
             <div class="msg_cotainer_send">
               Ok, thank you have a good day
               <span class="msg_time_send">9:10 AM, Today</span>
             </div>
-          </div> -->
-          <!-- nguoi nhan -->
-          <!-- <div class="d-flex justify-content-start mb-4">
+
+          </div>
+          
+          <div class="d-flex justify-content-start mb-4">
             <div class="img_cont_msg">
               <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+
+              
             </div>
             <div class="msg_cotainer">
               Bye, see you
               <span class="msg_time">9:12 AM, Today</span>
             </div>
-          </div> -->
+          </div>
           <!-- Thuc te -->
+<<<<<<< HEAD
+          <div *ngFor="let msg of messages">
+            <div class="d-flex justify-content-start mb-4" style="margin-right: 40%;">
+              <div class="incoming_msg" *ngIf="msg.Type == 'received'">
+=======
           <div *ngFor="let msg of friendList[UserIndex].messages">
-            <div *ngIf="msg.type == 'received'" class="d-flex justify-content-start mb-4 row" style="margin-right: 48%;">
-              <div class="d-flex img_cont_msg align-self-end" style="min-width: 40px;">
-                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                  class="rounded-circle user_img_msg ">
-              </div>
-              <div style="min-width: 130px;max-width: 90%;" class="msg_cotainer">
-                {{msg.content}}
-                <span class="msg_time text-dark"> {{msg.sentAt | date:'medium'}} </span>
-              </div>
+            <div style="width:30%;margin-top: 3%;" *ngIf="msg.type == 'received'" class="msg_cotainer">
+              {{msg.content}}
+              <span class="msg_time text-dark"> {{msg.sentAt | date:'medium'}} </span>
             </div>
+            <!-- <div *ngIf="msg.type == 'received'" class="d-flex justify-content-start mb-4">
+              <div class="incoming_msg">
+>>>>>>> 08be7ce481b62f1f55ddfcb722d38d78ca3fa7b5
+                <div class="received_msg">
+                  <div class="msg_cotainer">
+                    <p>
+                      {{msg.content}}
+                    </p>
+                    <span class="time_date"> {{msg.sentAt | date:'medium'}} </span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
             <div *ngIf="msg.type == 'sent'" class="d-flex justify-content-end mb-4">
-              <div style="margin-left: 48%; min-width: 130px;" class="msg_cotainer_send">
+              <div style="width:30%" class="msg_cotainer_send">
                 {{msg.content}}
-                <span style="width: 100%;" class="d-flex justify-content-end msg_time text-dark">
-                  {{msg.sentAt | date:'medium'}}</span>
+                <span style="width:100%" class="msg_time text-dark"> {{msg.sentAt | date:'medium'}}</span>
               </div>
+              
             </div>
+<<<<<<< HEAD
+            <div class="d-flex justify-content-end mb-4" style="margin-left: 40%;">
+              <div class="" *ngIf="msg.Type == 'sent'">
+                <div class="msg_cotainer_send" (loadstart)="convertMessage(msg.Content)">
+                  {{msg.Content}}
+=======
+
             <!-- <div class="incoming_msg" *ngIf="msg.type == 'received'">
               <div class="incoming_msg_img"> </div>
               <div class="received_msg">
@@ -160,6 +180,7 @@
                     {{msg.content}}
                   </p>
                   <span class="time_date"> {{msg.sentAt | date:'medium'}} </span>
+>>>>>>> 08be7ce481b62f1f55ddfcb722d38d78ca3fa7b5
                 </div>
               </div>
             </div>
@@ -183,8 +204,8 @@
               <span class="input-group-text attach_btn"><i class="ni ni-camera-compact"></i></span>
             </div>
             <textarea name="" class="form-control type_msg" [value]="txtMessage"
-              (input)="txtMessage=$event.target.value" (keyup.enter)="sendMessage()"
-              (keyup.alt.enter)="breakRow($event)" placeholder="Type a message"></textarea>
+              (input)="txtMessage=$event.target.value" (keyup.enter)="sendMessage()" (keyup.alt.enter)="breakRow($event)"
+              placeholder="Type a message"></textarea>
             <div class="input-group-append">
               <span class="input-group-text send_btn"><i class="ni ni-favourite-28 text-danger"></i></span>
             </div>
