@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { UsersService } from '../service/users.service';
+import {User} from '../Models/Models';
+import { AuthenticationService } from '../signup/authentication.service';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -16,9 +18,24 @@ export class ProfileComponent implements OnInit {
     imgArray = 10
     friends = 22
     
-    constructor() { }
+    public UserProfile: User = new User();
 
-    ngOnInit() {}
+    constructor(
+        private usersService: UsersService,
+        private authenticationService: AuthenticationService
+    ) { }
+
+    ngOnInit() {
+        this.usersService.GetById(this.authenticationService.UserInfo.Id)
+            .then(data =>{
+                this.UserProfile = data;
+                console.log(this.UserProfile);
+            })
+            .catch(error =>{
+                alert("không lấy được không tin!");
+                console.log(error);
+            })
+    }
 
     checkFavourite = (e) => {
         var target = e.target;

@@ -14,7 +14,7 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
 
 const routes: Routes =[
     { path: 'home',             component: HomeComponent },
-    { path: 'user-profile',     component: ProfileComponent },
+    { path: 'profile',     component: ProfileComponent },
     { path: 'register',           component: SignupComponent },
     { path: 'landing',          component: LandingComponent },
     { path: 'login',          component: LoginComponent },

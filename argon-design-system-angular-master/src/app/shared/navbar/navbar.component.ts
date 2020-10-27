@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit {
     }
 
     clickMyProfile = () => {
-        
+        this.router.navigateByUrl('/profile');
     }
     ngAfterViewInit(): void {
 

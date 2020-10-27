@@ -4,6 +4,7 @@ export class Profile {
     weight: number;
     height: number;
     dob: Date;
+    age: number;
     iAm: string;
     job: string;
     location: string;
@@ -39,7 +40,8 @@ export class User {
     numberOfFavoritors: number;
     numberOfImages: number;
     followed: boolean;
-    favorited: boolean;
+    favorited: boolean; 
+    blocked: boolean;
     isInfoUpdated: number;
     token?: any;
     profile: Profile;
