@@ -66,24 +66,87 @@
             </div>
           </div>
           <div class="text-center mt-5">
-            <h3>{{nameUser}}
+            <h3>{{UserProfile.fullName}}
               
             </h3>
             <span class="font-weight-light">{{UserProfile.age}} Tuổi</span>
             <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-2"></i>{{UserProfile.profile.location}}</div>
+            <br>
+            <div class="h6 font-weight-300"><i class="fa fa-info-circle"></i> - {{UserProfile.summary}}</div>
 
           </div>
           <div class="mt-5 py-5 border-top text-center">
             <div class="row justify-content-center">
               <div class="col-lg-9">
+                <div class="h6 font-weight-300"><b>{{UserProfile.profile.title}}</b></div>
                 <table class="table">
                   <tr>
-                    <th class="text-left">Công việc</th>
-                    <td class="text-left">Sinh vien</td>
+                    <th class="text-left">Tôi là: </th>
+                    <td class="text-left">{{UserProfile.profile.iAm}}</td>
                   </tr>
                   <tr>
-                    <th class="text-left">Công việc</th>
-                    <td class="text-left">Sinh vien</td>
+                    <th class="text-left">Nơi ở:</th>
+                    <td class="text-left">{{UserProfile.profile.location}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Sinh nhật:</th>
+                    <td class="text-left">{{UserProfile.profile.dob}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Dáng người:</th>
+                    <td class="text-left">{{UserProfile.profile.body}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Chiều cao:</th>
+                    <td class="text-left">{{UserProfile.profile.height}}cm</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Cân nặng:</th>
+                    <td class="text-left">{{UserProfile.profile.weight}}kg</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Công việc:</th>
+                    <td class="text-left">{{UserProfile.profile.job}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Mục tiêu:</th>
+                    <td class="text-left">{{UserProfile.profile.target}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Học vấn:</th>
+                    <td class="text-left">{{UserProfile.profile.education}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Tính cách:</th>
+                    <td class="text-left">{{UserProfile.profile.character}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Cách sống:</th>
+                    <td class="text-left">{{UserProfile.profile.lifeStyle}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Điều quan trọng nhất:</th>
+                    <td class="text-left">{{UserProfile.profile.mostValuable}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Tôn giáo:</th>
+                    <td class="text-left">{{UserProfile.profile.religion}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Thể loại phim yêu thích:</th>
+                    <td class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Thích không khí:</th>
+                    <td class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Hút thuốc:</th>
+                    <td class="text-left">{{UserProfile.profile.smoking}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Uống bia:</th>
+                    <td class="text-left">{{UserProfile.profile.drinkBeer}}</td>
                   </tr>
                 </table>
               </div>
