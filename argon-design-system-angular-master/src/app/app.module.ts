@@ -30,6 +30,7 @@ import {
 import { FriendListComponent } from './friend-list/friend-list.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { CommonModule } from '@angular/common';
+import { SeenImageComponent } from './seen-image/seen-image.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { CommonModule } from '@angular/common';
     FriendListComponent,
     ChatComponent,
     ChangePasswordComponent,
-    HomeComponent
+    HomeComponent,
+    SeenImageComponent
   ],
   imports: [
     BrowserModule,

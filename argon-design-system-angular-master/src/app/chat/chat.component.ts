@@ -169,6 +169,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.MoreMessages(this.DestUserId, this.UserIndex)
     }
   }
+
   MoreMessages = (userId: string, userIndex: number) => {
     this.messageService.moreMessages(this.MessageIndex, this.PageSize, this.CurrentUserId, userId)
       .then(data => {
@@ -207,7 +208,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser
-
     this.MessageIndex = 1;
   }
 
