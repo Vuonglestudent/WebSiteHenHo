@@ -92,7 +92,7 @@
                     <tr>
                       <th scope="row" class="text-left">Tìm kiếm</th>
                       <td *ngIf="btnEdit == 1" class="text-left"><span>{{UserProfile.profile.iAm}}</span></td>
-                      <td *ngIf="btnEdit == 0" class="d-flex">
+                      <td *ngIf="btnEdit == 0" class="d-flex radioProfile">
                         <div class="d-flex align-items-center" style="width: 50%;">
                           <input *ngIf="UserProfile.profile.iAm == 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio"
                             name="searchObject" value="Nam Tìm Nữ" checked>
@@ -162,47 +162,113 @@
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Công việc</th>
-                      <td class="text-left">{{UserProfile.profile.job}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.job}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.job}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Mục tiêu</th>
-                      <td class="text-left">{{UserProfile.profile.target}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.target}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.target}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Học vấn</th>
-                      <td class="text-left">{{UserProfile.profile.education}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.education}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.education}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Tính cách</th>
-                      <td class="text-left">{{UserProfile.profile.character}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.character}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.character}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Cách sống</th>
-                      <td class="text-left">{{UserProfile.profile.lifeStyle}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.lifeStyle}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.lifeStyle}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Điều quan trọng nhất</th>
-                      <td class="text-left">{{UserProfile.profile.mostValuable}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.mostValuable}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.mostValuable}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Tôn giáo</th>
-                      <td class="text-left">{{UserProfile.profile.religion}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.religion}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.religion}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Thể loại phim yêu thích</th>
-                      <td class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.favoriteMovie}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Thích không khí</th>
-                      <td class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.atmosphereLike}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Hút thuốc</th>
-                      <td class="text-left">{{UserProfile.profile.smoking}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.smoking}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.smoking}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-left">Uống bia</th>
-                      <td class="text-left">{{UserProfile.profile.drinkBeer}}</td>
+                      <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.drinkBeer}}</td>
+                      <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <select name="bodyUser" id="bodyUser" class="placeSelect">
+                          <option value="" disabled selected hidden>{{UserProfile.profile.drinkBeer}}</option>
+                          <option *ngFor="let item of arrayNumbers(100, 30)" value="">{{item}}cm</option>
+                        </select>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

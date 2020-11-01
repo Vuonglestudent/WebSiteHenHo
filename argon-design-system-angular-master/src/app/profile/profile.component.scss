@@ -53,25 +53,28 @@ label {
   color: black;
 }
 
-.placeSelect:focus, .dobUser:focus, button:focus {
+.placeSelect:focus,
+.dobUser:focus,
+button:focus {
   outline: 0;
 }
 
 .placeSelect:hover,
-.placeSelect:focus {
+.placeSelect:focus,
+.radioProfile:hover,
+.dobUser:hover {
   background-color: beige;
-  .table-hover-profile tr {
-    background-color: beige;
-  }
   option {
     background-color: white;
   }
 }
 
 .dobUser {
-    width: 100%;
-    border: none;
-    padding-left: 1rem;
+  width: 100%;
+  border: none;
+  padding-left: 1rem;
 }
 
-
+.radioProfile {
+  background-color: white;
+}
