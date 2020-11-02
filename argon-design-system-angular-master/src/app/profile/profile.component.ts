@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UsersService } from '../service/users.service';
-import {User} from '../Models/Models';
+import { User } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
 @Component({
     selector: 'app-profile',
@@ -14,10 +14,10 @@ export class ProfileComponent implements OnInit {
     ageUser = '20'
     addressUser = 'Đường số 8, Linh Trung, Thủ đức'
     imgAvatar = "./assets/img/theme/team-3-800x800.jpg"
-    favourites = 12
     imgArray = 10
     friends = 22
-    
+    btnEdit = 1
+
     public UserProfile: User = new User();
 
     constructor(
@@ -27,13 +27,13 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.usersService.GetById(this.authenticationService.UserInfo.Id)
-            .then(data =>{
+            .then(data => {
                 this.UserProfile = data;
                 console.log(this.UserProfile);
                 this.replaceCharacter(this.UserProfile);
                 console.log(this.UserProfile);
             })
-            .catch(error =>{
+            .catch(error => {
                 alert("không lấy được không tin!");
                 console.log(error);
             })
@@ -41,18 +41,19 @@ export class ProfileComponent implements OnInit {
 
     checkFavourite = (e) => {
         var target = e.target;
+        console.log(target)
         if (target.className == 'ni ni-favourite-28') {
-            target.setAttribute('class' , 'ni ni-favourite-28 text-danger')
-            this.favourites = this.favourites + 1;
+            target.setAttribute('class', 'ni ni-favourite-28 text-danger')
+            this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting + 1;
         } else {
-            target.setAttribute('class' , 'ni ni-favourite-28')
-            this.favourites = this.favourites - 1;
+            target.setAttribute('class', 'ni ni-favourite-28')
+            this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting - 1;
         }
     }
 
     clickFollow = (e) => {
         var target = e.target;
-        if (target.innerHTML == 'Theo dõi'){
+        if (target.innerHTML == 'Theo dõi') {
             target.className = 'btn btn-sm btn-danger mr-4';
             target.innerHTML = 'Hủy theo dõi';
             this.friends = this.friends + 1;
@@ -81,4 +82,12 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
     };
+
+    clickEdit = () => {
+        this.btnEdit = 0
+    }
+
+    arrayNumbers(n: number, startFrom: number): number[] {
+        return [...Array(n).keys()].map(i => i + startFrom);
+      }
 }

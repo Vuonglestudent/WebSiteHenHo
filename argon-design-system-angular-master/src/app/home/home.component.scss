@@ -54,33 +54,33 @@
 }
 
 .text-box {
-    float: left;
-    width: 100%;
-    height: auto;
-    margin-bottom: 1px;
-    padding-bottom: 2px;
-    background-color: blueviolet;
-    border-radius: 10px 10px 0px 0px;
+  float: left;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1px;
+  padding-bottom: 2px;
+  background-color: blueviolet;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .form-search {
-    width: 100%;
-    border: 1px black solid;
-    border-top: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-    padding-bottom: 15px;
-    border-radius: 0px 0px 10px 10px;
+  width: 100%;
+  border: 1px black solid;
+  border-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .form-control {
-    padding-top: 1px;
-    padding-bottom: 1px;
-    height: calc(2.5rem + 4px);
-    width: 80%;
-    margin-bottom: 10px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  height: calc(2.5rem + 4px);
+  width: 80%;
+  margin-bottom: 10px;
 }
 
 .limit-title {
@@ -99,9 +99,8 @@
   -webkit-box-orient: vertical;
 }
 
-
 .gallery {
-  background: #EEE;
+  background: #eee;
 }
 
 .gallery-cell {
@@ -128,28 +127,58 @@
   padding: 0%;
 }
 
-button:focus {outline:0;}
+button:focus {
+  outline: 0;
+}
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: 'sans-serif';
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "sans-serif";
   font-weight: 600;
 }
-.icon-hover{
+.icon-hover {
   padding-bottom: 15%;
   margin-bottom: 8%;
-
 }
 
-.btn-icon-card:hover{
-  font-size:150%;
+.btn-icon-card:hover {
+  font-size: 150%;
   padding-bottom: 0%;
 }
-.card:hover{
+.card:hover {
   background-color: #f0e1f7;
   transition: 0.5s;
   box-shadow: 1px 8px 20px grey;
-  -webkit-transition:  box-shadow .2s ease-in;
-  .btn-icon-card{
+  -webkit-transition: box-shadow 0.2s ease-in;
+  .btn-icon-card {
     background-color: #f0e1f7;
+  }
+}
+
+.dropbtn:hover {
+  background-color: beige;
+  option {
+    background-color: white;
+  }
+}
+
+.dropbtn {
+  option {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
+    border: 0.0625rem solid #dee2e6;
   }
 }
