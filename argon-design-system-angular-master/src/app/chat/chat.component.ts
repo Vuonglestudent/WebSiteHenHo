@@ -95,7 +95,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
-        console.log('this is res');
+        console.log('Nhận tin nhắn');
         console.log(response);
         var message = new Message();
         message = response;
@@ -104,13 +104,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
           message.type = 'sent';
           console.log('sender');
 
-          var userIndex = this.getUserIndex(message.receiverId);
+          
+          
+          this.messages.push(message);
+        } else if (message.receiverId == this.CurrentUserId) {
+          message.type = 'received';
+          console.log('receiver');
 
+          var userIndex = this.getUserIndex(message.senderId);
           if (userIndex == -1) {
-            var newUser = new UserDisplay();
-            this.usersService.GetDisplayUser(message.receiverId)
+            console.log('Một user mới');
+            this.messageService.GetChatFriend(this.CurrentUserId, message.senderId)
               .then(response=>{
-                newUser = response;
+                var newFriend = new ChatFriend();
+                newFriend = response;
+                console.log('this is response');
+                console.log(newFriend);
+                this.friendList.push(newFriend);
+                return;
               })
               .catch(error =>{
                 alert("Can not get display user");
@@ -118,10 +129,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
               })
           }
 
-          this.messages.push(message);
-        } else if (message.receiverId == this.CurrentUserId) {
-          message.type = 'received';
-          console.log('receiver');
+
           this.messages.push(message);
         } else {
           console.log("nothing!");
@@ -167,10 +175,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
   getUserIndex = (userId: string) => {
     var index = -1;
     for (let i = 0; i < this.friendList.length; i++) {
+      console.log(this.friendList[i].user.id);
       if (this.friendList[i].user.id == userId) {
         return i;
       }
     }
+    return index;
   }
 
   MoreMessages = (userId: string, userIndex: number) => {
