@@ -93,8 +93,7 @@ export class UsersService {
 
   public GetProfileData = () =>{
     let headers = this.authenticationService.GetHeader();
-    var path = '/features';
-
-    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+    var path = "http://localhost:5000/api/Profiles/features";
+    return this.http.get<any>(path, {headers: headers}).toPromise();
   }
 }
