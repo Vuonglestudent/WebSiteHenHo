@@ -62,8 +62,10 @@
                 </div>
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
-                  <button class="btn-icon-card">
-                    <span class="description"><i class="fa fa-camera text-dark"></i></span>
+                  <button class="btn-icon-card" id="{{UserProfile.avatarPath}}" onclick="selectImage(id)">
+                    <span class="description">
+                      <i class="fa fa-camera text-dark"></i>
+                    </span>
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
@@ -117,7 +119,8 @@
                       <tr *ngIf="btnEdit == 0">
                         <th scope="row" class="text-left">Tiêu đề hồ sơ</th>
                         <td style="padding: 0px;">
-                          <input style="width:100%" [ngModel]="UserProfile.profile.title" type="text" name="title"
+                          <input style="width:100%" [(ngModel)]="UserProfile.profile.title"
+                            [ngModelOptions]="{standalone: true}" type="text" name="title"
                             value="{{UserProfile.profile.title}}">
                         </td>
                       </tr>
@@ -125,7 +128,8 @@
                       <tr *ngIf="btnEdit == 0">
                         <th scope="row" class="text-left">Tóm tắt bản thân</th>
                         <td style="padding: 0px;">
-                          <textarea style="width:100%" [ngModel]="UserProfile.summary" name='summary'
+                          <textarea style="width:100%" [(ngModel)]="UserProfile.summary"
+                            [ngModelOptions]="{standalone: true}" name='summary'
                             value="{{UserProfile.summary}}">{{UserProfile.summary}}</textarea>
                         </td>
                       </tr>
@@ -135,17 +139,21 @@
                         <td *ngIf="btnEdit == 1" class="text-left"><span>{{UserProfile.gender}}</span></td>
                         <td *ngIf="btnEdit == 0" class="d-flex radioProfile">
                           <div class="d-flex align-items-center" style="width: 50%;">
-                            <input [ngModel]="UserProfile.gender" *ngIf="UserProfile.gender == 'Nam'" class="mr-2 ml-3"
-                              type="radio" name="gender" value="Nam" checked>
-                            <input [ngModel]="UserProfile.gender" *ngIf="UserProfile.gender != 'Nam'" class="mr-2 ml-3"
-                              type="radio" name="gender" value="Nam">
+                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.gender == 'Nam'" class="mr-2 ml-3" type="radio" name="gender"
+                              value="Nam" checked>
+                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.gender != 'Nam'" class="mr-2 ml-3" type="radio" name="gender"
+                              value="Nam">
                             <label for="">Nam</label>
                           </div>
                           <div class="d-flex align-items-center">
-                            <input [ngModel]="UserProfile.gender" *ngIf="UserProfile.profile.gender == 'Nữ'"
-                              class="mr-2 ml-3" type="radio" name="gender" value="Nữ" checked>
-                            <input [ngModel]="UserProfile.gender" *ngIf="UserProfile.profile.gender != 'Nữ'"
-                              class="mr-2 ml-3" type="radio" name="gender" value="Nữ">
+                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.gender == 'Nữ'" class="mr-2 ml-3" type="radio" name="gender"
+                              value="Nữ" checked>
+                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.gender != 'Nữ'" class="mr-2 ml-3" type="radio" name="gender"
+                              value="Nữ">
                             <label for="">Nữ</label>
                           </div>
                         </td>
@@ -156,17 +164,21 @@
                         <td *ngIf="btnEdit == 1" class="text-left"><span>{{UserProfile.profile.iAm}}</span></td>
                         <td *ngIf="btnEdit == 0" class="d-flex radioProfile">
                           <div class="d-flex align-items-center" style="width: 50%;">
-                            <input [ngModel]="UserProfile.profile.iAm" *ngIf="UserProfile.profile.iAm == 'Nam Tìm Nữ'"
-                              class="mr-2 ml-3" type="radio" name="iAm" value="Nam Tìm Nữ" checked>
-                            <input [ngModel]="UserProfile.profile.iAm" *ngIf="UserProfile.profile.iAm != 'Nam Tìm Nữ'"
-                              class="mr-2 ml-3" type="radio" name="iAm" value="Nam Tìm Nữ">
+                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.iAm == 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio" name="iAm"
+                              value="Nam Tìm Nữ" checked>
+                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.iAm != 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio" name="iAm"
+                              value="Nam Tìm Nữ">
                             <label for="">Nam Tìm Nữ</label>
                           </div>
                           <div class="d-flex align-items-center">
-                            <input [ngModel]="UserProfile.profile.iAm" *ngIf="UserProfile.profile.iAm == 'Nữ Tìm Nam'"
-                              class="mr-2 ml-3" type="radio" name="iAm" value="Nữ Tìm Nam" checked>
-                            <input [ngModel]="UserProfile.profile.iAm" *ngIf="UserProfile.profile.iAm != 'Nữ Tìm Nam'"
-                              class="mr-2 ml-3" type="radio" name="iAm" value="Nữ Tìm Nam">
+                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.iAm == 'Nữ Tìm Nam'" class="mr-2 ml-3" type="radio" name="iAm"
+                              value="Nữ Tìm Nam" checked>
+                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.iAm != 'Nữ Tìm Nam'" class="mr-2 ml-3" type="radio" name="iAm"
+                              value="Nữ Tìm Nam">
                             <label for="">Nữ Tìm Nam</label>
                           </div>
                         </td>
@@ -177,8 +189,9 @@
                         <th scope="row" class="text-left">Nơi ở</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.location}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select id="cityUser" class="placeSelect">
-                            <option [ngModel]="UserProfile.profile.location" disabled selected hidden>
+                          <select [(ngModel)]="UserProfile.profile.location" [ngModelOptions]="{standalone: true}"
+                            id="cityUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.location}}" disabled selected hidden>
                               {{UserProfile.profile.location}}</option>
                             <option *ngFor="let item of profileData.location" value="{{item}}">{{item}}</option>
                             <!-- <option value="">Thành Phố Hồ Chí Minh</option>
@@ -190,16 +203,18 @@
                         <th scope="row" class="text-left">Sinh nhật</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.dob | date: 'dd/MM/yyyy'}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <input [ngModel]="UserProfile.profile.dob | date:'yyyy-MM-dd'" type="date" id="dobUser"
-                            class="dobUser" name="dob" value="{{UserProfile.profile.dob | date: 'dd/MM/yyyy'}}">
+                          <input [(ngModel)]="UserProfile.profile.dob" [ngModelOptions]="{standalone: true}" type="date"
+                            id="dobUser" class="dobUser" name="dob">
                         </td>
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Dáng người</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.body}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.body" name="body" id="bodyUser" class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.body}}</option>
+                          <select [(ngModel)]="UserProfile.profile.body" [ngModelOptions]="{standalone: true}"
+                            name="body" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.body}}" disabled selected hidden>
+                              {{UserProfile.profile.body}}</option>
                             <option *ngFor="let item of profileData.body" value="{{item}}">{{item}}</option>
                             <!-- <option value="">Ốm</option>
                             <option value="">Cân đối</option>
@@ -211,8 +226,10 @@
                         <th scope="row" class="text-left">Chiều cao</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.height}}cm</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.height" name="height" id="height" class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.height}}cm</option>
+                          <select [(ngModel)]="UserProfile.profile.height" [ngModelOptions]="{standalone: true}"
+                            name="height" id="height" class="placeSelect">
+                            <option value="{{UserProfile.profile.height}}" disabled selected hidden>
+                              {{UserProfile.profile.height}}cm</option>
                             <option *ngFor="let item of arrayNumbers(100, 120)" value="{{item}}">{{item}}cm</option>
                           </select>
                         </td>
@@ -221,9 +238,11 @@
                         <th scope="row" class="text-left">Cân nặng</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.weight}}kg</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.weight" name="weight" id="weight" class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.weight}}kg</option>
-                            <option *ngFor="let item of arrayNumbers(100, 30)" value="{{UserProfile.profile.weight}}">
+                          <select [(ngModel)]="UserProfile.profile.weight" [ngModelOptions]="{standalone: true}"
+                            name="weight" id="weight" class="placeSelect">
+                            <option value="{{UserProfile.profile.weight}}" disabled selected hidden>
+                              {{UserProfile.profile.weight}}kg</option>
+                            <option *ngFor="let item of arrayNumbers(100, 30)" value="{{item}}">
                               {{item}}kg</option>
                           </select>
                         </td>
@@ -232,8 +251,10 @@
                         <th scope="row" class="text-left">Công việc</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.job}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.job" name="job" id="bodyUser" class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.job}}</option>
+                          <select [(ngModel)]="UserProfile.profile.job" [ngModelOptions]="{standalone: true}" name="job"
+                            id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.job}}" disabled selected hidden>
+                              {{UserProfile.profile.job}}</option>
                             <option *ngFor="let item of profileData.job" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -242,9 +263,10 @@
                         <th scope="row" class="text-left">Mục tiêu</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.target}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.target" name="target" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.target}}</option>
+                          <select [(ngModel)]="UserProfile.profile.target" [ngModelOptions]="{standalone: true}"
+                            name="target" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.target}}" disabled selected hidden>
+                              {{UserProfile.profile.target}}</option>
                             <option *ngFor="let item of profileData.target" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -253,9 +275,10 @@
                         <th scope="row" class="text-left">Học vấn</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.education}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.education" name="education" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.education}}</option>
+                          <select [(ngModel)]="UserProfile.profile.education" [ngModelOptions]="{standalone: true}"
+                            name="education" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.education}}" disabled selected hidden>
+                              {{UserProfile.profile.education}}</option>
                             <option *ngFor="let item of profileData.education" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -264,9 +287,10 @@
                         <th scope="row" class="text-left">Tính cách</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.character}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.character" name="character" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.character}}</option>
+                          <select [(ngModel)]="UserProfile.profile.character" [ngModelOptions]="{standalone: true}"
+                            name="character" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.character}}" disabled selected hidden>
+                              {{UserProfile.profile.character}}</option>
                             <option *ngFor="let item of profileData.character" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -275,9 +299,10 @@
                         <th scope="row" class="text-left">Cách sống</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.lifeStyle}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.lifeStyle" name="lifeStyle" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.lifeStyle}}</option>
+                          <select [(ngModel)]="UserProfile.profile.lifeStyle" [ngModelOptions]="{standalone: true}"
+                            name="lifeStyle" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.lifeStyle}}" disabled selected hidden>
+                              {{UserProfile.profile.lifeStyle}}</option>
                             <option *ngFor="let item of profileData.lifeStyle" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -286,9 +311,10 @@
                         <th scope="row" class="text-left">Điều quan trọng nhất</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.mostValuable}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.mostValuable" name="mostValuable" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.mostValuable}}</option>
+                          <select [(ngModel)]="UserProfile.profile.mostValuable" [ngModelOptions]="{standalone: true}"
+                            name="mostValuable" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.mostValuable}}" disabled selected hidden>
+                              {{UserProfile.profile.mostValuable}}</option>
                             <option *ngFor="let item of profileData.mostValuable" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -297,9 +323,10 @@
                         <th scope="row" class="text-left">Tôn giáo</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.religion}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.religion" name="religion" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.religion}}</option>
+                          <select [(ngModel)]="UserProfile.profile.religion" [ngModelOptions]="{standalone: true}"
+                            name="religion" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.religion}}" disabled selected hidden>
+                              {{UserProfile.profile.religion}}</option>
                             <option *ngFor="let item of profileData.religion" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -308,9 +335,10 @@
                         <th scope="row" class="text-left">Thể loại phim yêu thích</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.favoriteMovie" name="favoriteMovie" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.favoriteMovie}}</option>
+                          <select [(ngModel)]="UserProfile.profile.favoriteMovie" [ngModelOptions]="{standalone: true}"
+                            name="favoriteMovie" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.favoriteMovie}}" disabled selected hidden>
+                              {{UserProfile.profile.favoriteMovie}}</option>
                             <option *ngFor="let item of profileData.favoriteMovie" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -319,9 +347,10 @@
                         <th scope="row" class="text-left">Thích không khí</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.atmosphereLike" name="atmosphereLike" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.atmosphereLike}}</option>
+                          <select [(ngModel)]="UserProfile.profile.atmosphereLike" [ngModelOptions]="{standalone: true}"
+                            name="atmosphereLike" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.atmosphereLike}}" disabled selected hidden>
+                              {{UserProfile.profile.atmosphereLike}}</option>
                             <option *ngFor="let item of profileData.atmosphereLike" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -331,9 +360,10 @@
                         <th scope="row" class="text-left">Tình trạng hôn nhân</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.marriage}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.marriage" name="marriage" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.marriage}}</option>
+                          <select [(ngModel)]="UserProfile.profile.marriage" [ngModelOptions]="{standalone: true}"
+                            name="marriage" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.marriage}}" disabled selected hidden>
+                              {{UserProfile.profile.marriage}}</option>
                             <option *ngFor="let item of profileData.marriage" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -344,9 +374,10 @@
                         <th scope="row" class="text-left">Hút thuốc</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.smoking}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.smoking" name="smoking" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.smoking}}</option>
+                          <select [(ngModel)]="UserProfile.profile.smoking" [ngModelOptions]="{standalone: true}"
+                            name="smoking" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.smoking}}" disabled selected hidden>
+                              {{UserProfile.profile.smoking}}</option>
                             <option *ngFor="let item of profileData.smoking" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -355,9 +386,10 @@
                         <th scope="row" class="text-left">Uống bia</th>
                         <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.drinkBeer}}</td>
                         <td *ngIf="btnEdit == 0" style="padding: 0px;">
-                          <select [ngModel]="UserProfile.profile.drinkBeer" name="drinkBeer" id="bodyUser"
-                            class="placeSelect">
-                            <option value="" disabled selected hidden>{{UserProfile.profile.drinkBeer}}</option>
+                          <select [(ngModel)]="UserProfile.profile.drinkBeer" [ngModelOptions]="{standalone: true}"
+                            name="drinkBeer" id="bodyUser" class="placeSelect">
+                            <option value="{{UserProfile.profile.drinkBeer}}" disabled selected hidden>
+                              {{UserProfile.profile.drinkBeer}}</option>
                             <option *ngFor="let item of profileData.drinkBeer" value="{{item}}">{{item}}</option>
                           </select>
                         </td>
@@ -379,3 +411,11 @@
     </div>
   </section>
 </main>
+<section class="imagePop" id="imagePopId">
+  <div class="clickLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
+  <div class="clickRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i></div>
+  <div class="close" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageChange(id)"></section>
+</section>
+<!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->

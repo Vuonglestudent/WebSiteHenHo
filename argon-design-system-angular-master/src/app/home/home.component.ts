@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
         private http: HttpClient,
         private usersService: UsersService,
         private alertService: AlertService,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
     ) { }
 
     options = {
@@ -41,9 +41,8 @@ export class HomeComponent implements OnInit {
 
     //
     Loading = false;
-
+    clickSeenImage = 0;
     ngOnInit() {
-
         this.Loading = true;
         this.usersService.GetFavoritest(this.PageIndexFavorite, this.PageSizeFavorite)
             .then(response => {
@@ -58,10 +57,10 @@ export class HomeComponent implements OnInit {
             })
 
         this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
-            .then(response=>{
+            .then(response => {
                 this.NewUsers = response;
             })
-            .catch(error=>{
+            .catch(error => {
                 this.alertService.clear();
                 this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
             })
@@ -106,7 +105,7 @@ export class HomeComponent implements OnInit {
                 }
             })
             .catch(error => {
-                if(error.status == 401){
+                if (error.status == 401) {
                     this.LoginRequired();
                     return;
                 }
@@ -192,5 +191,11 @@ export class HomeComponent implements OnInit {
         carousel.setAttribute('class', 'carousel-item active')
         carousel.removeAttribute('hidden');
         imgCarousel.setAttribute('style', `background-image: url('${this.imageCarousel[next].img}')`)
+    }
+
+    seenImage = () => {
+        this.clickSeenImage = 1;
+        var image = <HTMLElement>document.getElementById('myImg')
+        image.click();
     }
 }
