@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UsersService } from '../service/users.service';
-import { User } from '../Models/Models';
+import { User, ProfileData } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
+import {NgForm} from '@angular/forms';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit {
     friends = 22
     btnEdit = 1
 
+    profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
 
     constructor(
@@ -37,6 +39,20 @@ export class ProfileComponent implements OnInit {
                 alert("không lấy được không tin!");
                 console.log(error);
             })
+
+        this.usersService.GetProfileData()
+            .then(data =>{
+                console.log(data);
+                this.profileData = data;
+            })
+            .catch(error =>{
+                alert(error);
+                console.log(error);
+            })
+    }
+
+    onUpdateInfo(f: NgForm){
+        console.log(f.value);
     }
 
     checkFavourite = (e) => {
@@ -82,6 +98,10 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
     };
+
+    updateFeature = (feature:string) =>{
+        return feature.replace(/ /g, "_");
+    }
 
     clickEdit = () => {
         this.btnEdit = 0
