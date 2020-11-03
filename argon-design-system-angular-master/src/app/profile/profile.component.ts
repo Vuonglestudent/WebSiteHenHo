@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { User, ProfileData } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -41,18 +41,19 @@ export class ProfileComponent implements OnInit {
             })
 
         this.usersService.GetProfileData()
-            .then(data =>{
+            .then(data => {
                 console.log(data);
                 this.profileData = data;
             })
-            .catch(error =>{
+            .catch(error => {
                 alert(error);
                 console.log(error);
             })
     }
 
-    onUpdateInfo(f: NgForm){
+    onUpdateInfo(f: NgForm) {
         console.log(f.value);
+
     }
 
     checkFavourite = (e) => {
@@ -99,15 +100,34 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
     };
 
-    updateFeature = (feature:string) =>{
+    updateFeature = (feature: string) => {
         return feature.replace(/ /g, "_");
     }
 
     clickEdit = () => {
-        this.btnEdit = 0
+        this.btnEdit = 0;
     }
 
     arrayNumbers(n: number, startFrom: number): number[] {
         return [...Array(n).keys()].map(i => i + startFrom);
-      }
+    }
+
+    files: File[] = [];
+    uploadImage:boolean = false;
+
+    onSelect(event) {
+        console.log(event);
+        this.files.push(...event.addedFiles);
+    }
+
+    onRemove(event) {
+        console.log(event);
+        this.files.splice(this.files.indexOf(event), 1);
+    }
+
+    uploadImages(){
+        this.uploadImage = !this.uploadImage;
+    }
+
+
 }

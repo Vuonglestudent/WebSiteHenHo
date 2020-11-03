@@ -78,3 +78,26 @@ button:focus {
 .radioProfile {
   background-color: white;
 }
+
+
+ngx-dropzone,
+.custom-dropzone {
+  margin: 20px;
+}
+
+.custom-dropzone {
+	height: 250px;
+  background: #8666CE;
+  background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9);
+	color: #fff;
+
+	font-size: 20px;
+}
+
+.custom-dropzone.ngx-dz-hovered {
+  border: 5px solid rgb(235, 79, 79);
+}
+
+.profile-page .card-profile .card-profile-actions {
+  padding: 0.875rem 0;
+}

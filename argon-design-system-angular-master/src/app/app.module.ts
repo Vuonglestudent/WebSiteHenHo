@@ -31,6 +31,7 @@ import { FriendListComponent } from './friend-list/friend-list.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { CommonModule } from '@angular/common';
 import { SeenImageComponent } from './seen-image/seen-image.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { SeenImageComponent } from './seen-image/seen-image.component';
     ChatComponent,
     ChangePasswordComponent,
     HomeComponent,
-    SeenImageComponent
+    SeenImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +61,8 @@ import { SeenImageComponent } from './seen-image/seen-image.component';
     AlertModule,
     SocialLoginModule,
     CommonModule,
-    SectionsModule
+    SectionsModule,
+    NgxDropzoneModule
   ],
   providers: [
     {
