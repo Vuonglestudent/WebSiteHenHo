@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { User, ProfileData } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
-import {NgForm} from '@angular/forms';
+
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -36,7 +36,8 @@ export class ProfileComponent implements OnInit {
         this.usersService.GetById(this.authenticationService.UserInfo.Id)
             .then(data => {
                 this.UserProfile = data;
-                console.log(this.UserProfile);
+                this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
+                console.log(this.UserProfile , this.UserProfile.profile.dob);
                 this.replaceCharacter(this.UserProfile);
                 console.log(this.UserProfile);
             })
@@ -56,8 +57,9 @@ export class ProfileComponent implements OnInit {
             })
     }
 
-    onUpdateInfo(f: NgForm){
-        console.log(f.value);
+    onUpdateInfo(){
+        // console.log(f.value);
+        console.log(this.UserProfile.profile)
     }
 
     checkFavourite = (e) => {

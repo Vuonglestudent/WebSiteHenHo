@@ -1,3 +1,4 @@
+import { SectionsModule } from './sections/sections.module';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';

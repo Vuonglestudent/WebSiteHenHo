@@ -3,7 +3,7 @@ export class Profile {
     findPeople: string;
     weight: number;
     height: number;
-    dob: Date;
+    dob: String;
     age: number;
     iAm: string;
     job: string;
