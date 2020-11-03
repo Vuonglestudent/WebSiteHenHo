@@ -78,3 +78,24 @@ button:focus {
 .radioProfile {
   background-color: white;
 }
+
+
+.btn-icon-card:active span i {
+  transform: translateY(10px);
+}
+
+/* Popup Image */
+.close {
+  position: absolute;
+  z-index: 14;
+  top: 1%;
+  right: 5%;
+  cursor: pointer;
+  font-size: 50px;
+  color: white;
+}
+
+.close i:hover {
+  color: red;
+}
+// End

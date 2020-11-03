@@ -17,6 +17,11 @@ export class ProfileComponent implements OnInit {
     imgArray = 10
     friends = 22
     btnEdit = 1
+    imageCarousel = [
+        { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
+        { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
+        { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
+    ]
 
     public UserProfile: User = new User();
 

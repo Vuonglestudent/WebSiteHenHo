@@ -57,8 +57,10 @@
                 </div>
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
-                  <button class="btn-icon-card">
-                    <span class="description"><i class="fa fa-camera text-dark"></i></span>
+                  <button class="btn-icon-card" id="{{UserProfile.avatarPath}}" onclick="selectImage(id)">
+                    <span class="description">
+                      <i class="fa fa-camera text-dark"></i>
+                    </span>
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
@@ -280,3 +282,11 @@
     </div>
   </section>
 </main>
+<section class="imagePop" id="imagePopId">
+  <div class="clickLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
+  <div class="clickRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i></div>
+  <div class="close" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageChange(id)"></section>
+</section>
+<!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->
