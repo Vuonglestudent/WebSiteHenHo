@@ -3,7 +3,7 @@ import { UsersService } from '../service/users.service';
 import { User, ProfileData } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
 import { NgForm } from '@angular/forms';
-
+import { ImageService } from '../service/image.service';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -18,7 +18,9 @@ export class ProfileComponent implements OnInit {
     imgAvatar = "./assets/img/theme/team-3-800x800.jpg"
     imgArray = 10
     friends = 22
-    btnEdit = 1
+    editing: boolean = false;
+    imageTitle: string;
+
     imageCarousel = [
         { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
@@ -30,7 +32,8 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private usersService: UsersService,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private imageService: ImageService
     ) { }
 
     ngOnInit() {
@@ -38,7 +41,7 @@ export class ProfileComponent implements OnInit {
             .then(data => {
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
-                console.log(this.UserProfile , this.UserProfile.profile.dob);
+                console.log(this.UserProfile, this.UserProfile.profile.dob);
                 this.replaceCharacter(this.UserProfile);
                 console.log(this.UserProfile);
             })
@@ -58,7 +61,7 @@ export class ProfileComponent implements OnInit {
             })
     }
 
-    onUpdateInfo(){
+    onUpdateInfo() {
         // console.log(f.value);
         console.log(this.UserProfile.profile)
     }
@@ -112,7 +115,7 @@ export class ProfileComponent implements OnInit {
     }
 
     clickEdit = () => {
-        this.btnEdit = 0;
+        this.editing = !this.editing;
     }
 
     arrayNumbers(n: number, startFrom: number): number[] {
@@ -120,7 +123,7 @@ export class ProfileComponent implements OnInit {
     }
 
     files: File[] = [];
-    uploadImage:boolean = false;
+    uploadImage: boolean = false;
 
     onSelect(event) {
         console.log(event);
@@ -132,9 +135,21 @@ export class ProfileComponent implements OnInit {
         this.files.splice(this.files.indexOf(event), 1);
     }
 
-    uploadImages(){
+    uploadImages() {
         this.uploadImage = !this.uploadImage;
     }
-
+    uploadStatus: string = 'none';
+    onUpload() {
+        this.uploadStatus = 'loading';
+        this.imageService.addImages(this.authenticationService.UserInfo.Id, this.files, this.imageTitle)
+            .then(data => {
+                this.uploadStatus = 'success';
+                console.log(data)
+            })
+            .catch(error => {
+                this.uploadStatus = 'error';
+                console.log(error);
+            })
+    }
 
 }

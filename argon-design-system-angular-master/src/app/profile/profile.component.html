@@ -40,11 +40,11 @@
                 <a *ngIf="" href="javascript:void(0)" (click)="clickFollow($event)"
                   class="btn btn-sm btn-info mr-4">Theo dõi</a>
                 <a *ngIf="" href="javascript:void(0)" class="btn btn-sm btn-default float-right">Nhắn tin</a>
-                <button type="button" (click)="clickEdit()" class="btn btn-default">
+                <button type="button" (click)="clickEdit()" class="btn btn-sm btn-default">
                   <i class="fa fa-edit"></i>
                   Chỉnh sửa
                 </button>
-                <button type="button" class="btn btn-primary" (click)="uploadImages()">
+                <button type="button" class="btn btn-sm btn-primary" (click)="uploadImages()">
                   <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-camera-compact"></i></span>
                   <span class="btn-inner--text">Đăng hình</span>
                 </button>
@@ -107,16 +107,25 @@
                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                   </ngx-dropzone-image-preview>
                 </div>
+                  <div>
+                    <input *ngIf="files.length>0" class="form-control" style="color: #525f7f;" [(ngModel)]="imageTitle"  type="text" placeholder="Description...">
+                    <br>
+                    <button *ngIf="files.length>0" type="button" style="width:100%" (click)="onUpload()" class="btn btn-sm btn-success">
+                      <i class="fa fa-upload"></i>
+                      Upload
+                    </button>
+                  </div>
+                <hr>
               </div>
+              
               <div class="col-lg-9">
                 <div class="h4 font-weight-300"><b>{{UserProfile.profile.title}}</b></div>
-
 
                 <form role="form" #Info="ngForm">
                   <table class="table table-hover-profile table-striped">
                     <tbody>
 
-                      <tr *ngIf="btnEdit == 0">
+                      <tr *ngIf="editing">
                         <th scope="row" class="text-left">Tiêu đề hồ sơ</th>
                         <td style="padding: 0px;">
                           <input style="width:100%" [(ngModel)]="UserProfile.profile.title"
@@ -125,7 +134,7 @@
                         </td>
                       </tr>
 
-                      <tr *ngIf="btnEdit == 0">
+                      <tr *ngIf="editing">
                         <th scope="row" class="text-left">Tóm tắt bản thân</th>
                         <td style="padding: 0px;">
                           <textarea style="width:100%" [(ngModel)]="UserProfile.summary"
@@ -136,8 +145,8 @@
 
                       <tr>
                         <th scope="row" class="text-left">Giới tính</th>
-                        <td *ngIf="btnEdit == 1" class="text-left"><span>{{UserProfile.gender}}</span></td>
-                        <td *ngIf="btnEdit == 0" class="d-flex radioProfile">
+                        <td *ngIf="!editing" class="text-left"><span>{{UserProfile.gender}}</span></td>
+                        <td *ngIf="editing" class="d-flex radioProfile">
                           <div class="d-flex align-items-center" style="width: 50%;">
                             <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
                               *ngIf="UserProfile.gender == 'Nam'" class="mr-2 ml-3" type="radio" name="gender"
@@ -161,8 +170,8 @@
 
                       <tr>
                         <th scope="row" class="text-left">Tìm kiếm</th>
-                        <td *ngIf="btnEdit == 1" class="text-left"><span>{{UserProfile.profile.iAm}}</span></td>
-                        <td *ngIf="btnEdit == 0" class="d-flex radioProfile">
+                        <td *ngIf="!editing" class="text-left"><span>{{UserProfile.profile.iAm}}</span></td>
+                        <td *ngIf="editing" class="d-flex radioProfile">
                           <div class="d-flex align-items-center" style="width: 50%;">
                             <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
                               *ngIf="UserProfile.profile.iAm == 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio" name="iAm"
@@ -187,8 +196,8 @@
 
                       <tr>
                         <th scope="row" class="text-left">Nơi ở</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.location}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.location}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.location" [ngModelOptions]="{standalone: true}"
                             id="cityUser" class="placeSelect">
                             <option value="{{UserProfile.profile.location}}" disabled selected hidden>
@@ -201,16 +210,16 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Sinh nhật</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.dob | date: 'dd/MM/yyyy'}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.dob | date: 'dd/MM/yyyy'}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <input [(ngModel)]="UserProfile.profile.dob" [ngModelOptions]="{standalone: true}" type="date"
                             id="dobUser" class="dobUser" name="dob">
                         </td>
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Dáng người</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.body}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.body}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.body" [ngModelOptions]="{standalone: true}"
                             name="body" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.body}}" disabled selected hidden>
@@ -224,8 +233,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Chiều cao</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.height}}cm</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.height}}cm</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.height" [ngModelOptions]="{standalone: true}"
                             name="height" id="height" class="placeSelect">
                             <option value="{{UserProfile.profile.height}}" disabled selected hidden>
@@ -236,8 +245,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Cân nặng</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.weight}}kg</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.weight}}kg</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.weight" [ngModelOptions]="{standalone: true}"
                             name="weight" id="weight" class="placeSelect">
                             <option value="{{UserProfile.profile.weight}}" disabled selected hidden>
@@ -249,8 +258,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Công việc</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.job}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.job}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.job" [ngModelOptions]="{standalone: true}" name="job"
                             id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.job}}" disabled selected hidden>
@@ -261,8 +270,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Mục tiêu</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.target}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.target}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.target" [ngModelOptions]="{standalone: true}"
                             name="target" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.target}}" disabled selected hidden>
@@ -273,8 +282,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Học vấn</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.education}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.education}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.education" [ngModelOptions]="{standalone: true}"
                             name="education" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.education}}" disabled selected hidden>
@@ -285,8 +294,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Tính cách</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.character}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.character}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.character" [ngModelOptions]="{standalone: true}"
                             name="character" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.character}}" disabled selected hidden>
@@ -297,8 +306,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Cách sống</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.lifeStyle}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.lifeStyle}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.lifeStyle" [ngModelOptions]="{standalone: true}"
                             name="lifeStyle" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.lifeStyle}}" disabled selected hidden>
@@ -309,8 +318,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Điều quan trọng nhất</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.mostValuable}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.mostValuable}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.mostValuable" [ngModelOptions]="{standalone: true}"
                             name="mostValuable" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.mostValuable}}" disabled selected hidden>
@@ -321,8 +330,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Tôn giáo</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.religion}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.religion}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.religion" [ngModelOptions]="{standalone: true}"
                             name="religion" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.religion}}" disabled selected hidden>
@@ -333,8 +342,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Thể loại phim yêu thích</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.favoriteMovie}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.favoriteMovie" [ngModelOptions]="{standalone: true}"
                             name="favoriteMovie" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.favoriteMovie}}" disabled selected hidden>
@@ -345,8 +354,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Thích không khí</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.atmosphereLike}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.atmosphereLike" [ngModelOptions]="{standalone: true}"
                             name="atmosphereLike" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.atmosphereLike}}" disabled selected hidden>
@@ -358,8 +367,8 @@
 
                       <tr>
                         <th scope="row" class="text-left">Tình trạng hôn nhân</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.marriage}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.marriage}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.marriage" [ngModelOptions]="{standalone: true}"
                             name="marriage" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.marriage}}" disabled selected hidden>
@@ -372,8 +381,8 @@
 
                       <tr>
                         <th scope="row" class="text-left">Hút thuốc</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.smoking}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.smoking}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.smoking" [ngModelOptions]="{standalone: true}"
                             name="smoking" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.smoking}}" disabled selected hidden>
@@ -384,8 +393,8 @@
                       </tr>
                       <tr>
                         <th scope="row" class="text-left">Uống bia</th>
-                        <td *ngIf="btnEdit == 1" class="text-left">{{UserProfile.profile.drinkBeer}}</td>
-                        <td *ngIf="btnEdit == 0" style="padding: 0px;">
+                        <td *ngIf="!editing" class="text-left">{{UserProfile.profile.drinkBeer}}</td>
+                        <td *ngIf="editing" style="padding: 0px;">
                           <select [(ngModel)]="UserProfile.profile.drinkBeer" [ngModelOptions]="{standalone: true}"
                             name="drinkBeer" id="bodyUser" class="placeSelect">
                             <option value="{{UserProfile.profile.drinkBeer}}" disabled selected hidden>
@@ -398,8 +407,7 @@
 
                   </table>
                   <hr>
-                  <button *ngIf="btnEdit == 0" (click)="onUpdateInfo(Info)"
-                    class="btn btn-sm btn-success float-right">Cập
+                  <button *ngIf="editing" style="width:100%" (click)="onUpdateInfo(Info)" class="btn  btn-success float-right">Cập
                     nhật</button>
                 </form>
 

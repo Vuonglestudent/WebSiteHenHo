@@ -18,16 +18,15 @@ export class ImageService {
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
 
-  public addImage = (userId:string, imageFiles: any, titles: Array<string>) =>{
+  public addImages = (userId:string, imageFiles: any, title: string) =>{
     var path = ``;
     var formData = new FormData();
     formData.append("UserId", userId);
 
-    titles.forEach(title => {
-      formData.append("Title", title);
-    });
+    formData.append("Title", title);
+
     imageFiles.forEach(file => {
-      formData.append("Image", file);
+      formData.append("Images", file);
     });
 
     var headers = this.authenticationService.GetHeader();

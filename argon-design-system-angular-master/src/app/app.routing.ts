@@ -1,4 +1,3 @@
-import { SectionsModule } from './sections/sections.module';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
@@ -13,7 +12,6 @@ import { LoginComponent } from './login/login.component';
 import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
 import { FriendListComponent } from './friend-list/friend-list.component'
 import { ChangePasswordComponent } from './change-password/change-password.component'
-
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
