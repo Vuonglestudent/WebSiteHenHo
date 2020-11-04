@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { AlertService } from './../_alert/alert.service';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { UsersService } from '../service/users.service';
-import { User, ProfileData } from '../Models/Models';
+import { User, ProfileData, Image } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
 import { NgForm } from '@angular/forms';
 import { ImageService } from '../service/image.service';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -21,6 +23,10 @@ export class ProfileComponent implements OnInit {
     editing: boolean = false;
     imageTitle: string;
 
+    imagesResponse: Array<Image>;
+    //icon
+    faSpinner = faSpinner;
+
     imageCarousel = [
         { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
@@ -33,8 +39,15 @@ export class ProfileComponent implements OnInit {
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
-        private imageService: ImageService
+        private imageService: ImageService,
+        private alertService: AlertService,
+        private el: ElementRef
     ) { }
+
+    options = {
+        autoClose: false,
+        keepAfterRouteChange: false
+    };
 
     ngOnInit() {
         this.usersService.GetById(this.authenticationService.UserInfo.Id)
@@ -60,10 +73,37 @@ export class ProfileComponent implements OnInit {
                 console.log(error);
             })
     }
-
+    updating: boolean = false;
     onUpdateInfo() {
-        // console.log(f.value);
-        console.log(this.UserProfile.profile)
+        this.updating = true;
+        var updateProfile = this.UserProfile;
+        this.reReplaceCharacter(updateProfile);
+        this.usersService.UpdateProfile(updateProfile)
+            .then(data => {
+                this.updating = false;
+                this.UserProfile = data;
+                var oldInfo = {
+                    numberOfFollowing: this.UserProfile.numberOfFavoriting,
+                    numberOfFollowers: this.UserProfile.numberOfFollowers,
+                    numberOfFavoriting: this.UserProfile.numberOfFavoriting,
+                    numberOfFavoritors: this.UserProfile.numberOfFavoritors,
+                    numberOfImages: this.UserProfile.numberOfImages
+                };
+                this.UserProfile.numberOfFollowing = oldInfo.numberOfFollowing;
+                this.UserProfile.numberOfFollowers = oldInfo.numberOfFollowers;
+                this.UserProfile.numberOfFavoriting = oldInfo.numberOfFavoriting;
+                this.UserProfile.numberOfFavoritors = oldInfo.numberOfFavoritors;
+                this.UserProfile.numberOfImages = oldInfo.numberOfImages;
+
+                this.alertService.clear();
+                this.alertService.success("Cập nhật hồ sơ thành công!");
+                this.editing = false;
+            })
+            .catch(error => {
+                this.updating = false;
+                this.alertService.clear();
+                this.alertService.error(error.error.message, this.options);
+            })
     }
 
     checkFavourite = (e) => {
@@ -89,29 +129,6 @@ export class ProfileComponent implements OnInit {
             target.innerHTML = 'Theo dõi'
             this.friends = this.friends - 1;
         }
-    }
-
-    replaceCharacter = (userProfile: User) => {
-        userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
-        userProfile.profile.iAm = userProfile.profile.iAm.replace(/_/g, " ");
-        userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
-        userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
-        userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
-        userProfile.profile.target = userProfile.profile.target.replace(/_/g, " ");
-        userProfile.profile.education = userProfile.profile.education.replace(/_/g, " ");
-        userProfile.profile.body = userProfile.profile.body.replace(/_/g, " ");
-        userProfile.profile.character = userProfile.profile.character.replace(/_/g, " ");
-        userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/_/g, " ");
-        userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/_/g, " ");
-        userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
-        userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/_/g, " ");
-        userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/_/g, " ");
-        userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
-        userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
-    };
-
-    updateFeature = (feature: string) => {
-        return feature.replace(/ /g, "_");
     }
 
     clickEdit = () => {
@@ -143,13 +160,66 @@ export class ProfileComponent implements OnInit {
         this.uploadStatus = 'loading';
         this.imageService.addImages(this.authenticationService.UserInfo.Id, this.files, this.imageTitle)
             .then(data => {
-                this.uploadStatus = 'success';
-                console.log(data)
+                this.uploadStatus = 'none';
+                this.alertService.clear();
+                this.alertService.success("Đăng ảnh thành công!", this.options);
+                this.files = [];
             })
             .catch(error => {
-                this.uploadStatus = 'error';
-                console.log(error);
+                this.uploadStatus = 'none';
+                this.alertService.clear();
+                this.alertService.error("Có lỗi khi upload ảnh!", this.options);
+            })
+    }
+    
+    onViewImage = () => {
+        this.imageService.getImageByUserId(this.authenticationService.UserInfo.Id)
+            .then(data =>{
+                this.imagesResponse = data;
+            })
+            .catch(error =>{
+                this.alertService.clear();
+                this.alertService.error("Có lỗi khi tải hình ảnh!");
             })
     }
 
+    replaceCharacter = (userProfile: User) => {
+        userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
+        userProfile.profile.iAm = userProfile.profile.iAm.replace(/_/g, " ");
+        userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
+        userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
+        userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
+        userProfile.profile.target = userProfile.profile.target.replace(/_/g, " ");
+        userProfile.profile.education = userProfile.profile.education.replace(/_/g, " ");
+        userProfile.profile.body = userProfile.profile.body.replace(/_/g, " ");
+        userProfile.profile.character = userProfile.profile.character.replace(/_/g, " ");
+        userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/_/g, " ");
+        userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/_/g, " ");
+        userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
+        userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/_/g, " ");
+        userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/_/g, " ");
+        userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
+        userProfile.profile.smoking = userProfile.profile.religion.replace(/_/g, " ");
+        userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
+    };
+
+    reReplaceCharacter = (userProfile: User) => {
+        userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/ /g, "_");
+        userProfile.profile.iAm = userProfile.profile.iAm.replace(/ /g, "_");
+        userProfile.profile.job = userProfile.profile.job.replace(/ /g, "_");
+        userProfile.profile.location = userProfile.profile.location.replace(/ /g, "_");
+        userProfile.profile.marriage = userProfile.profile.marriage.replace(/ /g, "_");
+        userProfile.profile.target = userProfile.profile.target.replace(/ /g, "_");
+        userProfile.profile.education = userProfile.profile.education.replace(/ /g, "_");
+        userProfile.profile.body = userProfile.profile.body.replace(/ /g, "_");
+        userProfile.profile.character = userProfile.profile.character.replace(/ /g, "_");
+        userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/ /g, "_");
+        userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/ /g, "_");
+        userProfile.profile.religion = userProfile.profile.religion.replace(/ /g, " ");
+        userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/ /g, "_");
+        userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/ /g, "_");
+        userProfile.profile.smoking = userProfile.profile.smoking.replace(/ /g, "_");
+        userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
+        userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
+    };
 }

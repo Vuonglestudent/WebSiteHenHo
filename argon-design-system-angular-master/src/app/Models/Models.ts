@@ -45,8 +45,6 @@ export class User {
     isInfoUpdated: number;
     token?: any;
     profile: Profile;
-
-
 }
 
 export class SocialUser {
@@ -108,4 +106,14 @@ export class ProfileData {
     target: string[];
     typeAccount: string[];
     userStatus: string[];
+}
+
+export class Image{
+    id: string;
+    userId:string;
+    title: string;
+    numberOfLikes:number;
+    imagePath:string;
+    hasImage: boolean;
+    createdAt: string;
 }

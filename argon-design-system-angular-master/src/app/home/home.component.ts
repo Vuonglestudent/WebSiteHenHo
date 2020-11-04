@@ -46,12 +46,12 @@ export class HomeComponent implements OnInit {
         this.Loading = true;
         this.usersService.GetFavoritest(this.PageIndexFavorite, this.PageSizeFavorite)
             .then(response => {
-                this.Loading = false;
+                //this.Loading = false;
                 this.Favoritors = response;
                 console.log(this.Favoritors);
             })
             .catch(error => {
-                this.Loading = false;
+                //this.Loading = false;
                 this.alertService.clear();
                 this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
             })

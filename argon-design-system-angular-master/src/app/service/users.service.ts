@@ -1,3 +1,4 @@
+import { User } from './../Models/Models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "../signup/authentication.service";
@@ -95,5 +96,36 @@ export class UsersService {
     let headers = this.authenticationService.GetHeader();
     var path = "http://localhost:5000/api/Profiles/features";
     return this.http.get<any>(path, {headers: headers}).toPromise();
+  }
+  public UpdateProfile = (profile:User) =>{
+    var headers = this.authenticationService.GetHeader();
+    var path = "http://localhost:5000/api/Profiles";
+    var data = new FormData();
+    data.append("Id", profile.id);
+    data.append("FullName", profile.fullName);
+    data.append("Gender", profile.gender);
+    data.append("Location", profile.profile.location);
+    data.append("PhoneNumber", profile.phoneNumber);
+    data.append("Job", profile.profile.job);
+    data.append("Title", profile.profile.title);
+    data.append("Summary", profile.summary);
+    data.append("Weight", profile.profile.weight.toString());
+    data.append("Height", profile.profile.height.toString());
+    data.append("Dob", profile.profile.dob.toString());
+    data.append("IAm", profile.profile.iAm);
+    data.append("Marriage", profile.profile.marriage);
+    data.append("Target", profile.profile.target);
+    data.append("Education", profile.profile.education);
+    data.append("Body", profile.profile.body);
+    data.append("Character", profile.profile.character);
+    data.append("LifeStyle", profile.profile.lifeStyle);
+    data.append("MostValuable", profile.profile.mostValuable);
+    data.append("Religion", profile.profile.religion);
+    data.append("FavoriteMovie", profile.profile.favoriteMovie);
+    data.append("AtmosphereLike", profile.profile.atmosphereLike);
+    data.append("Smoking", profile.profile.smoking);
+    data.append("DrinkBeer", profile.profile.drinkBeer);
+
+    return this.http.put<any>(path, data, {headers: headers}).toPromise();
   }
 }

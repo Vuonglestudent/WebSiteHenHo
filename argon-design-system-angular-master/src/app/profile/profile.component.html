@@ -91,35 +91,50 @@
           </div>
           <hr>
           <div class="py-2 text-center">
+            <alert></alert>
             <div class="row justify-content-center">
+              
               <div *ngIf="uploadImage" class="col-lg-9">
-
-                <p>Upload your pictures!</p>
-
-                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
-                  <ngx-dropzone-label>
-                    <div>
-                      <h2 style="color: white;">Drop file here ...</h2>
-                    </div>
-                  </ngx-dropzone-label>
-                  <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
-                    [removable]="true" (removed)="onRemove(f)">
-                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                  </ngx-dropzone-image-preview>
-                </div>
+                
+                <div *ngIf="uploadStatus=='none'" style="display:block;" #myDiv class="animate-bottom">
+                  <p>Upload your pictures!</p>
+                  
+                  <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
+                    (change)="onSelect($event)">
+                    <ngx-dropzone-label>
+                      <div>
+                        <h2 style="color: white;">Drop file here ...</h2>
+                      </div>
+                    </ngx-dropzone-label>
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                      [removable]="true" (removed)="onRemove(f)">
+                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+                  </div>
+  
                   <div>
-                    <input *ngIf="files.length>0" class="form-control" style="color: #525f7f;" [(ngModel)]="imageTitle"  type="text" placeholder="Description...">
+                    <input *ngIf="files.length>0" class="form-control" style="color: #525f7f;" [(ngModel)]="imageTitle"
+                      type="text" placeholder="Description...">
                     <br>
-                    <button *ngIf="files.length>0" type="button" style="width:100%" (click)="onUpload()" class="btn btn-sm btn-success">
+                    <button *ngIf="files.length>0" type="button" style="width:100%" (click)="onUpload()"
+                      class="btn btn-sm btn-success">
                       <i class="fa fa-upload"></i>
                       Upload
                     </button>
                   </div>
-                <hr>
+                  <hr>
+                </div>
+
+                <div style="margin-bottom:15%" *ngIf="uploadStatus=='loading'">
+                  <div id="loader"></div>
+                </div>
+
+
               </div>
-              
-              <div class="col-lg-9">
-                <div class="h4 font-weight-300"><b>{{UserProfile.profile.title}}</b></div>
+
+              <div *ngIf="!uploadImage" style="display:block;" class="col-lg-9 animate-bottom">
+                <div class="h4 font-weight-300"><b>{{UserProfile.profile.title}}</b>
+                </div>
 
                 <form role="form" #Info="ngForm">
                   <table class="table table-hover-profile table-striped">
@@ -407,8 +422,16 @@
 
                   </table>
                   <hr>
-                  <button *ngIf="editing" style="width:100%" (click)="onUpdateInfo(Info)" class="btn  btn-success float-right">Cập
-                    nhật</button>
+                  <button *ngIf="editing && !updating" style="width:100%" (click)="onUpdateInfo(Info)"
+                    class="btn btn-success float-right">
+                    <i class="fa fa-edit"></i>
+                    Cập nhật
+                  </button>
+
+                <button *ngIf="updating" style="width:100%" type="button" class="btn btn-success float-right">
+                  <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  Updating...
+                  </button>
                 </form>
 
               </div>
