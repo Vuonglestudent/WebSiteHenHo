@@ -62,10 +62,13 @@
                 </div>
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
-                  <button class="btn-icon-card" id="{{UserProfile.avatarPath}}" onclick="selectImage(id)">
+                  <button class="btn-icon-card" id="img_{{UserProfile.id}}" onclick="selectImage(id)">
                     <span class="description">
                       <i class="fa fa-camera text-dark"></i>
                     </span>
+                    <img *ngFor="let item of imageCarousel; let i = index" display="true" hidden="true"
+                      id="img_{{i + 1}}" src="{{item.img}}" alt="">
+                    <img id="img_4" display="true" hidden="true" src="{{UserProfile.avatarPath}}" alt="">
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
@@ -93,14 +96,13 @@
           <div class="py-2 text-center">
             <alert></alert>
             <div class="row justify-content-center">
-              
+
               <div *ngIf="uploadImage" class="col-lg-9">
-                
+
                 <div *ngIf="uploadStatus=='none'" style="display:block;" #myDiv class="animate-bottom">
                   <p>Upload your pictures!</p>
-                  
-                  <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
-                    (change)="onSelect($event)">
+
+                  <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
                     <ngx-dropzone-label>
                       <div>
                         <h2 style="color: white;">Drop file here ...</h2>
@@ -111,7 +113,7 @@
                       <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                     </ngx-dropzone-image-preview>
                   </div>
-  
+
                   <div>
                     <input *ngIf="files.length>0" class="form-control" style="color: #525f7f;" [(ngModel)]="imageTitle"
                       type="text" placeholder="Description...">
@@ -428,9 +430,9 @@
                     Cập nhật
                   </button>
 
-                <button *ngIf="updating" style="width:100%" type="button" class="btn btn-success float-right">
-                  <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
-                  Updating...
+                  <button *ngIf="updating" style="width:100%" type="button" class="btn btn-success float-right">
+                    <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    Updating...
                   </button>
                 </form>
 
@@ -443,10 +445,11 @@
   </section>
 </main>
 <section class="imagePop" id="imagePopId">
-  <div class="clickLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
-  <div class="clickRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i></div>
-  <div class="close" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
+  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId" onclick="imageChange(id)"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
 </section>
 <!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->

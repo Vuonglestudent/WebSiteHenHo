@@ -1,5 +1,5 @@
 import { AlertService } from './../_alert/alert.service';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { User, ProfileData, Image } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
@@ -108,12 +108,12 @@ export class ProfileComponent implements OnInit {
 
     checkFavourite = (e) => {
         var target = e.target;
-        console.log(target)
-        if (target.className == 'ni ni-favourite-28') {
-            target.setAttribute('class', 'ni ni-favourite-28 text-danger')
+        var child = target.children[0]
+        if (child.className == 'ni ni-favourite-28') {
+            child.setAttribute('class', 'ni ni-favourite-28 text-danger')
             this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting + 1;
         } else {
-            target.setAttribute('class', 'ni ni-favourite-28')
+            child.setAttribute('class', 'ni ni-favourite-28')
             this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting - 1;
         }
     }
@@ -171,13 +171,13 @@ export class ProfileComponent implements OnInit {
                 this.alertService.error("Có lỗi khi upload ảnh!", this.options);
             })
     }
-    
+
     onViewImage = () => {
         this.imageService.getImageByUserId(this.authenticationService.UserInfo.Id)
-            .then(data =>{
+            .then(data => {
                 this.imagesResponse = data;
             })
-            .catch(error =>{
+            .catch(error => {
                 this.alertService.clear();
                 this.alertService.error("Có lỗi khi tải hình ảnh!");
             })
@@ -222,4 +222,8 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
+
+    ngAfterViewInit(): void {
+        
+    }
 }
