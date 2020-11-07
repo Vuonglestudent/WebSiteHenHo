@@ -49,9 +49,9 @@
       </div>
     </section>
     <div class="container">
-      <div *ngIf="Loading">
+      <!-- <div *ngIf="Loading">
         <div id="loader"></div>
-      </div>
+      </div> -->
       <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
           <alert style="padding-left: 15px; padding-right: 15px;"></alert>
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div *ngIf="Loading">
-            <div id="loader"></div>
+            <div id="loader" style="position: absolute; margin-top: 150px;"></div>
           </div>
           <div class="row pr-3 pl-3">
             <div *ngIf="!Loading" class="card-deck">
