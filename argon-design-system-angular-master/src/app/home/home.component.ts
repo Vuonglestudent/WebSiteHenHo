@@ -1,4 +1,5 @@
-import { User } from './../Models/Models';
+import { ImageService } from './../service/image.service';
+import { ImageUser, User } from './../Models/Models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
         private usersService: UsersService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
+        private imageService: ImageService
     ) { }
 
     options = {
@@ -39,6 +41,9 @@ export class HomeComponent implements OnInit {
     PageIndexNewUser = 1;
     PageSizeNewUser = 10;
 
+    // LoadImageUser
+    imageUsers: ImageUser[] = new Array();
+
     //
     Loading = false;
     clickSeenImage = 0;
@@ -46,7 +51,7 @@ export class HomeComponent implements OnInit {
         this.Loading = true;
         this.usersService.GetFavoritest(this.PageIndexFavorite, this.PageSizeFavorite)
             .then(response => {
-                //this.Loading = false;
+                this.Loading = false;
                 this.Favoritors = response;
                 console.log(this.Favoritors);
             })
@@ -59,6 +64,21 @@ export class HomeComponent implements OnInit {
         this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
             .then(response => {
                 this.NewUsers = response;
+                this.NewUsers.forEach(element => {
+                    this.imageService.getImageByUserId(element.id)
+                        .then(data => {
+                            console.log(data)
+                            const imageUser = {} as ImageUser
+                            imageUser.id = element.id;
+                            imageUser.images = data;
+                            console.log(imageUser)
+                            this.imageUsers.push(imageUser)
+                        })
+                        .catch(error => {
+                            this.alertService.clear();
+                            this.alertService.error("Có lỗi khi tải hình ảnh!");
+                        })
+                });
             })
             .catch(error => {
                 this.alertService.clear();
@@ -197,5 +217,10 @@ export class HomeComponent implements OnInit {
         this.clickSeenImage = 1;
         var image = <HTMLElement>document.getElementById('myImg')
         image.click();
+    }
+
+    debug = (id , index) => {
+        console.log(id, index)
+        console.log(this.imageUsers[index])
     }
 }

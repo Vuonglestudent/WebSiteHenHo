@@ -66,9 +66,8 @@
                     <span class="description">
                       <i class="fa fa-camera text-dark"></i>
                     </span>
-                    <img *ngFor="let item of imageCarousel; let i = index" display="true" hidden="true"
-                      id="img_{{i + 1}}" src="{{item.img}}" alt="">
-                    <img id="img_4" display="true" hidden="true" src="{{UserProfile.avatarPath}}" alt="">
+                    <img *ngFor="let item of imagesResponse; let i = index" display="true" hidden="true"
+                      id="img_{{i + 1}}" src="" alt="{{item.imagePath}}">
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>

@@ -61,9 +61,9 @@
     height: 90vh;
     z-index: 12;
     margin: 5vh 30%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
     cursor: pointer;
   }
   

@@ -117,3 +117,8 @@ export class Image{
     hasImage: boolean;
     createdAt: string;
 }
+
+export class ImageUser {
+    id: string;
+    images: Image[];
+}

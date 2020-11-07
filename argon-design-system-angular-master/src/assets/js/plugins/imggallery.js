@@ -3,16 +3,19 @@ var imgContent;
 var idImgCurrent;
 
 function selectImage(id) {
+  console.log(id)
   idUser = id.split("img_")[1];
   img = document.getElementById(id).children[1];
   popImage(img);
 }
 
 function popImage(img) {
+  console.log(img)
   idImgCurrent = img.id.split("_")[1];
-  imgContent = img.src;
+  imgContent = img.alt;
+  //console.log("content " + imgContent)
   checkPath = imgContent.split(".")[imgContent.split(".").length - 1];
-  console.log(idImgCurrent, imgContent, checkPath);
+  console.log(idImgCurrent, imgContent);
   document.getElementById("imagePopId").style.display = "block";
   document.getElementsByTagName("body")[0].style.overflowY = "hidden";
   if (
@@ -28,7 +31,7 @@ function popImage(img) {
     document.getElementById(
       "imageContainId"
     ).style.background = `url(data:image/png;base64,${
-      imgContent.split("http://localhost:4200")[1]
+      imgContent.replace("http://localhost:4200", "")
     })`;
   }
 }

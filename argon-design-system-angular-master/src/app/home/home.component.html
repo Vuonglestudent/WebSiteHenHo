@@ -103,15 +103,20 @@
                                 style="font-size: 60%; margin-left: 1px; "></small></span></i>
                         </button>
                       </div>
-                      <div>
-                        <a class="btn-icon-card icon-hover" *ngFor="let item of imageCarousel; let i = index;"
-                          id="myImg" data-lightbox="mygallery" href="{{item.img}}">
-                          <i *ngIf="i == 0" class="ni ni-camera-compact" style="cursor: pointer">
+                      <div *ngFor="let itemImage of imageUsers; let z = index">
+                        <button *ngIf="item.id == itemImage.id" class="btn-icon-card icon-hover"
+                          id="img_{{itemImage.id}}" onclick="selectImage(id)" (click)="debug(itemImage.id , z)">
+                          <i class="ni ni-camera-compact" style="cursor: pointer">
                             <span><small class="text-dark"
-                                style="font-size: 60%; margin-left: 1px;">{{imageCarousel.length}}</small>
+                                style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
                             </span>
                           </i>
-                        </a>
+                          <img *ngFor="let image of imageUsers[z].images; let j = index" id="img_{{j + 1}}"
+                            display="true" hidden="true" src="" alt="{{image.imagePath}}">
+                          <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
+                            id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
+                          <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -213,3 +218,12 @@
   </div>
   <!-- <app-sections></app-sections> -->
 </main>
+
+<section class="imagePop" id="imagePopId">
+  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
+  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
+</section>

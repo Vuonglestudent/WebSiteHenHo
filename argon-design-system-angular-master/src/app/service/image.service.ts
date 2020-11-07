@@ -11,7 +11,7 @@ export class ImageService {
     private authenticationService: AuthenticationService
   ) { }
 
-  private mainUrl = "http://localhost:5000/api/Images";
+  private mainUrl = "http://localhost:5000/api/Images/";
   public getImageByUserId = (userId: string) =>{
     var path = `user/${userId}`;
     var headers = this.authenticationService.GetHeader();

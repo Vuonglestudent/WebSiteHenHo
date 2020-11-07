@@ -175,6 +175,7 @@ export class ProfileComponent implements OnInit {
     onViewImage = () => {
         this.imageService.getImageByUserId(this.authenticationService.UserInfo.Id)
             .then(data => {
+                console.log(data)
                 this.imagesResponse = data;
             })
             .catch(error => {
@@ -224,6 +225,6 @@ export class ProfileComponent implements OnInit {
     };
 
     ngAfterViewInit(): void {
-        
+        this.onViewImage()
     }
 }
