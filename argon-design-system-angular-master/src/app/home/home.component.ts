@@ -53,6 +53,11 @@ export class HomeComponent implements OnInit {
             .then(response => {
                 this.Loading = false;
                 this.Favoritors = response;
+                this.Favoritors.forEach(element => {
+                    if (element.id === this.authenticationService.UserInfo.Id) {
+                        this.Favoritors = this.Favoritors.filter(item => item !== element)
+                    }
+                });
                 console.log(this.Favoritors);
             })
             .catch(error => {
@@ -64,6 +69,11 @@ export class HomeComponent implements OnInit {
         this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
             .then(response => {
                 this.NewUsers = response;
+                this.NewUsers.forEach(element => {
+                    if (element.id === this.authenticationService.UserInfo.Id) {
+                        this.NewUsers = this.NewUsers.filter(item => item !== element)
+                    }
+                });
                 this.NewUsers.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
