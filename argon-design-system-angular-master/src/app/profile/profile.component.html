@@ -23,7 +23,8 @@
                     class="rounded-circle">
                   <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle">
                 </a>
-                <div id="changeAvatar" class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
+                <div *ngIf="checkUser" id="changeAvatar" class="dropdown-menu"
+                  style="margin-top: 130px; margin-left: 6%;">
                   <a href="javascript:;" class="dropdown-item">
                     <i class="ni ni-circle-08"></i>
                     <span>Xem ảnh đại diện</span>
@@ -37,14 +38,19 @@
             </div>
             <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
               <div class="card-profile-actions py-4 mt-lg-0">
-                <a *ngIf="" href="javascript:void(0)" (click)="clickFollow($event)"
-                  class="btn btn-sm btn-info mr-4">Theo dõi</a>
-                <a *ngIf="" href="javascript:void(0)" class="btn btn-sm btn-default float-right">Nhắn tin</a>
-                <button type="button" (click)="clickEdit()" class="btn btn-sm btn-default">
+                <button *ngIf="!checkUser" (click)="clickFollow($event)" class="btn btn-sm btn-default">
+                  <i class="fa fa-users"></i>
+                  Theo dõi
+                </button>
+                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary">
+                  <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-chat-round"></i></span>
+                  <span class="btn-inner--text">Nhắn tin</span>
+                </button>
+                <button *ngIf="checkUser" type="button" (click)="clickEdit()" class="btn btn-sm btn-default">
                   <i class="fa fa-edit"></i>
                   Chỉnh sửa
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" (click)="uploadImages()">
+                <button *ngIf="checkUser" type="button" class="btn btn-sm btn-primary" (click)="uploadImages()">
                   <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-camera-compact"></i></span>
                   <span class="btn-inner--text">Đăng hình</span>
                 </button>

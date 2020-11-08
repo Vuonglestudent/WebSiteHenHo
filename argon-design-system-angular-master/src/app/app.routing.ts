@@ -15,7 +15,7 @@ import { FriendListComponent } from './friend-list/friend-list.component'
 import { ChangePasswordComponent } from './change-password/change-password.component'
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent },
   { path: 'register', component: SignupComponent },
   { path: 'landing', component: LandingComponent },
   { path: 'login', component: LoginComponent },

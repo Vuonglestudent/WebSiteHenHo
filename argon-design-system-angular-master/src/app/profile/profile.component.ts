@@ -4,8 +4,9 @@ import { UsersService } from '../service/users.service';
 import { User, ProfileData, Image } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
 import { NgForm } from '@angular/forms';
-import { ImageService } from '../service/image.service';
+import { ImageService } from './../service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
     friends = 22
     editing: boolean = false;
     imageTitle: string;
-
+    checkUser = false;
     imagesResponse: Array<Image>;
     //icon
     faSpinner = faSpinner;
@@ -41,8 +42,13 @@ export class ProfileComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private imageService: ImageService,
         private alertService: AlertService,
-        private el: ElementRef
-    ) { }
+        private el: ElementRef,
+        private route: ActivatedRoute
+    ) {
+        this.route.paramMap.subscribe(params => {
+            this.ngOnInit();
+        });
+    }
 
     options = {
         autoClose: false,
@@ -50,7 +56,12 @@ export class ProfileComponent implements OnInit {
     };
 
     ngOnInit() {
-        this.usersService.GetById(this.authenticationService.UserInfo.Id)
+        if (this.route.snapshot.paramMap.get('id') === this.authenticationService.UserInfo.Id) {
+            this.checkUser = true;
+        } else {
+            this.checkUser = false;
+        }
+        this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
             .then(data => {
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
@@ -72,6 +83,8 @@ export class ProfileComponent implements OnInit {
                 alert(error);
                 console.log(error);
             })
+
+        this.onViewImage()
     }
     updating: boolean = false;
     onUpdateInfo() {
@@ -173,7 +186,7 @@ export class ProfileComponent implements OnInit {
     }
 
     onViewImage = () => {
-        this.imageService.getImageByUserId(this.authenticationService.UserInfo.Id)
+        this.imageService.getImageByUserId(this.route.snapshot.paramMap.get('id'))
             .then(data => {
                 console.log(data)
                 this.imagesResponse = data;
@@ -223,8 +236,4 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
-
-    ngAfterViewInit(): void {
-        this.onViewImage()
-    }
 }

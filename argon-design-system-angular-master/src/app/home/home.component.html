@@ -68,7 +68,7 @@
             <div *ngIf="!Loading" class="card-deck">
               <div *ngFor="let item of Favoritors; let i = index" class="col-md-4 col-xl-4 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
-                <div class="card" (click)="clickProfileUser()">
+                <div class="card" (click)="clickProfileUser(item.id)">
                   <div class="d-flex justify-content-center">
                     <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
                         class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
@@ -227,3 +227,5 @@
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
 </section>
+
+<!-- [routerLink]="['../assessment']" [queryParams]="{assessment: item.Id, certificateId: certificateId}" -->

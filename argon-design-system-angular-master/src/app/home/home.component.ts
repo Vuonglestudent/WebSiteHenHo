@@ -224,7 +224,7 @@ export class HomeComponent implements OnInit {
         console.log(this.imageUsers[index])
     }
 
-    clickProfileUser = () => {
-        
+    clickProfileUser = (id) => {
+        this.router.navigate(['/profile' , id]);
     }
 }
