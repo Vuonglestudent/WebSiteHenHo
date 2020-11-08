@@ -223,4 +223,8 @@ export class HomeComponent implements OnInit {
         console.log(id, index)
         console.log(this.imageUsers[index])
     }
+
+    clickProfileUser = () => {
+        
+    }
 }
