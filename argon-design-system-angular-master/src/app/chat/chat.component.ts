@@ -1,8 +1,7 @@
-import { UserDisplay } from './../Models/Models';
+import { UserDisplay, Message, ChatFriend } from './../Models/Models';
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';
-import { Message, ChatFriend } from '../Models/Models';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
@@ -29,9 +28,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   IsStarted = false;
 
   public CurrentUserId = 'EC826AF8-0310-48CF-8A14-DA11BDB1C96D';
-
   public DestUserId = "EC826AF8-0310-48CF-8A14-DA11BDB1C96E";
   public PageIndex = 1;
+  public MessageIndex = 1;
   public PageSize = 20;
   public From: string;
   public To: string;
@@ -43,6 +42,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   messages = new Array<Message>();
   message = new Message();
   friendList = new Array<ChatFriend>();
+  nameReceiver = '';
+
 
   ngOnInit(): void {
 
@@ -59,6 +60,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.PageIndex = 1;
         this.messages = new Array<Message>();
         this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
+        this.nameReceiver = this.friendList[0].user.fullName;
       })
       .catch(error => {
         console.log('this is error');
@@ -66,7 +68,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       });
   }
   ngAfterViewInit(): void {
-
+    this.setScroll()
   }
 
 
@@ -87,69 +89,49 @@ export class ChatComponent implements OnInit, AfterViewInit {
         .catch(error => {
           console.log(error)
         });
-
       this.txtMessage = '';
+      this.setScroll()
     }
+  }
+
+  setScroll = () => {
+    var scroll = <HTMLElement>document.getElementById('contentMessage');
+    console.log(scroll.scrollHeight)
+    scroll.scrollTop = scroll.scrollHeight
   }
 
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
-        console.log('Nhận tin nhắn');
+        console.log('this is res');
         console.log(response);
         var message = new Message();
         message = response;
-
         if (message.senderId == this.CurrentUserId) {
           message.type = 'sent';
           console.log('sender');
-
-          
-          
-          this.messages.push(message);
-        } else if (message.receiverId == this.CurrentUserId) {
-          message.type = 'received';
-          console.log('receiver');
-
-          var userIndex = this.getUserIndex(message.senderId);
+          var userIndex = this.getUserIndex(message.receiverId);
           if (userIndex == -1) {
-            console.log('Một user mới');
-            this.messageService.GetChatFriend(this.CurrentUserId, message.senderId)
-              .then(response=>{
-                var newFriend = new ChatFriend();
-                newFriend = response;
-                console.log('this is response');
-                console.log(newFriend);
-                this.friendList.push(newFriend);
-                return;
+            var newUser = new UserDisplay();
+            this.usersService.GetDisplayUser(message.receiverId)
+              .then(response => {
+                newUser = response;
               })
-              .catch(error =>{
+              .catch(error => {
                 alert("Can not get display user");
                 return;
               })
           }
-
-
+          this.messages.push(message);
+        } else if (message.receiverId == this.CurrentUserId) {
+          message.type = 'received';
+          console.log('receiver');
           this.messages.push(message);
         } else {
           console.log("nothing!");
         }
-
-        // if (message.senderId == this.CurrentUserId) {
-        //   message.type = 'sent';
-        //   console.log('sender');
-        //   this.messages.push(message);
-        // } else if (message.receiverId == this.CurrentUserId) {
-        //   message.type = 'received';
-        //   console.log('receiver');
-        //   this.messages.push(message);
-        // } else {
-        //   console.log("nothing!");
-        // }
-
       })
-
-      console.log(JSON.stringify(this.messages));
+      //console.log(JSON.stringify(this.messages));
     })
   }
 
@@ -175,19 +157,23 @@ export class ChatComponent implements OnInit, AfterViewInit {
   getUserIndex = (userId: string) => {
     var index = -1;
     for (let i = 0; i < this.friendList.length; i++) {
-      console.log(this.friendList[i].user.id);
       if (this.friendList[i].user.id == userId) {
         return i;
       }
     }
-    return index;
   }
 
+  onScroll = () => {
+    var scroll = <HTMLElement>document.getElementById('contentMessage')
+    if (scroll.scrollTop === 0) {
+      this.MoreMessages(this.DestUserId, this.UserIndex)
+    }
+  }
   MoreMessages = (userId: string, userIndex: number) => {
-    this.messageService.moreMessages(1, this.PageSize, this.CurrentUserId, userId)
+    this.messageService.moreMessages(this.MessageIndex, this.PageSize, this.CurrentUserId, userId)
       .then(data => {
         //console.log(data);
-        //this.PageIndex += 1;
+        this.MessageIndex += 1;
         this.messages = new Array<Message>();
         data.forEach(element => {
           if (this.IsExist(element.id)) {
@@ -198,35 +184,41 @@ export class ChatComponent implements OnInit, AfterViewInit {
             this.messages.splice(0, 0, message);
           }
         });
-        this.friendList[userIndex].messages = this.messages;
+        this.friendList[userIndex].messages = this.messages.concat(this.friendList[userIndex].messages) ;
         console.log(this.friendList[userIndex].messages)
       })
       .catch(error => {
-
       })
   }
 
-  clickSendUser = (idUser) => {
+
+  clickSendUser = (idUser, nameUser) => {
+    var destUserIdOld = <HTMLElement>document.getElementById(`DestUserId_${localStorage.getItem('DestUserId')}`);
+    if (destUserIdOld != null) {
+      console.log(destUserIdOld)
+      destUserIdOld.setAttribute('class', 'd-flex bd-highlight')
+    }
     console.log(idUser);
     this.DestUserId = idUser;
+    var destUserId = <HTMLElement>document.getElementById(`DestUserId_${idUser}`);
     var userIndex = this.getUserIndex(idUser);
     this.UserIndex = userIndex;
     this.MoreMessages(idUser, this.UserIndex);
+    destUserId.setAttribute('class', 'd-flex bd-highlight active')
+    localStorage.setItem('DestUserId', idUser)
+    this.nameReceiver = nameUser
+
+    this.MessageIndex = 1;
+  }
+
+  breakRow = (e) => {
+    var message = e.target
+    this.txtMessage = this.txtMessage + "\n"
+    message.setAttribute('value', `${this.txtMessage}`)
+  }
+
+  convertMessage = (msg) => {
+    console.log(msg);
   }
 
 }
-
-
-            // if (message.senderId == this.CurrentUserId) {
-            //   message.type = 'sent';
-            //   console.log('sender');
-            //   console.log(message);
-            //   this.messages.splice(0, 0, message);
-            // } else if (message.receiverId == this.CurrentUserId) {
-            //   message.type = 'received';
-            //   console.log('receiver');
-            //   console.log(message);
-            //   this.messages.splice(0, 0, message);
-            // }
-
-            //
