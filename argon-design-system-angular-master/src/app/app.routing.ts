@@ -1,3 +1,4 @@
+import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'facebooklogin', component: FacebookLoginComponent },
   { path: 'friendlist', component: FriendListComponent },
   { path: 'changepassword', component: ChangePasswordComponent },
-  { path: 'test', component: SeenImageComponent }
+  //{ path: 'test', component: SeenImageComponent },
+  { path: 'filterfriends' , component: FilterFriendsComponent}
 ];
 
 @NgModule({

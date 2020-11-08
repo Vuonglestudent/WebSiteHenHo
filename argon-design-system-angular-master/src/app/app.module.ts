@@ -32,6 +32,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { CommonModule } from '@angular/common';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     ChangePasswordComponent,
     HomeComponent,
     SeenImageComponent,
+    FilterFriendsComponent,
   ],
   imports: [
     BrowserModule,
