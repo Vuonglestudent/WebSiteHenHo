@@ -154,9 +154,9 @@ export class HomeComponent implements OnInit {
         var target = event.target;
         var checkClass = target.getAttribute('class');
         console.log(checkClass)
-        if (checkClass == 'carousel-control-next-icon') {
+        if (checkClass == 'carousel-control-next-icon' || checkClass == 'carousel-control-next') {
             this.nextCarousel()
-        } else if (checkClass == 'carousel-control-prev-icon') {
+        } else if (checkClass == 'carousel-control-prev-icon' || checkClass == 'carousel-control-prev') {
             this.prevCarousel()
         } else {
             this.changeByLi(event)

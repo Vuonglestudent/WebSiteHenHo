@@ -231,3 +231,8 @@ a.btn-icon-card, a.icon-hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.carousel-control-prev:hover , .carousel-control-next:hover {
+  cursor: pointer;
+  background-color:rgba(0 , 0 ,0 , 0.6);
+}

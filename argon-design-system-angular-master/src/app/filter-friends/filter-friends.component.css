@@ -5,5 +5,23 @@
   position: absolute;
   top: 20vh;
   box-shadow: 8px 10px 5px rgba(0, 0, 0, 0.6);
-  background-image: linear-gradient(to bottom  right, #FB6440 , #FBAF40);
+  background-image: linear-gradient(to bottom  right, #FFFFFF , #5FE7FF);
+  border-radius: 15px
+}
+
+.labelBlack {
+  background-color: rgba(0, 0, 0, 1.0);
+  width: 5px;
+  height: 25px;
+  margin-top: 15px;
+  left: 0%;
+  position: absolute;
+}
+
+.filter {
+  margin-top: 10px;
+}
+
+.filter h4 {
+  color: black !important;
 }
