@@ -22,12 +22,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private usersService: UsersService,
   ) {
-    this.subscribeToEvents();
+    // this.subscribeToEvents();
   }
 
   IsStarted = false;
 
-  public CurrentUserId = '';
+  public CurrentUserId = this.authenticationService.UserInfo.Id;
   public DestUserId = "";
   public PageIndex = 1;
   public MessageIndex = 1;
@@ -41,26 +41,22 @@ export class ChatComponent implements OnInit, AfterViewInit {
   txtMessage: string = '';
   messages = new Array<Message>();
   message = new Message();
-  friendList = new Array<ChatFriend>();
+  
   nameReceiver = '';
-
 
   ngOnInit(): void {
 
     this.CurrentUserId = this.authenticationService.UserInfo.Id;
 
-    this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener();
-
     this.messageService.GetFriendList(this.CurrentUserId)
       .then(response => {
-        this.friendList = response;
+        this.messageService.friendList = response;
         console.log('this is friend list')
-        console.log(this.friendList);
+        console.log(this.messageService.friendList);
         this.PageIndex = 1;
         this.messages = new Array<Message>();
-        this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
-        this.nameReceiver = this.friendList[0].user.fullName;
+        this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
+        this.nameReceiver = this.messageService.friendList[0].user.fullName;
       })
       .catch(error => {
         console.log('this is error');
@@ -100,49 +96,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     scroll.scrollTop = scroll.scrollHeight
   }
 
-  subscribeToEvents = () => {
-    this.signalRService.messageReceived.subscribe((response: any) => {
-      this._ngZone.run(() => {
-        console.log('this is res');
-        console.log(response);
-        var message = new Message();
-        message = response;
-        if (message.senderId == this.CurrentUserId) {
-          message.type = 'sent';
-          console.log('sender');
-          var userIndex = this.getUserIndex(message.receiverId);
-          if (userIndex == -1) {
-            var newUser = new UserDisplay();
-            this.usersService.GetDisplayUser(message.receiverId)
-              .then(response => {
-                newUser = response;
-              })
-              .catch(error => {
-                alert("Can not get display user");
-                return;
-              })
-          }
-          this.friendList[this.UserIndex].messages.push(message);
-        } else if (message.receiverId == this.CurrentUserId) {
-          message.type = 'received';
-          console.log('receiver');
-          this.friendList[this.UserIndex].messages.push(message);
-        } else {
-          console.log("nothing!");
-        }
-      })
-    })
-  }
-
-  onSubmit(f: NgForm) {
-    if (f.value.From == "" || f.value.To == "") {
-      alert("Điền đầy đủ thông tin người nhận người gửi!");
-      return;
-    }
-    this.CurrentUserId = f.value.From;
-    this.DestUserId = f.value.To;
-    alert("Ok let start chat!");
-  }
 
   IsExist = (messageId: number) => {
     this.messages.forEach(element => {
@@ -153,14 +106,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     return true;
   }
 
-  getUserIndex = (userId: string) => {
-    var index = -1;
-    for (let i = 0; i < this.friendList.length; i++) {
-      if (this.friendList[i].user.id == userId) {
-        return i;
-      }
-    }
-  }
+
 
   onScroll = () => {
     var scroll = <HTMLElement>document.getElementById('contentMessage')
@@ -183,8 +129,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
             this.messages.splice(0, 0, message);
           }
         });
-        this.friendList[userIndex].messages = this.messages.concat(this.friendList[userIndex].messages) ;
-        console.log(this.friendList[userIndex].messages)
+        this.messageService.friendList[userIndex].messages = this.messages.concat(this.messageService.friendList[userIndex].messages) ;
+        console.log(this.messageService.friendList[userIndex].messages)
       })
       .catch(error => {
       })
@@ -216,8 +162,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     message.setAttribute('value', `${this.txtMessage}`)
   }
 
-  convertMessage = (msg) => {
-    console.log(msg);
+  getUserIndex = (userId: string) => {
+    var index = -1;
+    for (let i = 0; i < this.messageService.friendList.length; i++) {
+      if (this.messageService.friendList[i].user.id == userId) {
+        return i;
+      }
+    }
   }
-
 }

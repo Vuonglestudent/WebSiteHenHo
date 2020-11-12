@@ -67,7 +67,7 @@
         </div>
         <div class="contacts_body">
           <ul class="contacts">
-            <li *ngFor="let friend of friendList" (click)="clickSendUser(friend.user.id, friend.user.fullName)"
+            <li *ngFor="let friend of messageService.friendList" (click)="clickSendUser(friend.user.id, friend.user.fullName)"
               style="cursor: pointer;">
               <div id="DestUserId_{{friend.user.id}}" class="d-flex bd-highlight">
                 <div class="d-flex img_cont" style="padding-left: 15px;">
@@ -134,7 +134,7 @@
             </div>
           </div> -->
           <!-- Thuc te -->
-          <div *ngFor="let msg of friendList[UserIndex].messages">
+          <div *ngFor="let msg of messageService.friendList[UserIndex].messages">
             <div *ngIf="msg.type == 'received'" class="d-flex justify-content-start mb-4 row"
               style="margin-right: 48%;">
               <div class="d-flex img_cont_msg align-self-end" style="min-width: 40px;">
