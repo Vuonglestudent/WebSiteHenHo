@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as path from 'path';
 import { AuthenticationService } from '../signup/authentication.service';
+import { ChatFriend } from '../Models/Models';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,4 +47,6 @@ export class MessageService {
 
     return this.http.get<any>(this.mainUrl + path + query, {headers: headers}).toPromise();
   }
+
+  public friendList = new Array<ChatFriend>();
 }
