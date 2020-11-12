@@ -27,8 +27,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   IsStarted = false;
 
-  public CurrentUserId = 'EC826AF8-0310-48CF-8A14-DA11BDB1C96D';
-  public DestUserId = "EC826AF8-0310-48CF-8A14-DA11BDB1C96E";
+  public CurrentUserId = '';
+  public DestUserId = "";
   public PageIndex = 1;
   public MessageIndex = 1;
   public PageSize = 20;
@@ -122,16 +122,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
                 return;
               })
           }
-          this.messages.push(message);
+          this.friendList[this.UserIndex].messages.push(message);
         } else if (message.receiverId == this.CurrentUserId) {
           message.type = 'received';
           console.log('receiver');
-          this.messages.push(message);
+          this.friendList[this.UserIndex].messages.push(message);
         } else {
           console.log("nothing!");
         }
       })
-      //console.log(JSON.stringify(this.messages));
     })
   }
 
