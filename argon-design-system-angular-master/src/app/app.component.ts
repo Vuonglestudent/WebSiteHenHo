@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild, HostListener, NgZone } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
@@ -6,6 +6,9 @@ import { DOCUMENT } from '@angular/common';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { AuthenticationService } from './signup/authentication.service';
 import { SignalRService } from './service/signal-r.service';
+import { MessageService } from './service/message.service';
+import { Message, UserDisplay } from './Models/Models';
+import { UsersService } from './service/users.service';
 
 var didScroll;
 var lastScrollTop = 0;
@@ -25,7 +28,13 @@ export class AppComponent implements OnInit {
         private element: ElementRef,
         public location: Location,
         private authenticationService: AuthenticationService,
-        public signalRService: SignalRService) { }
+        public signalRService: SignalRService,
+        private messageService: MessageService,
+        private usersService: UsersService,
+        private _ngZone: NgZone,
+        ) {
+            this.subscribeToEvents();
+         }
     @HostListener('window:scroll', ['$event'])
     hasScrolled() {
 
@@ -69,7 +78,8 @@ export class AppComponent implements OnInit {
                         this.authenticationService.IsLogin = true;
                         console.log('Valid token')
                         //this.signalRService.startConnection();
-                        
+                        this.signalRService.startConnection();
+                        this.signalRService.addTransferChartDataListener();
                     })
                     .catch(error => {
                         if (error.status == 401) {
@@ -110,4 +120,48 @@ export class AppComponent implements OnInit {
         });
         this.hasScrolled();
     }
+
+    subscribeToEvents = () => {
+        this.signalRService.messageReceived.subscribe((response: any) => {
+          this._ngZone.run(() => {
+            console.log('this is res');
+            console.log(response);
+            var message = new Message();
+            message = response;
+            if (message.senderId == this.authenticationService.UserInfo.Id) {
+              message.type = 'sent';
+              console.log('sender');
+              var userIndex = this.getUserIndex(message.receiverId);
+              if (userIndex == -1) {
+                var newUser = new UserDisplay();
+                this.usersService.GetDisplayUser(message.receiverId)
+                  .then(response => {
+                    newUser = response;
+                  })
+                  .catch(error => {
+                    alert("Can not get display user");
+                    return;
+                  })
+              }
+              var userIndex = this.getUserIndex(message.receiverId);
+              this.messageService.friendList[userIndex].messages.push(message);
+            } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
+              message.type = 'received';
+              console.log('receiver');
+              var userIndex = this.getUserIndex(message.senderId);
+              this.messageService.friendList[userIndex].messages.push(message);
+            } else {
+              console.log("nothing!");
+            }
+          })
+        })
+      }
+      getUserIndex = (userId: string) => {
+        var index = -1;
+        for (let i = 0; i < this.messageService.friendList.length; i++) {
+          if (this.messageService.friendList[i].user.id == userId) {
+            return i;
+          }
+        }
+      }
 }
