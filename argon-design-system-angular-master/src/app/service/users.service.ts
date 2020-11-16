@@ -112,7 +112,7 @@ export class UsersService {
     data.append("Weight", profile.profile.weight.toString());
     data.append("Height", profile.profile.height.toString());
     data.append("Dob", profile.profile.dob.toString());
-    data.append("IAm", profile.profile.iAm);
+    data.append("FindPeople", profile.profile.findPeople);
     data.append("Marriage", profile.profile.marriage);
     data.append("Target", profile.profile.target);
     data.append("Education", profile.profile.education);

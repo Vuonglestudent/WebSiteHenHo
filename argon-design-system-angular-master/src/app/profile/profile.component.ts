@@ -1,6 +1,6 @@
 import { MessageService } from './../service/message.service';
 import { AlertService } from './../_alert/alert.service';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { User, ProfileData, Image } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
 
     nameUser = 'Lê Quốc Nguyên Vương'
     ageUser = '20'
@@ -52,6 +52,14 @@ export class ProfileComponent implements OnInit {
             this.ngOnInit();
         });
     }
+    ngAfterViewInit(): void {
+        if(!this.authenticationService.UserInfo.IsInfoUpdated){
+            this.editing = true;
+            this.alertService.clear();
+            this.alertService.warn('Vui lòng cập nhật hồ sơ để tiếp tục sử dụng ứng dụng!');
+            return;
+          }
+    }
 
     options = {
         autoClose: false,
@@ -66,6 +74,8 @@ export class ProfileComponent implements OnInit {
         }
         this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
             .then(data => {
+                console.log('this is data');
+                console.log(data);
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
                 console.log(this.UserProfile, this.UserProfile.profile.dob);
@@ -114,6 +124,7 @@ export class ProfileComponent implements OnInit {
                 this.alertService.clear();
                 this.alertService.success("Cập nhật hồ sơ thành công!");
                 this.editing = false;
+                this.authenticationService.UserInfo.IsInfoUpdated = true;
             })
             .catch(error => {
                 this.updating = false;
@@ -202,7 +213,6 @@ export class ProfileComponent implements OnInit {
 
     replaceCharacter = (userProfile: User) => {
         userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
-        userProfile.profile.iAm = userProfile.profile.iAm.replace(/_/g, " ");
         userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
         userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
         userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
@@ -222,7 +232,6 @@ export class ProfileComponent implements OnInit {
 
     reReplaceCharacter = (userProfile: User) => {
         userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/ /g, "_");
-        userProfile.profile.iAm = userProfile.profile.iAm.replace(/ /g, "_");
         userProfile.profile.job = userProfile.profile.job.replace(/ /g, "_");
         userProfile.profile.location = userProfile.profile.location.replace(/ /g, "_");
         userProfile.profile.marriage = userProfile.profile.marriage.replace(/ /g, "_");

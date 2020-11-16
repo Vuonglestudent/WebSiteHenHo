@@ -192,25 +192,25 @@
 
                       <tr>
                         <th scope="row" class="text-left">Tìm kiếm</th>
-                        <td *ngIf="!editing" class="text-left"><span>{{UserProfile.profile.iAm}}</span></td>
+                        <td *ngIf="!editing" class="text-left"><span>{{UserProfile.profile.findPeople}}</span></td>
                         <td *ngIf="editing" class="d-flex radioProfile">
                           <div class="d-flex align-items-center" style="width: 50%;">
-                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.iAm == 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio" name="iAm"
-                              value="Nam Tìm Nữ" checked>
-                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.iAm != 'Nam Tìm Nữ'" class="mr-2 ml-3" type="radio" name="iAm"
-                              value="Nam Tìm Nữ">
-                            <label for="">Nam Tìm Nữ</label>
+                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.findPeople == 'Nữ'" class="mr-2 ml-3" type="radio" name="findPeople"
+                              value="Nữ" checked>
+                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.findPeople != 'Nữ'" class="mr-2 ml-3" type="radio" name="findPeople"
+                              value="Nữ">
+                            <label for="">Tìm Nữ</label>
                           </div>
                           <div class="d-flex align-items-center">
-                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.iAm == 'Nữ Tìm Nam'" class="mr-2 ml-3" type="radio" name="iAm"
-                              value="Nữ Tìm Nam" checked>
-                            <input [(ngModel)]="UserProfile.profile.iAm" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.iAm != 'Nữ Tìm Nam'" class="mr-2 ml-3" type="radio" name="iAm"
-                              value="Nữ Tìm Nam">
-                            <label for="">Nữ Tìm Nam</label>
+                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.findPeople == 'Nam'" class="mr-2 ml-3" type="radio" name="findPeople"
+                              value="Nam" checked>
+                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
+                              *ngIf="UserProfile.profile.findPeople != 'Nam'" class="mr-2 ml-3" type="radio" name="findPeople"
+                              value="Nam">
+                            <label for="">Tìm Nam</label>
                           </div>
                         </td>
                       </tr>

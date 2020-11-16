@@ -5,7 +5,6 @@ export class Profile {
     height: number;
     dob: String;
     age: number;
-    iAm: string;
     job: string;
     location: string;
     marriage: string;
@@ -42,7 +41,7 @@ export class User {
     followed: boolean;
     favorited: boolean;
     blocked: boolean;
-    isInfoUpdated: number;
+    isInfoUpdated: boolean;
     token?: any;
     profile: Profile;
 }
@@ -87,6 +86,7 @@ export class ChatFriend {
 }
 
 export class ProfileData {
+    findPeople: string[];
     atmosphereLike: string[];
     body: string[];
     character: string[];
@@ -94,7 +94,6 @@ export class ProfileData {
     education: string[];
     favoriteMovie: string[];
     gender: string[];
-    iAm: string[];
     job: string[];
     lifeStyle: string[];
     location: string[];
