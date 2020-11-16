@@ -199,7 +199,6 @@ export class ProfileComponent implements OnInit {
 
     replaceCharacter = (userProfile: User) => {
         userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
-        userProfile.profile.iAm = userProfile.profile.iAm.replace(/_/g, " ");
         userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
         userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
         userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
@@ -219,7 +218,6 @@ export class ProfileComponent implements OnInit {
 
     reReplaceCharacter = (userProfile: User) => {
         userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/ /g, "_");
-        userProfile.profile.iAm = userProfile.profile.iAm.replace(/ /g, "_");
         userProfile.profile.job = userProfile.profile.job.replace(/ /g, "_");
         userProfile.profile.location = userProfile.profile.location.replace(/ /g, "_");
         userProfile.profile.marriage = userProfile.profile.marriage.replace(/ /g, "_");
