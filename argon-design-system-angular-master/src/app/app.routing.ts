@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'facebooklogin', component: FacebookLoginComponent },
   { path: 'friendlist', component: FriendListComponent },
+  { path: 'friendlist/:id', component: FriendListComponent },
   { path: 'changepassword', component: ChangePasswordComponent },
   //{ path: 'test', component: SeenImageComponent },
   { path: 'filterfriends' , component: FilterFriendsComponent}

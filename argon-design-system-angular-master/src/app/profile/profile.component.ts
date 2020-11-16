@@ -1,3 +1,4 @@
+import { MessageService } from './../service/message.service';
 import { AlertService } from './../_alert/alert.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { UsersService } from '../service/users.service';
@@ -6,7 +7,7 @@ import { AuthenticationService } from '../signup/authentication.service';
 import { NgForm } from '@angular/forms';
 import { ImageService } from './../service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -43,7 +44,9 @@ export class ProfileComponent implements OnInit {
         private imageService: ImageService,
         private alertService: AlertService,
         private el: ElementRef,
-        private route: ActivatedRoute
+        private router: Router,
+        private route: ActivatedRoute,
+        private messageService: MessageService
     ) {
         this.route.paramMap.subscribe(params => {
             this.ngOnInit();
@@ -236,4 +239,22 @@ export class ProfileComponent implements OnInit {
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
+
+    sendMessageFriendNew = (id) => {
+        // if (this.CurrentUserId == "" || this.DestUserId == "") {
+        //     alert("Điền đầy đủ thông tin người nhận người gửi!");
+        //     return;
+        //   }
+        // console.log(this.authenticationService.UserInfo.Id, id)
+
+        // this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, "Hello")
+        //     .then(data => {
+        //         console.log(data)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //     });
+        this.router.navigate(['/friendlist', id])
+    }
 }
+

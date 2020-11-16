@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
 import { UsersService } from '../service/users.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +22,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private messageService: MessageService,
     private usersService: UsersService,
+    private route: ActivatedRoute
   ) {
     // this.subscribeToEvents();
   }
@@ -41,7 +43,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   txtMessage: string = '';
   messages = new Array<Message>();
   message = new Message();
-  
+
   nameReceiver = '';
 
   ngOnInit(): void {
@@ -57,6 +59,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.messages = new Array<Message>();
         this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
         this.nameReceiver = this.messageService.friendList[0].user.fullName;
+        // this.messageService.friendList.forEach(element => {
+        //   if (this.route.snapshot.paramMap.get('id') === element.user.id) {
+        //     var nameUser = element.user.fullName;
+        //     this.clickSendUser(this.route.snapshot.paramMap.get('id'), nameUser)
+        //   }
+        // });
       })
       .catch(error => {
         console.log('this is error');
@@ -129,7 +137,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             this.messages.splice(0, 0, message);
           }
         });
-        this.messageService.friendList[userIndex].messages = this.messages.concat(this.messageService.friendList[userIndex].messages) ;
+        this.messageService.friendList[userIndex].messages = this.messages.concat(this.messageService.friendList[userIndex].messages);
         console.log(this.messageService.friendList[userIndex].messages)
       })
       .catch(error => {
