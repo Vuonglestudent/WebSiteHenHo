@@ -41,7 +41,7 @@ export class User {
     followed: boolean;
     favorited: boolean;
     blocked: boolean;
-    isInfoUpdated: number;
+    isInfoUpdated: boolean;
     token?: any;
     profile: Profile;
 }

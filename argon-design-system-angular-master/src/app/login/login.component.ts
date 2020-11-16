@@ -28,33 +28,34 @@ export class LoginComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      console.log(user);
-      this.user = user;
-      this.authenticationService.FacebookLogin(this.user)
-        .then(response => {
-          console.log(response)
-          this.loggedIn = true;
-          var userInfo = {
-            Id: response.id,
-            UserName: response.userName,
-            FullName: response.fullName,
-            Email: response.email,
-            token: response.token
-          };
-          this.authenticationService.IsLogin = true;
-          this.authenticationService.UserInfo = userInfo;
-          // Put the object into storage
-          localStorage.setItem('UserInfo', JSON.stringify(userInfo));
-          this.alertService.clear();
-          this.alertService.success("Đăng nhập thành công!", this.options)
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          this.alertService.clear();
-          this.alertService.error(error.error.message, this.options);
-        })
-    })
+    // this.authService.authState.subscribe((user) => {
+    //   console.log(user);
+    //   this.user = user;
+    //   this.authenticationService.FacebookLogin(this.user)
+    //     .then(response => {
+    //       console.log(response)
+    //       this.loggedIn = true;
+    //       var userInfo = {
+    //         Id: response.id,
+    //         UserName: response.userName,
+    //         FullName: response.fullName,
+    //         Email: response.email,
+    //         token: response.token
+    //       };
+    //       this.authenticationService.IsLogin = true;
+    //       this.authenticationService.UserInfo = userInfo;
+    //       // Put the object into storage
+    //       localStorage.setItem('UserInfo', JSON.stringify(userInfo));
+    //       this.alertService.clear();
+    //       this.alertService.success("Đăng nhập thành công!", this.options)
+    //     })
+    //     .catch(error => {
+    //       this.loggedIn = false;
+    //       this.alertService.clear();
+    //       this.alertService.error(error.error.message, this.options);
+    //     })
+    // })
+  
   }
 
   user: SocialUser;
@@ -97,7 +98,8 @@ export class LoginComponent implements OnInit {
           UserName: response.userName,
           FullName: response.fullName,
           Email: response.email,
-          token: response.token
+          token: response.token,
+          IsInfoUpdated: response.isInfoUpdated
         };
 
         this.authenticationService.IsLogin = true;
@@ -106,8 +108,16 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
         
         // Retrieve the object from storage
+        this.alertService.clear();
         this.alertService.success('Success!!', this.options);
+        console.log('this is info');
+        console.log(this.authenticationService.UserInfo);
+        if(!this.authenticationService.UserInfo.IsInfoUpdated){
+          this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+          return;
+        }
         this.router.navigateByUrl('/home');
+        return;
       })
       .catch(error => {
         console.log(error.error);
@@ -208,7 +218,40 @@ export class LoginComponent implements OnInit {
   }
 
   onFacebookLogin = () => {
+
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.authenticationService.FacebookLogin(this.user)
+        .then(response => {
+          this.loggedIn = true;
+          var userInfo = {
+            Id: response.id,
+            UserName: response.userName,
+            FullName: response.fullName,
+            Email: response.email,
+            token: response.token
+          };
+          this.authenticationService.IsLogin = true;
+          this.authenticationService.UserInfo = userInfo;
+          // Put the object into storage
+          localStorage.setItem('UserInfo', JSON.stringify(userInfo));
+          console.log('this is userInfo');
+          console.log(this.authenticationService.UserInfo);
+          if(!this.authenticationService.UserInfo.IsInfoUpdated){
+            this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+          }
+          this.router.navigateByUrl('/home');
+        })
+        .catch(error => {
+          this.loggedIn = false;
+          this.alertService.clear();
+          this.alertService.error(error.error.message, this.options);
+        })
+    })
+
+  
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+
   }
 
   onGoogleLogin = () => {

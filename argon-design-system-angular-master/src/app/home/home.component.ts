@@ -97,6 +97,12 @@ export class HomeComponent implements OnInit {
                 this.nextCarousel();
             }
         });
+
+        if(!this.authenticationService.UserInfo.IsInfoUpdated){
+            this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+            return;
+          }
+
     }
     GetUserInfo = (userId: string) => {
         this.alertService.clear();
@@ -225,6 +231,10 @@ export class HomeComponent implements OnInit {
     }
 
     clickProfileUser = (id) => {
+        if(!this.authenticationService.IsLogin){
+            this.LoginRequired();
+            return;
+        }
         this.router.navigate(['/profile' , id]);
     }
 }

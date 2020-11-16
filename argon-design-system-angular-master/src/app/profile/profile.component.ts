@@ -1,5 +1,5 @@
 import { AlertService } from './../_alert/alert.service';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { UsersService } from '../service/users.service';
 import { User, ProfileData, Image } from '../Models/Models';
 import { AuthenticationService } from '../signup/authentication.service';
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
 
     nameUser = 'Lê Quốc Nguyên Vương'
     ageUser = '20'
@@ -49,6 +49,14 @@ export class ProfileComponent implements OnInit {
             this.ngOnInit();
         });
     }
+    ngAfterViewInit(): void {
+        if(!this.authenticationService.UserInfo.IsInfoUpdated){
+            this.editing = true;
+            this.alertService.clear();
+            this.alertService.warn('Vui lòng cập nhật hồ sơ để tiếp tục sử dụng ứng dụng!');
+            return;
+          }
+    }
 
     options = {
         autoClose: false,
@@ -63,6 +71,8 @@ export class ProfileComponent implements OnInit {
         }
         this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
             .then(data => {
+                console.log('this is data');
+                console.log(data);
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
                 console.log(this.UserProfile, this.UserProfile.profile.dob);
@@ -111,6 +121,7 @@ export class ProfileComponent implements OnInit {
                 this.alertService.clear();
                 this.alertService.success("Cập nhật hồ sơ thành công!");
                 this.editing = false;
+                this.authenticationService.UserInfo.IsInfoUpdated = true;
             })
             .catch(error => {
                 this.updating = false;
