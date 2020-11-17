@@ -191,6 +191,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.clear();
                 this.alertService.success("Đăng ảnh thành công!", this.options);
                 this.files = [];
+                this.ngOnInit();
+                this.uploadImage = !this.uploadImage;
             })
             .catch(error => {
                 this.uploadStatus = 'none';

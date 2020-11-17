@@ -112,6 +112,7 @@ export class Image{
     userId:string;
     title: string;
     numberOfLikes:number;
+    liked:boolean;
     imagePath:string;
     hasImage: boolean;
     createdAt: string;
