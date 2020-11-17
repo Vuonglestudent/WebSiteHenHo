@@ -107,7 +107,7 @@ export class ProfileData {
 }
 
 export class Image{
-    id: string;
+    id: number;
     userId:string;
     title: string;
     numberOfLikes:number;

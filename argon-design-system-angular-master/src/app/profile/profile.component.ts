@@ -41,12 +41,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
-        private imageService: ImageService,
         private alertService: AlertService,
         private el: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private imageService: ImageService
     ) {
         this.route.paramMap.subscribe(params => {
             this.ngOnInit();
@@ -129,10 +129,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.error(error.error.message, this.options);
             })
     }
-    
+
     clickFavourite = () => {
         this.UserProfile.favorited = !this.UserProfile.favorited;
-        this.UserProfile.favorited == false ? this.UserProfile.numberOfFavoritors -- : this.UserProfile.numberOfFavoritors++;
+        this.UserProfile.favorited == false ? this.UserProfile.numberOfFavoritors-- : this.UserProfile.numberOfFavoritors++;
         this.usersService.Favorite(this.currentUserId)
             .then(data => console.log(data))
             .catch(error => console.log('can not favorite'))
@@ -253,6 +253,38 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         //         console.log(error)
         //     });
         this.router.navigate(['/friendlist', id])
+    }
+
+    updateStateImage = () => {
+        var imageCurrent = <HTMLElement>document.getElementById(`clickFavoriteImage`).children[1]
+        console.log(imageCurrent.id.split("_")[0])
+        var stateImageCurrent = <HTMLElement>document.getElementById(`img_${this.UserProfile.id}`).children[Number(imageCurrent.id.split("_")[0])]
+        console.log(stateImageCurrent.id)
+        var liked = stateImageCurrent.id.split("_")[2]
+        if (liked === "true") {
+            this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
+                .then(data => {
+                    console.log(data);
+                
+                })
+                .catch(error =>{
+                    console.log('Khong like duoc hinh!');
+                })
+                
+
+        } else {
+            this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            .then(data => {
+                console.log(data);
+            
+            })
+            .catch(error =>{
+                console.log('Khong like duoc hinh!');
+            })
+        }
+        console.log(this.imagesResponse)
     }
 }
 
