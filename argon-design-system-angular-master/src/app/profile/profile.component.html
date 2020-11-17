@@ -38,14 +38,22 @@
             </div>
             <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
               <div class="card-profile-actions py-4 mt-lg-0">
-                <button *ngIf="!checkUser" (click)="clickFollow($event)" class="btn btn-sm btn-default">
+                <button *ngIf="!checkUser && !UserProfile.followed" (click)="clickFollow()" class="btn btn-sm btn-info">
                   <i class="fa fa-users"></i>
                   Theo dõi
                 </button>
-                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary" (click)="sendMessageFriendNew(UserProfile.id)">
+
+                <button *ngIf="!checkUser && UserProfile.followed" (click)="clickFollow()" class="btn btn-sm btn-danger">
+                  <i class="fa fa-users"></i>
+                  Hủy theo dõi
+                </button>
+
+                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary">
                   <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-chat-round"></i></span>
                   <span class="btn-inner--text">Nhắn tin</span>
                 </button>
+
+
                 <button *ngIf="checkUser" type="button" (click)="clickEdit()" class="btn btn-sm btn-default">
                   <i class="fa fa-edit"></i>
                   Chỉnh sửa
@@ -60,7 +68,7 @@
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
                 <div>
-                  <span class="heading">{{UserProfile.numberOfFollowing}}</span>
+                  <span class="heading">{{UserProfile.numberOfFollowers}}</span>
                   <button class="btn-icon-card">
                     <span class="description"><i class="fa fa-user text-info"></i></span>
                     <!--Danh sách bạn bè-->
@@ -78,9 +86,11 @@
                   </button>
                 </div>
                 <div>
-                  <span class="heading">{{UserProfile.numberOfFavoriting}}</span>
+                  <span class="heading">{{UserProfile.numberOfFavoritors}}</span>
                   <button class="btn-icon-card">
-                    <span style="cursor: pointer;" (click)="checkFavourite($event)" class="description"><i
+                    <span *ngIf="UserProfile.favorited" style="cursor: pointer;" (click)="clickFavourite()" class="description"><i
+                      class="ni ni-favourite-28 text-danger"></i></span>
+                      <span *ngIf="!UserProfile.favorited" style="cursor: pointer;" (click)="clickFavourite()" class="description"><i
                         class="ni ni-favourite-28"></i></span>
                     <!--Lượt yêu thích từ mọi người chưa yêu thích-->
                   </button>

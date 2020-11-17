@@ -109,7 +109,7 @@
           </a>
         </li> -->
         <li *ngIf="this.authenticationService.IsLogin == true" class="nav-item">
-          <button class="btn icons">
+          <button class="btn icons" (click)="onMessageClick()">
             <i class="ni ni-chat-round" style="font-size: 20px;"></i>
           </button>
           <div class="label-icons">
@@ -136,7 +136,8 @@
           <div class="dropleft">
             <div class="btn" style="padding: 0%; border-radius: 50%;"
               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img class="imgAvatar" src="{{imgAvatar}}" alt="">
+              <img *ngIf="!authenticationService.UserInfo.hasAvatar" class="imgAvatar" src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
+              <img *ngIf="authenticationService.UserInfo.hasAvatar" class="imgAvatar" src="data:image/gif;base64,{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
             </div>
             <div class="dropdown-menu">
               <a href="javascript:;" (click)="clickMyProfile()" class="dropdown-item">

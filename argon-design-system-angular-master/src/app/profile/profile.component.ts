@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     imagesResponse: Array<Image>;
     //icon
     faSpinner = faSpinner;
-
+    currentUserId;
     imageCarousel = [
         { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
         { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
@@ -53,12 +53,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         });
     }
     ngAfterViewInit(): void {
-        if(!this.authenticationService.UserInfo.IsInfoUpdated){
+        if (!this.authenticationService.UserInfo.IsInfoUpdated) {
             this.editing = true;
             this.alertService.clear();
             this.alertService.warn('Vui lòng cập nhật hồ sơ để tiếp tục sử dụng ứng dụng!');
             return;
-          }
+        }
     }
 
     options = {
@@ -67,6 +67,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     };
 
     ngOnInit() {
+        this.currentUserId = this.route.snapshot.paramMap.get('id');
         if (this.route.snapshot.paramMap.get('id') === this.authenticationService.UserInfo.Id) {
             this.checkUser = true;
         } else {
@@ -109,15 +110,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.updating = false;
                 this.UserProfile = data;
                 var oldInfo = {
-                    numberOfFollowing: this.UserProfile.numberOfFavoriting,
                     numberOfFollowers: this.UserProfile.numberOfFollowers,
-                    numberOfFavoriting: this.UserProfile.numberOfFavoriting,
                     numberOfFavoritors: this.UserProfile.numberOfFavoritors,
                     numberOfImages: this.UserProfile.numberOfImages
                 };
-                this.UserProfile.numberOfFollowing = oldInfo.numberOfFollowing;
                 this.UserProfile.numberOfFollowers = oldInfo.numberOfFollowers;
-                this.UserProfile.numberOfFavoriting = oldInfo.numberOfFavoriting;
                 this.UserProfile.numberOfFavoritors = oldInfo.numberOfFavoritors;
                 this.UserProfile.numberOfImages = oldInfo.numberOfImages;
 
@@ -132,30 +129,20 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.error(error.error.message, this.options);
             })
     }
-
-    checkFavourite = (e) => {
-        var target = e.target;
-        var child = target.children[0]
-        if (child.className == 'ni ni-favourite-28') {
-            child.setAttribute('class', 'ni ni-favourite-28 text-danger')
-            this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting + 1;
-        } else {
-            child.setAttribute('class', 'ni ni-favourite-28')
-            this.UserProfile.numberOfFavoriting = this.UserProfile.numberOfFavoriting - 1;
-        }
+    
+    clickFavourite = () => {
+        this.UserProfile.favorited = !this.UserProfile.favorited;
+        this.UserProfile.favorited == false ? this.UserProfile.numberOfFavoritors -- : this.UserProfile.numberOfFavoritors++;
+        this.usersService.Favorite(this.currentUserId)
+            .then(data => console.log(data))
+            .catch(error => console.log('can not favorite'))
     }
 
     clickFollow = (e) => {
-        var target = e.target;
-        if (target.innerHTML == 'Theo dõi') {
-            target.className = 'btn btn-sm btn-danger mr-4';
-            target.innerHTML = 'Hủy theo dõi';
-            this.friends = this.friends + 1;
-        } else {
-            target.className = 'btn btn-sm btn-info mr-4'
-            target.innerHTML = 'Theo dõi'
-            this.friends = this.friends - 1;
-        }
+        this.UserProfile.followed = !this.UserProfile.followed;
+        this.usersService.Follow(this.currentUserId)
+            .then(data => console.log(data))
+            .catch(error => console.log('Can not follow'))
     }
 
     clickEdit = () => {
