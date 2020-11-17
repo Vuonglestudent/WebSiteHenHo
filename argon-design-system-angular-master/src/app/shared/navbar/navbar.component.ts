@@ -23,7 +23,9 @@ export class NavbarComponent implements OnInit {
         private authenticationService: AuthenticationService
     ) {
     }
-
+    onMessageClick(){
+        this.router.navigateByUrl('friendlist');
+    }
     ngOnInit() {
         //localStorage.removeItem('UserInfo')
 

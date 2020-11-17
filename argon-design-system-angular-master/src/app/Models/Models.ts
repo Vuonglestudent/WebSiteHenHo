@@ -33,9 +33,7 @@ export class User {
     point: number;
     hasAvatar: boolean;
     summary: string;
-    numberOfFollowing: number;
     numberOfFollowers: number;
-    numberOfFavoriting: number;
     numberOfFavoritors: number;
     numberOfImages: number;
     followed: boolean;
@@ -83,6 +81,7 @@ export class Message {
 export class ChatFriend {
     user: UserDisplay;
     messages: Message[];
+    pageIndex: number;
 }
 
 export class ProfileData {

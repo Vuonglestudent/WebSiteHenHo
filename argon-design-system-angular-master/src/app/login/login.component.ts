@@ -229,7 +229,10 @@ export class LoginComponent implements OnInit {
             UserName: response.userName,
             FullName: response.fullName,
             Email: response.email,
-            token: response.token
+            token: response.token,
+            IsInfoUpdated: response.isInfoUpdated,
+            hasAvatar: response.hasAvatar,
+            avatarPath: response.avatarPath
           };
           this.authenticationService.IsLogin = true;
           this.authenticationService.UserInfo = userInfo;

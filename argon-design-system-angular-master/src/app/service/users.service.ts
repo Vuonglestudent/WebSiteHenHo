@@ -128,4 +128,15 @@ export class UsersService {
 
     return this.http.put<any>(path, data, {headers: headers}).toPromise();
   }
+  
+  public UpdateAvatar = (file:any) =>{
+    var headers = this.authenticationService.GetHeader();
+    var path = "http://localhost:5000/api/Users";
+
+    var data = new FormData();
+    data.append("Avatar", file);
+    data.append("UserId", this.authenticationService.UserInfo.Id);
+
+    return this.http.put<any>(path, {headers: headers}).toPromise();
+  }
 }

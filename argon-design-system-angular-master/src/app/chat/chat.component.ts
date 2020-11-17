@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
 import { UsersService } from '../service/users.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -21,16 +22,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private messageService: MessageService,
     private usersService: UsersService,
+    private route: ActivatedRoute
   ) {
-    // this.subscribeToEvents();
+    this.route.paramMap.subscribe(params => {
+      this.ngOnInit();
+    });
   }
 
   IsStarted = false;
 
   public CurrentUserId = this.authenticationService.UserInfo.Id;
   public DestUserId = "";
-  public PageIndex = 1;
-  public MessageIndex = 1;
+
   public PageSize = 20;
   public From: string;
   public To: string;
@@ -41,30 +44,43 @@ export class ChatComponent implements OnInit, AfterViewInit {
   txtMessage: string = '';
   messages = new Array<Message>();
   message = new Message();
-  
+
   nameReceiver = '';
 
   ngOnInit(): void {
+    this.DestUserId = this.route.snapshot.paramMap.get('id');
 
     this.CurrentUserId = this.authenticationService.UserInfo.Id;
 
     this.messageService.GetFriendList(this.CurrentUserId)
       .then(response => {
         this.messageService.friendList = response;
-        console.log('this is friend list')
-        console.log(this.messageService.friendList);
-        this.PageIndex = 1;
+
+        this.messageService.friendList.forEach(item => {
+          item.pageIndex = 1;
+        });
+
         this.messages = new Array<Message>();
         this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
         this.nameReceiver = this.messageService.friendList[0].user.fullName;
+
+        if(this.DestUserId != null){
+
+        }
       })
       .catch(error => {
         console.log('this is error');
         console.log(error);
       });
+
+
   }
   ngAfterViewInit(): void {
+    
     this.setScroll()
+    if(this.messageService.friendList.length > 0){
+      this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
+    }
   }
 
 
@@ -115,10 +131,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
   MoreMessages = (userId: string, userIndex: number) => {
-    this.messageService.moreMessages(this.MessageIndex, this.PageSize, this.CurrentUserId, userId)
+    this.messageService.moreMessages(this.messageService.friendList[userIndex].pageIndex, this.PageSize, this.CurrentUserId, userId)
       .then(data => {
         //console.log(data);
-        this.MessageIndex += 1;
+        this.messageService.friendList[userIndex].pageIndex += 1;
         this.messages = new Array<Message>();
         data.forEach(element => {
           if (this.IsExist(element.id)) {
@@ -129,8 +145,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             this.messages.splice(0, 0, message);
           }
         });
-        this.messageService.friendList[userIndex].messages = this.messages.concat(this.messageService.friendList[userIndex].messages) ;
-        console.log(this.messageService.friendList[userIndex].messages)
+        this.messageService.friendList[userIndex].messages = this.messages.concat(this.messageService.friendList[userIndex].messages);
       })
       .catch(error => {
       })
@@ -153,7 +168,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser
 
-    this.MessageIndex = 1;
   }
 
   breakRow = (e) => {
