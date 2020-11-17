@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'facebooklogin', component: FacebookLoginComponent },
   { path: 'chat/:id', component: FriendListComponent },
   { path: 'friendlist', component: FriendListComponent },
+  { path: 'friendlist/:id', component: FriendListComponent },
   { path: 'changepassword', component: ChangePasswordComponent },
   //{ path: 'test', component: SeenImageComponent },
   { path: 'filterfriends' , component: FilterFriendsComponent}
