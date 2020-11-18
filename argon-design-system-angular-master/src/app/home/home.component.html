@@ -54,8 +54,8 @@
       </div> -->
       <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
-          
-          
+
+
           <alert style="padding-left: 15px; padding-right: 15px;"></alert>
           <div *ngIf="!Loading" style="padding-right: 15px; padding-left: 15px;" class="animate-bottom">
             <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
@@ -70,8 +70,8 @@
             <div *ngIf="!Loading" class="card-deck">
               <div *ngFor="let item of Favoritors; let i = index" class="col-md-4 col-xl-4 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
-                <div class="card" (click)="clickProfileUser(item.id)">
-                  <div class="d-flex justify-content-center">
+                <div class="card">
+                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
                     <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
                         class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
                         alt="Avatar"></a>
@@ -79,12 +79,12 @@
                         class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
                   </div>
                   <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                    <div style="height: 90px;">
+                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
                       <a style="cursor: pointer" (click)="GetUserInfo(item.id)">
                         <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
                         </h6>
                       </a>
-                      <p class="card-text limit-text" style="line-height: 100%;"><small
+                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
                           class="text-muted">{{item.summary}}</small></p>
                     </div>
                     <div class="d-flex">
@@ -113,7 +113,8 @@
                                 style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
                             </span>
                           </i>
-                          <img *ngFor="let image of imageUsers[z].images; let j = index" id="img_{{j + 1}}"
+                          <img *ngFor="let image of imageUsers[z].images; let j = index"
+                            id="img_{{j + 1}}_{{image.liked}}_{{imageUsers[z].images.length}}_{{item.id}}"
                             display="true" hidden="true" src="" alt="{{image.imagePath}}">
                           <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
                             id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
@@ -243,6 +244,8 @@
   <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
   <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
   </div>
+  <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)" (click)="updateStateImage()"><i
+      class="ni ni-favourite-28 text-white"></i></div>
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>

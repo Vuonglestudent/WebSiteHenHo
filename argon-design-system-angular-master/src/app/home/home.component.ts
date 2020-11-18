@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
     imageUsers: ImageUser[] = new Array();
 
     //
+    clickSeenImageUser
     Loading = false;
     clickSeenImage = 0;
     ngOnInit() {
@@ -247,6 +248,7 @@ export class HomeComponent implements OnInit {
     debug = (id, index) => {
         console.log(id, index)
         console.log(this.imageUsers[index])
+        this.clickSeenImageUser = index
     }
 
     clickProfileUser = (id) => {
@@ -257,7 +259,37 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/profile', id]);
     }
 
-    onViewMore() {
+    updateStateImage = () => {
+        var imageCurrent = <HTMLElement>document.getElementById(`clickFavoriteImage`).children[1]
+        //console.log(imageCurrent.id.split("_")[0])
+        //console.log(this.imageUsers[this.clickSeenImageUser])
+        //console.log(this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+        var stateImageCurrent = <HTMLElement>document.getElementById(`img_${imageCurrent.id.split("_")[1]}`).children[Number(imageCurrent.id.split("_")[0])]
+        //console.log(stateImageCurrent.id)
+        var liked = stateImageCurrent.id.split("_")[2]
+        if (liked === "true") {
+            this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+                .then(data => {
+                    console.log(data);
 
+                })
+                .catch(error => {
+                    console.log('Khong like duoc hinh!');
+                })
+
+
+        } else {
+            this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+                .then(data => {
+                    console.log(data);
+
+                })
+                .catch(error => {
+                    console.log('Khong like duoc hinh!');
+                })
+        }
+        //console.log(this.imageUsers[this.clickSeenImageUser].images)
     }
 }

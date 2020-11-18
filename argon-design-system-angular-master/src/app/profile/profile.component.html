@@ -81,7 +81,7 @@
                       <i class="fa fa-camera text-dark"></i>
                     </span>
                     <img *ngFor="let item of imagesResponse; let i = index" display="true" hidden="true"
-                      id="img_{{i + 1}}" src="" alt="{{item.imagePath}}">
+                      id="img_{{i + 1}}_{{item.liked}}_{{imagesResponse.length}}_{{item.id}}" src="" alt="{{item.imagePath}}">
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
@@ -463,8 +463,9 @@
   <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
   <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
   </div>
+  <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)" (click)="updateStateImage()"><i class="ni ni-favourite-28 text-white"></i></div>
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()" value=""></section>
 </section>
 <!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->

@@ -107,11 +107,11 @@ export class ProfileData {
 }
 
 export class Image{
-    id: string;
+    id: number;
     userId:string;
     title: string;
     numberOfLikes:number;
-    liked: boolean;
+    liked:boolean;
     imagePath:string;
     hasImage: boolean;
     createdAt: string;

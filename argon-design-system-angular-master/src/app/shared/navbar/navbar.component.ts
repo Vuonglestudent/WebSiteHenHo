@@ -69,7 +69,6 @@ export class NavbarComponent implements OnInit {
 
     logout = () => {
         this.authenticationService.Logout();
-
         localStorage.removeItem('UserInfo');
         this.token = null;
         this.authenticationService.IsLogin = false;

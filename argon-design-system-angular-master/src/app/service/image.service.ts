@@ -33,4 +33,15 @@ export class ImageService {
     return this.http.post<any>(this.mainUrl + path, formData, {headers: headers}).toPromise();
   }
 
+  public likeImage = (userId: string, imageId: number) => {
+    var headers = this.authenticationService.GetHeader();
+    var data = new FormData();
+
+    var path = 'like';
+    data.append("UserId", userId);
+    data.append("ImageId", imageId.toString());
+
+    return this.http.post<any>(this.mainUrl + path ,data, {headers: headers}).toPromise();
+  }
+
 }
