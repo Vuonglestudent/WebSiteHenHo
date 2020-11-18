@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
     Favoritors: User[] = new Array();
     FavoritePage: any = {
         index: 1,
-        size: 10,
+        size: 5,
         total: 0,
         current: 1,
         position: 1
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
             })
 
     }
-    updatePagingNumber(page: number){
+    updatePagingNumber(page: number) {
 
         console.log(this.FavoritePage.total)
         this.FavoritePage.index = page;
@@ -299,8 +299,24 @@ export class HomeComponent implements OnInit {
 
     paging(index: number) {
         console.log('paging to page ' + index.toString());
-        
+
         this.updatePagingNumber(index);
         this.getFavoritors();
     }
+    previousPage() {
+        if (this.FavoritePage.index == 1) {
+            return
+        }
+        this.updatePagingNumber(this.FavoritePage.index - 1);
+        this.getFavoritors();
+    }
+
+    nextPage() {
+        if (this.FavoritePage.index == this.FavoritePage.total) {
+            return;
+        }
+        this.updatePagingNumber(this.FavoritePage.index + 1);
+        this.getFavoritors();
+    }
+
 }
