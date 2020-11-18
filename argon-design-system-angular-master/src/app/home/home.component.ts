@@ -54,7 +54,22 @@ export class HomeComponent implements OnInit {
     Loading = false;
     clickSeenImage = 0;
     ngOnInit() {
+        this.updatePagingNumber(1);
+        this.getFavoritors();
+        this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
+            .then(response => {
+                this.NewUsers = response;
+            })
+            .catch(error => {
+                this.alertService.clear();
+                this.alertService.error("Lỗi server!", this.options);
+            })
+    }
+
+
+    getFavoritors() {
         this.Loading = true;
+        console.log('get page: ' + this.FavoritePage.index);
         this.usersService.GetFavoritest(this.FavoritePage.index, this.FavoritePage.size)
             .then(response => {
                 this.Loading = false;
@@ -62,34 +77,11 @@ export class HomeComponent implements OnInit {
                 this.FavoritePage.total = response.pageTotal;
 
                 this.Favoritors.forEach(element => {
-                    if (element.id === this.authenticationService.UserInfo.Id) {
-                        this.Favoritors = this.Favoritors.filter(item => item !== element)
-                    }
-                });
-                console.log(this.Favoritors);
-            })
-            .catch(error => {
-                //this.Loading = false;
-                this.alertService.clear();
-                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
-            })
-
-        this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
-            .then(response => {
-                this.NewUsers = response;
-                this.NewUsers.forEach(element => {
-                    if (element.id === this.authenticationService.UserInfo.Id) {
-                        this.NewUsers = this.NewUsers.filter(item => item !== element)
-                    }
-                });
-                this.NewUsers.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
-                            console.log(data)
                             const imageUser = {} as ImageUser
                             imageUser.id = element.id;
                             imageUser.images = data;
-                            console.log(imageUser)
                             this.imageUsers.push(imageUser)
                         })
                         .catch(error => {
@@ -99,10 +91,29 @@ export class HomeComponent implements OnInit {
                 });
             })
             .catch(error => {
+                //this.Loading = false;
                 this.alertService.clear();
-                this.alertService.error("Lỗi server!", this.options);
+                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
             })
+
     }
+    updatePagingNumber(page: number){
+
+        console.log(this.FavoritePage.total)
+        this.FavoritePage.index = page;
+        if (page == 1) {
+            this.FavoritePage.position = 1;
+            this.FavoritePage.current = 2;
+        }
+        else if (page == this.FavoritePage.total) {
+            this.FavoritePage.position = 3;
+            this.FavoritePage.current = page - 1;
+        }
+        else {
+            this.FavoritePage.position = 2;
+            this.FavoritePage.current = page;
+        }
+    };
 
     ngAfterViewInit(): void {
         var firstCarousel = <HTMLInputElement>document.getElementById("carousel_0");
@@ -116,7 +127,7 @@ export class HomeComponent implements OnInit {
             }
         });
 
-        if(this.authenticationService.UserInfo != null){
+        if (this.authenticationService.UserInfo != null) {
             if (!this.authenticationService.UserInfo.IsInfoUpdated) {
                 this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
                 return;
@@ -135,7 +146,6 @@ export class HomeComponent implements OnInit {
             return;
         }
 
-        console.log(userId)
         var target = event.target;
         var favouritesCurrent = Number(target.innerText)
         this.usersService.Favorite(userId)
@@ -179,7 +189,6 @@ export class HomeComponent implements OnInit {
     changeCarousel = (event) => {
         var target = event.target;
         var checkClass = target.getAttribute('class');
-        console.log(checkClass)
         if (checkClass == 'carousel-control-next-icon' || checkClass == 'carousel-control-next') {
             this.nextCarousel()
         } else if (checkClass == 'carousel-control-prev-icon' || checkClass == 'carousel-control-prev') {
@@ -246,8 +255,6 @@ export class HomeComponent implements OnInit {
     }
 
     debug = (id, index) => {
-        console.log(id, index)
-        console.log(this.imageUsers[index])
         this.clickSeenImageUser = index
     }
 
@@ -261,11 +268,8 @@ export class HomeComponent implements OnInit {
 
     updateStateImage = () => {
         var imageCurrent = <HTMLElement>document.getElementById(`clickFavoriteImage`).children[1]
-        //console.log(imageCurrent.id.split("_")[0])
-        //console.log(this.imageUsers[this.clickSeenImageUser])
-        //console.log(this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
         var stateImageCurrent = <HTMLElement>document.getElementById(`img_${imageCurrent.id.split("_")[1]}`).children[Number(imageCurrent.id.split("_")[0])]
-        //console.log(stateImageCurrent.id)
+
         var liked = stateImageCurrent.id.split("_")[2]
         if (liked === "true") {
             this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
@@ -291,5 +295,12 @@ export class HomeComponent implements OnInit {
                 })
         }
         //console.log(this.imageUsers[this.clickSeenImageUser].images)
+    }
+
+    paging(index: number) {
+        console.log('paging to page ' + index.toString());
+        
+        this.updatePagingNumber(index);
+        this.getFavoritors();
     }
 }
