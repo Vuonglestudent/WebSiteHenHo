@@ -79,7 +79,7 @@
                 </div>
                 <div class="user_info">
                   <span>{{friend.user.fullName}}</span>
-                  <p class="limit-title">{{friend.messages[friend.messages.length - 1].content}}</p>
+                  <p *ngIf="friend.messages.length > 0" class="limit-title">{{friend.messages[friend.messages.length - 1].content}}</p>
                 </div>
               </div>
             </li>
@@ -92,7 +92,8 @@
         <div class="card-header msg_head">
           <div class="d-flex bd-highlight" style="height: 40px;">
             <div class="img_cont">
-              <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+              <img *ngIf="hasAvatar" src="data:image/gif;base64,{{avatarPath}}" class="rounded-circle user_img">
+              <img *ngIf="!hasAvatar" src="{{avatarPath}}" class="rounded-circle user_img">
               <!-- <span class="online_icon"></span> -->
             </div>
             <div class="user_info">

@@ -69,6 +69,17 @@ export class AppComponent implements OnInit {
         lastScrollTop = st;
     };
     ngOnInit() {
+        var userInfo = {
+            Id: '',
+            UserName: '',
+            FullName: '',
+            Email: '',
+            token: '',
+            IsInfoUpdated: false,
+            hasAvatar: false,
+            avatarPath: ''
+          };
+          this.authenticationService.UserInfo = userInfo;;
 
         this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
         if (this.authenticationService.UserInfo != null) {

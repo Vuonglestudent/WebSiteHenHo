@@ -14,7 +14,16 @@ export class AuthenticationService {
   ) { }
   
   public IsLogin = false;
-  public UserInfo = null;
+  public UserInfo = {
+    Id: '',
+    UserName: '',
+    FullName: '',
+    Email: '',
+    token: '',
+    IsInfoUpdated: false,
+    hasAvatar: false,
+    avatarPath: ''
+  };
 
   private mainUrl = "http://localhost:5000/api/Authenticates";
 

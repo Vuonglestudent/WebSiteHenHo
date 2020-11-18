@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
 import { UsersService } from '../service/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -17,12 +17,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   constructor(
     public signalRService: SignalRService,
-    private http: HttpClient,
-    private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private messageService: MessageService,
     private usersService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.route.paramMap.subscribe(params => {
       this.ngOnInit();
@@ -46,10 +45,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
   message = new Message();
 
   nameReceiver = '';
+  hasAvatar: boolean;
+  avatarPath: string;
 
+  newFriendId;
   ngOnInit(): void {
-    this.DestUserId = this.route.snapshot.paramMap.get('id');
-
+    this.newFriendId = this.route.snapshot.paramMap.get('id');
+    console.log('day la id')
+    console.log(this.newFriendId)
+    if(this.isUserExist(this.newFriendId)){
+      this.newFriendId = null;
+    }
     this.CurrentUserId = this.authenticationService.UserInfo.Id;
 
     this.messageService.GetFriendList(this.CurrentUserId)
@@ -62,11 +68,36 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
         this.messages = new Array<Message>();
         this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
-        this.nameReceiver = this.messageService.friendList[0].user.fullName;
 
-        if(this.DestUserId != null){
+        if(this.newFriendId != null){
+          
+          if(!this.isUserExist(this.newFriendId)){
+            this.usersService.GetById(this.newFriendId)
+            .then(data => {
+              var friend = new ChatFriend();
+              friend.messages = new Array<Message>();
+              friend.user = data;
+              friend.pageIndex = 1;
+              this.messageService.friendList.splice(0, 0, friend);
+              this.nameReceiver = this.messageService.friendList[0].user.fullName;
+              this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
+              this.avatarPath = this.messageService.friendList[0].user.avatarPath;
+            })
+            .catch(error => {console.log('không lấy được user info')})
+          }
+          else{
+            this.nameReceiver = this.messageService.friendList[0].user.fullName;
+            this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
+            this.avatarPath = this.messageService.friendList[0].user.avatarPath;
+          }
 
         }
+        else{
+          this.nameReceiver = this.messageService.friendList[0].user.fullName;
+          this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
+          this.avatarPath = this.messageService.friendList[0].user.avatarPath;
+        }
+
       })
       .catch(error => {
         console.log('this is error');
@@ -183,5 +214,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
         return i;
       }
     }
+  }
+
+  isUserExist(userId: string){
+    this.messageService.friendList.forEach(element => {
+        if(element.user.id == userId){
+          return true;
+        }
+    });
+
+    return false;
   }
 }

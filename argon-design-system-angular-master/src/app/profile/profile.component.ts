@@ -75,13 +75,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
         this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
             .then(data => {
-                console.log('this is data');
-                console.log(data);
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
                 console.log(this.UserProfile, this.UserProfile.profile.dob);
                 this.replaceCharacter(this.UserProfile);
-                console.log(this.UserProfile);
             })
             .catch(error => {
                 alert("không lấy được không tin!");
@@ -90,7 +87,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
         this.usersService.GetProfileData()
             .then(data => {
-                console.log(data);
                 this.profileData = data;
             })
             .catch(error => {
@@ -157,12 +153,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     uploadImage: boolean = false;
 
     onSelect(event) {
-        console.log(event);
+
         this.files.push(...event.addedFiles);
     }
 
     onRemove(event) {
-        console.log(event);
+
         this.files.splice(this.files.indexOf(event), 1);
     }
 
@@ -236,21 +232,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
 
-    sendMessageFriendNew = (id) => {
-        // if (this.CurrentUserId == "" || this.DestUserId == "") {
-        //     alert("Điền đầy đủ thông tin người nhận người gửi!");
-        //     return;
-        //   }
-        // console.log(this.authenticationService.UserInfo.Id, id)
-
-        // this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, "Hello")
-        //     .then(data => {
-        //         console.log(data)
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //     });
-        this.router.navigate(['/friendlist', id])
+    sendMessage = (id) =>{
+        this.router.navigate(['/chat', id])
     }
 }
 

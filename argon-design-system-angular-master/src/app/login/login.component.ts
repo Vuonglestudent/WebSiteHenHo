@@ -99,7 +99,9 @@ export class LoginComponent implements OnInit {
           FullName: response.fullName,
           Email: response.email,
           token: response.token,
-          IsInfoUpdated: response.isInfoUpdated
+          IsInfoUpdated: response.isInfoUpdated,
+          hasAvatar: response.hasAvatar,
+          avatarPath: response.avatarPath
         };
 
         this.authenticationService.IsLogin = true;

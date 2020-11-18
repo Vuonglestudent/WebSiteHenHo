@@ -33,8 +33,13 @@ export class HomeComponent implements OnInit {
 
     // Phân trang user
     Favoritors: User[] = new Array();
-    PageIndexFavorite = 1;
-    PageSizeFavorite = 10;
+    FavoritePage: any = {
+        index: 1,
+        size: 10,
+        total: 0,
+        current: 1,
+        position: 1
+    };
 
     // Phân trang user
     NewUsers: User[] = new Array();
@@ -49,10 +54,12 @@ export class HomeComponent implements OnInit {
     clickSeenImage = 0;
     ngOnInit() {
         this.Loading = true;
-        this.usersService.GetFavoritest(this.PageIndexFavorite, this.PageSizeFavorite)
+        this.usersService.GetFavoritest(this.FavoritePage.index, this.FavoritePage.size)
             .then(response => {
                 this.Loading = false;
-                this.Favoritors = response;
+                this.Favoritors = response.data;
+                this.FavoritePage.total = response.pageTotal;
+
                 this.Favoritors.forEach(element => {
                     if (element.id === this.authenticationService.UserInfo.Id) {
                         this.Favoritors = this.Favoritors.filter(item => item !== element)
@@ -92,7 +99,7 @@ export class HomeComponent implements OnInit {
             })
             .catch(error => {
                 this.alertService.clear();
-                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
+                this.alertService.error("Lỗi server!", this.options);
             })
     }
 
@@ -108,10 +115,12 @@ export class HomeComponent implements OnInit {
             }
         });
 
-        if(!this.authenticationService.UserInfo.IsInfoUpdated){
-            this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
-            return;
-          }
+        if(this.authenticationService.UserInfo != null){
+            if (!this.authenticationService.UserInfo.IsInfoUpdated) {
+                this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
+                return;
+            }
+        }
 
     }
     GetUserInfo = (userId: string) => {
@@ -235,16 +244,20 @@ export class HomeComponent implements OnInit {
         image.click();
     }
 
-    debug = (id , index) => {
+    debug = (id, index) => {
         console.log(id, index)
         console.log(this.imageUsers[index])
     }
 
     clickProfileUser = (id) => {
-        if(!this.authenticationService.IsLogin){
+        if (!this.authenticationService.IsLogin) {
             this.LoginRequired();
             return;
         }
-        this.router.navigate(['/profile' , id]);
+        this.router.navigate(['/profile', id]);
+    }
+
+    onViewMore() {
+
     }
 }
