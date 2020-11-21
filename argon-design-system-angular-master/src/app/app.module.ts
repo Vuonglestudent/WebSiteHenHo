@@ -33,6 +33,8 @@ import { CommonModule } from '@angular/common';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +66,9 @@ import { FilterFriendsComponent } from './filter-friends/filter-friends.componen
     SocialLoginModule,
     CommonModule,
     SectionsModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     {
