@@ -161,18 +161,20 @@ export class AppComponent implements OnInit {
           message.type = 'received';
           console.log('receiver');
           this.notificationService.html(`
-          <div class="d-flex align-self-end" style="padding-bottom: 0%;">
+          <div class="d-flex align-items-center" style="padding-bottom: 0%;">
             <img class="rounded-circle user_img_msg"
-              src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" alt="">
-            <h5 class="p-1" style="margin-bottom: 0%;">Le Quoc Nguyen Vuong</h5>
-          </div>
-          <p>Hello asd asdas aa122 44 22333 33s</p>`, null, {
+              src="data:image/gif;base64,${response.avatar}" alt="">
+              <div class="col-12">
+                <h5 style="margin-bottom: 0%;">${response.fullName}</h5>
+                <p>${response.content}</p>
+              </div>
+          </div>`, null, {
             position: ['bottom', 'right'],
             timeOut: 2000,
             theClass: 'notification_mes',
             animate: 'fade',
             showProgressBar: true,
-          }, 'info');
+          });
           var userIndex = this.getUserIndex(message.senderId);
           this.messageService.friendList[userIndex].messages.push(message);
         } else {

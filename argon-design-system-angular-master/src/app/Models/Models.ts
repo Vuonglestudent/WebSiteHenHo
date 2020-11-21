@@ -78,6 +78,7 @@ export class Message {
     type: string;
     hasAvatar: boolean;
     avatar: string;
+    fullName: string;
 }
 
 export class ChatFriend {
