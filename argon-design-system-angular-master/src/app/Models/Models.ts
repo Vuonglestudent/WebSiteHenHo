@@ -76,6 +76,8 @@ export class Message {
     content: string;
     sentAt: Date;
     type: string;
+    hasAvatar: boolean;
+    avatar: string;
 }
 
 export class ChatFriend {
