@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
     Favoritors: User[] = new Array();
     FavoritePage: any = {
         index: 1,
-        size: 5,
+        size: 12,
         total: 0,
         current: 1,
         position: 1

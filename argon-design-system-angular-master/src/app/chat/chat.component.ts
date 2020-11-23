@@ -111,9 +111,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // if (this.messageService.friendList.length > 0) {
-    //   this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
-    // }
+    if (this.messageService.friendList.length > 0) {
+      this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
+    }
     // this.setScroll()
     this.setScrollInterval = setInterval(this.setScroll, 100)
     this.timer = timer(1000, 1000)

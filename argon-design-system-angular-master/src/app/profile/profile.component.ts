@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     imageTitle: string;
     checkUser = false;
     imagesResponse: Array<Image>;
-    avatarFile;
     //icon
     faSpinner = faSpinner;
     currentUserId;
@@ -282,6 +281,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.usersService.UpdateAvatar(event.target.files[0])
                 .then(data => {
                     this.UserProfile.avatarPath = data.avatarPath;
+                    
+                    this.authenticationService.UserInfo.hasAvatar = true;
+                    this.authenticationService.UserInfo.avatarPath = data.avatarPath;
+                    localStorage.setItem('UserInfo', JSON.stringify(this.authenticationService.UserInfo));
+                    
                     this.alertService.clear();
                     this.alertService.success('Cập nhật avatar thành công!');
                 })

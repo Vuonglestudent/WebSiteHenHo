@@ -133,7 +133,7 @@ export class AppComponent implements OnInit {
     this.hasScrolled();
   }
 
-  sendId = ''
+  senderId = ''
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
@@ -163,7 +163,8 @@ export class AppComponent implements OnInit {
           console.log('receiver');
           var checkUrl = this.router.url.split("/")[1]
           console.log(checkUrl)
-          this.sendId = response.sendId
+          this.senderId = response.senderId
+          //console.log(this.sendId , response.sendId)
           if (checkUrl !== "chat" && checkUrl !== "friendlist") {
             this.notificationService.html(`
               <div class="d-flex align-items-center" style="padding-bottom: 0%;">
@@ -175,7 +176,7 @@ export class AppComponent implements OnInit {
                   </div>
               </div>`, null, {
               position: ['bottom', 'right'],
-              //timeOut: 2000,
+              timeOut: 2000,
               clickToClose: false,
               theClass: 'notification_mes',
               animate: 'fade',
@@ -192,7 +193,7 @@ export class AppComponent implements OnInit {
   }
 
   clickNotificationMes = (sendId) => {
-    console.log("click")
+    console.log("click" , sendId)
     this.router.navigate(['/chat', sendId])
   }
 
