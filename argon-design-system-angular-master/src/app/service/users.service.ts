@@ -131,12 +131,12 @@ export class UsersService {
   
   public UpdateAvatar = (file:any) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = "http://localhost:5000/api/Users";
+    var path = "http://localhost:5000/api/Users/avatar";
 
     var data = new FormData();
     data.append("Avatar", file);
     data.append("UserId", this.authenticationService.UserInfo.Id);
 
-    return this.http.put<any>(path, {headers: headers}).toPromise();
+    return this.http.put<any>(path, data, {headers: headers}).toPromise();
   }
 }

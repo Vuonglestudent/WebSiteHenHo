@@ -33,7 +33,7 @@
                     <i class="ni ni-image"></i>
                     <span>Cập nhật ảnh đại diện</span>
                   </a>
-                  <input type="file" id="fileAvata" hidden="true">
+                  <input [(ngModel)]="avatarFile" (change)="onUpdateAvatar($event)" type="file" id="fileAvata" hidden="true">
                 </div>
               </div>
             </div>

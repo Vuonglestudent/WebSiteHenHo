@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     imageTitle: string;
     checkUser = false;
     imagesResponse: Array<Image>;
+    avatarFile;
     //icon
     faSpinner = faSpinner;
     currentUserId;
@@ -234,7 +235,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
 
-    sendMessage = (id) =>{
+    sendMessage = (id) => {
         this.router.navigate(['/chat', id])
     }
 
@@ -249,31 +250,43 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
-                
+
                 })
-                .catch(error =>{
+                .catch(error => {
                     console.log('Khong like duoc hinh!');
                 })
-                
+
 
         } else {
             this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
             this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
-            .then(data => {
-                console.log(data);
-            
-            })
-            .catch(error =>{
-                console.log('Khong like duoc hinh!');
-            })
+                .then(data => {
+                    console.log(data);
+
+                })
+                .catch(error => {
+                    console.log('Khong like duoc hinh!');
+                })
         }
         console.log(this.imagesResponse)
     }
 
 
-    updateAvatar = () =>  {
+    updateAvatar = () => {
         var updateAvatar = <HTMLElement>document.getElementById('fileAvata')
         updateAvatar.click()
+    }
+
+    onUpdateAvatar(event) {
+        if (event.target.files && event.target.files[0]) {
+            this.usersService.UpdateAvatar(event.target.files[0])
+                .then(data => {
+                    this.UserProfile.avatarPath = data.avatarPath;
+                    this.alertService.clear();
+                    this.alertService.success('Cập nhật avatar thành công!');
+                })
+                .catch(error => console.log(error + 'Err'))
+        }
     }
 }
 
