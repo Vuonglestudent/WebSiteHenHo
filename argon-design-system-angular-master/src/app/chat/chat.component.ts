@@ -150,7 +150,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     //}
     this.timer.subscribe(val => {
       if (val % 2 == 0) {
-        console.log(val)
+        //console.log(val)
         clearInterval(this.setScrollInterval)
       }
     })

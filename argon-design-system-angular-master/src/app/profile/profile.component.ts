@@ -269,5 +269,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
         console.log(this.imagesResponse)
     }
+
+
+    updateAvatar = () =>  {
+        var updateAvatar = <HTMLElement>document.getElementById('fileAvata')
+        updateAvatar.click()
+    }
 }
 
