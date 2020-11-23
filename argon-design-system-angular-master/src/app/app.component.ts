@@ -133,6 +133,7 @@ export class AppComponent implements OnInit {
     this.hasScrolled();
   }
 
+  sendId = ''
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
@@ -160,21 +161,27 @@ export class AppComponent implements OnInit {
         } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
           message.type = 'received';
           console.log('receiver');
-          this.notificationService.html(`
-          <div class="d-flex align-items-center" style="padding-bottom: 0%;">
-            <img class="rounded-circle user_img_msg"
-              src="data:image/gif;base64,${response.avatar}" alt="">
-              <div class="col-12">
-                <h5 style="margin-bottom: 0%;">${response.fullName}</h5>
-                <p>${response.content}</p>
-              </div>
-          </div>`, null, {
-            position: ['bottom', 'right'],
-            timeOut: 2000,
-            theClass: 'notification_mes',
-            animate: 'fade',
-            showProgressBar: true,
-          });
+          var checkUrl = this.router.url.split("/")[1]
+          console.log(checkUrl)
+          this.sendId = response.sendId
+          if (checkUrl !== "chat" && checkUrl !== "friendlist") {
+            this.notificationService.html(`
+              <div class="d-flex align-items-center" style="padding-bottom: 0%;">
+                <img class="rounded-circle user_img_msg"
+                  src="data:image/gif;base64,${response.avatar}" alt="">
+                  <div class="col-12">
+                    <h5 style="margin-bottom: 0%;">${response.fullName}</h5>
+                    <p>${response.content}</p>
+                  </div>
+              </div>`, null, {
+              position: ['bottom', 'right'],
+              //timeOut: 2000,
+              clickToClose: false,
+              theClass: 'notification_mes',
+              animate: 'fade',
+              showProgressBar: true,
+            });
+          }
           var userIndex = this.getUserIndex(message.senderId);
           this.messageService.friendList[userIndex].messages.push(message);
         } else {
@@ -183,6 +190,12 @@ export class AppComponent implements OnInit {
       })
     })
   }
+
+  clickNotificationMes = (sendId) => {
+    console.log("click")
+    this.router.navigate(['/chat', sendId])
+  }
+
   getUserIndex = (userId: string) => {
     var index = -1;
     for (let i = 0; i < this.messageService.friendList.length; i++) {

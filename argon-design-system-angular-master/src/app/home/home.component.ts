@@ -317,5 +317,4 @@ export class HomeComponent implements OnInit {
         this.updatePagingNumber(this.FavoritePage.index + 1);
         this.getFavoritors();
     }
-
 }

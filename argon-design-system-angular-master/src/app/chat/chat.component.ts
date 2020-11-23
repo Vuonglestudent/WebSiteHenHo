@@ -7,6 +7,8 @@ import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
 import { UsersService } from '../service/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { timer } from 'rxjs';
+
 
 @Component({
   selector: 'app-chat',
@@ -29,6 +31,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   IsStarted = false;
+  setScrollInterval
 
   public CurrentUserId = this.authenticationService.UserInfo.Id;
   public DestUserId = "";
@@ -49,11 +52,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
   avatarPath: string;
 
   newFriendId;
+  timer
   ngOnInit(): void {
     this.newFriendId = this.route.snapshot.paramMap.get('id');
     console.log('day la id')
     console.log(this.newFriendId)
-    if(this.isUserExist(this.newFriendId)){
+    if (this.isUserExist(this.newFriendId)) {
       this.newFriendId = null;
     }
     this.CurrentUserId = this.authenticationService.UserInfo.Id;
@@ -69,30 +73,30 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.messages = new Array<Message>();
         this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
 
-        if(this.newFriendId != null){
-          
-          if(!this.isUserExist(this.newFriendId)){
+        if (this.newFriendId != null) {
+
+          if (!this.isUserExist(this.newFriendId)) {
             this.usersService.GetById(this.newFriendId)
-            .then(data => {
-              var friend = new ChatFriend();
-              friend.messages = new Array<Message>();
-              friend.user = data;
-              friend.pageIndex = 1;
-              this.messageService.friendList.splice(0, 0, friend);
-              this.nameReceiver = this.messageService.friendList[0].user.fullName;
-              this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
-              this.avatarPath = this.messageService.friendList[0].user.avatarPath;
-            })
-            .catch(error => {console.log('không lấy được user info')})
+              .then(data => {
+                var friend = new ChatFriend();
+                friend.messages = new Array<Message>();
+                friend.user = data;
+                friend.pageIndex = 1;
+                this.messageService.friendList.splice(0, 0, friend);
+                this.nameReceiver = this.messageService.friendList[0].user.fullName;
+                this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
+                this.avatarPath = this.messageService.friendList[0].user.avatarPath;
+              })
+              .catch(error => { console.log('không lấy được user info') })
           }
-          else{
+          else {
             this.nameReceiver = this.messageService.friendList[0].user.fullName;
             this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
             this.avatarPath = this.messageService.friendList[0].user.avatarPath;
           }
 
         }
-        else{
+        else {
           this.nameReceiver = this.messageService.friendList[0].user.fullName;
           this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
           this.avatarPath = this.messageService.friendList[0].user.avatarPath;
@@ -104,14 +108,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
         console.log(error);
       });
 
-
   }
+
   ngAfterViewInit(): void {
-    
-    this.setScroll()
-    if(this.messageService.friendList.length > 0){
-      this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
-    }
+    // if (this.messageService.friendList.length > 0) {
+    //   this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
+    // }
+    // this.setScroll()
+    this.setScrollInterval = setInterval(this.setScroll, 100)
+    this.timer = timer(1000, 1000)
   }
 
 
@@ -133,14 +138,22 @@ export class ChatComponent implements OnInit, AfterViewInit {
           console.log(error)
         });
       this.txtMessage = '';
-      this.setScroll()
+      this.setScrollInterval = setInterval(this.setScroll, 100)
     }
   }
 
   setScroll = () => {
     var scroll = <HTMLElement>document.getElementById('contentMessage');
-    console.log(scroll.scrollHeight)
+    // var shouldScroll = scroll.scrollTop + scroll.clientHeight === scroll.scrollHeight;
+    // if (!shouldScroll) {
     scroll.scrollTop = scroll.scrollHeight
+    //}
+    this.timer.subscribe(val => {
+      if (val % 2 == 0) {
+        console.log(val)
+        clearInterval(this.setScrollInterval)
+      }
+    })
   }
 
 
@@ -161,6 +174,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.MoreMessages(this.DestUserId, this.UserIndex)
     }
   }
+
   MoreMessages = (userId: string, userIndex: number) => {
     this.messageService.moreMessages(this.messageService.friendList[userIndex].pageIndex, this.PageSize, this.CurrentUserId, userId)
       .then(data => {
@@ -198,7 +212,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser
-
+    this.setScrollInterval = setInterval(this.setScroll, 100)
   }
 
   breakRow = (e) => {
@@ -216,11 +230,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
-  isUserExist(userId: string){
+  isUserExist(userId: string) {
     this.messageService.friendList.forEach(element => {
-        if(element.user.id == userId){
-          return true;
-        }
+      if (element.user.id == userId) {
+        return true;
+      }
     });
 
     return false;
