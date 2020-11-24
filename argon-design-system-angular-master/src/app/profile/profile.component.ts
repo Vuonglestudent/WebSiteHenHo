@@ -20,12 +20,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     ageUser = '20'
     addressUser = 'Đường số 8, Linh Trung, Thủ đức'
     imgAvatar = "./assets/img/theme/team-3-800x800.jpg"
-    imgArray = 10
-    friends = 22
+
     editing: boolean = false;
     imageTitle: string;
     checkUser = false;
     imagesResponse: Array<Image>;
+    isViewFriendList: boolean = false;
+    FriendList: Array<User>;
     //icon
     faSpinner = faSpinner;
     currentUserId;
@@ -313,6 +314,25 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 })
                 .catch(error => console.log(error + 'Err'))
         }
+    }
+
+    onViewFriendList(){
+        this.isViewFriendList = !this.isViewFriendList;
+        this.usersService.GetFollowers(this.authenticationService.UserInfo.Id)
+            .then(data =>{
+                this.FriendList = data;
+            })
+            .catch(error => {
+                this.alertService.clear();
+                this.alertService.error('Có lỗi trong khi lấy danh sách bạn bè!');
+            })
+    }
+    clickProfileUser = (id) => {
+        this.isViewFriendList = false;
+        this.uploadImage = false;
+        this.editing = false;
+        this.router.navigate(['/profile', id]);
+
     }
 }
 

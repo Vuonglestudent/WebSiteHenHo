@@ -172,3 +172,31 @@ ngx-dropzone,
   display: none;
   text-align: center;
 }
+
+// 
+
+.icon-hover {
+  padding-bottom: 15%;
+  margin-bottom: 8%;
+}
+
+.btn-icon-card:hover {
+  font-size: 150%;
+  padding-bottom: 0%;
+}
+.card2:hover {
+  background-color: #f0e1f7;
+  transition: 0.5s;
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  .btn-icon-card {
+    background-color: #f0e1f7;
+  }
+}
+
+.dropbtn:hover {
+  background-color: beige;
+  option {
+    background-color: white;
+  }
+}
