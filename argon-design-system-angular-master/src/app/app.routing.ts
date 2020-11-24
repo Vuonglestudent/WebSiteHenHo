@@ -1,3 +1,5 @@
+import { ManagerUserComponent } from './manager-user/manager-user.component';
+import { StatisticComponent } from './statistic/statistic.component';
 import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
 import { SeenImageComponent } from './seen-image/seen-image.component';
 import { NgModule } from '@angular/core';
@@ -25,7 +27,9 @@ const routes: Routes = [
   { path: 'friendlist', component: FriendListComponent },
   { path: 'changepassword', component: ChangePasswordComponent },
   //{ path: 'test', component: SeenImageComponent },
-  { path: 'filterfriends' , component: FilterFriendsComponent}
+  { path: 'filterfriends' , component: FilterFriendsComponent},
+  { path: 'statistic' , component: StatisticComponent},
+  { path: 'manager-user' , component: ManagerUserComponent}
 ];
 
 @NgModule({

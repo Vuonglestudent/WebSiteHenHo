@@ -234,8 +234,30 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
     };
 
+    popMessage = false
+    popTextAreaMessage = () => {
+        this.popMessage = true;
+    }
+
+    txtMessage = ''
     sendMessage = (id) => {
-        this.router.navigate(['/chat', id])
+        //this.router.navigate(['/chat', id])
+        console.log(id , this.txtMessage)
+        if (this.txtMessage != '') {
+            this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, this.txtMessage)
+              .then(data => {
+                console.log(data)
+              })
+              .catch(error => {
+                console.log(error)
+              });
+            this.txtMessage = '';
+            this.popMessage = false;
+          }
+    }
+
+    nonePopMessage = () => {
+        this.popMessage = false
     }
 
     updateStateImage = () => {

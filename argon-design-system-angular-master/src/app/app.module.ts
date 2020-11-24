@@ -35,6 +35,9 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StatisticComponent } from './statistic/statistic.component';
+import { ManagerUserComponent } from './manager-user/manager-user.component';
+import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +55,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     SeenImageComponent,
     FilterFriendsComponent,
+    StatisticComponent,
+    ManagerUserComponent,
+    NavbarAdminComponent,
   ],
   imports: [
     BrowserModule,

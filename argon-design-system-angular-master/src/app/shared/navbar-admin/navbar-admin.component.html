@@ -1,0 +1,29 @@
+<div class="col-2 col-xl-2 col-md-2 navbar-admin">
+    <ul class="list-group">
+        <li class="list-group-item" style="border: none;" (click)="clickHome()">
+            <img src="./assets/img/brand/argon-white.png" style="height: 45px;" alt="">
+        </li>
+        <li class="list-group-item" (click)="clickMyProfile()">
+            Xem hồ sơ cá nhân
+        </li>
+        <li class="list-group-item">
+            Ảnh
+        </li>
+        <li class="list-group-item" (click)="clickMessage()">
+            Tin nhắn
+        </li>
+        <li *ngIf="urlStatistic" class="list-group-item active" (click)="clickStatistic()">
+            Thống kê
+        </li>
+        <li *ngIf="!urlStatistic" class="list-group-item" (click)="clickStatistic()">
+            Thống kê
+        </li>
+        <li *ngIf="urlManagerUser" class="list-group-item active" (click)="clickManagerUser()">
+            Quản lý người dùng
+        </li>
+        
+        <li *ngIf="!urlManagerUser" class="list-group-item" (click)="clickManagerUser()">
+            Quản lý người dùng
+        </li>
+    </ul>
+</div>

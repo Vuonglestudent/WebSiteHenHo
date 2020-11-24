@@ -1,0 +1,30 @@
+.navbar-admin {
+    height: 100vh;
+    background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9);
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0) !important;
+    color: white;
+    border-radius: 5px;
+    margin: 5px 0px 5px 0px;
+}
+
+.list-group-item a{
+    color: white;
+}
+
+.list-group-item:hover {
+    background-image: linear-gradient(to bottom right, #b3b3b3 , #b3b3b3);
+    cursor: pointer;
+}
+
+.active {
+    background-image: linear-gradient(to bottom right, #5E72E4 , #2DCE89);
+    border-color: white;
+}
+
+.active:hover {
+    background-image: linear-gradient(to bottom right, #5E72E4 , #2DCE89);
+    border-color: white;
+}
