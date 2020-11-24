@@ -192,10 +192,10 @@ ngx-dropzone,
   margin-bottom: 8%;
 }
 
-.btn-icon-card:hover {
-  font-size: 150%;
-  padding-bottom: 0%;
-}
+// .btn-icon-card:hover {
+//   font-size: 150%;
+//   padding-bottom: 0%;
+// }
 .card2:hover {
   background-color: #f0e1f7;
   transition: 0.5s;
@@ -211,4 +211,9 @@ ngx-dropzone,
   option {
     background-color: white;
   }
+}
+
+.card-profile-image img{
+  width: 180px;
+  height: 180px;
 }
