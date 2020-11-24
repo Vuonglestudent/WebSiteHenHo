@@ -20,11 +20,24 @@
 }
 
 .active {
-    background-image: linear-gradient(to bottom right, #5E72E4 , #2DCE89);
+    background-image: linear-gradient(to bottom right, #5E72E4 , #5E72E4);
     border-color: white;
 }
 
 .active:hover {
-    background-image: linear-gradient(to bottom right, #5E72E4 , #2DCE89);
+    background-image: linear-gradient(to bottom right, #5E72E4 , #5E72E4);
     border-color: white;
+}
+
+.card-profile-image img{
+    width: 50px;
+    height: 50px;
+}
+
+.card-profile-image h6{
+    font-weight: 800 !important;
+}
+
+.logoAdmin{
+    width: 100%;
 }
