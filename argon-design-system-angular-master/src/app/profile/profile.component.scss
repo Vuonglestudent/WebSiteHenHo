@@ -139,6 +139,18 @@ ngx-dropzone,
   animation: spin 2s linear infinite;
 }
 
+.thumb-table {
+  width: 100%;
+  height: auto;
+  min-height: 196px;
+  max-height: 196px;
+  background-color: white;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); }
