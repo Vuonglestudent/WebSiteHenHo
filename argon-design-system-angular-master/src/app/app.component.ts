@@ -70,6 +70,8 @@ export class AppComponent implements OnInit {
     lastScrollTop = st;
   };
   ngOnInit() {
+    this.signalRService.startConnection();
+    this.signalRService.addTransferChartDataListener();
     var userInfo = {
       Id: '',
       UserName: '',
@@ -80,7 +82,7 @@ export class AppComponent implements OnInit {
       hasAvatar: false,
       avatarPath: ''
     };
-    this.authenticationService.UserInfo = userInfo;;
+    this.authenticationService.UserInfo = userInfo;
 
     this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
     if (this.authenticationService.UserInfo != null) {
@@ -89,9 +91,8 @@ export class AppComponent implements OnInit {
           .then(() => {
             this.authenticationService.IsLogin = true;
             console.log('Valid token')
-            //this.signalRService.startConnection();
-            this.signalRService.startConnection();
-            this.signalRService.addTransferChartDataListener();
+
+
           })
           .catch(error => {
             if (error.status == 401) {
@@ -137,47 +138,51 @@ export class AppComponent implements OnInit {
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
-        console.log(response);
         var message = new Message();
         message = response;
 
-        //Là người gửi
-        if (message.senderId == this.authenticationService.UserInfo.Id) {
-          message.type = 'sent';
-          console.log('sender');
+        if (message.type == "onlineCount") {
+          console.log('Number of online users: ' + message.onlineCount)
+          this.messageService.onlineCount = message.onlineCount;
+        }
+        else {
+          //Là người gửi
+          if (message.senderId == this.authenticationService.UserInfo.Id) {
+            message.type = 'sent';
+            console.log('sender');
 
-          var userIndex = this.getUserIndex(message.receiverId);
-          //Chưa có trong danh sách bạn.
-          if (userIndex == -1) {
-            // var newUser = new UserDisplay();
-            // this.usersService.GetDisplayUser(message.receiverId)
-            //   .then(response => {
-            //     newUser = response;
-            //     var friend = new ChatFriend();
-            //     friend.user = new UserDisplay();
-            //     friend.messages = new Array<Message>();
-            //     friend.messages.push(message);
+            var userIndex = this.getUserIndex(message.receiverId);
+            //Chưa có trong danh sách bạn.
+            if (userIndex == -1) {
+              // var newUser = new UserDisplay();
+              // this.usersService.GetDisplayUser(message.receiverId)
+              //   .then(response => {
+              //     newUser = response;
+              //     var friend = new ChatFriend();
+              //     friend.user = new UserDisplay();
+              //     friend.messages = new Array<Message>();
+              //     friend.messages.push(message);
 
-            //   })
-            //   .catch(error => {
-            //     alert("Can not get display user");
-            //   })
-          }
-          else{
-            this.messageService.friendList[userIndex].messages.push(message);
-          }
-          
-          //Là người nhận
-        } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
-          message.type = 'received';
-          console.log('receiver');
-          var checkUrl = this.router.url.split("/")[1]
-          console.log(checkUrl)
-          this.senderId = response.senderId
+              //   })
+              //   .catch(error => {
+              //     alert("Can not get display user");
+              //   })
+            }
+            else {
+              this.messageService.friendList[userIndex].messages.push(message);
+            }
 
-          //Hiện thông báo
-          if (checkUrl !== "chat" && checkUrl !== "friendlist") {
-            this.notificationService.html(`
+            //Là người nhận
+          } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
+            message.type = 'received';
+            console.log('receiver');
+            var checkUrl = this.router.url.split("/")[1]
+            console.log(checkUrl)
+            this.senderId = response.senderId
+
+            //Hiện thông báo
+            if (checkUrl !== "chat" && checkUrl !== "friendlist") {
+              this.notificationService.html(`
               <div class="d-flex align-items-center" style="padding-bottom: 0%;">
                 <img class="rounded-circle user_img_msg"
                   src="data:image/gif;base64,${response.avatar}" alt="">
@@ -186,44 +191,43 @@ export class AppComponent implements OnInit {
                     <p>${response.content}</p>
                   </div>
               </div>`, null, {
-              position: ['bottom', 'right'],
-              timeOut: 2000,
-              clickToClose: false,
-              theClass: 'notification_mes',
-              animate: 'fade',
-              showProgressBar: true,
-            });
+                position: ['bottom', 'right'],
+                timeOut: 2000,
+                clickToClose: false,
+                theClass: 'notification_mes',
+                animate: 'fade',
+                showProgressBar: true,
+              });
+            }
+
+
+            var userIndex = this.getUserIndex(message.senderId);
+
+            if (userIndex == -1) {
+              // var newUser = new UserDisplay();
+              // this.usersService.GetDisplayUser(message.receiverId)
+              //   .then(response => {
+              //     newUser = response;
+              //     var friend = new ChatFriend();
+              //     friend.user = new UserDisplay();
+              //     friend.messages = new Array<Message>();
+              //     friend.messages.push(message);
+
+              //   })
+              //   .catch(error => {
+              //     alert("Can not get display user");
+              //   })
+            }
+            else {
+              this.messageService.friendList[userIndex].messages.push(message);
+            }
+
+            //Tin nhắn rác
+          } else {
+
           }
-
-
-          var userIndex = this.getUserIndex(message.senderId);
-
-          if (userIndex == -1) {
-            // var newUser = new UserDisplay();
-            // this.usersService.GetDisplayUser(message.receiverId)
-            //   .then(response => {
-            //     newUser = response;
-            //     var friend = new ChatFriend();
-            //     friend.user = new UserDisplay();
-            //     friend.messages = new Array<Message>();
-            //     friend.messages.push(message);
-
-            //   })
-            //   .catch(error => {
-            //     alert("Can not get display user");
-            //   })
-          }
-          else{
-            this.messageService.friendList[userIndex].messages.push(message);
-          }
-
-          
-
-
-          //Tin nhắn rác
-        } else {
-          console.log("nothing!");
         }
+
       })
     })
   }

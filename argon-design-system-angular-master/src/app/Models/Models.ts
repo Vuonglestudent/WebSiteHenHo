@@ -79,6 +79,7 @@ export class Message {
     hasAvatar: boolean;
     avatar: string;
     fullName: string;
+    onlineCount:number;
 }
 
 export class ChatFriend {

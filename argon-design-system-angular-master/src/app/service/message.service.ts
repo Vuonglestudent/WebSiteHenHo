@@ -13,6 +13,8 @@ export class MessageService {
     private authenticationService: AuthenticationService
   ) { }
 
+  public onlineCount:number = 0;
+
   private mainUrl = "http://localhost:5000/api/chats";
 
   public SendMessage = (senderId: string, receiveId: string, content: string) => {
