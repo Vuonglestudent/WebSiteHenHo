@@ -13,7 +13,10 @@ export class NavbarAdminComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
-
+  data: any;
+  salesChart;
+  clicked: boolean = true;
+  clicked1: boolean = false
   urlStatistic = false;
   urlManagerUser = false;
 
@@ -25,6 +28,8 @@ export class NavbarAdminComponent implements OnInit {
       this.urlManagerUser = true;
     }
   }
+
+
 
   clickMyProfile = () => {
     this.urlManagerUser = false;
@@ -55,4 +60,6 @@ export class NavbarAdminComponent implements OnInit {
     this.urlStatistic = false;
     this.router.navigate(['/home'])
   }
+
+
 }

@@ -38,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StatisticComponent } from './statistic/statistic.component';
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.component';
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +75,8 @@ import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.compone
     SectionsModule,
     NgxDropzoneModule,
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ChartsModule
   ],
   providers: [
     {
