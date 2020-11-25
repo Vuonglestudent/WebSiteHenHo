@@ -7,7 +7,7 @@ import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { AuthenticationService } from './signup/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
-import { Message, UserDisplay } from './Models/Models';
+import { ChatFriend, Message, User, UserDisplay } from './Models/Models';
 import { UsersService } from './service/users.service';
 import { NotificationsService } from 'angular2-notifications';
 var didScroll;
@@ -137,34 +137,45 @@ export class AppComponent implements OnInit {
   subscribeToEvents = () => {
     this.signalRService.messageReceived.subscribe((response: any) => {
       this._ngZone.run(() => {
-        console.log('this is res');
         console.log(response);
         var message = new Message();
         message = response;
+
+        //Là người gửi
         if (message.senderId == this.authenticationService.UserInfo.Id) {
           message.type = 'sent';
           console.log('sender');
+
           var userIndex = this.getUserIndex(message.receiverId);
+          //Chưa có trong danh sách bạn.
           if (userIndex == -1) {
-            var newUser = new UserDisplay();
-            this.usersService.GetDisplayUser(message.receiverId)
-              .then(response => {
-                newUser = response;
-              })
-              .catch(error => {
-                alert("Can not get display user");
-                return;
-              })
+            // var newUser = new UserDisplay();
+            // this.usersService.GetDisplayUser(message.receiverId)
+            //   .then(response => {
+            //     newUser = response;
+            //     var friend = new ChatFriend();
+            //     friend.user = new UserDisplay();
+            //     friend.messages = new Array<Message>();
+            //     friend.messages.push(message);
+
+            //   })
+            //   .catch(error => {
+            //     alert("Can not get display user");
+            //   })
           }
-          var userIndex = this.getUserIndex(message.receiverId);
-          this.messageService.friendList[userIndex].messages.push(message);
+          else{
+            this.messageService.friendList[userIndex].messages.push(message);
+          }
+          
+          //Là người nhận
         } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
           message.type = 'received';
           console.log('receiver');
           var checkUrl = this.router.url.split("/")[1]
           console.log(checkUrl)
           this.senderId = response.senderId
-          //console.log(this.sendId , response.sendId)
+
+          //Hiện thông báo
           if (checkUrl !== "chat" && checkUrl !== "friendlist") {
             this.notificationService.html(`
               <div class="d-flex align-items-center" style="padding-bottom: 0%;">
@@ -183,8 +194,33 @@ export class AppComponent implements OnInit {
               showProgressBar: true,
             });
           }
+
+
           var userIndex = this.getUserIndex(message.senderId);
-          this.messageService.friendList[userIndex].messages.push(message);
+
+          if (userIndex == -1) {
+            // var newUser = new UserDisplay();
+            // this.usersService.GetDisplayUser(message.receiverId)
+            //   .then(response => {
+            //     newUser = response;
+            //     var friend = new ChatFriend();
+            //     friend.user = new UserDisplay();
+            //     friend.messages = new Array<Message>();
+            //     friend.messages.push(message);
+
+            //   })
+            //   .catch(error => {
+            //     alert("Can not get display user");
+            //   })
+          }
+          else{
+            this.messageService.friendList[userIndex].messages.push(message);
+          }
+
+          
+
+
+          //Tin nhắn rác
         } else {
           console.log("nothing!");
         }
@@ -193,7 +229,7 @@ export class AppComponent implements OnInit {
   }
 
   clickNotificationMes = (sendId) => {
-    console.log("click" , sendId)
+    console.log("click", sendId)
     this.router.navigate(['/chat', sendId])
   }
 
