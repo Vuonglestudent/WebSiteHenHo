@@ -1,6 +1,8 @@
 .navbar-admin {
     height: 100vh;
     background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9);
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .list-group-item {
