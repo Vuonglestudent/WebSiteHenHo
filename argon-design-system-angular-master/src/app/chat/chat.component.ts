@@ -62,7 +62,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         //console.log(this.messageService.friendList[0].messages);
 
         //this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
-        
+
         //console.log('SAU khi more message');
         console.log(this.messageService.friendList[0].messages);
 
@@ -77,19 +77,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
       });
 
   }
-
+  time = 0
   ngAfterViewInit(): void {
     if (this.messageService.friendList.length > 0) {
       this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
     }
-    this.timer = timer(1000, 1000)
-    this.timer.subscribe(val => {
-      console.log(val)
-      if (val % 2 == 0) {
-        //console.log(val)
-        clearInterval(this.setScrollInterval)
-      }
-    })
+    // this.timer = timer(1000, 1000)
+
+    // this.timer.subscribe(val => {
+    //   if (val % 2 == 0) {
+    //     //console.log(val)
+    //     clearInterval(this.setScrollInterval)
+    //   }
+    // })
   }
 
 
@@ -109,7 +109,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
           console.log(error)
         });
       this.txtMessage = '';
-      this.setScrollInterval = setInterval(this.setScroll, 100)
+      this.setScroll()
     }
   }
 
@@ -117,7 +117,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     var scroll = <HTMLElement>document.getElementById('contentMessage');
     // var shouldScroll = scroll.scrollTop + scroll.clientHeight === scroll.scrollHeight;
     // if (!shouldScroll) {
-    scroll.scrollTop = scroll.scrollHeight
+
+    setTimeout(() => scroll.scrollTop = scroll.scrollHeight, 500)
     //}
   }
 
@@ -165,7 +166,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.DestUserId = idUser;
     var destUserId = <HTMLElement>document.getElementById(`DestUserId_${idUser}`);
     var userIndex = this.getUserIndex(idUser);
-    if(userIndex != -1){
+    if (userIndex != -1) {
       this.UserIndex = userIndex;
       this.messageService.friendList[userIndex].messages = new Array<Message>();
       this.messageService.friendList[userIndex].pageIndex = 1;
@@ -174,7 +175,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser
-    this.setScrollInterval = setInterval(this.setScroll, 100)
+    this.setScroll()
   }
 
   breakRow = (e) => {

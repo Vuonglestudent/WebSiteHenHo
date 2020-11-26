@@ -1,3 +1,4 @@
+import { UrlMainService } from './url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as path from 'path';
@@ -10,12 +11,12 @@ export class MessageService {
 
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private url: UrlMainService
   ) { }
 
   public onlineCount:number = 0;
-
-  private mainUrl = "http://localhost:5000/api/chats";
+  private mainUrl = `http://${this.url.urlHost}/api/chats`;
 
   public SendMessage = (senderId: string, receiveId: string, content: string) => {
 

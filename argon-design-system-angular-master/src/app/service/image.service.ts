@@ -1,3 +1,4 @@
+import { UrlMainService } from './url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../signup/authentication.service';
@@ -8,10 +9,11 @@ export class ImageService {
 
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private url: UrlMainService
   ) { }
 
-  private mainUrl = "http://localhost:5000/api/Images/";
+  private mainUrl = `http://${this.url.urlHost}/api/Images/`;
   public getImageByUserId = (userId: string) =>{
     var path = `user/${userId}`;
     var headers = this.authenticationService.GetHeader();
