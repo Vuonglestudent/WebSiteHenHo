@@ -73,15 +73,15 @@
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
+                    <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
                         class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
                         alt="Avatar"></a>
-                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar"
+                    <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
                         class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
                   </div>
                   <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
                     <div style="height: 90px;" (click)="clickProfileUser(item.id)">
-                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)">
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
                         <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
                         </h6>
                       </a>
@@ -219,14 +219,14 @@
                 <tr>
                   <td>
                     <div>
-                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="item.hasAvatar"
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
                           class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                      <a style="cursor: pointer" (click)="GetUserInfo(item.id)"><img *ngIf="!item.hasAvatar"
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
                           class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
                   </td>
                   <td style="padding-left: 5px;">
-                    <a style="cursor: pointer" (click)="GetUserInfo(item.id)">
+                    <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
                       <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
                       </h6>
                     </a>

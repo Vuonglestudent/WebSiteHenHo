@@ -140,6 +140,7 @@ export class HomeComponent implements OnInit {
     GetUserInfo = (userId: string) => {
         this.alertService.clear();
         this.alertService.success('OK', this.options);
+
     }
     Favorite = (userId: string, event) => {
 

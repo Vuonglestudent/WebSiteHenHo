@@ -220,9 +220,14 @@ export class LoginComponent implements OnInit {
   }
 
   onFacebookLogin = () => {
-
+    var call = 0;
     this.authService.authState.subscribe((user) => {
       this.user = user;
+      call++;
+      if(call >= 2){
+        return;
+      }
+      
       this.authenticationService.FacebookLogin(this.user)
         .then(response => {
           this.loggedIn = true;
