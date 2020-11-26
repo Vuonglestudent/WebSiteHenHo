@@ -4,6 +4,7 @@ import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { StatisticService } from '../service/statistic.service';
+import { MessageService } from '../service/message.service';
 
 @Component({
   selector: 'app-statistic',
@@ -13,19 +14,19 @@ import { StatisticService } from '../service/statistic.service';
 export class StatisticComponent implements OnInit {
 
   constructor(
-    private statisticService: StatisticService
+    private statisticService: StatisticService,
+    private messageService: MessageService,
   ) { }
   public yearLineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 55, 60, 40, 45, 70], label: 'Year' },
-    //{ data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-    //{ data: [180, 480, 770, 90, 1000, 270, 400], label: 'Series C', yAxisID: 'y-axis-1' }
+    { data: [], label: 'Authorize' },
+    { data: [], label: 'Unauthorize' },
   ];
   public pieChartData: number[] = [300, 500, 100];
   public monthLineChartData: ChartDataSets[] = [
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
     { data: [], label: "Authorize Access"},
     {data: [], label: "Unauthorize Access"}
   ];
+  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
 
   public yearLineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   public monthLineChartLabels: Label[] = ['1', ' ', ' ', ' ', '5', ' ', ' ', ' ', ' ', '10', ' ', ' ', ' ', ' ', '15', ' ', ' ', ' ', ' ', '20', ' ', ' ', ' ', ' ', '25', ' ', ' ', ' ', ' ', '30'];
@@ -125,18 +126,23 @@ export class StatisticComponent implements OnInit {
 
   monthAuthorizeResponse = [];
   monthUnauthorizeResponse = [];
-  yearResponse = [];
+  yearAuthorizeResponse = [];
+  yearUnauthorizeResponse = [];
+
+  activeAccounts = 0;
+  inactiveAccounts = 0;
+
+  thisMonth = 0;
+  growthRate = 0;
 
   ngOnInit(): void {
     var date:Date = new Date();
-// var dd = String(date. getDate()). padStart(2, '0');
-// var mm = String(date. getMonth() + 1). padStart(2, '0'); //January is 0!
-// var yyyy = date. getFullYear();
+
     this.statisticService.getAccessCountByMonth(date.getMonth()+ 1, date.getFullYear())
       .then(data =>{
         this.monthAuthorizeResponse = [];
         this.monthUnauthorizeResponse = [];
-        console.log(data)
+        //console.log(data)
         data.listAccess.forEach(element => {
           this.monthAuthorizeResponse.push(element.authorizeCount);
           this.monthUnauthorizeResponse.push(element.unauthorizeCount);
@@ -151,6 +157,41 @@ export class StatisticComponent implements OnInit {
       .catch(error=>{
         console.log(error)
       })
+
+    this.statisticService.getAccessCountByYear(date.getFullYear())
+      .then(data =>{
+        this.yearAuthorizeResponse = [];
+        this.yearUnauthorizeResponse = [];
+
+        console.log(data)
+        data.listAccess.forEach(element => {
+          this.yearAuthorizeResponse.push(element.authorizeCount);
+          this.yearUnauthorizeResponse.push(element.unauthorizeCount);
+        });
+
+        this.yearLineChartData[0].data = this.yearAuthorizeResponse;
+        this.yearLineChartData[1].data = this.yearUnauthorizeResponse;
+
+        this.yearLineChartData[0].label = "Authorize Access";
+        this.yearLineChartData[1].label = "Unauthorize Access";
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+
+    this.statisticService.GetNumberOfActiveUsers()
+      .then(data =>{
+        this.activeAccounts = data.activeAccounts;
+        this.inactiveAccounts = data.inactiveAccounts;
+      })
+      .catch(error => console.log(error))
+
+    this.statisticService.getTheNumberOfNewUsersByMonth()
+      .then(data =>{
+        this.thisMonth = data.thisMonth;
+        this.growthRate = data.growthRate;
+      })
+      .catch(error => console.log(error))
   }
 
   // public randomize(): void {
