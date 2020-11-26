@@ -199,8 +199,7 @@ export class AppComponent implements OnInit {
                 showProgressBar: true,
               });
             }
-
-
+            
             var userIndex = this.getUserIndex(message.senderId);
 
             if (userIndex == -1) {

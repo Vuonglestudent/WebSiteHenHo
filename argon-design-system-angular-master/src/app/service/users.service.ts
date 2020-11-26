@@ -13,7 +13,7 @@ export class UsersService {
     private url: UrlMainService
     ) { }
 
-  private mainUrl = `http://${this.url.urlHost}/api/users`;
+  private mainUrl = `${this.url.urlHost}/api/users`;
 
   public GetPagingUsers = (pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
@@ -96,12 +96,12 @@ export class UsersService {
 
   public GetProfileData = () =>{
     let headers = this.authenticationService.GetHeader();
-    var path = `http://${this.url.urlHost}/api/Profiles/features`;
+    var path = `${this.url.urlHost}/api/Profiles/features`;
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
   public UpdateProfile = (profile:User) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = `http://${this.url.urlHost}/api/Profiles`;
+    var path = `${this.url.urlHost}/api/Profiles`;
     var data = new FormData();
     data.append("Id", profile.id);
     data.append("FullName", profile.fullName);
@@ -133,7 +133,7 @@ export class UsersService {
   
   public UpdateAvatar = (file:any) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = `http://${this.url.urlHost}/api/Users/avatar`;
+    var path = `${this.url.urlHost}/api/Users/avatar`;
 
     var data = new FormData();
     data.append("Avatar", file);

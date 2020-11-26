@@ -26,7 +26,7 @@ export class AuthenticationService {
     hasAvatar: false,
     avatarPath: ''
   };
-  private mainUrl = `http://${this.url.urlHost}/api/Authenticates`;
+  private mainUrl = `${this.url.urlHost}/api/Authenticates`;
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-statistic',
@@ -16,8 +17,9 @@ export class StatisticComponent implements OnInit {
     //{ data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
     //{ data: [180, 480, 770, 90, 1000, 270, 400], label: 'Series C', yAxisID: 'y-axis-1' }
   ];
+  public pieChartData: number[] = [300, 500, 100];
   public lineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  
+  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
@@ -58,6 +60,20 @@ export class StatisticComponent implements OnInit {
       ],
     },
   };
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    legend: {
+      position: 'top',
+    },
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          const label = ctx.chart.data.labels[ctx.dataIndex];
+          return label;
+        },
+      },
+    }
+  };
   public lineChartColors: Color[] = [
     // { // grey
     //   backgroundColor: 'rgba(148,159,177,0.2)',
@@ -84,9 +100,17 @@ export class StatisticComponent implements OnInit {
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     }
   ];
+  public pieChartColors = [
+    {
+      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+    },
+  ];
   public lineChartLegend = true;
+  public pieChartLegend = true;
   public lineChartType: ChartType = 'line';
+  public pieChartType: ChartType = 'pie';
   public lineChartPlugins = [pluginAnnotations];
+  public pieChartPlugins = [pluginDataLabels];
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
 
   ngOnInit(): void {

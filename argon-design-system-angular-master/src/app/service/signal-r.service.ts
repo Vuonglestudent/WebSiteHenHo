@@ -11,10 +11,10 @@ import { HttpClient  } from '@angular/common/http';
 export class SignalRService {
   messageReceived = new EventEmitter<Message>();
   private hubConnection: signalR.HubConnection;
-  private MainUrl = `http://${this.url.urlHost}`;
+  private MainUrl = `${this.url.urlHost}`;
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`http://localhost:5000/chatHub`)
+      .withUrl(`${this.url.urlHost}/chatHub`)
       .build();
 
     this.hubConnection
