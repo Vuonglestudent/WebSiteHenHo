@@ -1,3 +1,4 @@
+import { UrlMainService } from './url-main.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { Message } from '../Models/Models';
@@ -9,12 +10,11 @@ import { HttpClient  } from '@angular/common/http';
 
 export class SignalRService {
   messageReceived = new EventEmitter<Message>();
-  private MainUrl = 'http://localhost:5000';
   private hubConnection: signalR.HubConnection;
-
+  private MainUrl = `http://${this.url.urlHost}`;
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5000/chatHub')
+      .withUrl(`http://localhost:5000/chatHub`)
       .build();
 
     this.hubConnection
@@ -37,6 +37,7 @@ export class SignalRService {
 
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private url: UrlMainService
   ) { }
 }

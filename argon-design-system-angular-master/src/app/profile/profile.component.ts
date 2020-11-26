@@ -318,7 +318,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     onViewFriendList(){
         this.isViewFriendList = !this.isViewFriendList;
-        this.usersService.GetFollowers(this.authenticationService.UserInfo.Id)
+        this.usersService.GetFollowers(this.currentUserId)
             .then(data =>{
                 this.FriendList = data;
             })

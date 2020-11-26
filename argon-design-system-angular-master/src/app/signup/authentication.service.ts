@@ -1,3 +1,4 @@
+import { UrlMainService } from './../service/url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SocialUser } from '../Models/Models'
@@ -11,6 +12,7 @@ export class AuthenticationService {
 
   constructor(
     private http:HttpClient,
+    private url: UrlMainService
   ) { }
   
   public IsLogin = false;
@@ -24,8 +26,7 @@ export class AuthenticationService {
     hasAvatar: false,
     avatarPath: ''
   };
-
-  private mainUrl = "http://localhost:5000/api/Authenticates";
+  private mainUrl = `http://${this.url.urlHost}/api/Authenticates`;
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     

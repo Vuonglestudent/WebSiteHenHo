@@ -1,3 +1,4 @@
+import { UrlMainService } from './url-main.service';
 import { User } from './../Models/Models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -8,10 +9,11 @@ import { AuthenticationService } from "../signup/authentication.service";
 export class UsersService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private url: UrlMainService
     ) { }
 
-  private mainUrl = "http://localhost:5000/api/users";
+  private mainUrl = `http://${this.url.urlHost}/api/users`;
 
   public GetPagingUsers = (pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
@@ -94,12 +96,12 @@ export class UsersService {
 
   public GetProfileData = () =>{
     let headers = this.authenticationService.GetHeader();
-    var path = "http://localhost:5000/api/Profiles/features";
+    var path = `http://${this.url.urlHost}/api/Profiles/features`;
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
   public UpdateProfile = (profile:User) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = "http://localhost:5000/api/Profiles";
+    var path = `http://${this.url.urlHost}/api/Profiles`;
     var data = new FormData();
     data.append("Id", profile.id);
     data.append("FullName", profile.fullName);
@@ -131,7 +133,7 @@ export class UsersService {
   
   public UpdateAvatar = (file:any) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = "http://localhost:5000/api/Users/avatar";
+    var path = `http://${this.url.urlHost}/api/Users/avatar`;
 
     var data = new FormData();
     data.append("Avatar", file);
