@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { StatisticService } from '../service/statistic.service';
 
 @Component({
   selector: 'app-statistic',
@@ -10,13 +11,22 @@ import * as pluginAnnotations from 'chartjs-plugin-annotation';
 })
 export class StatisticComponent implements OnInit {
 
-  constructor() { }
-  public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 55, 60, 40, 45, 70], label: 'Series A' },
+  constructor(
+    private statisticService: StatisticService
+  ) { }
+  public yearLineChartData: ChartDataSets[] = [
+    { data: [65, 59, 80, 81, 56, 55, 40, 55, 60, 40, 45, 70], label: 'Year' },
     //{ data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
     //{ data: [180, 480, 770, 90, 1000, 270, 400], label: 'Series C', yAxisID: 'y-axis-1' }
   ];
-  public lineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+
+  public monthLineChartData: ChartDataSets[] = [
+    { data: [], label: "Authorize Access"},
+    {data: [], label: "Unauthorize Access"}
+  ];
+
+  public yearLineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  public monthLineChartLabels: Label[] = ['1', ' ', ' ', ' ', '5', ' ', ' ', ' ', ' ', '10', ' ', ' ', ' ', ' ', '15', ' ', ' ', ' ', ' ', '20', ' ', ' ', ' ', ' ', '25', ' ', ' ', ' ', ' ', '30'];
   
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
@@ -89,8 +99,34 @@ export class StatisticComponent implements OnInit {
   public lineChartPlugins = [pluginAnnotations];
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
 
-  ngOnInit(): void {
+  monthAuthorizeResponse = [];
+  monthUnauthorizeResponse = [];
+  yearResponse = [];
 
+  ngOnInit(): void {
+    var date:Date = new Date();
+// var dd = String(date. getDate()). padStart(2, '0');
+// var mm = String(date. getMonth() + 1). padStart(2, '0'); //January is 0!
+// var yyyy = date. getFullYear();
+    this.statisticService.getAccessCountByMonth(date.getMonth()+ 1, date.getFullYear())
+      .then(data =>{
+        this.monthAuthorizeResponse = [];
+        this.monthUnauthorizeResponse = [];
+        console.log(data)
+        data.listAccess.forEach(element => {
+          this.monthAuthorizeResponse.push(element.authorizeCount);
+          this.monthUnauthorizeResponse.push(element.unauthorizeCount);
+        });
+
+        this.monthLineChartData[0].data = this.monthAuthorizeResponse;
+        this.monthLineChartData[0].label = "Authorize Access";
+
+        this.monthLineChartData[1].data = this.monthUnauthorizeResponse;
+        this.monthLineChartData[1].label = "Unauthorize Access";
+      })
+      .catch(error=>{
+        console.log(error)
+      })
   }
 
   // public randomize(): void {

@@ -7,5 +7,5 @@ export class UrlMainService {
 
   constructor() { }
 
-  urlHost = "192.168.0.200:5000"
+  urlHost = "localhost:5000"
 }
