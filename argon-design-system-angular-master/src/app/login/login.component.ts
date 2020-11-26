@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit {
           FullName: response.fullName,
           Email: response.email,
           token: response.token,
+          role: response.role,
           IsInfoUpdated: response.isInfoUpdated,
           hasAvatar: response.hasAvatar,
           avatarPath: response.avatarPath
@@ -118,8 +119,12 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
           return;
         }
-        this.router.navigateByUrl('/home');
-        return;
+        if(userInfo.role == "User"){
+          this.router.navigateByUrl('/home');
+        }
+        else if(userInfo.role == "Admin"){
+          this.router.navigateByUrl("/statistic");
+        }
       })
       .catch(error => {
         console.log(error.error);
@@ -238,6 +243,7 @@ export class LoginComponent implements OnInit {
             Email: response.email,
             token: response.token,
             IsInfoUpdated: response.isInfoUpdated,
+            role: response.role,
             hasAvatar: response.hasAvatar,
             avatarPath: response.avatarPath
           };
@@ -250,7 +256,13 @@ export class LoginComponent implements OnInit {
           if(!this.authenticationService.UserInfo.IsInfoUpdated){
             this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
           }
-          this.router.navigateByUrl('/home');
+          console.log(userInfo);
+          if(userInfo.role == "User"){
+            this.router.navigateByUrl('/home');
+          }
+          else if(userInfo.role == "Admin"){
+            this.router.navigateByUrl("/statistic");
+          }
         })
         .catch(error => {
           this.loggedIn = false;
