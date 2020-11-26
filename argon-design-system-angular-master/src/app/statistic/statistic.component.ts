@@ -21,12 +21,12 @@ export class StatisticComponent implements OnInit {
     { data: [], label: 'Authorize' },
     { data: [], label: 'Unauthorize' },
   ];
-  public pieChartData: number[] = [300, 500, 100];
+  public pieChartData: number[] = [0, 0, 0];
   public monthLineChartData: ChartDataSets[] = [
     { data: [], label: "Authorize Access"},
     {data: [], label: "Unauthorize Access"}
   ];
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
+  public pieChartLabels: Label[] = ['System', 'Facebook', "Google"];
 
   public yearLineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   public monthLineChartLabels: Label[] = ['1', ' ', ' ', ' ', '5', ' ', ' ', ' ', ' ', '10', ' ', ' ', ' ', ' ', '15', ' ', ' ', ' ', ' ', '20', ' ', ' ', ' ', ' ', '25', ' ', ' ', ' ', ' ', '30'];
@@ -190,6 +190,14 @@ export class StatisticComponent implements OnInit {
       .then(data =>{
         this.thisMonth = data.thisMonth;
         this.growthRate = data.growthRate;
+      })
+      .catch(error => console.log(error))
+
+    this.statisticService.GetTheAccountNumberOfEachType()
+      .then(data => {
+        console.log(data);
+        this.pieChartLabels = ['System', 'Facebook', "Google"];
+        this.pieChartData = [data.system, data.facebook, data.google];
       })
       .catch(error => console.log(error))
   }

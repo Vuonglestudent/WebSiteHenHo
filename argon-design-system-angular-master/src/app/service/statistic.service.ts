@@ -46,4 +46,9 @@ export class StatisticService {
     var path = 'getNumberOfActiveUsers'
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise()
   }
+  public GetTheAccountNumberOfEachType(){
+    var headers = this.authenticationService.GetHeader();
+    var path = 'getTheAccountNumberOfEachType'
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise()
+  }
 }
