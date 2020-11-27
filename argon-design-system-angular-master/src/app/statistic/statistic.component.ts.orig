@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+<<<<<<< HEAD
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+=======
 import { StatisticService } from '../service/statistic.service';
+>>>>>>> 380e74e5ccc177c0a4dc0f28c64bafc7ad4eb5c6
 
 @Component({
   selector: 'app-statistic',
@@ -20,16 +23,21 @@ export class StatisticComponent implements OnInit {
     //{ data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
     //{ data: [180, 480, 770, 90, 1000, 270, 400], label: 'Series C', yAxisID: 'y-axis-1' }
   ];
+<<<<<<< HEAD
   public pieChartData: number[] = [300, 500, 100];
+  public lineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
+=======
+
   public monthLineChartData: ChartDataSets[] = [
     { data: [], label: "Authorize Access"},
     {data: [], label: "Unauthorize Access"}
   ];
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
 
   public yearLineChartLabels: Label[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   public monthLineChartLabels: Label[] = ['1', ' ', ' ', ' ', '5', ' ', ' ', ' ', ' ', '10', ' ', ' ', ' ', ' ', '15', ' ', ' ', ' ', ' ', '20', ' ', ' ', ' ', ' ', '25', ' ', ' ', ' ', ' ', '30'];
   
+>>>>>>> 380e74e5ccc177c0a4dc0f28c64bafc7ad4eb5c6
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {

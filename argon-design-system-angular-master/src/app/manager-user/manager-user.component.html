@@ -1,6 +1,84 @@
 <div style="display: flex; flex-direction: row;">
     <app-navbar-admin></app-navbar-admin>
     <div class="col-10 col-xl-10 col-lg-10 col-md-10 p-5 contain-manager-user">
-
+        <div class="card table-responsive">
+            <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Tên Người Dùng</th>
+                        <th scope="col">Theo dõi</th>
+                        <th scope="col">Yêu thích</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <div class="media align-items-center">
+                                <a href="#" class="avatar rounded-circle mr-3">
+                                    <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg">
+                                </a>
+                                <div class="media-body">
+                                    <span class="mb-0 text-sm">Argon Design System</span>
+                                </div>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex media-body align-items-center" style="height: 48px;">
+                                <span class="mb-0 text-sm">2,500 người</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex media-body align-items-center" style="height: 48px;">
+                                <span class="mb-0 text-sm">3,000 người</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex avatar-group align-items-center" style="height: 48px;">
+                                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                                    data-original-title="Ryan Tompson">
+                                    <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg"
+                                        class="rounded-circle">
+                                </a>
+                                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                                    data-original-title="Romina Hadid">
+                                    <img alt="Image placeholder" src="assets/img/theme/team-2-800x800.jpg"
+                                        class="rounded-circle">
+                                </a>
+                                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                                    data-original-title="Alexander Smith">
+                                    <img alt="Image placeholder" src="assets/img/theme/team-3-800x800.jpg"
+                                        class="rounded-circle">
+                                </a>
+                                <div class="media-body ml-1">
+                                    <span class="mb-0 text-sm"> + 30 ảnh</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="media align-items-center" style="height: 48px;">
+                                <div class="media-body">
+                                    <button class="btn btn-success" value="On"></button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div ngbDropdown placement="bottom-right">
+                                <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </a>
+                                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

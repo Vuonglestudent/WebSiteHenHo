@@ -1,4 +1,8 @@
-<app-navbar *ngIf="router.url != '/statistic' && router.url != '/manager-user'"></app-navbar>
+<<<<<<< HEAD
+<!-- <app-navbar></app-navbar> -->
+=======
+<app-navbar *ngIf="router.url != '/statistic'"></app-navbar>
+>>>>>>> 380e74e5ccc177c0a4dc0f28c64bafc7ad4eb5c6
 <router-outlet></router-outlet>
 <simple-notifications (click)="clickNotificationMes(senderId)"></simple-notifications>
 <!-- <div class="notification_mes">
