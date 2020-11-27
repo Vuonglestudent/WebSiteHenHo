@@ -16,7 +16,7 @@ export class StatisticService {
     private authenticationService: AuthenticationService,
   ) { }
 
-  private mainUrl = `http://${this.url.urlHost}/api/access/`;
+  private mainUrl = `${this.url.urlHost}/api/access/`;
 
 
   public getAccessCountByMonth(month: number, year: number){
@@ -29,7 +29,7 @@ export class StatisticService {
 
   public getAccessCountByYear(year: number){
     var dateString = 1 + '/1/' + year;
-    var query = 'byMonth?dateTime='+ dateString;
+    var query = 'byYear?dateTime='+ dateString;
     var headers = this.authenticationService.GetHeader();
 
     return this.http.get<any>(this.mainUrl + query, {headers: headers}).toPromise();
@@ -44,6 +44,11 @@ export class StatisticService {
   public GetNumberOfActiveUsers(){
     var headers = this.authenticationService.GetHeader();
     var path = 'getNumberOfActiveUsers'
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise()
+  }
+  public GetTheAccountNumberOfEachType(){
+    var headers = this.authenticationService.GetHeader();
+    var path = 'getTheAccountNumberOfEachType'
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise()
   }
 }

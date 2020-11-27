@@ -8,18 +8,7 @@
             <i class="fa fa-globe"></i>
             <div class="d-flex flex-column col-8">
               <h3>Online</h3>
-              <p>10000 users</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-3 col-xl-3 col-lg-3 col-md-3 card mt-1 mb-1 bg-warning">
-        <div class="card-body">
-          <div class="d-flex">
-            <i class="fa fa-user-plus"></i>
-            <div class="d-flex flex-column col-8">
-              <h3>Signup</h3>
-              <p>10000 users</p>
+              <p><b>{{messageService.onlineCount}}</b> users</p>
             </div>
           </div>
         </div>
@@ -27,10 +16,24 @@
       <div class="col-3 col-xl-3 col-lg-3 col-md-3 card mt-1 mb-1 bg-primary">
         <div class="card-body">
           <div class="d-flex">
+            <i class="fa fa-user-plus"></i>
+            <div class="d-flex flex-column col-8">
+              <h3>Signup</h3>
+              <p style="margin-bottom:0%;padding-bottom:0%"><b>{{thisMonth}}</b> new users</p>
+              <p *ngIf="growthRate>0"><b><i style="font-size:20px;color:#B2F8B2;margin-top:0%;padding-top:0%" class="fa fa-arrow-up"></i> {{growthRate}}%</b></p>
+              <p *ngIf="growthRate<0"><b><i style="font-size:20px;color:#ff0000;margin-top:0%;padding-top:0%" class="fa fa-arrow-down"></i> {{growthRate}}%</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 col-xl-3 col-lg-3 col-md-3 card mt-1 mb-1 bg-warning">
+        <div class="card-body">
+          <div class="d-flex">
             <i class="fa fa-users"></i>
             <div class="d-flex flex-column col-8">
-              <h3>Total</h3>
-              <p>10000 users</p>
+              <h3>Accounts</h3>
+              <p  style="margin-bottom:0%;padding-bottom:0%"><b>{{activeAccounts}}</b> active</p>
+              <p style="margin-top:0%;padding-top:0%"><b>{{inactiveAccounts}}</b> inactive</p>
             </div>
           </div>
         </div>
@@ -41,7 +44,7 @@
         <div class="card-body">
           <div class="chart">
             <!-- Chart wrapper -->
-            <canvas baseChart width="5" height="3" [datasets]="lineChartData" [labels]="lineChartLabels"
+            <canvas baseChart width="5" height="3" [datasets]="yearLineChartData" [labels]="yearLineChartLabels"
               [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
               [chartType]="lineChartType" [plugins]="lineChartPlugins" (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
