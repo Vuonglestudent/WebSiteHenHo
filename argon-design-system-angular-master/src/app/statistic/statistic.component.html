@@ -19,9 +19,11 @@
             <i class="fa fa-user-plus"></i>
             <div class="d-flex flex-column col-8">
               <h3>Signup</h3>
-              <p style="margin-bottom:0%;padding-bottom:0%"><b>{{thisMonth}}</b> new users</p>
-              <p *ngIf="growthRate>0"><b><i style="font-size:20px;color:#B2F8B2;margin-top:0%;padding-top:0%" class="fa fa-arrow-up"></i> {{growthRate}}%</b></p>
-              <p *ngIf="growthRate<0"><b><i style="font-size:20px;color:#ff0000;margin-top:0%;padding-top:0%" class="fa fa-arrow-down"></i> {{growthRate}}%</b></p>
+              <p><b>{{thisMonth}}</b> new users</p>
+              <p *ngIf="growthRate>0"><b><i style="font-size:20px;color:#B2F8B2;margin-top:0%;padding-top:0%"
+                    class="fa fa-arrow-up"></i> {{growthRate}}%</b></p>
+              <p *ngIf="growthRate<0"><b><i style="font-size:20px;color:#ff0000;margin-top:0%;padding-top:0%"
+                    class="fa fa-arrow-down"></i> {{growthRate}}%</b></p>
             </div>
           </div>
         </div>
@@ -32,7 +34,7 @@
             <i class="fa fa-users"></i>
             <div class="d-flex flex-column col-8">
               <h3>Accounts</h3>
-              <p  style="margin-bottom:0%;padding-bottom:0%"><b>{{activeAccounts}}</b> active</p>
+              <p style="margin-bottom:0%;padding-bottom:0%"><b>{{activeAccounts}}</b> active</p>
               <p style="margin-top:0%;padding-top:0%"><b>{{inactiveAccounts}}</b> inactive</p>
             </div>
           </div>
@@ -42,12 +44,25 @@
     <div class="d-flex justify-content-between">
       <div class="col-7 col-xl-7 col-lg-7 col-md-7 card">
         <div class="card-body">
-          <div class="chart">
+          <div *ngIf="!chartChange" class="chart">
             <!-- Chart wrapper -->
             <canvas baseChart width="5" height="3" [datasets]="yearLineChartData" [labels]="yearLineChartLabels"
               [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
               [chartType]="lineChartType" [plugins]="lineChartPlugins" (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
+            <div class="statistic-change-left"><i class="fa fa-arrow-circle-left" (click)="changeStatistic()"></i></div>
+            <div class="statistic-change-right"><i class="fa fa-arrow-circle-right" (click)="changeStatistic()"></i>
+            </div>
+          </div>
+          <div *ngIf="chartChange" class="chart">
+            <!-- Chart wrapper -->
+            <canvas baseChart width="5" height="3" [datasets]="monthLineChartData" [labels]="monthLineChartLabels"
+              [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+              [chartType]="lineChartType" [plugins]="lineChartPlugins" (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+            <div class="statistic-change-left"><i class="fa fa-arrow-circle-left" (click)="changeStatistic()"></i></div>
+            <div class="statistic-change-right"><i class="fa fa-arrow-circle-right" (click)="changeStatistic()"></i>
+            </div>
           </div>
         </div>
       </div>

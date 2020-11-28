@@ -17,6 +17,9 @@ export class StatisticComponent implements OnInit {
     private statisticService: StatisticService,
     private messageService: MessageService,
   ) { }
+
+  chartChange = false;
+
   public yearLineChartData: ChartDataSets[] = [
     { data: [], label: 'Authorize' },
     { data: [], label: 'Unauthorize' },
@@ -202,6 +205,9 @@ export class StatisticComponent implements OnInit {
       .catch(error => console.log(error))
   }
 
+  changeStatistic = () => {
+    this.chartChange = !this.chartChange
+  }
   // public randomize(): void {
   //   for (let i = 0; i < this.lineChartData.length; i++) {
   //     for (let j = 0; j < this.lineChartData[i].data.length; j++) {

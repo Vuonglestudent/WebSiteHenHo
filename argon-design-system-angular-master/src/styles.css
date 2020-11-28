@@ -212,3 +212,21 @@
   -webkit-line-clamp: 1; /* number of lines to show */
   -webkit-box-orient: vertical;
 }
+
+
+.statistic-change-left{
+  position: absolute;
+  left: 1%;
+  top: 50%;
+}
+
+.statistic-change-left i, .statistic-change-right i {
+  font-size: 30px !important;
+  color: black !important;
+}
+
+.statistic-change-right {
+  position: absolute;
+  right: 1%;
+  top: 50%;
+}
