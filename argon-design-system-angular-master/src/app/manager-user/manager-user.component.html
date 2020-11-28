@@ -1,7 +1,10 @@
 <div style="display: flex; flex-direction: row;">
     <app-navbar-admin></app-navbar-admin>
     <div class="col-10 col-xl-10 col-lg-10 col-md-10 p-5 contain-manager-user">
-        <div class="card table-responsive">
+        <div *ngIf="Loading">
+            <div id="loader"></div>
+        </div>
+        <div *ngIf="!Loading" class="card table-responsive">
             <table class="table align-items-center table-dark table-flush">
                 <thead class="thead-dark">
                     <tr>
@@ -14,30 +17,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of Favoritors; let i = index">
                         <th scope="row">
                             <div class="media align-items-center">
                                 <a href="#" class="avatar rounded-circle mr-3">
-                                    <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg">
+                                    <img alt="Image placeholder" src="data:image/gif;base64,{{item.avatarPath}}"
+                                        style="width: 48px; height: 48px;">
                                 </a>
                                 <div class="media-body">
-                                    <span class="mb-0 text-sm">Argon Design System</span>
+                                    <span class="mb-0 text-sm">{{item.fullName}}</span>
                                 </div>
                             </div>
                         </th>
                         <td>
                             <div class="d-flex media-body align-items-center" style="height: 48px;">
-                                <span class="mb-0 text-sm">2,500 người</span>
+                                <span class="mb-0 text-sm">{{item.numberOfFollowers}}</span>
                             </div>
                         </td>
                         <td>
                             <div class="d-flex media-body align-items-center" style="height: 48px;">
-                                <span class="mb-0 text-sm">3,000 người</span>
+                                <span class="mb-0 text-sm">{{item.numberOfFavoritors}}</span>
                             </div>
                         </td>
                         <td>
                             <div class="d-flex avatar-group align-items-center" style="height: 48px;">
-                                <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+                                <!-- <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
                                     data-original-title="Ryan Tompson">
                                     <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg"
                                         class="rounded-circle">
@@ -51,21 +55,31 @@
                                     data-original-title="Alexander Smith">
                                     <img alt="Image placeholder" src="assets/img/theme/team-3-800x800.jpg"
                                         class="rounded-circle">
-                                </a>
+                                </a> -->
                                 <div class="media-body ml-1">
-                                    <span class="mb-0 text-sm"> + 30 ảnh</span>
+                                    <span class="mb-0 text-sm">{{item.numberOfImages}}</span>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="media align-items-center" style="height: 48px;">
-                                <div class="media-body">
-                                    <button class="btn btn-success" value="On"></button>
+                                <div class="media-body btn-flip" data-back="OFF" data-front="ON"
+                                    (click)="setActiveUser($event)">
                                 </div>
                             </div>
                         </td>
                         <td class="text-right">
-                            <div ngbDropdown placement="bottom-right">
+                            <div *ngIf="i < 5" ngbDropdown placement="bottom-right">
+                                <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </a>
+                                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                            <div *ngIf="i >= 5" ngbDropdown placement="top-right">
                                 <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
                                     <i class="fa fa-ellipsis-v"></i>
                                 </a>
@@ -80,5 +94,47 @@
                 </tbody>
             </table>
         </div>
+        <div *ngIf="!Loading" class="d-flex justify-content-end"
+            style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
+
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a (click)="previousPage()" class="page-link" href="#" tabindex="-1">
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="FavoritePage.position==1" (click)="paging(FavoritePage.current - 1)"
+                        class="page-item active"><a class="page-link"
+                            href="javascript:;">{{FavoritePage.current - 1}}</a></li>
+                    <li *ngIf="FavoritePage.position!=1" (click)="paging(FavoritePage.current - 1)" class="page-item"><a
+                            class="page-link" href="javascript:;">{{FavoritePage.current - 1}}</a></li>
+
+                    <li *ngIf="FavoritePage.position==2" (click)="paging(FavoritePage.current)"
+                        class="page-item active"><a class="page-link" href="javascript:;">{{FavoritePage.current}}</a>
+                    </li>
+                    <li *ngIf="FavoritePage.position!=2" (click)="paging(FavoritePage.current)" class="page-item"><a
+                            class="page-link" href="javascript:;">{{FavoritePage.current}}</a></li>
+
+                    <li *ngIf="FavoritePage.position==3" (click)="paging(FavoritePage.current + 1)"
+                        class="page-item active"><a class="page-link"
+                            href="javascript:;">{{FavoritePage.current + 1}}</a></li>
+                    <li *ngIf="FavoritePage.position!=3" (click)="paging(FavoritePage.current + 1)" class="page-item"><a
+                            class="page-link" href="javascript:;">{{FavoritePage.current + 1}}</a></li>
+
+
+
+                    <li class="page-item">
+                        <a (click)="nextPage()" class="page-link" href="#">
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
+
 </div>
