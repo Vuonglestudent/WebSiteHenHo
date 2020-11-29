@@ -4,14 +4,73 @@
         <div *ngIf="Loading">
             <div id="loader"></div>
         </div>
+        <div *ngIf="!Loading" class="d-flex justify-content-end">
+            <div class="col-lg-4 col-md-4" style="padding: 0%;">
+                <div class="form-group">
+                    <div class="input-group input-group-alternative mb-4">
+                        <input class="form-control" placeholder="Birthday" type="text">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="ni ni-zoom-split-in text-success"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div *ngIf="!Loading" class="card table-responsive">
             <table class="table align-items-center table-dark table-flush">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Tên Người Dùng</th>
-                        <th scope="col">Theo dõi</th>
-                        <th scope="col">Yêu thích</th>
-                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                Tên Người Dùng
+                                <div ngbDropdown placement="bottom-right">
+                                    <span *ngIf="fillterName">a<i class="btn-sm fa fa-arrow-right"></i>z </span>
+                                    <span *ngIf="!fillterName">z<i class="btn-sm fa fa-arrow-right"></i>a </span>
+                                    <a class="text-success" (click)="clickFillterName()">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                Theo dõi
+                                <div>
+                                    <span *ngIf="fillterFollower"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
+                                    <span *ngIf="!fillterFollower"><i
+                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
+                                    <a class="text-success" (click)="clickFillterFollow()">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                Yêu thích
+                                <div>
+                                    <span *ngIf="fillterFavorite"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
+                                    <span *ngIf="!fillterFavorite"><i
+                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
+                                    <a class="text-success" (click)="clickFillterFavorite()">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                Hình ảnh
+                                <div>
+                                    <span *ngIf="fillterImage"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
+                                    <span *ngIf="!fillterImage"><i
+                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
+                                    <a class="text-success" (click)="clickFillterImage()">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col"></th>
                     </tr>
@@ -69,24 +128,24 @@
                             </div>
                         </td>
                         <td class="text-right">
-                            <div *ngIf="i < 5" ngbDropdown placement="bottom-right">
+                            <div *ngIf="i < 4" ngbDropdown placement="bottom-right">
                                 <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
                                     <i class="fa fa-ellipsis-v"></i>
                                 </a>
                                 <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="javascript:;">Action</a>
+                                    <a class="dropdown-item" href="javascript:;">Another action</a>
+                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
                                 </div>
                             </div>
-                            <div *ngIf="i >= 5" ngbDropdown placement="top-right">
+                            <div *ngIf="i >= 4" ngbDropdown placement="top-right">
                                 <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
                                     <i class="fa fa-ellipsis-v"></i>
                                 </a>
                                 <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="javascript:;">Action</a>
+                                    <a class="dropdown-item" href="javascript:;">Another action</a>
+                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
                                 </div>
                             </div>
                         </td>

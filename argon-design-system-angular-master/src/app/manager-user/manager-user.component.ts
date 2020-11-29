@@ -18,11 +18,18 @@ export class ManagerUserComponent implements OnInit {
   Favoritors: User[] = new Array();
   FavoritePage: any = {
     index: 1,
-    size: 7,
+    size: 6,
     total: 0,
     current: 1,
     position: 1
   };
+
+  //fillter
+  fillterName = true;
+  fillterFollower = true;
+  fillterFavorite = true;
+  fillterImage = true;
+
 
   ngOnInit(): void {
     this.updatePagingNumber(1);
@@ -106,5 +113,20 @@ export class ManagerUserComponent implements OnInit {
     }
     this.updatePagingNumber(this.FavoritePage.index + 1);
     this.getFavoritors();
+  }
+
+  clickFillterName = () => {
+    this.fillterName = !this.fillterName
+  }
+  clickFillterFollow = () => {
+    this.fillterFollower = !this.fillterFollower
+  }
+
+  clickFillterFavorite = () => {
+    this.fillterFavorite = !this.fillterFavorite
+  }
+
+  clickFillterImage = () => {
+    this.fillterImage = !this.fillterImage
   }
 }
