@@ -122,8 +122,15 @@
 }
 
 .img-thumbnail {
-  max-width: 75px;
-  max-height: 75px;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  background-color: white;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
   border: none;
   padding: 0%;
 }
@@ -144,7 +151,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "sans-serif";
+  font-family: "FontAwesome";
   font-weight: 600;
 }
 .icon-hover {

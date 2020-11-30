@@ -69,7 +69,7 @@
           </div>
           <div class="row pr-3 pl-3">
             <div *ngIf="!Loading" class="card-deck">
-              <div *ngFor="let item of Favoritors; let i = index" class="col-md-4 col-xl-4 animate-bottom"
+              <div *ngFor="let item of Favoritors; let i = index" class="col-md-6 col-xl-4 col-12 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
@@ -133,7 +133,7 @@
 
             <nav aria-label="...">
               <ul class="pagination">
-                <li class="page-item disabled">
+                <li class="page-item">
                   <a (click)="previousPage()" class="page-link" href="#" tabindex="-1">
                     <i class="fa fa-angle-left"></i>
                     <span class="sr-only">Previous</span>
@@ -148,8 +148,6 @@
 
                 <li *ngIf="FavoritePage.position==3" (click)="paging(FavoritePage.current + 1)" class="page-item active"><a class="page-link" href="#">{{FavoritePage.current + 1}}</a></li>
                 <li *ngIf="FavoritePage.position!=3" (click)="paging(FavoritePage.current + 1)" class="page-item"><a class="page-link" href="#">{{FavoritePage.current + 1}}</a></li>
-                                
-
 
                 <li class="page-item">
                   <a (click)="nextPage()" class="page-link" href="#">
