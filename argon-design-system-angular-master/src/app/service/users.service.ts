@@ -128,6 +128,14 @@ export class UsersService {
     data.append("Smoking", profile.profile.smoking);
     data.append("DrinkBeer", profile.profile.drinkBeer);
 
+    data.append("Cook", profile.profile.cook);
+    data.append("LikeTechnology", profile.profile.likeTechnology);
+    data.append("LikePet", profile.profile.likePet);
+    data.append("PlaySport", profile.profile.playSport);
+    data.append("Travel", profile.profile.travel);
+    data.append("Game", profile.profile.game);
+    data.append("Shopping", profile.profile.shopping);
+
     return this.http.put<any>(path, data, {headers: headers}).toPromise();
   }
   
@@ -140,5 +148,12 @@ export class UsersService {
     data.append("UserId", this.authenticationService.UserInfo.Id);
 
     return this.http.put<any>(path, data, {headers: headers}).toPromise();
+  }
+
+  public FilterUsers = (feature: string, isAscending: boolean, pageIndex: number, pageSize: number) =>{
+    var headers = this.authenticationService.GetHeader();
+    var query = `${this.url.urlHost}/api/Users/filterUsers?Feature=${feature}&IsAscending=${isAscending}&PageIndex=${pageIndex}&pageSize=${pageSize}`;
+
+    return this.http.get<any>(query, {headers : headers}).toPromise();
   }
 }

@@ -19,6 +19,14 @@ export class Profile {
     atmosphereLike: string;
     smoking: string;
     drinkBeer: string;
+
+    shopping: string;
+    travel: string;
+    game: string;
+    cook: string;
+    likeTechnology: string;
+    likePet: string;
+    playSport: string;
 }
 
 export class User {
@@ -67,6 +75,8 @@ export class UserDisplay {
     numberOfFavoritors: number;
     favorited: boolean;
     numberOfImages: number;
+    point: number;
+    status: string;
 }
 
 export class Message {
@@ -108,6 +118,14 @@ export class ProfileData {
     target: string[];
     typeAccount: string[];
     userStatus: string[];
+    
+    cook: string[];
+    likeTechnology: string[];
+    likePet: string[];
+    playSport: string[];
+    travel: string[];
+    game: string[];
+    shopping: string[];
 }
 
 export class Image{
