@@ -37,8 +37,10 @@ export class FilterFriendsComponent implements OnInit {
     private imageService: ImageService
   ) { }
 
-  Loading = false;
+  items = [];
 
+  Loading = false;
+  heightBody: number;
   Users: User[] = new Array();
   UserPage: any = {
     index: 1,
@@ -49,36 +51,56 @@ export class FilterFriendsComponent implements OnInit {
   };
 
   imageUsers: ImageUser[] = new Array();
-  topHeight = 393
   ngOnInit(): void {
     this.updatePagingNumber(1);
     this.getUsers();
   }
 
   ngAfterViewInit(): void {
-    var topHeightFillter = document.getElementsByClassName('col-8 col-xl-8 col-md-8 filterblock')[0].clientHeight
-    var topHeightBackGround = document.getElementsByClassName('section section-lg section-hero section-shaped')[0].clientHeight
-    this.topHeight = topHeightFillter + topHeightBackGround - 100
-    console.log(this.topHeight)
+    var tagInputRemove = <HTMLElement>document.getElementsByTagName('tag-input-form')[0]
+    tagInputRemove.setAttribute('hidden', 'true');
+    tagInputRemove.setAttribute('disable', 'true');
   }
 
-  setStatusValue = (e) => {
+  setStatusValue = (e, title, value) => {
     var target = e.target
     if (target.className != 'btn fa active-btn') {
       target.className = 'btn fa active-btn';
+      var newHashTag = {
+        display: value,
+        title: title,
+        // readonly: true
+      }
+      this.items.push(newHashTag)
     } else {
       target.className = 'btn fa';
+      this.items.forEach((element, index) => {
+        if (element.title == title && element.display == value) {
+          this.items.splice(index, 1)
+        }
+      });
     }
+    setTimeout(() => this.changeHeight(), 10)
   }
 
+  deleteHashTag = (e) => {
+    var itemRemove = <HTMLElement>document.getElementById(`${e.title}_${e.display}`)
+    itemRemove.className = 'btn fa';
+    setTimeout(() => this.changeHeight(), 10)
+  }
+
+  changeHeight = () => {
+    var heightFilter = <HTMLElement>document.getElementsByClassName('col-8 col-xl-8 col-md-8 filterblock')[0]
+    console.log(heightFilter.clientHeight)
+    this.heightBody = 250 + heightFilter.clientHeight - 100;
+    var heightContentUsers = <HTMLElement>document.getElementById('contentUsers');
+    console.log(this.heightBody)
+    heightContentUsers.style.top = String(`${this.heightBody}px`)
+    console.log(heightContentUsers.style.top)
+  }
   changeExtend = () => {
     this.extend = !this.extend
-    var heightContentUsers = <HTMLElement>document.getElementById('contentUsers');
-    if (heightContentUsers.style.top == '393px') {
-      heightContentUsers.style.top = '861px';
-    } else {
-      heightContentUsers.style.top = '393px'
-    }
+    setTimeout(() => this.changeHeight(), 10)
   }
 
   getUsers() {
