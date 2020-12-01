@@ -60,7 +60,9 @@
           <alert style="padding-left: 15px; padding-right: 15px;"></alert>
           <div *ngIf="!Loading" style="padding-right: 15px; padding-left: 15px;" class="animate-bottom">
             <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-              <h4 class="text-white "><strong class="text-warning">Hot!</strong><span> Bạn được yêu thích nhiều!</span>
+              <h4 *ngIf="authenticationService.UserInfo==null" class="text-white "><strong class="text-warning">Hot!</strong><span> Bạn được yêu thích nhiều!</span>
+              </h4>
+              <h4 *ngIf="authenticationService.UserInfo!=null" class="text-white "><strong class="text-warning">Hot!</strong><span> Gợi ý dành cho riêng bạn!</span>
               </h4>
             </div>
           </div>
@@ -85,8 +87,9 @@
                         <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
                         </h6>
                       </a>
-                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
+                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer; margin-bottom: 0;"><small
                           class="text-muted">{{item.summary}}</small></p>
+                      <p *ngIf="item.point != 0" style="margin-bottom: 0;"><small>Point: {{item.point}}</small></p>
                     </div>
                     <div class="d-flex">
                       <div>

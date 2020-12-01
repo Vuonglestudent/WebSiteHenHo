@@ -59,7 +59,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password"
+                    <input (keyup.enter)="onSubmit(Login)" matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password"
                       type="password" (focus)="focus1=true" (blur)="focus1=false">
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                     Loading...
                   </button>
 
-                  <button *ngIf="!Loading" (click)="onSubmit(Login)" type="button" class="btn btn-primary mt-4">
+                  <button *ngIf="!Loading" (click)="onSubmit(Login)"   type="button" class="btn btn-primary mt-4">
                     <fa-icon size="1x" [icon]="faCheck"></fa-icon>
                     Sign In
                   </button>

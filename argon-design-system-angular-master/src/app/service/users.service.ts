@@ -156,4 +156,11 @@ export class UsersService {
 
     return this.http.get<any>(query, {headers : headers}).toPromise();
   }
+
+  public GetSimilarUSer = (userId: string, pageIndex: string, pageSize: string, location: string, fromAge: number, toAge: number, gender: string) =>{
+    var headers = this.authenticationService.GetHeader();
+    var path = `${this.url.urlHost}/api/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&Location=${location}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
+
+    return this.http.get<any>(path, {headers: headers}).toPromise();
+  }
 }

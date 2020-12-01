@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { ImageService } from './../service/image.service';
 import { ImageUser, User } from './../Models/Models';
 import { Component, OnInit } from '@angular/core';
@@ -57,7 +58,15 @@ export class HomeComponent implements OnInit {
     clickSeenImage = 0;
     ngOnInit() {
         this.updatePagingNumber(1);
-        this.getFavoritors();
+        
+        if (this.authenticationService.UserInfo != null) {
+            console.log('similar')
+            this.getSimilarUSer();
+        }
+        else {
+            this.getFavoritors();
+        }
+
         this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
             .then(response => {
                 this.NewUsers = response;
@@ -68,6 +77,41 @@ export class HomeComponent implements OnInit {
             })
     }
 
+    filter = {
+        location: '',
+        fromAge: 0,
+        toAge: 0,
+        gender: '',
+
+    }
+    getSimilarUSer = () => {
+        this.Loading = true;
+        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.FavoritePage.index, this.FavoritePage.size, this.filter.location, this.filter.fromAge, this.filter.toAge, this.filter.gender)
+            .then(response =>{
+                this.Loading = false;
+                this.Favoritors = response.data;
+                this.FavoritePage.total = response.pageTotal;
+                console.log(response)
+                console.log(this.Favoritors)
+                this.Favoritors.forEach(element => {
+                    this.imageService.getImageByUserId(element.id)
+                        .then(data => {
+                            const imageUser = {} as ImageUser
+                            imageUser.id = element.id;
+                            imageUser.images = data;
+                            this.imageUsers.push(imageUser)
+                        })
+                        .catch(error => {
+                            this.alertService.clear();
+                            this.alertService.error("Có lỗi khi tải hình ảnh!");
+                        })
+                });
+            })
+            .catch(error => console.log(error))
+        
+        
+        
+    }
 
     getFavoritors() {
         this.Loading = true;
@@ -99,6 +143,11 @@ export class HomeComponent implements OnInit {
             })
 
     }
+
+    getImagesOfUsers() {
+
+    }
+
     updatePagingNumber(page: number) {
 
         console.log(this.FavoritePage.total)
@@ -304,20 +353,23 @@ export class HomeComponent implements OnInit {
         console.log('paging to page ' + index.toString());
 
         this.updatePagingNumber(index);
-        this.getFavoritors();
+
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
     }
     previousPage() {
         if (this.FavoritePage.index == 1) {
             return
         }
         this.updatePagingNumber(this.FavoritePage.index - 1);
-        this.getFavoritors();
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
+
     }
     nextPage() {
         if (this.FavoritePage.index == this.FavoritePage.total) {
             return;
         }
         this.updatePagingNumber(this.FavoritePage.index + 1);
-        this.getFavoritors();
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
+
     }
 }

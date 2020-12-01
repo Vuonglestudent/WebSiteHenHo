@@ -8,7 +8,7 @@
             <div class="col-lg-4 col-md-4" style="padding: 0%;">
                 <div class="form-group">
                     <div class="input-group input-group-alternative mb-4">
-                        <input class="form-control" placeholder="Birthday" type="text">
+                        <input class="form-control" placeholder="Enter user name" type="text">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="ni ni-zoom-split-in text-success"></i></span>
                         </div>
@@ -133,7 +133,12 @@
                             </div>
                         </td>
                         <td>
-                            <div *ngIf="item.status!='IsVerifying'" class="media align-items-center" style="height: 48px;">
+                            <div *ngIf="item.status!='IsVerifying'&& item.status != 'Active'" class="media align-items-center" style="height: 48px;">
+                                <div class="media-body btn-flip active-btn-flip" data-back="Inactive" data-front="Active"
+                                    (click)="setActiveUser($event)">
+                                </div>
+                            </div>
+                            <div *ngIf="item.status!='IsVerifying'&& item.status == 'Active'" class="media align-items-center" style="height: 48px;">
                                 <div class="media-body btn-flip" data-back="Inactive" data-front="Active"
                                     (click)="setActiveUser($event)">
                                 </div>
@@ -176,7 +181,7 @@
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a (click)="previousPage()" class="page-link" href="#" tabindex="-1">
+                        <a (click)="previousPage()" class="page-link"  tabindex="-1">
                             <i class="fa fa-angle-left"></i>
                             <span class="sr-only">Previous</span>
                         </a>
@@ -203,7 +208,7 @@
 
 
                     <li class="page-item">
-                        <a (click)="nextPage()" class="page-link" href="#">
+                        <a (click)="nextPage()" class="page-link" >
                             <i class="fa fa-angle-right"></i>
                             <span class="sr-only">Next</span>
                         </a>

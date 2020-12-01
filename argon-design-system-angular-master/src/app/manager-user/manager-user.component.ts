@@ -106,15 +106,17 @@ export class ManagerUserComponent implements OnInit {
   }
   previousPage() {
     if (this.PagingInfo.index == 1) {
-      return
+      return;
     }
     this.updatePagingNumber(this.PagingInfo.index - 1);
     this.getFavoritors();
   }
   nextPage() {
+    console.log(this.PagingInfo.index + ' ' + this.PagingInfo.total)
     if (this.PagingInfo.index == this.PagingInfo.total) {
       return;
     }
+
     this.updatePagingNumber(this.PagingInfo.index + 1);
     this.getFavoritors();
   }
