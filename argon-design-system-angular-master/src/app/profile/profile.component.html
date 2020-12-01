@@ -404,6 +404,107 @@
                           </td>
                         </tr>
 
+
+                        <tr>
+                          <th scope="row" class="text-left">Tự nấu ăn</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.cook}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.cook"
+                              [ngModelOptions]="{standalone: true}" name="cook" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.cook}}" disabled selected hidden>
+                                {{UserProfile.profile.cook}}</option>
+                              <option *ngFor="let item of profileData.cook" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Yêu thích công nghệ</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.likeTechnology}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.likeTechnology"
+                              [ngModelOptions]="{standalone: true}" name="likeTechnology" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.likeTechnology}}" disabled selected hidden>
+                                {{UserProfile.profile.likeTechnology}}</option>
+                              <option *ngFor="let item of profileData.likeTechnology" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Yêu thú cưng</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.likePet}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.likePet"
+                              [ngModelOptions]="{standalone: true}" name="likePet" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.likePet}}" disabled selected hidden>
+                                {{UserProfile.profile.likePet}}</option>
+                              <option *ngFor="let item of profileData.likePet" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Chơi thể thao</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.playSport}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.playSport"
+                              [ngModelOptions]="{standalone: true}" name="playSport" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.playSport}}" disabled selected hidden>
+                                {{UserProfile.profile.playSport}}</option>
+                              <option *ngFor="let item of profileData.playSport" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Đi du lịch</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.travel}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.travel"
+                              [ngModelOptions]="{standalone: true}" name="travel" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.travel}}" disabled selected hidden>
+                                {{UserProfile.profile.travel}}</option>
+                              <option *ngFor="let item of profileData.travel" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Chơi game</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.game}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.game"
+                              [ngModelOptions]="{standalone: true}" name="game" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.game}}" disabled selected hidden>
+                                {{UserProfile.profile.game}}</option>
+                              <option *ngFor="let item of profileData.game" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row" class="text-left">Mua sắm</th>
+                          <td *ngIf="!editing" class="text-left">{{UserProfile.profile.shopping}}</td>
+                          <td *ngIf="editing" style="padding: 0px;">
+                            <select [(ngModel)]="UserProfile.profile.shopping"
+                              [ngModelOptions]="{standalone: true}" name="shopping" id="bodyUser"
+                              class="placeSelect">
+                              <option value="{{UserProfile.profile.shopping}}" disabled selected hidden>
+                                {{UserProfile.profile.shopping}}</option>
+                              <option *ngFor="let item of profileData.shopping" value="{{item}}">{{item}}</option>
+                            </select>
+                          </td>
+                        </tr>
+
+
+
                         <tr>
                           <th scope="row" class="text-left">Tình trạng hôn nhân</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.marriage}}</td>

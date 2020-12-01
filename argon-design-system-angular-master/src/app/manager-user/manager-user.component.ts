@@ -15,21 +15,23 @@ export class ManagerUserComponent implements OnInit {
 
   Loading = false;
 
-  Favoritors: User[] = new Array();
-  FavoritePage: any = {
+  Users: User[] = new Array();
+  PagingInfo: any = {
     index: 1,
     size: 6,
     total: 0,
     current: 1,
     position: 1
   };
+  Feature = "FullName";
+  IsAscending = true;
 
-  //fillter
-  fillterName = true;
-  fillterFollower = true;
-  fillterFavorite = true;
-  fillterImage = true;
-
+  //filter
+  filterName = true;
+  filterFollower = true;
+  filterFavorite = true;
+  filterImage = true;
+  filterStatus = true;
 
   ngOnInit(): void {
     this.updatePagingNumber(1);
@@ -40,20 +42,22 @@ export class ManagerUserComponent implements OnInit {
     var target = e.target;
     console.log(target.className)
     if (target.className === "media-body btn-flip") {
-      target.className = "media-body btn-flip active-btn-flip"
+      target.className = "media-body btn-flip active-btn-flip";
+      
     } else {
-      target.className = "media-body btn-flip"
+      target.className = "media-body btn-flip";
+
     }
   }
 
   getFavoritors() {
     this.Loading = true;
-    console.log('get page: ' + this.FavoritePage.index);
-    this.usersService.GetFavoritest(this.FavoritePage.index, this.FavoritePage.size)
+    console.log('get page: ' + this.PagingInfo.index);
+    this.usersService.FilterUsers(this.Feature, this.IsAscending, this.PagingInfo.index, this.PagingInfo.size)
       .then(response => {
         this.Loading = false;
-        this.Favoritors = response.data;
-        this.FavoritePage.total = response.pageTotal;
+        this.Users = response.data;
+        this.PagingInfo.total = response.pageTotal;
 
         // this.Favoritors.forEach(element => {
         //   this.imageService.getImageByUserId(element.id)
@@ -78,19 +82,19 @@ export class ManagerUserComponent implements OnInit {
   }
   updatePagingNumber(page: number) {
 
-    console.log(this.FavoritePage.total)
-    this.FavoritePage.index = page;
+    console.log(this.PagingInfo.total)
+    this.PagingInfo.index = page;
     if (page == 1) {
-      this.FavoritePage.position = 1;
-      this.FavoritePage.current = 2;
+      this.PagingInfo.position = 1;
+      this.PagingInfo.current = 2;
     }
-    else if (page == this.FavoritePage.total) {
-      this.FavoritePage.position = 3;
-      this.FavoritePage.current = page - 1;
+    else if (page == this.PagingInfo.total) {
+      this.PagingInfo.position = 3;
+      this.PagingInfo.current = page - 1;
     }
     else {
-      this.FavoritePage.position = 2;
-      this.FavoritePage.current = page;
+      this.PagingInfo.position = 2;
+      this.PagingInfo.current = page;
     }
   };
 
@@ -101,32 +105,62 @@ export class ManagerUserComponent implements OnInit {
     this.getFavoritors();
   }
   previousPage() {
-    if (this.FavoritePage.index == 1) {
+    if (this.PagingInfo.index == 1) {
       return
     }
-    this.updatePagingNumber(this.FavoritePage.index - 1);
+    this.updatePagingNumber(this.PagingInfo.index - 1);
     this.getFavoritors();
   }
   nextPage() {
-    if (this.FavoritePage.index == this.FavoritePage.total) {
+    if (this.PagingInfo.index == this.PagingInfo.total) {
       return;
     }
-    this.updatePagingNumber(this.FavoritePage.index + 1);
+    this.updatePagingNumber(this.PagingInfo.index + 1);
     this.getFavoritors();
   }
 
-  clickFillterName = () => {
-    this.fillterName = !this.fillterName
+  clickfilterName = () => {
+    this.filterName = !this.filterName;
+    this.Feature = "FullName";
+    this.IsAscending = this.filterName;
+    this.Filter();
   }
-  clickFillterFollow = () => {
-    this.fillterFollower = !this.fillterFollower
+  clickfilterFollow = () => {
+    this.filterFollower = !this.filterFollower;
+    this.Feature = "Follow";
+    this.IsAscending = this.filterFollower;
+    this.Filter();
   }
 
-  clickFillterFavorite = () => {
-    this.fillterFavorite = !this.fillterFavorite
+  clickfilterFavorite = () => {
+    this.filterFavorite = !this.filterFavorite;
+    this.Feature = "Like";
+    this.IsAscending = this.filterFavorite;
+    this.Filter();
   }
 
-  clickFillterImage = () => {
-    this.fillterImage = !this.fillterImage
+  clickfilterImage = () => {
+    this.filterImage = !this.filterImage;
+    this.Feature = "ImageCount";
+    this.IsAscending = this.filterImage;
+    this.Filter();
+  }
+
+  clickfilterStatus = () =>{
+    this.filterStatus = !this.filterStatus;
+    this.Feature = "Status";
+    this.IsAscending = this.filterStatus;
+    this.Filter();
+  }
+
+  Filter(){
+    this.Loading = true;
+    this.usersService.FilterUsers(this.Feature, this.IsAscending, this.PagingInfo.index, this.PagingInfo.size)
+      .then(response => {
+        this.Loading = false;
+        this.Users = response.data;
+        this.PagingInfo.total = response.pageTotal;
+      })
+      .catch(err => console.log(err))
   }
 }

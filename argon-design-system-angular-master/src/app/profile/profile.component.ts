@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.usersService.GetProfileData()
             .then(data => {
                 this.profileData = data;
+                this.standardizedProfileData();
             })
             .catch(error => {
                 alert(error);
@@ -106,6 +107,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             .then(data => {
                 this.updating = false;
                 this.UserProfile = data;
+                this.replaceCharacter(this.UserProfile);
                 var oldInfo = {
                     numberOfFollowers: this.UserProfile.numberOfFollowers,
                     numberOfFavoritors: this.UserProfile.numberOfFavoritors,
@@ -212,8 +214,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/_/g, " ");
         userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/_/g, " ");
         userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
-        userProfile.profile.smoking = userProfile.profile.religion.replace(/_/g, " ");
+        userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
+        userProfile.profile.cook = userProfile.profile.cook.replace(/_/g, " ");
+        userProfile.profile.likeTechnology = userProfile.profile.likeTechnology.replace(/_/g, " ");
+        userProfile.profile.likePet = userProfile.profile.likePet.replace(/_/g, " ");
+        userProfile.profile.playSport = userProfile.profile.playSport.replace(/_/g, " ");
+        userProfile.profile.travel = userProfile.profile.travel.replace(/_/g, " ");
+        userProfile.profile.game = userProfile.profile.game.replace(/_/g, " ");
+        userProfile.profile.shopping = userProfile.profile.shopping.replace(/_/g, " ");
     };
 
     reReplaceCharacter = (userProfile: User) => {
@@ -227,13 +236,186 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.character = userProfile.profile.character.replace(/ /g, "_");
         userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/ /g, "_");
         userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/ /g, "_");
-        userProfile.profile.religion = userProfile.profile.religion.replace(/ /g, " ");
+        userProfile.profile.religion = userProfile.profile.religion.replace(/ /g, "_");
         userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/ /g, "_");
         userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/ /g, "_");
         userProfile.profile.smoking = userProfile.profile.smoking.replace(/ /g, "_");
         userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
-        userProfile.profile.drinkBeer = userProfile.profile.religion.replace(/ /g, "_");
+        userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, "_");
+
+        userProfile.profile.cook = userProfile.profile.cook.replace(/ /g, "_");
+        userProfile.profile.likeTechnology = userProfile.profile.likeTechnology.replace(/ /g, "_");
+        userProfile.profile.likePet = userProfile.profile.likePet.replace(/ /g, "_");
+        userProfile.profile.playSport = userProfile.profile.playSport.replace(/ /g, "_");
+        userProfile.profile.travel = userProfile.profile.travel.replace(/ /g, "_");
+        userProfile.profile.game = userProfile.profile.game.replace(/ /g, "_");
+        userProfile.profile.shopping = userProfile.profile.shopping.replace(/ /g, "_");
     };
+
+    standardizedProfileData(){
+        var temp = [];
+        this.profileData.atmosphereLike.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.atmosphereLike = temp;
+
+        temp = [];
+        this.profileData.body.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.body = temp;
+
+        temp = [];
+        this.profileData.character.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.character = temp;
+
+        temp = [];
+        this.profileData.cook.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.cook = temp;
+
+        temp = [];
+        this.profileData.drinkBeer.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.drinkBeer = temp;
+
+        temp = [];
+        this.profileData.education.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.education = temp;
+
+        temp = [];
+        this.profileData.favoriteMovie.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.favoriteMovie = temp;
+
+        temp = [];
+        this.profileData.findPeople.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.findPeople = temp;
+
+        temp = [];
+        this.profileData.game.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.game = temp;
+
+        temp = [];
+        this.profileData.gender.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.gender = temp;
+
+        temp = [];
+        this.profileData.job.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.job = temp;
+
+        temp = [];
+        this.profileData.lifeStyle.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.lifeStyle = temp;
+
+        temp = [];
+        this.profileData.likePet.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.likePet = temp;
+
+        temp = [];
+        this.profileData.likeTechnology.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.likeTechnology = temp;
+
+        temp = [];
+        this.profileData.location.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.location = temp;
+
+        temp = [];
+        this.profileData.marriage.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.marriage = temp;
+
+        temp = [];
+        this.profileData.mostValuable.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.mostValuable = temp;
+
+        temp = [];
+        this.profileData.playSport.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.playSport = temp;
+
+        temp = [];
+        this.profileData.shopping.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.shopping = temp;
+
+        temp = [];
+        this.profileData.religion.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.religion = temp;
+
+        temp = [];
+        this.profileData.smoking.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.smoking = temp;
+
+        temp = [];
+        this.profileData.target.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.target = temp;
+
+        temp = [];
+        this.profileData.typeAccount.forEach(element => {
+            element = element.replace(/_/g, " ");
+            temp.push(element);
+        });
+        this.profileData.typeAccount = temp;
+
+        temp = [];
+    }
 
     popMessage = false
     popTextAreaMessage = () => {
