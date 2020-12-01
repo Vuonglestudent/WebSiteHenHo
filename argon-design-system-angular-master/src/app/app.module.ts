@@ -1,7 +1,7 @@
 import { SectionsModule } from './sections/sections.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
@@ -39,6 +39,8 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.component';
 import { ChartsModule } from 'ng2-charts';
+import { TagInputModule } from 'ngx-chips';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +78,9 @@ import { ChartsModule } from 'ng2-charts';
     NgxDropzoneModule,
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
-    ChartsModule
+    ChartsModule,
+    TagInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

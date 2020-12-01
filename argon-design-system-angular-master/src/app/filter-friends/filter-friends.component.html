@@ -21,8 +21,9 @@
         <div class="col-8 col-xl-8 col-md-8 filterblock">
             <div class="d-flex flex-row col-12" style="padding: 0%;">
                 <div class="labelBlack"></div>
-                <div class="filter">
+                <div class="d-flex flex-row filter align-items-center">
                     <h4>Bộ lọc</h4>
+                    <tag-input [(ngModel)]='items' class="ml-5" (onRemove)="deleteHashTag($event)" theme='dark'></tag-input>
                 </div>
             </div>
             <div class="d-flex flex-row col-12" style="padding: 0%;">
@@ -32,14 +33,14 @@
                         </p>
                         <ul *ngIf="i < 4" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of fiiterGender[i].value" class="nav-item">
-                                <div class="btn fa" (click)="setStatusValue($event)">{{itemValue}}</div>
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.title , itemValue)">{{itemValue}}</div>
                             </li>
                         </ul>
                         <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">
                             {{item.title}}</p>
                         <ul *ngIf="i >= 4 && extend" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of fiiterGender[i].value" class="nav-item">
-                                <div class="btn fa" (click)="setStatusValue($event)">{{itemValue}}</div>
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.title , itemValue)">{{itemValue}}</div>
                             </li>
                         </ul>
                     </div>

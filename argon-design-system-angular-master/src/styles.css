@@ -250,3 +250,7 @@ h6,
 body {
   font-family: "FontAwesome" !important;
 }
+
+div , a , input {
+  font-family: "FontAwesome" !important;
+}
