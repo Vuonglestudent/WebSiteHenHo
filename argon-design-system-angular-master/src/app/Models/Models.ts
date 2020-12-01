@@ -126,6 +126,7 @@ export class ProfileData {
     travel: string[];
     game: string[];
     shopping: string[];
+    ageGroup: string[];
 }
 
 export class Image{

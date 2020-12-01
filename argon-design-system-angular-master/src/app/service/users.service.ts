@@ -163,4 +163,12 @@ export class UsersService {
 
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
+
+  public FilterFeatures = (features: Array<any>, pageIndex: number, pageSize: number)=>{
+    var headers = this.authenticationService.GetHeader();
+    
+    var path = `${this.url.urlHost}/api/Profiles/filterFeatures?PageIndex=${pageIndex}&PageSize=${pageSize}`;
+
+    return this.http.post<any>(path, features, {headers: headers}).toPromise();
+  }
 }

@@ -28,22 +28,23 @@
             </div>
             <div class="d-flex flex-row col-12" style="padding: 0%;">
                 <div class="filter">
-                    <div *ngFor="let item of fiiterGender; let i=index" class="d-flex flex-row align-items-center pl-2">
+                    <div *ngFor="let item of filterSet; let i=index" class="d-flex flex-row align-items-center pl-2">
                         <p *ngIf="i < 4" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">{{item.title}}
                         </p>
                         <ul *ngIf="i < 4" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
-                            <li *ngFor="let itemValue of fiiterGender[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.title , itemValue)">{{itemValue}}</div>
+                            <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue}}</div>
                             </li>
                         </ul>
                         <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">
                             {{item.title}}</p>
                         <ul *ngIf="i >= 4 && extend" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
-                            <li *ngFor="let itemValue of fiiterGender[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.title , itemValue)">{{itemValue}}</div>
+                            <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue}}</div>
                             </li>
                         </ul>
                     </div>
+                    <button (click)="onFilter()" class="btn btn-primary">Lọc người dùng</button>
                 </div>
             </div>
             <div *ngIf="extend" class="arow-fillter" (click)="changeExtend()" style="top: 120px;"><i
@@ -54,6 +55,9 @@
     </div>
     <div id="contentUsers" class="col-lg-12 col-xl-12 col-md-12 col-12 pl-5 pr-5"
         style="top: 393px; position: absolute;">
+        <div *ngIf="Loading">
+            <div id="loader" style="position: absolute; margin-top: 150px;"></div>
+          </div>
         <div *ngIf="!Loading" class="card-deck">
             <div *ngFor="let item of Users; let i = index" class="col-xl-2 col-lg-3 col-md-4 col-6 animate-bottom"
                 style="flex: none; margin-left: 25px; margin-right: 15px; margin-bottom: 15px; padding: 0;">
@@ -119,7 +123,7 @@
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a (click)="previousPage()" class="page-link" href="#" tabindex="-1">
+                        <a (click)="previousPage()" class="page-link"  tabindex="-1">
                             <i class="fa fa-angle-left"></i>
                             <span class="sr-only">Previous</span>
                         </a>
@@ -140,7 +144,7 @@
                     <li *ngIf="UserPage.position!=3" (click)="paging(UserPage.current + 1)" class="page-item"><a
                             class="page-link" href="javascript:;">{{UserPage.current + 1}}</a></li>
                     <li class="page-item">
-                        <a (click)="nextPage()" class="page-link" href="#">
+                        <a (click)="nextPage()" class="page-link">
                             <i class="fa fa-angle-right"></i>
                             <span class="sr-only">Next</span>
                         </a>

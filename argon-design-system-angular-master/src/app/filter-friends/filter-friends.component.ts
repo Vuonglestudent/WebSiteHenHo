@@ -1,7 +1,7 @@
 import { ImageService } from './../service/image.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../signup/authentication.service';
-import { User, ImageUser } from './../Models/Models';
+import { User, ImageUser, ProfileData } from './../Models/Models';
 import { UsersService } from './../service/users.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,22 +12,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterFriendsComponent implements OnInit {
 
-  fiiterGender = [
-    { title: 'Giới tính', value: ['Nam', 'Nữ'] },
-    { title: 'Cân nặng', value: ['Nhẹ', 'Trung Bình', 'Nặng'] },
-    { title: 'Chiều cao', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '4', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '5', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '6', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '7', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '8', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '9', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '10', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '11', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '12', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '13', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-    { title: '14', value: ['Nhỏ nhắn', 'Trung Bình', 'Cao'] },
-  ]
+  filterSet = [
+    {feature: "ageGroup", title: "Độ tuổi", value: []},
+    {feature: "body", title: "Dáng người", value: []},
+    {feature: "gender", title: "Giới tính", value: []},
+    {feature: "education", title: "Học vấn", value: []},
+    {feature: "religion", title: "Tôn giáo", value: []},
+    {feature: "cook", title: "Nấu ăn", value: []},
+    {feature: "likeTechnology", title: "Công nghệ", value: []},
+    {feature: "likePet", title: "Thú cưng", value: []},
+    {feature: "playSport", title: "Thể thao", value: []},
+    {feature: "travel", title: "Du lịch", value: []},
+    {feature: "game", title: "Chơi game", value: []},
+    {feature: "shopping", title: "Mua sắm", value: []},
+    {feature: "location", title: "Địa chỉ", value: []},
+    {feature: "character", title: "Tính cách", value: []},
+    
+    {feature: "favoriteMovie", title: "Thể loại phim", value: []},
+    {feature: "atmosphereLike", title: "Không khí", value: []},
+    {feature: "drinkBeer", title: "Uống bia", value: []},
+    {feature: "smoking", title: "Hút thuốc", value: []},
+    {feature: "marriage", title: "Hôn nhân", value: []},
+    {feature: "job", title: "Công việc", value: []},
+  ] 
 
   extend = false;
   constructor(
@@ -54,19 +61,54 @@ export class FilterFriendsComponent implements OnInit {
   ngOnInit(): void {
     this.updatePagingNumber(1);
     this.getUsers();
+
+    this.usersService.GetProfileData()
+      .then(data =>{
+        console.log(data)
+        this.mappingProfileData(data)
+      })
+      .catch(error =>  console.log(error))
+  }
+
+  private mappingProfileData(data: ProfileData){
+    
+    this.filterSet[0].value = data.ageGroup;
+    this.filterSet[1].value = data.body;
+    this.filterSet[2].value = data.gender;
+    this.filterSet[3].value = data.education;
+    this.filterSet[4].value = data.religion;
+    this.filterSet[5].value = data.cook;
+    this.filterSet[6].value = data.likeTechnology;
+    this.filterSet[7].value = data.likePet;
+    this.filterSet[8].value = data.playSport;
+    this.filterSet[9].value = data.travel;
+    this.filterSet[10].value = data.game;
+    this.filterSet[11].value = data.shopping;
+    this.filterSet[12].value = data.location;
+    this.filterSet[13].value = data.character;
+
+    this.filterSet[14].value = data.favoriteMovie;
+    this.filterSet[15].value = data.atmosphereLike;
+    this.filterSet[16].value = data.drinkBeer;
+    this.filterSet[17].value = data.smoking;
+    this.filterSet[18].value = data.marriage;
+    this.filterSet[19].value = data.job;
+    
   }
 
   ngAfterViewInit(): void {
     var tagInputRemove = <HTMLElement>document.getElementsByTagName('tag-input-form')[0]
     tagInputRemove.setAttribute('hidden', 'true');
     tagInputRemove.setAttribute('disable', 'true');
+    
   }
 
-  setStatusValue = (e, title, value) => {
+  setStatusValue = (e, feature, title, value) => {
     var target = e.target
     if (target.className != 'btn fa active-btn') {
       target.className = 'btn fa active-btn';
       var newHashTag = {
+        feature: feature,
         display: value,
         title: title,
         // readonly: true
@@ -80,6 +122,7 @@ export class FilterFriendsComponent implements OnInit {
         }
       });
     }
+    console.log(this.items)
     setTimeout(() => this.changeHeight(), 10)
   }
 
@@ -91,12 +134,12 @@ export class FilterFriendsComponent implements OnInit {
 
   changeHeight = () => {
     var heightFilter = <HTMLElement>document.getElementsByClassName('col-8 col-xl-8 col-md-8 filterblock')[0]
-    console.log(heightFilter.clientHeight)
+    //console.log(heightFilter.clientHeight)
     this.heightBody = 250 + heightFilter.clientHeight - 100;
     var heightContentUsers = <HTMLElement>document.getElementById('contentUsers');
-    console.log(this.heightBody)
+    //console.log(this.heightBody)
     heightContentUsers.style.top = String(`${this.heightBody}px`)
-    console.log(heightContentUsers.style.top)
+    //console.log(heightContentUsers.style.top)
   }
   changeExtend = () => {
     this.extend = !this.extend
@@ -105,8 +148,7 @@ export class FilterFriendsComponent implements OnInit {
 
   getUsers() {
     this.Loading = true;
-    console.log('get page: ' + this.UserPage.index);
-    this.usersService.GetFavoritest(this.UserPage.index, this.UserPage.size)
+    this.usersService.FilterFeatures(this.items, this.UserPage.index, this.UserPage.size)
       .then(response => {
         this.Loading = false;
         this.Users = response.data;
@@ -135,7 +177,7 @@ export class FilterFriendsComponent implements OnInit {
   }
   updatePagingNumber(page: number) {
 
-    console.log(this.UserPage.total)
+    //console.log(this.UserPage.total)
     this.UserPage.index = page;
     if (page == 1) {
       this.UserPage.position = 1;
@@ -152,7 +194,7 @@ export class FilterFriendsComponent implements OnInit {
   };
 
   paging(index: number) {
-    console.log('paging to page ' + index.toString());
+    //console.log('paging to page ' + index.toString());
 
     this.updatePagingNumber(index);
     this.getUsers();
@@ -209,5 +251,18 @@ export class FilterFriendsComponent implements OnInit {
         // this.alertService.clear();
         // this.alertService.error(error.error.message, this.options);
       })
+  }
+
+  onFilter(){
+    this.updatePagingNumber(1);
+    this.Loading = true;
+    this.usersService.FilterFeatures(this.items, this.UserPage.index, this.UserPage.size)
+      .then(response =>{
+        this.Users = response.data;
+        this.UserPage.total = response.pageTotal;
+
+        this.Loading = false;
+      })
+      .catch(error => console.log(error))
   }
 }
