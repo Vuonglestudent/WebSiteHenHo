@@ -168,9 +168,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     var userIndex = this.getUserIndex(idUser);
     if (userIndex != -1) {
       this.UserIndex = userIndex;
-      this.messageService.friendList[userIndex].messages = new Array<Message>();
       this.messageService.friendList[userIndex].pageIndex = 1;
-      this.MoreMessages(idUser, this.UserIndex);
+
+      if (this.messageService.friendList[userIndex].messages.length <= 1) {
+        this.messageService.friendList[userIndex].messages = new Array<Message>();
+        this.MoreMessages(idUser, this.UserIndex);
+      }
     }
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
