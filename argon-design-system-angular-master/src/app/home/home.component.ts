@@ -10,7 +10,6 @@ import { UsersService } from '../service/users.service';
 import { AlertService } from '../_alert';
 import { AuthenticationService } from '../signup/authentication.service';
 import { MessageService } from '../service/message.service';
-
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',

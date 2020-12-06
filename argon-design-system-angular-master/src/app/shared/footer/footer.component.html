@@ -1,4 +1,5 @@
-<footer class="footer" [ngClass]="{'has-cards': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'}">
+<footer class="footer"
+  [ngClass]="{'has-cards': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'}">
   <!-- <div class="container container-lg" *ngIf="getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'">
     <div class="row">
       <div class="col-md-6 mb-5 mb-md-0">
@@ -18,22 +19,42 @@
     </div>
   </div> -->
   <div class="container">
-    <div class="row row-grid align-items-center" [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
+    <div class="row row-grid align-items-center"
+      [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
       <div class="col-lg-6">
-        <h3 class="text-primary font-weight-light mb-2">Cảm ơn bạn đã ghé thăm chúng tôi!</h3>
-        <h4 class="mb-0 font-weight-light">Đây là thông tin liên hệ của trang web chúng tôi</h4>
+        <h3 class="text-primary font-weight-light mb-2">{{subscribeStatus}}</h3>
+        <div class="row">
+          <input *ngIf="!subscribed" [(ngModel)]="email" class="form-control col-lg-6" type="email" placeholder="Email">
+          <input *ngIf="!subscribed" [(ngModel)]="name" class="form-control col-lg-6" type="text" placeholder="Tên">
+          <button *ngIf="!loading && !subscribed" style="margin-top:1%" (click)="Subscribe()" class="btn btn-primary"><i
+              class="fa fa-bell"></i> Subscribe</button>
+          <button *ngIf="loading && !subscribed" type="button" class="btn btn-primary mt-4">
+
+            <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+            Loading...
+          </button>
+          <button *ngIf="!loading && subscribed" type="button" class="btn btn-primary mt-4">
+            <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+              Subscribed
+          </button>
+        </div>
+
       </div>
       <div class="col-lg-6 text-lg-center btn-wrapper">
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg" ngbTooltip="Follow us">
+        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg"
+          ngbTooltip="Follow us">
           <i class="fa fa-twitter"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg" ngbTooltip="Like us">
+        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg"
+          ngbTooltip="Like us">
           <i class="fa fa-facebook-square"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round" ngbTooltip="Follow us">
+        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round"
+          ngbTooltip="Follow us">
           <i class="fa fa-dribbble"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg" ngbTooltip="Star on Github">
+        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg"
+          ngbTooltip="Star on Github">
           <i class="fa fa-github"></i>
         </a>
       </div>
