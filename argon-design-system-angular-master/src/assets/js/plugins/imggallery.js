@@ -6,14 +6,15 @@ var arrayFavoriteImageUser = [];
 var lengthArrayImage;
 var childId;
 function selectImage(id) {
-  // console.log(id);
+  idSplit = `${id.split("_")[0]}_${id.split("_")[1]}`
   childId = document.createElement("div");
   arrayFavoriteImageUser = [];
-  getArrayImageAndState(id);
+  getArrayImageAndState(idSplit);
   idFavorite = document.getElementById("clickFavoriteImage").children[0];
   // console.log(idFavorite);
-  idUser = id.split("img_")[1];
-  img = document.getElementById(id).children[1];
+  idUser = idSplit.split("img_")[1];
+  idImgSelect = id.split("_")[2];
+  img = document.getElementById(idSplit).children[Number(idImgSelect) + 1];
   popImage(img);
 }
 
@@ -86,6 +87,7 @@ function imageMoveRight() {
 
 function imagePopNone() {
   document.getElementById("imagePopId").style.display = "none";
+  document.getElementById("imagePopAvatar").style.display = "none";
   document.getElementsByTagName("body")[0].style.overflowY = "scroll";
   document
     .getElementById("clickFavoriteImage")
@@ -166,3 +168,5 @@ function updateStateImage() {
 //     }
 //   });
 // };
+
+

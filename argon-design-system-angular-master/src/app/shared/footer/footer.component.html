@@ -23,22 +23,21 @@
       [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
       <div class="col-lg-6">
         <h3 class="text-primary font-weight-light mb-2">{{subscribeStatus}}</h3>
-        <div class="row">
-          <input *ngIf="!subscribed" [(ngModel)]="email" class="form-control col-lg-6" type="email" placeholder="Email">
-          <input *ngIf="!subscribed" [(ngModel)]="name" class="form-control col-lg-6" type="text" placeholder="Tên">
-          <button *ngIf="!loading && !subscribed" style="margin-top:1%" (click)="Subscribe()" class="btn btn-primary"><i
-              class="fa fa-bell"></i> Subscribe</button>
-          <button *ngIf="loading && !subscribed" type="button" class="btn btn-primary mt-4">
-
-            <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
-            Loading...
-          </button>
-          <button *ngIf="!loading && subscribed" type="button" class="btn btn-primary mt-4">
-            <fa-icon size="1x" [icon]="faCheck"></fa-icon>
-              Subscribed
-          </button>
+        <div class="d-flex flex-row">
+          <input *ngIf="!subscribed" [(ngModel)]="email" class="form-control col-lg-5 mr-2" type="email" placeholder="Email">
+          <input *ngIf="!subscribed" [(ngModel)]="name" class="form-control col-lg-5" type="text" placeholder="Tên">
         </div>
+        <button *ngIf="!loading && !subscribed" style="margin-top:1%" (click)="Subscribe()" class="btn btn-primary"><i
+            class="fa fa-bell"></i> Subscribe</button>
+        <button *ngIf="loading && !subscribed" type="button" class="btn btn-primary mt-4">
 
+          <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+          Loading...
+        </button>
+        <button *ngIf="!loading && subscribed" type="button" class="btn btn-primary mt-4">
+          <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+          Subscribed
+        </button>
       </div>
       <div class="col-lg-6 text-lg-center btn-wrapper">
         <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg"

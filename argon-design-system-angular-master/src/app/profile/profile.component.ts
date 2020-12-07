@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
-
+    isViewImageList = false
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
@@ -97,6 +97,17 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
 
         this.onViewImage()
+    }
+
+    isSeenMoreImage = false;
+    clickSeenMoreImage = () => {
+        this.isSeenMoreImage = !this.isSeenMoreImage
+    }
+
+    viewImageList = () => {
+        this.isViewImageList = !this.isViewImageList
+        this.isSeenMoreImage = false;
+        this.isViewFriendList = false;
     }
     updating: boolean = false;
     onUpdateInfo() {
@@ -252,7 +263,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.profile.shopping = userProfile.profile.shopping.replace(/ /g, "_");
     };
 
-    standardizedProfileData(){
+    standardizedProfileData() {
         var temp = [];
         this.profileData.atmosphereLike.forEach(element => {
             element = element.replace(/_/g, " ");
@@ -425,18 +436,18 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     txtMessage = ''
     sendMessage = (id) => {
         //this.router.navigate(['/chat', id])
-        console.log(id , this.txtMessage)
+        console.log(id, this.txtMessage)
         if (this.txtMessage != '') {
             this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, this.txtMessage)
-              .then(data => {
-                console.log(data)
-              })
-              .catch(error => {
-                console.log(error)
-              });
+                .then(data => {
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.log(error)
+                });
             this.txtMessage = '';
             this.popMessage = false;
-          }
+        }
     }
 
     nonePopMessage = () => {
@@ -478,6 +489,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     updateAvatar = () => {
         var updateAvatar = <HTMLElement>document.getElementById('fileAvata')
+        var mainUser = <HTMLElement>document.getElementById('changeAvatar')
+        mainUser.className = 'dropdown-menu'
         updateAvatar.click()
     }
 
@@ -486,11 +499,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.usersService.UpdateAvatar(event.target.files[0])
                 .then(data => {
                     this.UserProfile.avatarPath = data.avatarPath;
-                    
+
                     this.authenticationService.UserInfo.hasAvatar = true;
                     this.authenticationService.UserInfo.avatarPath = data.avatarPath;
                     localStorage.setItem('UserInfo', JSON.stringify(this.authenticationService.UserInfo));
-                    
+
                     this.alertService.clear();
                     this.alertService.success('Cập nhật avatar thành công!');
                 })
@@ -498,10 +511,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
     }
 
-    onViewFriendList(){
+    onViewFriendList() {
         this.isViewFriendList = !this.isViewFriendList;
+        this.isViewImageList = false;
+        this.isSeenMoreImage = false;
         this.usersService.GetFollowers(this.currentUserId)
-            .then(data =>{
+            .then(data => {
                 this.FriendList = data;
             })
             .catch(error => {
@@ -515,6 +530,26 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.editing = false;
         this.router.navigate(['/profile', id]);
 
+    }
+
+    //seenAvatar = false;
+    seenImageAvatar = () => {
+        //this.seenAvatar = !this.seenAvatar
+        var avatar = <HTMLElement>document.getElementById('imagePopAvatar')
+        avatar.style.display = "block";
+        var body = <HTMLElement>document.getElementsByTagName("body")[0]
+        body.style.overflowY = "hidden";
+        var mainUser = <HTMLElement>document.getElementById('changeAvatar')
+        mainUser.className = 'dropdown-menu'
+    }
+
+    checkUserClickAvatar = () => {
+        if (this.currentUserId !== this.authenticationService.UserInfo.Id) {
+            this.seenImageAvatar()
+        } else {
+            var mainUser = <HTMLElement>document.getElementById('changeAvatar')
+            mainUser.className = 'dropdown-menu show'
+        }
     }
 }
 

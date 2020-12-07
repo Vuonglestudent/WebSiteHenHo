@@ -61,11 +61,11 @@ export class FilterFriendsComponent implements OnInit {
   ngOnInit(): void {
     this.updatePagingNumber(1);
     this.getUsers();
-
     this.usersService.GetProfileData()
       .then(data =>{
         console.log(data)
         this.mappingProfileData(data)
+        setTimeout(() => this.changeHeight(), 10)
       })
       .catch(error =>  console.log(error))
   }
@@ -100,7 +100,6 @@ export class FilterFriendsComponent implements OnInit {
     var tagInputRemove = <HTMLElement>document.getElementsByTagName('tag-input-form')[0]
     tagInputRemove.setAttribute('hidden', 'true');
     tagInputRemove.setAttribute('disable', 'true');
-    
   }
 
   setStatusValue = (e, feature, title, value) => {

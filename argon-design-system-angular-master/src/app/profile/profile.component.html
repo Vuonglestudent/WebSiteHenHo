@@ -20,12 +20,13 @@
               <div class="card-profile-image dropdown" style="display: block;">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <img *ngIf="UserProfile.hasAvatar" src="data:image/gif;base64,{{UserProfile.avatarPath}}"
-                    class="rounded-circle">
-                  <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle">
+                    class="rounded-circle" (click)="checkUserClickAvatar()">
+                  <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
+                    (click)="checkUserClickAvatar()">
                 </a>
-                <div *ngIf="checkUser" id="changeAvatar" class="dropdown-menu"
-                  style="margin-top: 130px; margin-left: 6%;">
-                  <a href="javascript:;" class="dropdown-item">
+                <div *ngIf="checkUser && authenticationService.UserInfo.Id == currentUserId" id="changeAvatar"
+                  class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
+                  <a href="javascript:;" class="dropdown-item" (click)="seenImageAvatar()">
                     <i class="ni ni-circle-08"></i>
                     <span>Xem ảnh đại diện</span>
                   </a>
@@ -50,8 +51,7 @@
                   Hủy theo dõi
                 </button>
 
-                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary"
-                  (click)="popTextAreaMessage()">
+                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary" (click)="popTextAreaMessage()">
                   <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-chat-round"></i></span>
                   <span class="btn-inner--text">Nhắn tin</span>
                 </button>
@@ -79,7 +79,7 @@
                 </div>
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
-                  <button class="btn-icon-card" id="img_{{UserProfile.id}}" onclick="selectImage(id)">
+                  <button class="btn-icon-card" id="img_{{UserProfile.id}}" (click)="viewImageList()">
                     <span class="description">
                       <i class="fa fa-camera text-dark"></i>
                     </span>
@@ -115,8 +115,7 @@
           <div class="py-2 text-center">
             <alert></alert>
             <div class="row justify-content-center">
-
-              <div *ngIf="!isViewFriendList" class="col-lg-9">
+              <div *ngIf="!isViewFriendList && !isViewImageList" class="col-lg-9">
                 <div *ngIf="uploadImage">
 
                   <div *ngIf="uploadStatus=='none'" style="display:block;" #myDiv class="animate-bottom">
@@ -409,9 +408,8 @@
                           <th scope="row" class="text-left">Tự nấu ăn</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.cook}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.cook"
-                              [ngModelOptions]="{standalone: true}" name="cook" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.cook" [ngModelOptions]="{standalone: true}"
+                              name="cook" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.cook}}" disabled selected hidden>
                                 {{UserProfile.profile.cook}}</option>
                               <option *ngFor="let item of profileData.cook" value="{{item}}">{{item}}</option>
@@ -437,9 +435,8 @@
                           <th scope="row" class="text-left">Yêu thú cưng</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.likePet}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.likePet"
-                              [ngModelOptions]="{standalone: true}" name="likePet" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.likePet" [ngModelOptions]="{standalone: true}"
+                              name="likePet" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.likePet}}" disabled selected hidden>
                                 {{UserProfile.profile.likePet}}</option>
                               <option *ngFor="let item of profileData.likePet" value="{{item}}">{{item}}</option>
@@ -451,9 +448,8 @@
                           <th scope="row" class="text-left">Chơi thể thao</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.playSport}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.playSport"
-                              [ngModelOptions]="{standalone: true}" name="playSport" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.playSport" [ngModelOptions]="{standalone: true}"
+                              name="playSport" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.playSport}}" disabled selected hidden>
                                 {{UserProfile.profile.playSport}}</option>
                               <option *ngFor="let item of profileData.playSport" value="{{item}}">{{item}}</option>
@@ -465,9 +461,8 @@
                           <th scope="row" class="text-left">Đi du lịch</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.travel}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.travel"
-                              [ngModelOptions]="{standalone: true}" name="travel" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.travel" [ngModelOptions]="{standalone: true}"
+                              name="travel" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.travel}}" disabled selected hidden>
                                 {{UserProfile.profile.travel}}</option>
                               <option *ngFor="let item of profileData.travel" value="{{item}}">{{item}}</option>
@@ -479,9 +474,8 @@
                           <th scope="row" class="text-left">Chơi game</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.game}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.game"
-                              [ngModelOptions]="{standalone: true}" name="game" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.game" [ngModelOptions]="{standalone: true}"
+                              name="game" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.game}}" disabled selected hidden>
                                 {{UserProfile.profile.game}}</option>
                               <option *ngFor="let item of profileData.game" value="{{item}}">{{item}}</option>
@@ -493,9 +487,8 @@
                           <th scope="row" class="text-left">Mua sắm</th>
                           <td *ngIf="!editing" class="text-left">{{UserProfile.profile.shopping}}</td>
                           <td *ngIf="editing" style="padding: 0px;">
-                            <select [(ngModel)]="UserProfile.profile.shopping"
-                              [ngModelOptions]="{standalone: true}" name="shopping" id="bodyUser"
-                              class="placeSelect">
+                            <select [(ngModel)]="UserProfile.profile.shopping" [ngModelOptions]="{standalone: true}"
+                              name="shopping" id="bodyUser" class="placeSelect">
                               <option value="{{UserProfile.profile.shopping}}" disabled selected hidden>
                                 {{UserProfile.profile.shopping}}</option>
                               <option *ngFor="let item of profileData.shopping" value="{{item}}">{{item}}</option>
@@ -569,11 +562,10 @@
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card card2">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar"
-                        class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
-                        alt="Avatar"></a>
-                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar"
-                        class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
+                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
+                        src="{{item.avatarPath}}" alt="Avatar"></a>
                   </div>
                   <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
                     <div style="height: 90px;" (click)="clickProfileUser(item.id)">
@@ -586,6 +578,39 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div *ngIf="isViewImageList" class="h4 font-weight-300 animate-bottom"><b>Danh sách hình ảnh</b> </div>
+            <div *ngIf="isViewImageList" class="col-lg-12 col-md-12 row pl-3"
+              style="margin-left: 0%; margin-right: 0%;">
+              <div *ngFor="let item of imagesResponse; let i = index" class="col-md-3 col-xl-3 animate-bottom">
+                <div *ngIf="i < 8" style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                  <div class="card card2">
+                    <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
+                      onclick="selectImage(id)">
+                      <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
+                          src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
+                          src="{{item.imagePath}}" alt="Avatar"></a>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="i >= 8 && isSeenMoreImage"
+                  style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                  <div class="card card2">
+                    <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
+                      onclick="selectImage(id)">
+                      <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
+                          src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
+                          src="{{item.imagePath}}" alt="Avatar"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!isSeenMoreImage" class="alert alert-default btn active-viewImage"
+                style="width: 100%; margin: 0 15px;" (click)="clickSeenMoreImage()">
+                <h5 class="font-weight-300 text-white" style="margin-bottom: 0;">Xem Thêm</h5>
               </div>
             </div>
           </div>
@@ -605,9 +630,18 @@
   <section class="imageContain" id="imageContainId" onclick="imageMoveRight()" value=""></section>
 </section>
 <section *ngIf="popMessage" class="messagePop" id="messagePopId">
-  <textarea class="textareaMessage" name="" id="" cols="" rows="" (keyup.enter)="sendMessage(UserProfile.id)" [value]="txtMessage"
-  (input)="txtMessage=$event.target.value"></textarea>
+  <textarea class="textareaMessage" name="" id="" cols="" rows="" (keyup.enter)="sendMessage(UserProfile.id)"
+    [value]="txtMessage" (input)="txtMessage=$event.target.value"></textarea>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
-  <button class="btnSendMessage btn btn-info" style="border-radius: 0px 0px 5px 5px;" (click)="sendMessage(UserProfile.id)">Gửi</button>
+  <button class="btnSendMessage btn btn-info" style="border-radius: 0px 0px 5px 5px;"
+    (click)="sendMessage(UserProfile.id)">Gửi</button>
 </section>
 <!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->
+
+<section class="imagePop" id="imagePopAvatar">
+  <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+  <section class="imageContain" id="imageContainId"
+    style="background: url(data:image/gif;base64,{{UserProfile.avatarPath}});" value=""></section>
+</section>
