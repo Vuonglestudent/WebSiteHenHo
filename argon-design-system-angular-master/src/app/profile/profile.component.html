@@ -84,7 +84,7 @@
                       <i class="fa fa-camera text-dark"></i>
                     </span>
                     <img *ngFor="let item of imagesResponse; let i = index" display="true" hidden="true"
-                      id="img_{{i + 1}}_{{item.liked}}_{{imagesResponse.length}}_{{item.id}}" src=""
+                      id="img_{{i + 1}}_{{item.liked}}_{{imagesResponse.length}}_{{item.id}}_{{item.numberOfLikes}}" src=""
                       alt="{{item.imagePath}}">
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
@@ -608,7 +608,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!isSeenMoreImage" class="alert alert-default btn active-viewImage"
+              <div *ngIf="!isSeenMoreImage && imagesResponse.length >= 8" class="alert alert-default btn active-viewImage"
                 style="width: 100%; margin: 0 15px;" (click)="clickSeenMoreImage()">
                 <h5 class="font-weight-300 text-white" style="margin-bottom: 0;">Xem Thêm</h5>
               </div>
@@ -625,6 +625,7 @@
   </div>
   <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)" (click)="updateStateImage()"><i
       class="ni ni-favourite-28 text-white"></i></div>
+      <div class="numberFavoriteImage text-danger" style="font-weight: 600;" id="numberFavoriteImage"></div>
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId" onclick="imageMoveRight()" value=""></section>

@@ -171,6 +171,15 @@
   font-size: 30px;
 }
 
+.numberFavoriteImage {
+  position: absolute;
+  z-index: 14;
+  top: 90.5vh;
+  left: 31%;
+  cursor: pointer;
+  font-size: 30px;
+}
+
 .favorite:active {
   transform: translateY(-10px);
 }

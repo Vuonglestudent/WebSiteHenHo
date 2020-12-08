@@ -3,15 +3,17 @@ var imgContent;
 var idImgCurrent;
 var idFavorite;
 var arrayFavoriteImageUser = [];
+var arrayNumberImageFavorite = [];
 var lengthArrayImage;
 var childId;
+var likes
 function selectImage(id) {
   idSplit = `${id.split("_")[0]}_${id.split("_")[1]}`
   childId = document.createElement("div");
   arrayFavoriteImageUser = [];
   getArrayImageAndState(idSplit);
+  getNumberLikeImage(idSplit)
   idFavorite = document.getElementById("clickFavoriteImage").children[0];
-  // console.log(idFavorite);
   idUser = idSplit.split("img_")[1];
   idImgSelect = id.split("_")[2];
   img = document.getElementById(idSplit).children[Number(idImgSelect) + 1];
@@ -22,23 +24,31 @@ function getArrayImageAndState(id) {
   lengthArrayImage = document.getElementById(id).children[1].id.split("_")[3];
   var i;
   for (i = 1; i <= Number(lengthArrayImage); i++) {
-    // console.log(i)
     idImg = Number(document.getElementById(id).children[i].id.split("_")[1]);
     stateImg = document.getElementById(id).children[i].id.split("_")[2];
-    //console.log(idImg, stateImg);
     img = { img: idImg, state: stateImg };
     arrayFavoriteImageUser.push(img);
   }
-  //console.log(arrayFavoriteImageUser);
 }
+
+function getNumberLikeImage(id){
+  lengthArrayImage = document.getElementById(id).children[1].id.split("_")[3];
+  var i;
+  for (i = 1; i <= Number(lengthArrayImage); i++) {
+    idImg = Number(document.getElementById(id).children[i].id.split("_")[1]);
+    numberLikeImg = document.getElementById(id).children[i].id.split("_")[5];
+    img = { img: idImg, numberLike: numberLikeImg };
+    arrayNumberImageFavorite.push(img);
+  }
+  console.log(arrayNumberImageFavorite)
+}
+
 function popImage(img) {
-  // console.log(img);
   idImgCurrent = img.id.split("_")[1];
   childId.id = `${idImgCurrent}_${idUser}`;
   imgContent = img.alt;
-  //console.log("content " + imgContent)
+  likes = Number(img.id.split("_")[5])
   checkPath = imgContent.split(".")[imgContent.split(".").length - 1];
-  // console.log(idImgCurrent, imgContent);
   document.getElementById("imagePopId").style.display = "block";
   document.getElementsByTagName("body")[0].style.overflowY = "hidden";
   if (
@@ -95,29 +105,36 @@ function imagePopNone() {
 }
 
 function checkStateImage() {
+  document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
   if (arrayFavoriteImageUser[Number(idImgCurrent) - 1].state == "true") {
     idFavorite.className = "ni ni-favourite-28 text-danger";
   } else {
     idFavorite.className = "ni ni-favourite-28 text-white";
   }
 }
+
 function favoriteImage(event) {
   target = event.target;
   // console.log(target.className);
   if (target.className !== "favorite") {
     if (target.className === "ni ni-favourite-28 text-white") {
       target.className = "ni ni-favourite-28 text-danger";
+      arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike = String(Number(arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike) + 1)
+      console.log(arrayNumberImageFavorite)
       updateStateImage();
     } else {
       target.className = "ni ni-favourite-28 text-white";
+      arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike = String(Number(arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike) - 1)
       updateStateImage();
     }
   } else {
     if (target.children[0].className === "ni ni-favourite-28 text-white") {
       target.children[0].className = "ni ni-favourite-28 text-danger";
+      arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike = String(Number(arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike) + 1)
       updateStateImage();
     } else {
       target.children[0].className = "ni ni-favourite-28 text-white";
+      arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike = String(Number(arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike) - 1)
       updateStateImage();
     }
   }
@@ -131,42 +148,10 @@ function favoriteImage(event) {
 }
 
 function updateStateImage() {
+  document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
   if (arrayFavoriteImageUser[Number(idImgCurrent) - 1].state === "true") {
     arrayFavoriteImageUser[Number(idImgCurrent) - 1].state = "false";
   } else {
     arrayFavoriteImageUser[Number(idImgCurrent) - 1].state = "true";
   }
 }
-// window.onload = function () {
-//   document.getElementById(`imagePopId`).addEventListener("click", function () {
-//     var myDivLeft = document.getElementById("clickButtonLeft");
-//     var myDivRight = document.getElementById("clickButtonRight");
-//     var myDivClose = document.getElementById("clickButtonClose");
-
-//     document.addEventListener("keyup", function (event) {
-//       console.log(event.key);
-//       if (event.key == "ArrowRight") {
-//         keyupButtonRight();
-//       } else if (event.key == "ArrowLeft") {
-//         keyupButtonLeft();
-//       } else if (event.key == "Escape") {
-//         keyupButtonClose();
-//       }
-
-//     });
-
-//     function keyupButtonLeft() {
-//       myDivLeft.click();
-//     }
-
-//     function keyupButtonRight() {
-//       myDivRight.click();
-//     }
-
-//     function keyupButtonClose() {
-//       myDivClose.click();
-//     }
-//   });
-// };
-
-
