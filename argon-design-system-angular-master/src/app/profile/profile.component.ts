@@ -441,6 +441,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, this.txtMessage)
                 .then(data => {
                     console.log(data)
+                    this.alertService.clear();
+                    this.alertService.success('Tin nhắn của bạn đã được gửi đến ' + this.UserProfile.fullName, this.options);
                 })
                 .catch(error => {
                     console.log(error)

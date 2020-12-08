@@ -168,7 +168,10 @@ export class AppComponent implements OnInit {
               //   })
             }
             else {
-              this.messageService.friendList[userIndex].messages.push(message);
+              try{
+                this.messageService.friendList[userIndex].messages.push(message);
+              }
+              catch{}
             }
 
             //Là người nhận
