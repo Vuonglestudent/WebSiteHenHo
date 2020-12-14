@@ -190,17 +190,23 @@ export class HomeComponent implements OnInit {
         this.alertService.success('OK', this.options);
 
     }
+    likeProcessing = false;
     Favorite = (userId: string, event) => {
 
         if (!this.authenticationService.IsLogin) {
             this.LoginRequired();
             return;
         }
+        if(this.likeProcessing == true){
+            return;
+        }
+        this.likeProcessing = true;
 
         var target = event.target;
         var favouritesCurrent = Number(target.innerText)
         this.usersService.Favorite(userId)
             .then(response => {
+                this.likeProcessing = false;
                 this.alertService.clear();
                 this.alertService.success(response.message, this.options);
                 if (response.message == 'Favorited') {
@@ -212,6 +218,7 @@ export class HomeComponent implements OnInit {
                 }
             })
             .catch(error => {
+                this.likeProcessing = false;
                 if (error.status == 401) {
                     this.LoginRequired();
                     return;
