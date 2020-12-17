@@ -157,10 +157,22 @@ export class UsersService {
     return this.http.get<any>(query, {headers : headers}).toPromise();
   }
 
-  public GetSimilarUSer = (userId: string, pageIndex: string, pageSize: string, location: string, fromAge: number, toAge: number, gender: string) =>{
+  public GetSimilarUSer = (userId: string, pageIndex: string, pageSize: string, isFilter:boolean, location: string, fullName: string, fromAge: any, toAge: any, gender: any) =>{
+    if(isFilter){
+      if(gender.length > 3){
+        gender = gender.slice(4, gender.length)
+      }
+      if(fromAge.length > 2){
+        fromAge = Number(fromAge.slice(8, fromAge.length))
+      }
+      if(toAge.length > 2){
+        toAge = Number(toAge.slice(9, toAge.length))
+      }
+      
+    }
     var headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&Location=${location}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
-
+    var path = `${this.url.urlHost}/api/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&IsFilter=${isFilter}&Location=${location}&FullName=${fullName}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
+    console.log(path)
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
 

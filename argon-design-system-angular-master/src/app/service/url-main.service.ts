@@ -7,6 +7,6 @@ export class UrlMainService {
 
   constructor() { }
 
-  // urlHost = "https://192.168.0.200:5000"
+   //urlHost = "http://hieuit.tech"
   urlHost = "http://localhost:5000"
 }

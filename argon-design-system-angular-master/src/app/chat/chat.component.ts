@@ -178,6 +178,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser
+    this.avatarPath = this.messageService.friendList[userIndex].user.avatarPath;
+    this.hasAvatar = this.messageService.friendList[userIndex].user.hasAvatar;
     this.setScroll()
   }
 

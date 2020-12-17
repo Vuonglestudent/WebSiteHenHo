@@ -176,35 +176,22 @@
                 </h6>
               </div>
               <form class="form-search" action="">
-                <select class="form-control dropbtn" id="GioiTinh">
-                  <option>Tất cả giới tính</option>
-                  <option>Tìm bạn nam</option>
-                  <option>Tìm bạn nữ</option>
+
+                <input [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Tìm theo tên">
+                <select [(ngModel)]="gender" [ngModelOptions]="{standalone: true}" class="form-control dropbtn" id="GioiTinh">
+                  <option *ngFor="let item of filterData.gender;" >Tìm {{item}}</option>
                 </select>
-                <select class="form-control dropbtn" id="TuoiBatDau">
-                  <option>1 tuổi</option>
-                  <option>2 tuổi</option>
-                  <option>3 tuổi</option>
-                  <option>4 tuổi</option>
-                  <option>5 tuổi</option>
+                <select [(ngModel)]="fromAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn" id="TuoiBatDau">
+                  <option *ngFor="let item of filterData.fromAge;">Từ tuổi {{item}}</option>
                 </select>
-                <select class="form-control dropbtn" id="TuoiKetThuc">
-                  <option>60 tuổi</option>
-                  <option>1 tuổi</option>
-                  <option>2 tuổi</option>
-                  <option>3 tuổi</option>
-                  <option>4 tuổi</option>
-                  <option>5 tuổi</option>
+
+                <select [(ngModel)]="toAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn" id="TuoiKetThuc">
+                  <option *ngFor="let item of filterData.toAge;">Đến tuổi {{item}}</option>
                 </select>
-                <select class="form-control dropbtn" id="ThanhPho">
-                  <option>Tất cả thành phố</option>
-                  <option>Hồ Chí Minh</option>
-                  <option>Hà Nội</option>
-                  <option>Đà Nẵng</option>
-                  <option>Đà Lạt</option>
-                  <option>Cam Ranh</option>
+                <select [(ngModel)]="location" [ngModelOptions]="{standalone: true}" class="form-control dropbtn" id="ThanhPho">
+                  <option *ngFor="let item of filterData.location;">{{item}}</option>
                 </select>
-                <button class="btn btn-success">
+                <button (click)="onSearch()" class="btn btn-success">
                   Tìm kiếm
                 </button>
               </form>

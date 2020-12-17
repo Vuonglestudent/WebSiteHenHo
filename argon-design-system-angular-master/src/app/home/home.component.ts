@@ -1,15 +1,12 @@
-import { async } from '@angular/core/testing';
 import { ImageService } from './../service/image.service';
 import { ImageUser, User } from './../Models/Models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
-
+import {MessageService} from '../service/message.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../service/users.service';
 import { AlertService } from '../_alert';
 import { AuthenticationService } from '../signup/authentication.service';
-import { MessageService } from '../service/message.service';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -20,7 +17,6 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private http: HttpClient,
         private usersService: UsersService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
@@ -60,7 +56,7 @@ export class HomeComponent implements OnInit {
         
         if (this.authenticationService.UserInfo != null) {
             console.log('similar')
-            this.getSimilarUSer();
+            this.getSimilarUSer(false);
         }
         else {
             this.getFavoritors();
@@ -74,6 +70,7 @@ export class HomeComponent implements OnInit {
                 this.alertService.clear();
                 this.alertService.error("Lỗi server!", this.options);
             })
+        this.LoadFilterData();
     }
 
     filter = {
@@ -83,9 +80,9 @@ export class HomeComponent implements OnInit {
         gender: '',
 
     }
-    getSimilarUSer = () => {
+    getSimilarUSer = (filter:boolean) => {
         this.Loading = true;
-        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.FavoritePage.index, this.FavoritePage.size, this.filter.location, this.filter.fromAge, this.filter.toAge, this.filter.gender)
+        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.FavoritePage.index, this.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
             .then(response =>{
                 this.Loading = false;
                 this.Favoritors = response.data;
@@ -107,8 +104,6 @@ export class HomeComponent implements OnInit {
                 });
             })
             .catch(error => console.log(error))
-        
-        
         
     }
 
@@ -207,8 +202,8 @@ export class HomeComponent implements OnInit {
         this.usersService.Favorite(userId)
             .then(response => {
                 this.likeProcessing = false;
-                this.alertService.clear();
-                this.alertService.success(response.message, this.options);
+                // this.alertService.clear();
+                // this.alertService.success(response.message, this.options);
                 if (response.message == 'Favorited') {
                     target.className = 'ni ni-favourite-28 text-danger'
                     target.innerHTML = `<span><small class="text-dark" style="font-size: 60%;">${favouritesCurrent + 1}</small></span>`
@@ -355,19 +350,20 @@ export class HomeComponent implements OnInit {
         //console.log(this.imageUsers[this.clickSeenImageUser].images)
     }
 
+    isFilter = false;
     paging(index: number) {
         console.log('paging to page ' + index.toString());
 
         this.updatePagingNumber(index);
 
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
     }
     previousPage() {
         if (this.FavoritePage.index == 1) {
             return
         }
         this.updatePagingNumber(this.FavoritePage.index - 1);
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
     nextPage() {
@@ -375,7 +371,44 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.updatePagingNumber(this.FavoritePage.index + 1);
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer();
+        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
+    }
+
+    filterData = {
+        name: "",
+        location: ["Tất cả", "TP_HCM", "Hà_Nội"],
+        gender: ["Nam", "Nữ"],
+        fromAge: [],
+        toAge: []
+    }
+    gender = "Tất cả";
+    name = '';
+    fromAge = 15;
+    toAge = 60;
+    location = "Tất cả";
+    LoadFilterData(){
+        for (let i = 16; i <= 60; i++) {
+            this.filterData.fromAge.push(i); 
+            this.filterData.toAge.push(i);            
+        }
+        
+        this.usersService.GetProfileData()
+        .then(response =>{
+            this.filterData.location = response.location;
+            this.filterData.location.unshift("Tất cả");
+            this.filterData.fromAge.unshift("15");
+            this.filterData.toAge.unshift("60");
+            this.filterData.gender.unshift("Tất cả");
+        })
+        .catch(error => {console.log(error)})
+    }
+    onSearch(){
+        if(!this.authenticationService.IsLogin){
+            this.LoginRequired();
+            return;
+        }
+        this.isFilter = true;
+        this.getSimilarUSer(this.isFilter);
     }
 }
