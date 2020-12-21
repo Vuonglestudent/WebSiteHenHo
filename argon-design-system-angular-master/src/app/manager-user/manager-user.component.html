@@ -135,12 +135,12 @@
                         <td>
                             <div *ngIf="item.status!='IsVerifying'&& item.status != 'Active'" class="media align-items-center" style="height: 48px;">
                                 <div class="media-body btn-flip active-btn-flip" data-back="Inactive" data-front="Active"
-                                    (click)="setActiveUser($event)">
+                                    (click)="setActiveUser($event, item.id)">
                                 </div>
                             </div>
                             <div *ngIf="item.status!='IsVerifying'&& item.status == 'Active'" class="media align-items-center" style="height: 48px;">
                                 <div class="media-body btn-flip" data-back="Inactive" data-front="Active"
-                                    (click)="setActiveUser($event)">
+                                    (click)="setActiveUser($event, item.id)">
                                 </div>
                             </div>
 
