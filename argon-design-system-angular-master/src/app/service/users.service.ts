@@ -183,4 +183,12 @@ export class UsersService {
 
     return this.http.post<any>(path, features, {headers: headers}).toPromise();
   }
+
+  public DisableUser = (userId: string) =>{
+    var headers = this.authenticationService.GetHeader();
+    var path = `${this.url.urlHost}/api/Users/block/${userId}`;
+    var data = new FormData();
+
+    return this.http.post<any>(path, data, {headers: headers}).toPromise();
+  }
 }

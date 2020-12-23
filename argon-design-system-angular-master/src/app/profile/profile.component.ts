@@ -8,9 +8,14 @@ import { NgForm } from '@angular/forms';
 import { ImageService } from './../service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
+import { slideInOutAnimation } from '../_animates/animates';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
+    animations: [slideInOutAnimation],
+
+    // attach the slide in/out animation to the host (root) element of this component
+    host: { '[@slideInOutAnimation]': '' },
     styleUrls: ['./profile.component.scss']
 })
 

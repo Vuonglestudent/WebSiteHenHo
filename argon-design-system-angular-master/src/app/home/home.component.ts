@@ -7,9 +7,14 @@ import { Router } from '@angular/router';
 import { UsersService } from '../service/users.service';
 import { AlertService } from '../_alert';
 import { AuthenticationService } from '../signup/authentication.service';
+import { fadeInAnimation } from '../_animates/animates';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
+    animations: [fadeInAnimation],
+
+    // attach the fade in animation to the host (root) element of this component
+    host: { '[@fadeInAnimation]': '' },
     styleUrls: ['./home.component.scss']
 })
 
@@ -410,5 +415,22 @@ export class HomeComponent implements OnInit {
         }
         this.isFilter = true;
         this.getSimilarUSer(this.isFilter);
+    }
+
+    onScrollUp(){
+
+        // var el = document.querySelector('container');
+        // el.scrollTop = el.scrollHeight;
+        
+        // setTimeout(function(){
+        //   el.scrollTop = 0;
+        // }, 500);
+
+        window.scrollTo(0, 0);
+
+        // element.setAttribute("body.scrollTop", "0");
+        // element.setAttribute("documentElement.scrollTop", "0");
+        // document.body.scrollTop = 0;
+        // document.documentElement.scrollTop = 0;
     }
 }

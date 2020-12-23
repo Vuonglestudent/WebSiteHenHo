@@ -4,10 +4,15 @@ import {AuthenticationService} from './authentication.service';
 import { faSpinner, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import { AlertService } from '../_alert';
+import { slideInOutAnimation } from '../_animates/animates';
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.scss']
+    styleUrls: ['./signup.component.scss'],
+    animations: [slideInOutAnimation],
+    
+    // attach the slide in/out animation to the host (root) element of this component
+    host: { '[@slideInOutAnimation]': '' },
 })
 export class SignupComponent implements OnInit {
     constructor(

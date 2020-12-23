@@ -38,7 +38,7 @@ export class ManagerUserComponent implements OnInit {
     this.getFavoritors();
   }
 
-  setActiveUser = (e) => {
+  setActiveUser = (e, userId) => {
     var target = e.target;
     console.log(target.className)
     if (target.className === "media-body btn-flip") {
@@ -46,8 +46,11 @@ export class ManagerUserComponent implements OnInit {
       
     } else {
       target.className = "media-body btn-flip";
-
     }
+
+    this.usersService.DisableUser(userId)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
   }
 
   getFavoritors() {
