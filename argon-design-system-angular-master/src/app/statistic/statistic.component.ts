@@ -9,7 +9,8 @@ import { MessageService } from '../service/message.service';
 @Component({
   selector: 'app-statistic',
   templateUrl: './statistic.component.html',
-  styleUrls: ['./statistic.component.css']
+  styleUrls: ['./statistic.component.css'],
+  
 })
 export class StatisticComponent implements OnInit {
 

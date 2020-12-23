@@ -7,11 +7,16 @@ import { AlertService } from '../_alert';
 import { User, SocialUser } from '../Models/Models';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-  import { from } from 'rxjs';
+import { from } from 'rxjs';
+import { slideInOutAnimation } from '../_animates/animates';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  animations: [slideInOutAnimation],
+
+  // attach the slide in/out animation to the host (root) element of this component
+  host: { '[@slideInOutAnimation]': '' },
 })
 export class LoginComponent implements OnInit {
 
@@ -55,7 +60,7 @@ export class LoginComponent implements OnInit {
     //       this.alertService.error(error.error.message, this.options);
     //     })
     // })
-  
+
   }
 
   user: SocialUser;
@@ -94,7 +99,7 @@ export class LoginComponent implements OnInit {
         //alert("Login success!");
         this.Loading = false;
         var userInfo = {
-          Id : response.id,
+          Id: response.id,
           UserName: response.userName,
           FullName: response.fullName,
           Email: response.email,
@@ -109,20 +114,20 @@ export class LoginComponent implements OnInit {
         this.authenticationService.UserInfo = userInfo;
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
-        
+
         // Retrieve the object from storage
         this.alertService.clear();
         this.alertService.success('Success!!', this.options);
         console.log('this is info');
         console.log(this.authenticationService.UserInfo);
-        if(!this.authenticationService.UserInfo.IsInfoUpdated){
-          this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+        if (!this.authenticationService.UserInfo.IsInfoUpdated) {
+          this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
           return;
         }
-        if(userInfo.role == "User"){
+        if (userInfo.role == "User") {
           this.router.navigateByUrl('/home');
         }
-        else if(userInfo.role == "Admin"){
+        else if (userInfo.role == "Admin") {
           this.router.navigateByUrl("/statistic");
         }
       })
@@ -229,10 +234,10 @@ export class LoginComponent implements OnInit {
     this.authService.authState.subscribe((user) => {
       this.user = user;
       call++;
-      if(call >= 2){
+      if (call >= 2) {
         return;
       }
-      
+
       this.authenticationService.FacebookLogin(this.user)
         .then(response => {
           this.loggedIn = true;
@@ -253,14 +258,14 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           console.log('this is userInfo');
           console.log(this.authenticationService.UserInfo);
-          if(!this.authenticationService.UserInfo.IsInfoUpdated){
-            this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+          if (!this.authenticationService.UserInfo.IsInfoUpdated) {
+            this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
           }
           console.log(userInfo);
-          if(userInfo.role == "User"){
+          if (userInfo.role == "User") {
             this.router.navigateByUrl('/home');
           }
-          else if(userInfo.role == "Admin"){
+          else if (userInfo.role == "Admin") {
             this.router.navigateByUrl("/statistic");
           }
         })
@@ -271,7 +276,7 @@ export class LoginComponent implements OnInit {
         })
     })
 
-  
+
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
 
   }
@@ -294,5 +299,5 @@ export class LoginComponent implements OnInit {
     this.authService.signOut();
   }
 
-  
+
 }

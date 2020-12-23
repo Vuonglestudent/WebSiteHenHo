@@ -54,6 +54,13 @@
         <i class="fa fa-globe"></i>
         Online: {{messageService.onlineCount}}
       </div>
+
+      <div class="BackToTop">
+        <button id="myBtn" (click)="onScrollUp()" title="Go to top">
+          <i class="fa fa-angle-up"></i>
+        </button>
+      </div>
+      
       <div class="row" style="margin-bottom: 50px;">
         <div style="width: 70%;">
 
@@ -247,5 +254,26 @@
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
 </section>
+<!-- <script>
+    //Khi người dùng cuộn chuột thì gọi hàm scrollFunction
+    window.onscroll = function() {scrollFunction()};
+    // khai báo hàm scrollFunction
+    function scrollFunction() {
+        // Kiểm tra vị trí hiện tại của con trỏ so với nội dung trang
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            //nếu lớn hơn 20px thì hiện button
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+             //nếu nhỏ hơn 20px thì ẩn button
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+    //gán sự kiện click cho button
+    document.getElementById('myBtn').addEventListener("click", function(){
+        //Nếu button được click thì nhảy về đầu trang
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    });
+</script> -->
 <app-footer></app-footer>
 <!-- [routerLink]="['../assessment']" [queryParams]="{assessment: item.Id, certificateId: certificateId}" -->
