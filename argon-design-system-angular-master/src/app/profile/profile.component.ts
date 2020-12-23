@@ -30,11 +30,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     //icon
     faSpinner = faSpinner;
     currentUserId;
-    imageCarousel = [
-        { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
-        { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
-        { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
-    ]
+    //profile user
+    isViewInfomationBasics = false;
+    isViewInfomations = false;
+    isViewCharaters = false;
+    isViewLikes = false;
+    isViewActions = false;
 
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
@@ -53,6 +54,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.ngOnInit();
         });
     }
+
     ngAfterViewInit(): void {
         if (!this.authenticationService.UserInfo.IsInfoUpdated) {
             this.editing = true;
@@ -108,6 +110,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.isViewImageList = !this.isViewImageList
         this.isSeenMoreImage = false;
         this.isViewFriendList = false;
+        this.editing = false;
+        this.uploadImage = false;
     }
     updating: boolean = false;
     onUpdateInfo() {
@@ -157,6 +161,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     clickEdit = () => {
         this.editing = !this.editing;
+        this.uploadImage = false;
+        this.isViewFriendList = false;
+        this.isViewImageList = false;
     }
 
     arrayNumbers(n: number, startFrom: number): number[] {
@@ -178,6 +185,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     uploadImages() {
         this.uploadImage = !this.uploadImage;
+        this.editing = false;
+        this.isViewImageList = false;
+        this.isViewFriendList = false;
     }
     uploadStatus: string = 'none';
     onUpload() {
@@ -515,6 +525,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     onViewFriendList() {
         this.isViewFriendList = !this.isViewFriendList;
         this.isViewImageList = false;
+        this.editing = false;
+        this.uploadImage = false;
         this.isSeenMoreImage = false;
         this.usersService.GetFollowers(this.currentUserId)
             .then(data => {
@@ -551,6 +563,26 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             var mainUser = <HTMLElement>document.getElementById('changeAvatar')
             mainUser.className = 'dropdown-menu show'
         }
+    }
+
+    setInfomationBasics = () => {
+        this.isViewInfomationBasics = !this.isViewInfomationBasics;
+    }
+
+    setInfomations = () => {
+        this.isViewInfomations = !this.isViewInfomations;
+    }
+
+    setCharacters = () => {
+        this.isViewCharaters = !this.isViewCharaters;
+    }
+
+    setLikes = () => {
+        this.isViewLikes = !this.isViewLikes;
+    }
+
+    setActions = () => {
+        this.isViewActions = !this.isViewActions;
     }
 }
 

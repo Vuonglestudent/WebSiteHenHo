@@ -19,7 +19,7 @@
 }
 
 hr {
-  margin: 20px 0px 20px 0px;
+  margin: 20px 0px 10px 0px;
 }
 
 .table th,
@@ -71,7 +71,6 @@ button:focus {
 
 .dobUser {
   width: 100%;
-  border: none;
   padding-left: 1rem;
 }
 
@@ -231,4 +230,115 @@ select {
 
 .active-viewImage:active {
   transform: translateY(10px);
+}
+
+.form-control {
+  font-size: 16px;
+}
+
+.card-title{
+  margin-bottom: 0%;
+}
+
+.form-control[readonly] {
+  background-color: white;
+}
+
+.form-title[readonly] {
+  background-color: #e9ecef;
+}
+
+
+:root {
+  --color: rebeccapurple;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.radio {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+  font-size: 1.25rem;
+  color: var(--color);
+
+  &:focus-within {
+    .radio__label {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+}
+
+.radio__label {
+  line-height: 1;
+  transition: 180ms all ease-in-out;
+  opacity: 0.8;
+}
+
+.radio__input {
+  display: flex;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:focus + .radio__control {
+      box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
+    }
+  }
+}
+
+.radio-gradient input:checked + .radio__control {
+  background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
+}
+
+.radio-before {
+  .radio__control {
+    display: grid;
+    place-items: center;
+  }
+
+  input + .radio__control::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    box-shadow: inset 0.5em 0.5em currentColor;
+    border-radius: 50%;
+    transition: 180ms transform ease-in-out;
+    transform: scale(0);
+  }
+
+  input:checked + .radio__control::before {
+    transform: scale(1);
+  }
+}
+
+.radio__control {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 0.1em solid currentColor;
+  transform: translateY(-0.05em);
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.line-cut-profile {
+  width: 100%; 
+  height: 10px;
+  margin: 0.25rem 0 0.25rem 0;
+  border-radius: 0.125rem;
 }
