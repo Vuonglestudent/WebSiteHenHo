@@ -239,9 +239,9 @@ export class HomeComponent implements OnInit {
 
     count = 0;
     imageCarousel = [
-        { title: 'First slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-1-800x800.jpg' },
-        { title: 'Second slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-2-800x800.jpg' },
-        { title: 'Third slide label', description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.', img: './assets/img/theme/team-3-800x800.jpg' },
+        { title: '', description: '', img: './assets/img/theme/Screenshot.jpg' },
+        { title: '', description: '', img: './assets/img/theme/Screenshot2.jpg' },
+        { title: '', description: '', img: './assets/img/theme/Screenshot3.jpg' },
     ]
 
     changeCarousel = (event) => {
