@@ -15,8 +15,14 @@ function selectImage(id) {
   getNumberLikeImage(idSplit)
   idFavorite = document.getElementById("clickFavoriteImage").children[0];
   idUser = idSplit.split("img_")[1];
-  idImgSelect = id.split("_")[2];
+  if (id.split("_")[2] != null) {
+    idImgSelect = id.split("_")[2];
+  } else {
+    idImgSelect = 1;
+  }
+  console.log(idImgSelect);
   img = document.getElementById(idSplit).children[Number(idImgSelect) + 1];
+  console.log(img)
   popImage(img);
 }
 
@@ -44,6 +50,7 @@ function getNumberLikeImage(id){
 }
 
 function popImage(img) {
+  console.log(img);
   idImgCurrent = img.id.split("_")[1];
   childId.id = `${idImgCurrent}_${idUser}`;
   imgContent = img.alt;

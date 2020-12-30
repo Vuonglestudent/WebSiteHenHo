@@ -79,7 +79,8 @@
           </div>
           <div class="row pr-3 pl-3">
             <div *ngIf="!Loading" class="card-deck">
-              <div *ngFor="let item of Favoritors; let i = index" class="col-md-6 col-xl-4 col-12 animate-bottom"
+              <div *ngFor="let item of Favoritors; let i = index" 
+                class="col-md-6 col-xl-4 col-12 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
@@ -126,7 +127,7 @@
                             </span>
                           </i>
                           <img *ngFor="let image of imageUsers[z].images; let j = index"
-                            id="img_{{j + 1}}_{{image.liked}}_{{imageUsers[z].images.length}}_{{item.id}}"
+                            id="img_{{j + 1}}_{{image.liked}}_{{imageUsers[z].images.length}}_{{image.id}}_{{image.numberOfLikes}}"
                             display="true" hidden="true" src="" alt="{{image.imagePath}}">
                           <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
                             id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
@@ -275,5 +276,10 @@
         document.documentElement.scrollTop = 0;
     });
 </script> -->
+<section class="imagePop" id="imagePopAvatar">
+  <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+</section>
 <app-footer></app-footer>
 <!-- [routerLink]="['../assessment']" [queryParams]="{assessment: item.Id, certificateId: certificateId}" -->
