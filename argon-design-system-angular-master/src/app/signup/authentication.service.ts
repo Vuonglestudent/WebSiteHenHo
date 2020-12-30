@@ -1,7 +1,7 @@
 import { UrlMainService } from './../service/url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SocialUser } from '../Models/Models'
+import { SocialUser } from '../models/Models'
 import { Component, OnInit } from '@angular/core';
 
 

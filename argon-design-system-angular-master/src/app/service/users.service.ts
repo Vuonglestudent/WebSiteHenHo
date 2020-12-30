@@ -1,5 +1,5 @@
 import { UrlMainService } from './url-main.service';
-import { User } from './../Models/Models';
+import { User } from '../models/Models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "../signup/authentication.service";

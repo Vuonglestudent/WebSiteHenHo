@@ -1,4 +1,4 @@
-import { UserDisplay, Message, ChatFriend } from './../Models/Models';
+import { UserDisplay, Message, ChatFriend } from '../models/Models';
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';

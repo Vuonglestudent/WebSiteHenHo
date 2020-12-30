@@ -1,7 +1,7 @@
 import { UrlMainService } from './url-main.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { Message } from '../Models/Models';
+import { Message } from '../models/Models';
 import { AppComponent } from '../app.component';
 import { HttpClient  } from '@angular/common/http';
 @Injectable({

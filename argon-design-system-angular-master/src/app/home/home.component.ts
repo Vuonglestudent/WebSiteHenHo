@@ -1,5 +1,5 @@
 import { ImageService } from './../service/image.service';
-import { ImageUser, User } from './../Models/Models';
+import { ImageUser, User } from '../models/Models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 import {MessageService} from '../service/message.service';

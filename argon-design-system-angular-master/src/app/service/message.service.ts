@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as path from 'path';
 import { AuthenticationService } from '../signup/authentication.service';
-import { ChatFriend } from '../Models/Models';
+import { ChatFriend } from '../models/Models';
 @Injectable({
   providedIn: 'root'
 })
