@@ -63,7 +63,7 @@ export class StatisticComponent implements OnInit {
           type: 'line',
           mode: 'vertical',
           scaleID: 'x-axis-0',
-          value: '3',
+          value: '',
           borderColor: 'orange',
           borderWidth: 2,
           label: {
