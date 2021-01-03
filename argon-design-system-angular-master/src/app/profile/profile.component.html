@@ -70,12 +70,28 @@
             </div>
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
-                <div>
+                <div *ngIf="!checkUser && UserProfile.blocked">
+                  <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
+                    <span class="description"><i class="fa fa-user-times text-danger"></i></span>
+                  </button>
+                </div>
+                <div *ngIf="!checkUser && !UserProfile.blocked">
+                  <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
+                    <span class="description"><i class="fa fa-user text-info"></i></span>
+                  </button>
+                </div>
+                <div *ngIf="checkUser">
                   <span class="heading">{{UserProfile.numberOfFollowers}}</span>
                   <button class="btn-icon-card" (click)="onViewFriendList()">
                     <span class="description"><i class="fa fa-user text-info"></i></span>
-                    <!--Danh sách bạn bè-->
                   </button>
+                  <!--Xem danh sách bạn bè-->
+                </div>
+                <div *ngIf="checkUser">
+                  <button class="btn-icon-card" (click)="onViewBlockList()" style="margin-top: 26px;">
+                    <span class="description"><i class="fa fa-user-times text-danger"></i></span>
+                  </button>
+                  <!--Xem danh sách block-->
                 </div>
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
@@ -116,7 +132,7 @@
           <hr>
           <div class="text-center">
             <alert></alert>
-            <div *ngIf="!isViewFriendList && !isViewImageList">
+            <div *ngIf="!isViewFriendList && !isViewImageList && !isViewBlockList">
               <div *ngIf="!uploadImage" style="display:block;" class="animate-bottom">
                 <div *ngIf="!editing" class="h2 font-weight-300"><b>{{UserProfile.profile.title}}</b>
                 </div>
@@ -853,6 +869,34 @@
               style="margin-left: 0%; margin-right: 0%;">
 
               <div *ngFor="let item of FriendList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
+                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                <div class="card card2">
+                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
+                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
+                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
+                        src="{{item.avatarPath}}" alt="Avatar"></a>
+                  </div>
+                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
+                      <a style="cursor: pointer">
+                        <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
+                          {{item.fullName}}
+                        </h6>
+                      </a>
+                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
+                          class="text-muted">{{item.summary}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isViewBlockList" class="h4 font-weight-300 animate-bottom text-danger"><b>Danh sách Block</b>
+            </div>
+            <div *ngIf="isViewBlockList" class="col-lg-12 col-md-12 row pl-3"
+              style="margin-left: 0%; margin-right: 0%;">
+
+              <div *ngFor="let item of BlockList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card card2">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">

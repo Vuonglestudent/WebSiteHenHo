@@ -191,4 +191,19 @@ export class UsersService {
 
     return this.http.post<any>(path, data, {headers: headers}).toPromise();
   }
+
+  public BlockUser = (userId: string) => {
+    var headers = this.authenticationService.GetHeader();
+    var path = `${this.url.urlHost}/api/Users/blackList/${userId}`;
+    var data = new FormData();
+
+    return this.http.post<any>(path, data, {headers: headers}).toPromise();
+  }
+
+  public GetBlockList = () =>{
+    let headers = this.authenticationService.GetHeader();
+    var path = `/blackList`;
+
+    return this.http.get<any>(this.mainUrl + path, {headers}).toPromise();
+  }
 }

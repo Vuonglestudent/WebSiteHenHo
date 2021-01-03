@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     imagesResponse: Array<Image>;
     isViewFriendList: boolean = false;
     FriendList: Array<User>;
+    BlockList: Array<User>;
     //icon
     faSpinner = faSpinner;
     currentUserId;
@@ -41,6 +42,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isViewCharaters = false;
     isViewLikes = false;
     isViewActions = false;
+    isViewBlockList = false;
 
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
@@ -83,6 +85,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
         this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
             .then(data => {
+                console.log(data)
                 this.UserProfile = data;
                 this.UserProfile.profile.dob = (this.UserProfile.profile.dob).split('T')[0]
                 console.log(this.UserProfile, this.UserProfile.profile.dob);
@@ -113,6 +116,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     viewImageList = () => {
         this.isViewImageList = !this.isViewImageList
+        this.isViewBlockList = false;
         this.isSeenMoreImage = false;
         this.isViewFriendList = false;
         this.editing = false;
@@ -166,6 +170,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     clickEdit = () => {
         this.editing = !this.editing;
+        this.isViewBlockList = false;
         this.uploadImage = false;
         this.isViewFriendList = false;
         this.isViewImageList = false;
@@ -190,6 +195,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     uploadImages() {
         this.uploadImage = !this.uploadImage;
+        this.isViewBlockList = false;
         this.editing = false;
         this.isViewImageList = false;
         this.isViewFriendList = false;
@@ -529,10 +535,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     onViewFriendList() {
         this.isViewFriendList = !this.isViewFriendList;
+        this.isViewBlockList = false;
         this.isViewImageList = false;
         this.editing = false;
         this.uploadImage = false;
         this.isSeenMoreImage = false;
+        //if (this.checkExistObject(this.FriendList) == false) {
         this.usersService.GetFollowers(this.currentUserId)
             .then(data => {
                 this.FriendList = data;
@@ -541,8 +549,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.clear();
                 this.alertService.error('Có lỗi trong khi lấy danh sách bạn bè!');
             })
+        //}
     }
     clickProfileUser = (id) => {
+        this.isViewBlockList = false;
         this.isViewFriendList = false;
         this.uploadImage = false;
         this.editing = false;
@@ -589,5 +599,40 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     setActions = () => {
         this.isViewActions = !this.isViewActions;
     }
+
+    clickBlockUser = () => {
+        this.UserProfile.blocked = !this.UserProfile.blocked;
+        this.usersService.BlockUser(this.UserProfile.id)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }
+
+    onViewBlockList() {
+        this.isViewBlockList = !this.isViewBlockList;
+        this.isViewFriendList = false;
+        this.isViewImageList = false;
+        this.editing = false;
+        this.uploadImage = false;
+        this.isSeenMoreImage = false;
+        //if (this.checkExistObject(this.BlockList) == false) {
+        this.usersService.GetBlockList()
+            .then(data => {
+                this.BlockList = data;
+            })
+            .catch(error => {
+                console.log(error);
+                this.alertService.clear();
+                this.alertService.error('Có lỗi trong khi lấy danh sách block!');
+            })
+        //}
+    }
+
+    // checkExistObject = (obj) => {
+    //     if (obj != null) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 }
 
