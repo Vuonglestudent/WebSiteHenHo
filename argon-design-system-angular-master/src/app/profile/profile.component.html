@@ -137,7 +137,7 @@
                 <div *ngIf="!editing" class="h2 font-weight-300"><b>{{UserProfile.profile.title}}</b>
                 </div>
                 <div *ngIf="editing" class="h4 font-weight-300 d-flex justify-content-center">
-                  <input type="text" class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5" name="" id=""
+                  <input type="text" placeholder="Tiêu đề hồ sơ" class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5" name="" id=""
                     value="{{UserProfile.profile.title}}" [(ngModel)]="UserProfile.profile.title"
                     [ngModelOptions]="{standalone: true}">
                 </div>

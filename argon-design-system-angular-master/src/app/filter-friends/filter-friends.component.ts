@@ -1,7 +1,7 @@
 import { ImageService } from './../service/image.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../signup/authentication.service';
-import { User, ImageUser, ProfileData } from './../Models/Models';
+import { User, ImageUser, ProfileData } from '../models/models';
 import { UsersService } from './../service/users.service';
 import { Component, OnInit } from '@angular/core';
 import { slideInOutAnimation } from '../_animates/animates';

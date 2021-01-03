@@ -1,7 +1,7 @@
 import { UrlMainService } from './../service/url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SocialUser } from '../Models/Models'
+import { SocialUser } from '../models/models'
 import { Component, OnInit } from '@angular/core';
 
 
@@ -26,7 +26,7 @@ export class AuthenticationService {
     hasAvatar: false,
     avatarPath: ''
   };
-  private mainUrl = `${this.url.urlHost}/api/Authenticates`;
+  private mainUrl = `${this.url.urlHost}/api/v1/Authenticates`;
 
   public SignUp = (fullName:string, userName:string, email:string, password:string) => {
     

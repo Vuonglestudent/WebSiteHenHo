@@ -13,7 +13,7 @@ export class ImageService {
     private url: UrlMainService
   ) { }
 
-  private mainUrl = `${this.url.urlHost}/api/Images/`;
+  private mainUrl = `${this.url.urlHost}/api/v1/Images/`;
   public getImageByUserId = (userId: string) =>{
     var path = `user/${userId}`;
     var headers = this.authenticationService.GetHeader();

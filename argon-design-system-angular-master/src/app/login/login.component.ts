@@ -4,7 +4,7 @@ import { AuthenticationService } from '../signup/authentication.service';
 import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AlertService } from '../_alert';
-import { User, SocialUser } from '../Models/Models';
+import { User, SocialUser } from '../models/models';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import { from } from 'rxjs';

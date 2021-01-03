@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-import {SocialUser} from '../Models/Models'
+import {SocialUser} from '../models/models'
 @Component({
   selector: 'app-facebook-login',
   templateUrl: './facebook-login.component.html',
