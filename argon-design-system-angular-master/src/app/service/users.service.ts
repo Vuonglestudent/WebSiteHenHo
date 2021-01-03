@@ -1,5 +1,5 @@
 import { UrlMainService } from './url-main.service';
-import { User } from '../models/Models';
+import { User } from '../models/models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "../signup/authentication.service";
@@ -13,7 +13,7 @@ export class UsersService {
     private url: UrlMainService
     ) { }
 
-  private mainUrl = `${this.url.urlHost}/api/users`;
+  private mainUrl = `${this.url.urlHost}/api/v1/users`;
 
   public GetPagingUsers = (pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
@@ -96,12 +96,12 @@ export class UsersService {
 
   public GetProfileData = () =>{
     let headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Profiles/features`;
+    var path = `${this.url.urlHost}/api/v1/Profiles/features`;
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
   public UpdateProfile = (profile:User) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Profiles`;
+    var path = `${this.url.urlHost}/api/v1/Profiles`;
     var data = new FormData();
     data.append("Id", profile.id);
     data.append("FullName", profile.fullName);
@@ -141,7 +141,7 @@ export class UsersService {
   
   public UpdateAvatar = (file:any) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Users/avatar`;
+    var path = `${this.url.urlHost}/api/v1/Users/avatar`;
 
     var data = new FormData();
     data.append("Avatar", file);
@@ -152,7 +152,7 @@ export class UsersService {
 
   public FilterUsers = (feature: string, isAscending: boolean, pageIndex: number, pageSize: number) =>{
     var headers = this.authenticationService.GetHeader();
-    var query = `${this.url.urlHost}/api/Users/filterUsers?Feature=${feature}&IsAscending=${isAscending}&PageIndex=${pageIndex}&pageSize=${pageSize}`;
+    var query = `${this.url.urlHost}/api/v1/Users/filterUsers?Feature=${feature}&IsAscending=${isAscending}&PageIndex=${pageIndex}&pageSize=${pageSize}`;
 
     return this.http.get<any>(query, {headers : headers}).toPromise();
   }
@@ -171,7 +171,7 @@ export class UsersService {
       
     }
     var headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&IsFilter=${isFilter}&Location=${location}&FullName=${fullName}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
+    var path = `${this.url.urlHost}/api/v1/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&IsFilter=${isFilter}&Location=${location}&FullName=${fullName}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
     console.log(path)
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
@@ -179,14 +179,14 @@ export class UsersService {
   public FilterFeatures = (features: Array<any>, pageIndex: number, pageSize: number)=>{
     var headers = this.authenticationService.GetHeader();
     
-    var path = `${this.url.urlHost}/api/Profiles/filterFeatures?PageIndex=${pageIndex}&PageSize=${pageSize}`;
+    var path = `${this.url.urlHost}/api/v1/Profiles/filterFeatures?PageIndex=${pageIndex}&PageSize=${pageSize}`;
 
     return this.http.post<any>(path, features, {headers: headers}).toPromise();
   }
 
   public DisableUser = (userId: string) =>{
     var headers = this.authenticationService.GetHeader();
-    var path = `${this.url.urlHost}/api/Users/block/${userId}`;
+    var path = `${this.url.urlHost}/api/v1/Users/block/${userId}`;
     var data = new FormData();
 
     return this.http.post<any>(path, data, {headers: headers}).toPromise();

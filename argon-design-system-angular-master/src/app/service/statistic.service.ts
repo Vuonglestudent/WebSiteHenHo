@@ -16,7 +16,7 @@ export class StatisticService {
     private authenticationService: AuthenticationService,
   ) { }
 
-  private mainUrl = `${this.url.urlHost}/api/access/`;
+  private mainUrl = `${this.url.urlHost}/api/v1/access/`;
 
 
   public getAccessCountByMonth(month: number, year: number){

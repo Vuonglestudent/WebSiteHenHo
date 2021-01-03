@@ -7,7 +7,7 @@ import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { AuthenticationService } from './signup/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
-import { ChatFriend, Message, User, UserDisplay } from './models/Models';
+import { ChatFriend, Message, User, UserDisplay } from './models/models';
 import { UsersService } from './service/users.service';
 import { NotificationsService } from 'angular2-notifications';
 var didScroll;

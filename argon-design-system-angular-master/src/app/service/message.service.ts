@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as path from 'path';
 import { AuthenticationService } from '../signup/authentication.service';
-import { ChatFriend } from '../models/Models';
+import { ChatFriend } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,31 +16,31 @@ export class MessageService {
   ) { }
 
   public onlineCount:number = 0;
-  private mainUrl = `${this.url.urlHost}/api/chats`;
+  private mainUrl = `${this.url.urlHost}/api/v1/chats`;
 
   public SendMessage = (senderId: string, receiveId: string, content: string) => {
 
+    var headers = this.authenticationService.GetHeader();
     var formData = new FormData();
     formData.append("SenderId", senderId);
     formData.append("ReceiverId", receiveId);
     formData.append("Content", content);
-    return this.http.post(this.mainUrl, formData).toPromise();
+    return this.http.post(this.mainUrl, formData, {headers: headers}).toPromise();
   }
 
   public moreMessages = (PageIndex: number, PageSize: number, SenderId: string, ReceiverId: string) => {
     var query = `?PageIndex=${PageIndex}&PageSize=${PageSize}&SenderId=${SenderId}&ReceiverId=${ReceiverId}`;
     var url = this.mainUrl + '/MoreMessages'+ query;
     console.log(url);
-    var data = {
-      SenderId: SenderId,
-      ReceiverId: ReceiverId
-    }
-    return this.http.get<any>(url).toPromise();
+    var headers = this.authenticationService.GetHeader();
+
+    return this.http.get<any>(url, {headers: headers}).toPromise();
   }
 
   public GetFriendList = (userId: string) =>{
+    var headers = this.authenticationService.GetHeader();
     var path = `/friends/${userId}`;
-    return this.http.get<any>(this.mainUrl + path).toPromise();
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
 
   public GetChatFriend = (userId: string, friendId: string) =>{

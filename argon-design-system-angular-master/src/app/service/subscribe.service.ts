@@ -15,7 +15,7 @@ export class SubscribeService {
   ) { }
 
   public Subscribe = (email: string, name: string)=>{
-    var url = this.url.urlHost + '/api/subscribe';
+    var url = this.url.urlHost + '/api/v1/subscribe';
     var headers = this.authenticationService.GetHeader();
     var data = new FormData();
     data.append("Email", email)
