@@ -1,0 +1,198 @@
+.contain-manager-user {
+  background: #eeeff8;
+  height: 100vh;
+  /* padding: 15px 25px 15px 25px; */
+}
+
+.table-responsive {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.table {
+  margin-bottom: 0%;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.btn-flip {
+  opacity: 1;
+  outline: 0;
+  color: #fff;
+  line-height: 40px;
+  position: relative;
+  text-align: center;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+  font-family: "Open Sans";
+  text-transform: uppercase;
+}
+
+.btn-flip:after {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  color: #000000;
+  display: block;
+  transition: 0.5s;
+  position: absolute;
+  background: #f5365c;
+  content: attr(data-back);
+  transform: translateY(-50%) rotateX(90deg);
+  border-radius: 15px;
+}
+
+.btn-flip:before {
+  top: 0;
+  left: 0;
+  opacity: 1;
+  color: #ffffff;
+  display: block;
+  padding: 0 30px;
+  line-height: 40px;
+  transition: 0.5s;
+  position: relative;
+  background: #2dce89;
+  content: attr(data-front);
+  transform: translateY(0) rotateX(0);
+  border-radius: 15px;
+}
+
+.btn-flip-warning {
+  opacity: 1;
+  outline: 0;
+  color: #fff;
+  line-height: 40px;
+  position: relative;
+  text-align: center;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+  font-family: "Open Sans";
+  text-transform: uppercase;
+}
+
+.btn-flip-warning:before {
+  top: 0;
+  left: 0;
+  opacity: 1;
+  color: #ffffff;
+  display: block;
+  line-height: 40px;
+  transition: 0.5s;
+  position: relative;
+  background: #FAAD14;
+  content: attr(data-front);
+  transform: translateY(0) rotateX(0);
+  border-radius: 15px;
+}
+
+.active-btn-flip:after {
+  opacity: 1;
+  transform: translateY(0) rotateX(0);
+  border-radius: 15px;
+}
+
+.active-btn-flip:before {
+  opacity: 0;
+  transform: translateY(50%) rotateX(90deg);
+  border-radius: 15px;
+}
+
+.pagination {
+  margin-bottom: 0%;
+}
+
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.thead-dark span {
+  right: 0%;
+}
+
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}

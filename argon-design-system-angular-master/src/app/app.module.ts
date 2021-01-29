@@ -40,6 +40,7 @@ import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.component';
 import { ChartsModule } from 'ng2-charts';
 import { TagInputModule } from 'ngx-chips';
+import { FeatureManagerComponent } from './feature-manager/feature-manager.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { TagInputModule } from 'ngx-chips';
     StatisticComponent,
     ManagerUserComponent,
     NavbarAdminComponent,
+    FeatureManagerComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 import { UrlMainService } from './url-main.service';
-import { User } from '../models/models';
+import { FeatureVM, ImageUser, ProfileData, User } from '../models/models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "../signup/authentication.service";
@@ -14,6 +14,21 @@ export class UsersService {
     ) { }
 
   private mainUrl = `${this.url.urlHost}/api/v1/users`;
+
+  public NewUsers: User[] = new Array();
+
+  public Favoritors: User[] = new Array();
+  public FavoritePage: any = {
+      index: 1,
+      size: 12,
+      total: 0,
+      current: 1,
+      position: 1
+  };
+  public IsGetSimilarityUsers = false;
+  public imageUsers: ImageUser[] = new Array();
+
+
 
   public GetPagingUsers = (pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
@@ -94,49 +109,31 @@ export class UsersService {
     return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
   }
 
+  public ProfileData: ProfileData = new ProfileData();
   public GetProfileData = () =>{
     let headers = this.authenticationService.GetHeader();
     var path = `${this.url.urlHost}/api/v1/Profiles/features`;
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
-  public UpdateProfile = (profile:User) =>{
+  public UpdateProfile = (profile:User, features:FeatureVM[], searchFeatures:FeatureVM[]) =>{
     var headers = this.authenticationService.GetHeader();
     var path = `${this.url.urlHost}/api/v1/Profiles`;
     var data = new FormData();
     data.append("Id", profile.id);
     data.append("FullName", profile.fullName);
     data.append("Gender", profile.gender);
-    data.append("Location", profile.profile.location);
+    data.append("Location", profile.location);
     data.append("PhoneNumber", profile.phoneNumber);
-    data.append("Job", profile.profile.job);
-    data.append("Title", profile.profile.title);
+    data.append("Job", profile.job);
+    data.append("Title", profile.title);
     data.append("Summary", profile.summary);
-    data.append("Weight", profile.profile.weight.toString());
-    data.append("Height", profile.profile.height.toString());
-    data.append("Dob", profile.profile.dob.toString());
-    data.append("FindPeople", profile.profile.findPeople);
-    data.append("Marriage", profile.profile.marriage);
-    data.append("Target", profile.profile.target);
-    data.append("Education", profile.profile.education);
-    data.append("Body", profile.profile.body);
-    data.append("Character", profile.profile.character);
-    data.append("LifeStyle", profile.profile.lifeStyle);
-    data.append("MostValuable", profile.profile.mostValuable);
-    data.append("Religion", profile.profile.religion);
-    data.append("FavoriteMovie", profile.profile.favoriteMovie);
-    data.append("AtmosphereLike", profile.profile.atmosphereLike);
-    data.append("Smoking", profile.profile.smoking);
-    data.append("DrinkBeer", profile.profile.drinkBeer);
+    data.append("Weight", profile.weight.toString());
+    data.append("Height", profile.height.toString());
+    data.append("Dob", profile.dob.toString());
 
-    data.append("Cook", profile.profile.cook);
-    data.append("LikeTechnology", profile.profile.likeTechnology);
-    data.append("LikePet", profile.profile.likePet);
-    data.append("PlaySport", profile.profile.playSport);
-    data.append("Travel", profile.profile.travel);
-    data.append("Game", profile.profile.game);
-    data.append("Shopping", profile.profile.shopping);
+    profile.features = features;
 
-    return this.http.put<any>(path, data, {headers: headers}).toPromise();
+    return this.http.put<any>(path, profile, {headers: headers}).toPromise();
   }
   
   public UpdateAvatar = (file:any) =>{

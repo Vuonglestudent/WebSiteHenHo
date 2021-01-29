@@ -86,29 +86,27 @@ export class AppComponent implements OnInit {
 
     this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
     if (this.authenticationService.UserInfo != null) {
-      if (this.authenticationService.UserInfo.token != null) {
-        this.authenticationService.ValidateToken()
-          .then(() => {
-            this.authenticationService.IsLogin = true;
-            console.log('Valid token')
 
+      this.authenticationService.ValidateToken()
+        .then(() => {
+          this.authenticationService.IsLogin = true;
+          console.log('Valid token')
 
-          })
-          .catch(error => {
-            if (error.status == 401) {
-              console.log('Token Invalid');
-              localStorage.clear();
-              this.authenticationService.IsLogin = false;
-              this.authenticationService.UserInfo = null;
-            }
-          })
-
-      }
-      else {
-        this.authenticationService.IsLogin = false;
-        this.authenticationService.UserInfo = null;
-      }
+        })
+        .catch(error => {
+          if (error.status == 401) {
+            console.log('Token Invalid');
+            localStorage.clear();
+            this.authenticationService.IsLogin = false;
+            this.authenticationService.UserInfo = null;
+          }
+        })
     }
+    else {
+      this.authenticationService.IsLogin = false;
+      this.authenticationService.UserInfo = null;
+    }
+
 
     //var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
     // var navbar = <HTMLElement> document.getElementById('navbar-main')
@@ -168,10 +166,10 @@ export class AppComponent implements OnInit {
               //   })
             }
             else {
-              try{
+              try {
                 this.messageService.friendList[userIndex].messages.push(message);
               }
-              catch{}
+              catch { }
             }
 
             //Là người nhận
@@ -220,10 +218,10 @@ export class AppComponent implements OnInit {
               //   })
             }
             else {
-              try{
+              try {
                 this.messageService.friendList[userIndex].messages.push(message);
               }
-              catch{}
+              catch { }
             }
 
             //Tin nhắn rác

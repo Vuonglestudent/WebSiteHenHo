@@ -79,7 +79,7 @@
           </div>
           <div class="row pr-3 pl-3">
             <div *ngIf="!Loading" class="card-deck">
-              <div *ngFor="let item of Favoritors; let i = index" 
+              <div *ngFor="let item of usersService.Favoritors; let i = index" 
                 class="col-md-6 col-xl-4 col-12 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card">
@@ -118,7 +118,7 @@
                                 style="font-size: 60%; margin-left: 1px; "></small></span></i>
                         </button>
                       </div>
-                      <div *ngFor="let itemImage of imageUsers; let z = index">
+                      <div *ngFor="let itemImage of usersService.imageUsers; let z = index">
                         <button *ngIf="item.id == itemImage.id" class="btn-icon-card icon-hover"
                           id="img_{{itemImage.id}}" onclick="selectImage(id)" (click)="debug(itemImage.id , z)">
                           <i class="ni ni-camera-compact" style="cursor: pointer">
@@ -126,8 +126,8 @@
                                 style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
                             </span>
                           </i>
-                          <img *ngFor="let image of imageUsers[z].images; let j = index"
-                            id="img_{{j + 1}}_{{image.liked}}_{{imageUsers[z].images.length}}_{{image.id}}_{{image.numberOfLikes}}"
+                          <img *ngFor="let image of usersService.imageUsers[z].images; let j = index"
+                            id="img_{{j + 1}}_{{image.liked}}_{{usersService.imageUsers[z].images.length}}_{{image.id}}_{{image.numberOfLikes}}"
                             display="true" hidden="true" src="" alt="{{image.imagePath}}">
                           <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
                             id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
@@ -152,14 +152,14 @@
                   </a>
                 </li>
 
-                <li *ngIf="FavoritePage.position==1" (click)="paging(FavoritePage.current - 1)" class="page-item active"><a class="page-link" href="#">{{FavoritePage.current - 1}}</a></li>
-                <li *ngIf="FavoritePage.position!=1" (click)="paging(FavoritePage.current - 1)" class="page-item"><a class="page-link" href="#">{{FavoritePage.current - 1}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position==1" (click)="paging(usersService.FavoritePage.current - 1)" class="page-item active"><a class="page-link" href="#">{{usersService.FavoritePage.current - 1}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position!=1" (click)="paging(usersService.FavoritePage.current - 1)" class="page-item"><a class="page-link" href="#">{{usersService.FavoritePage.current - 1}}</a></li>
 
-                <li *ngIf="FavoritePage.position==2" (click)="paging(FavoritePage.current)" class="page-item active"><a class="page-link" href="#">{{FavoritePage.current}}</a></li>
-                <li *ngIf="FavoritePage.position!=2" (click)="paging(FavoritePage.current)" class="page-item"><a class="page-link" href="#">{{FavoritePage.current}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position==2" (click)="paging(usersService.FavoritePage.current)" class="page-item active"><a class="page-link" href="#">{{usersService.FavoritePage.current}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position!=2" (click)="paging(usersService.FavoritePage.current)" class="page-item"><a class="page-link" href="#">{{usersService.FavoritePage.current}}</a></li>
 
-                <li *ngIf="FavoritePage.position==3" (click)="paging(FavoritePage.current + 1)" class="page-item active"><a class="page-link" href="#">{{FavoritePage.current + 1}}</a></li>
-                <li *ngIf="FavoritePage.position!=3" (click)="paging(FavoritePage.current + 1)" class="page-item"><a class="page-link" href="#">{{FavoritePage.current + 1}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position==3" (click)="paging(usersService.FavoritePage.current + 1)" class="page-item active"><a class="page-link" href="#">{{usersService.FavoritePage.current + 1}}</a></li>
+                <li *ngIf="usersService.FavoritePage.position!=3" (click)="paging(usersService.FavoritePage.current + 1)" class="page-item"><a class="page-link" href="#">{{usersService.FavoritePage.current + 1}}</a></li>
 
                 <li class="page-item">
                   <a (click)="nextPage()" class="page-link" href="#">
@@ -212,7 +212,7 @@
               <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
                 <h5 class="text-white"><strong class="text-warning">New!</strong><span> Mới tham gia!</span></h5>
               </div>
-              <div *ngFor="let item of NewUsers;" style="margin-bottom: 10px;">
+              <div *ngFor="let item of usersService.NewUsers;" style="margin-bottom: 10px;">
                 <tr>
                   <td>
                     <div>

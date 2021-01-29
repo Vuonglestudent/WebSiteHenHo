@@ -122,7 +122,7 @@
             <h3>{{UserProfile.fullName}}</h3>
             <div class="d-flex row justify-content-center">
               <span class="font-weight-light">{{UserProfile.age}} Tuổi</span>
-              <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-1 ml-2"></i>{{UserProfile.profile.location}}
+              <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-1 ml-2"></i>{{UserProfile.location}}
               </div>
             </div>
             <div class="h6 font-weight-300"><i class="fa fa-info-circle"></i> - {{UserProfile.summary}}
@@ -134,672 +134,344 @@
             <alert></alert>
             <div *ngIf="!isViewFriendList && !isViewImageList && !isViewBlockList">
               <div *ngIf="!uploadImage" style="display:block;" class="animate-bottom">
-                <div *ngIf="!editing" class="h2 font-weight-300"><b>{{UserProfile.profile.title}}</b>
+                <div *ngIf="!editing" class="h2 font-weight-300"><b>{{UserProfile.title}}</b>
                 </div>
                 <div *ngIf="editing" class="h4 font-weight-300 d-flex justify-content-center">
-                  <input type="text" placeholder="Tiêu đề hồ sơ" class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5" name="" id=""
-                    value="{{UserProfile.profile.title}}" [(ngModel)]="UserProfile.profile.title"
-                    [ngModelOptions]="{standalone: true}">
+                  <input type="text" placeholder="Tiêu đề hồ sơ"
+                    class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5" name="" id=""
+                    value="{{UserProfile.title}}" [(ngModel)]="UserProfile.title" [ngModelOptions]="{standalone: true}">
                 </div>
 
-                <div *ngIf="!isViewInfomationBasics" class="card" (click)="setInfomationBasics()">
-                  <div class="card-body bg-card">
-                    <h5 class="card-title text-white">Thông tin cơ bản của {{UserProfile.fullName}}</h5>
-                  </div>
+                <!-- Tabs -->
+
+                <div class="nav-wrapper">
+                  <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
+                        href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
+                          class="ni ni-circle-08 mr-2"></i>Thông tin cá nhân</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
+                        href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
+                          class="ni ni-favourite-28 mr-2"></i>Sở thích</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
+                        href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false"><i
+                          class="ni ni-zoom-split-in mr-2"></i>Tìm kiếm</a>
+                    </li>
+                  </ul>
                 </div>
-                <!--Thông tin cơ bản-->
-                <div *ngIf="isViewInfomationBasics" class="d-flex flex-row">
-                  <div class="card" style="width: 18rem;" (click)="setInfomationBasics()">
-                    <div class="card-body bg-card">
-                      <h5 class="card-title text-white">Thông tin cơ bản của {{UserProfile.fullName}}</h5>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column" style="width: 100%;">
-                    <!--Họ và tên-->
-                    <div class="d-flex flex-row">
-                      <input *ngIf="editing" type="text" value="Họ và tên"
-                        class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="editing" type="text" value="{{UserProfile.fullName}}"
-                        [(ngModel)]="UserProfile.fullName" [ngModelOptions]="{standalone: true}" class="form-control"
-                        style="border-radius: 0 0.25rem 0.25rem 0;">
-                    </div>
-                    <!--end-->
+                <div class="card shadow">
+                  <div class="card-body">
+                    <div class="tab-content" id="myTabContent">
 
-                    <!--Mô tả-->
-                    <div class="d-flex flex-row">
-                      <input *ngIf="editing" type="text" value="Mô tả" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="editing" type="text" value="{{UserProfile.summary}}"
-                        [(ngModel)]="UserProfile.summary" [ngModelOptions]="{standalone: true}" class="form-control"
-                        style="border-radius: 0 0.25rem 0.25rem 0;">
-                    </div>
-                    <!--end-->
+                      <!-- Tab 01 - Thông tin cơ bản -->
+                      <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                        aria-labelledby="tabs-icons-text-1-tab">
 
-                    <!--Giới tính-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Giới tính" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <div *ngIf="!editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked
-                              disabled>
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam" disabled>
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Nam</span>
-                        </label>
+                        <!--Giới tính-->
+
+
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Giới tính" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.gender}}"
+                            [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="text" value="{{UserProfile.gender}}"
+                            [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" list="gender">
+                          <datalist id="gender">
+                            <option value="{{UserProfile.gender}}" disabled selected hidden>
+                              {{UserProfile.gender}}</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                          </datalist>
+                        </div>
+
+                        <!-- <div class="d-flex flex-row">
+                          <input type="text" value="Giới tính" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <div *ngIf="!editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
+                            <label class="radio radio-before">
+                              <span class="radio__input">
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked
+                                  disabled>
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam" disabled>
+                                <span class="radio__control"></span>
+                              </span>
+                              <span class="radio__label">Nam</span>
+                            </label>
+                          </div>
+
+
+                          <div *ngIf="!editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
+                            <label class="radio radio-before">
+                              <span class="radio__input">
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked
+                                  disabled>
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ" disabled>
+                                <span class="radio__control"></span>
+                              </span>
+                              <span class="radio__label">Nữ</span>
+                            </label>
+                          </div>
+
+                          
+                          <div *ngIf="editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
+                            <label class="radio radio-before">
+                              <span class="radio__input">
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked>
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam">
+                                <span class="radio__control"></span>
+                              </span>
+                              <span class="radio__label">Nam</span>
+                            </label>
+                          </div>
+                          <div *ngIf="editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
+                            <label class="radio radio-before">
+                              <span class="radio__input">
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked>
+                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
+                                  *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ">
+                                <span class="radio__control"></span>
+                              </span>
+                              <span class="radio__label">Nữ</span>
+                            </label>
+                          </div>
+                        </div> -->
+                        <!--end-->
+
+                        <!--Nơi ở-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Nơi ở" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.location}}"
+                            [(ngModel)]="UserProfile.location" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="text" value="{{UserProfile.location}}"
+                            [(ngModel)]="UserProfile.location" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="locations">
+                          <datalist id="locations">
+                            <option value="{{UserProfile.location}}" disabled selected hidden>
+                              {{UserProfile.location}}</option>
+                            <option *ngFor="let item of profileData.location" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <!--Ngày sinh-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Ngày sinh" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" value="{{UserProfile.dob | date: 'dd/MM/yyyy'}}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" [(ngModel)]="UserProfile.dob" [ngModelOptions]="{standalone: true}"
+                            type="date" id="dobUser" class="form-control dobUser" name="dob"
+                            style="border-radius: 0 0.25rem 0.25rem 0;">
+                        </div>
+                        <!--end-->
+
+                        <!--Chiều cao-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Chiều cao (cm)" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.height}}"
+                            [(ngModel)]="UserProfile.height" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="number" value="{{UserProfile.height}}"
+                            [(ngModel)]="UserProfile.height" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" list="heights">
+                          <datalist id="heights">
+                            <option value="{{UserProfile.height}}" disabled selected hidden>
+                              {{UserProfile.height}}</option>
+                            <option *ngFor="let item of arrayNumbers(100, 120)" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <!--Cân nặng-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Cân nặng (kg)" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.weight}}"
+                            [(ngModel)]="UserProfile.weight" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="number" value="{{UserProfile.weight}}"
+                            [(ngModel)]="UserProfile.weight" [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" list="weights">
+                          <datalist id="weights">
+                            <option value="{{UserProfile.weight}}" disabled selected hidden>
+                              {{UserProfile.weight}}</option>
+                            <option *ngFor="let item of arrayNumbers(100, 30)" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <!--Công việc-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Công việc" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.job}}" [(ngModel)]="UserProfile.job"
+                            [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="text" value="{{UserProfile.job}}" [(ngModel)]="UserProfile.job"
+                            [ngModelOptions]="{standalone: true}" class="form-control"
+                            style="border-radius: 0 0.25rem 0.25rem 0;" list="jobs">
+                          <datalist id="jobs">
+                            <option value="{{UserProfile.job}}" disabled selected hidden>
+                              {{UserProfile.job}}</option>
+                            <option *ngFor="let item of profileData.job" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <div *ngIf="!editing">
+                          <div *ngFor="let item of Features" class="d-flex flex-row">
+                            <input *ngIf="item.isSearchFeature" type="text" value="{{item.name}}"
+                              class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                            <input *ngIf="item.isSearchFeature" type="text" value="{{item.content}}"
+                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="editing">
+                          <div *ngFor="let item of Features; let i = index" class="d-flex flex-row">
+                            <input *ngIf="item.isSearchFeature" type="text" value="{{item.name}}"
+                              class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+
+
+                            <select *ngIf="item.isSearchFeature" type="text" value="{{item.featureDetailId}}"
+                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
+                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+
+                              <option value="{{item.featureDetailId}}">{{item.content}}
+                              </option>
+                              <option *ngFor="let value of item.featureDetails" value="{{value.id}}">{{value.content}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
                       </div>
-                      <div *ngIf="!editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked disabled>
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ" disabled>
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Nữ</span>
-                        </label>
+
+                      <!-- Tab 02 - Sở thích -->
+                      <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                        aria-labelledby="tabs-icons-text-2-tab">
+
+                        <div *ngIf="!editing">
+                          <div *ngFor="let item of Features" class="d-flex flex-row">
+                            <input *ngIf="!item.isSearchFeature" type="text" value="{{item.name}}"
+                              class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                            <input *ngIf="!item.isSearchFeature" type="text" value="{{item.content}}"
+                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="editing">
+                          <div *ngFor="let item of Features; let i = index" class="d-flex flex-row">
+                            <input *ngIf="!item.isSearchFeature" type="text" value="{{item.name}}"
+                              class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+
+                            <select *ngIf="!item.isSearchFeature" type="text" value="{{item.featureDetailId}}"
+                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
+                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+
+                              <option value="{{item.featureDetailId}}">{{item.content}}
+                              </option>
+                              <option *ngFor="let value of item.featureDetails" value="{{value.id}}">{{value.content}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
                       </div>
-                      <div *ngIf="editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked>
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam">
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Nam</span>
-                        </label>
+
+                      <!-- Tab 03 - Các Search features -->
+                      <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
+                        aria-labelledby="tabs-icons-text-3-tab">
+                        <!--Giới tính gợi ý-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Giới tính gợi ý" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.findPeople}}"
+                            [(ngModel)]="UserProfile.findPeople" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="text" value="{{UserProfile.findPeople}}"
+                            [(ngModel)]="UserProfile.findPeople" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="genders">
+                          <datalist id="genders">
+                            <option value="{{UserProfile.findPeople}}" disabled selected hidden>
+                              {{UserProfile.findPeople}}</option>
+                            <option *ngFor="let item of profileData.gender" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <!--Độ tuổi gợi ý-->
+                        <div class="d-flex flex-row">
+                          <input type="text" value="Độ tuổi gợi ý" class="form-control form-title text-center col-3"
+                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                          <input *ngIf="!editing" type="text" value="{{UserProfile.findAgeGroup}}"
+                            [(ngModel)]="UserProfile.findAgeGroup" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          <input *ngIf="editing" type="text" value="{{UserProfile.findAgeGroup}}"
+                            [(ngModel)]="UserProfile.findAgeGroup" [ngModelOptions]="{standalone: true}"
+                            class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="ageGroup">
+                          <datalist id="ageGroup">
+                            <option value="{{UserProfile.findAgeGroup}}" disabled selected hidden>
+                              {{UserProfile.findAgeGroup}}</option>
+                            <option *ngFor="let item of profileData.ageGroup" value="{{item}}">{{item}}</option>
+                          </datalist>
+                        </div>
+                        <!--end-->
+
+                        <div *ngIf="!editing">
+                          <div *ngFor="let item of SearchFeatures" class="d-flex flex-row">
+                            <input type="text" value="{{item.name}}" class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+                            <input type="text" value="{{item.content}}" class="form-control"
+                              style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="editing">
+                          <div *ngFor="let item of Features; let i = index" class="d-flex flex-row">
+                            <input type="text" value="{{item.name}}" class="form-control form-title text-center col-3"
+                              style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
+
+                            <select type="text" value="{{item.featureDetailId}}"
+                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
+                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+
+                              <option value="{{item.featureDetailId}}">{{item.content}}
+                              </option>
+                              <option *ngFor="let value of item.featureDetails" value="{{value.id}}">{{value.content}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
+
                       </div>
-                      <div *ngIf="editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked>
-                            <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ">
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Nữ</span>
-                        </label>
-                      </div>
+
                     </div>
-                    <!--end-->
-
-                    <!--Tìm kiếm-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Tìm kiếm" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <div *ngIf="!editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople == 'Nam'" type="radio" name="findPeople" value="Nam"
-                              checked disabled>
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople != 'Nam'" type="radio" name="findPeople" value="Nam"
-                              disabled>
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Tìm Nam</span>
-                        </label>
-                      </div>
-                      <div *ngIf="!editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople == 'Nữ'" type="radio" name="findPeople" value="Nữ"
-                              checked disabled>
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople != 'Nữ'" type="radio" name="findPeople" value="Nữ"
-                              disabled>
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Tìm Nữ</span>
-                        </label>
-                      </div>
-                      <div *ngIf="editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople == 'Nam'" type="radio" name="findPeople" value="Nam"
-                              checked>
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople != 'Nam'" type="radio" name="findPeople"
-                              value="Nam">
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Tìm Nam</span>
-                        </label>
-                      </div>
-                      <div *ngIf="editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                        <label class="radio radio-before">
-                          <span class="radio__input">
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople == 'Nữ'" type="radio" name="findPeople" value="Nữ"
-                              checked>
-                            <input [(ngModel)]="UserProfile.profile.findPeople" [ngModelOptions]="{standalone: true}"
-                              *ngIf="UserProfile.profile.findPeople != 'Nữ'" type="radio" name="findPeople" value="Nữ">
-                            <span class="radio__control"></span>
-                          </span>
-                          <span class="radio__label">Tìm Nữ</span>
-                        </label>
-                      </div>
-                    </div>
-                    <!--end-->
-
-                    <!--Nơi ở-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Nơi ở" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.location}}"
-                        [(ngModel)]="UserProfile.profile.location" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <input *ngIf="editing" type="text" value="{{UserProfile.profile.location}}"
-                        [(ngModel)]="UserProfile.profile.location" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="locations">
-                      <datalist id="locations">
-                        <option value="{{UserProfile.profile.location}}" disabled selected hidden>
-                          {{UserProfile.profile.location}}</option>
-                        <option *ngFor="let item of profileData.location" value="{{item}}">{{item}}</option>
-                      </datalist>
-                    </div>
-                    <!--end-->
-
-                    <!--Ngày sinh-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Ngày sinh" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" value="{{UserProfile.profile.dob | date: 'dd/MM/yyyy'}}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <input *ngIf="editing" [(ngModel)]="UserProfile.profile.dob" [ngModelOptions]="{standalone: true}"
-                        type="date" id="dobUser" class="form-control dobUser" name="dob"
-                        style="border-radius: 0 0.25rem 0.25rem 0;">
-                    </div>
-                    <!--end-->
-
-                    <!--Dáng người-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Dáng người" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.body}}"
-                        [(ngModel)]="UserProfile.profile.body" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.body}}"
-                        [(ngModel)]="UserProfile.profile.body" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;">
-                        <!-- <datalist id="bodies"> -->
-                        <option value="{{UserProfile.profile.body}}" disabled selected hidden>
-                          {{UserProfile.profile.body}}</option>
-                        <option *ngFor="let item of profileData.body" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Chiều cao-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Chiều cao (cm)" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.height}}"
-                        [(ngModel)]="UserProfile.profile.height" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <input *ngIf="editing" type="number" value="{{UserProfile.profile.height}}"
-                        [(ngModel)]="UserProfile.profile.height" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="heights">
-                      <datalist id="heights">
-                        <option value="{{UserProfile.profile.height}}" disabled selected hidden>
-                          {{UserProfile.profile.height}}</option>
-                        <option *ngFor="let item of arrayNumbers(100, 120)" value="{{item}}">{{item}}</option>
-                      </datalist>
-                    </div>
-                    <!--end-->
-
-                    <!--Cân nặng-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Cân nặng (kg)" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.weight}}"
-                        [(ngModel)]="UserProfile.profile.weight" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <input *ngIf="editing" type="number" value="{{UserProfile.profile.weight}}"
-                        [(ngModel)]="UserProfile.profile.weight" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="weights">
-                      <datalist id="weights">
-                        <option value="{{UserProfile.profile.weight}}" disabled selected hidden>
-                          {{UserProfile.profile.weight}}</option>
-                        <option *ngFor="let item of arrayNumbers(100, 30)" value="{{item}}">{{item}}</option>
-                      </datalist>
-                    </div>
-                    <!--end-->
-                  </div>
-                </div>
-                <!--end-->
-
-                <div class="bg-default line-cut-profile"></div>
-
-                <div *ngIf="!isViewInfomations" class="card" (click)="setInfomations()">
-                  <div class="card-body bg-card">
-                    <h5 class="card-title text-white">Một số thông tin khác của {{UserProfile.fullName}}</h5>
-                  </div>
-                </div>
-                <!--Thông tin khác-->
-                <div *ngIf="isViewInfomations" class="d-flex flex-row">
-                  <div class="card" style="width: 18rem;" (click)="setInfomations()">
-                    <div class="card-body bg-card">
-                      <h5 class="card-title text-white">Một số thông tin khác của {{UserProfile.fullName}}</h5>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column" style="width: 100%;">
-
-                    <!--Công việc-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Công việc" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.job}}"
-                        [(ngModel)]="UserProfile.profile.job" [ngModelOptions]="{standalone: true}" class="form-control"
-                        style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <input *ngIf="editing" type="text" value="{{UserProfile.profile.job}}"
-                        [(ngModel)]="UserProfile.profile.job" [ngModelOptions]="{standalone: true}" class="form-control"
-                        style="border-radius: 0 0.25rem 0.25rem 0;" list="jobs">
-                      <datalist id="jobs">
-                        <option value="{{UserProfile.profile.job}}" disabled selected hidden>
-                          {{UserProfile.profile.job}}</option>
-                        <option *ngFor="let item of profileData.job" value="{{item}}">{{item}}</option>
-                      </datalist>
-                    </div>
-                    <!--end-->
-
-                    <!--Học vấn-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Học vấn" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.education}}"
-                        [(ngModel)]="UserProfile.profile.education" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.education}}"
-                        [(ngModel)]="UserProfile.profile.education" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="educations">
-                        <!-- <datalist id="educations"> -->
-                        <option value="{{UserProfile.profile.education}}" disabled selected hidden>
-                          {{UserProfile.profile.education}}</option>
-                        <option *ngFor="let item of profileData.education" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Tình trạng hôn nhân-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Tình trạng hôn nhân" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.marriage}}"
-                        [(ngModel)]="UserProfile.profile.marriage" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.marriage}}"
-                        [(ngModel)]="UserProfile.profile.marriage" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="marriages">
-                        <!-- <datalist id="targets"> -->
-                        <option value="{{UserProfile.profile.marriage}}" disabled selected hidden>
-                          {{UserProfile.profile.marriage}}</option>
-                        <option *ngFor="let item of profileData.marriage" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Mục tiêu-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Mục tiêu" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.target}}"
-                        [(ngModel)]="UserProfile.profile.target" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.target}}"
-                        [(ngModel)]="UserProfile.profile.target" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="targets">
-                        <!-- <datalist id="targets"> -->
-                        <option value="{{UserProfile.profile.target}}" disabled selected hidden>
-                          {{UserProfile.profile.target}}</option>
-                        <option *ngFor="let item of profileData.target" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Tôn giáo-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Tôn giáo" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.religion}}"
-                        [(ngModel)]="UserProfile.profile.religion" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.religion}}"
-                        [(ngModel)]="UserProfile.profile.religion" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="religions">
-                        <!-- <datalist id="targets"> -->
-                        <option value="{{UserProfile.profile.religion}}" disabled selected hidden>
-                          {{UserProfile.profile.religion}}</option>
-                        <option *ngFor="let item of profileData.religion" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                  </div>
-                </div>
-                <!--end-->
-
-                <div class="bg-default line-cut-profile"></div>
-
-                <div *ngIf="!isViewCharaters" class="card" (click)="setCharacters()">
-                  <div class="card-body bg-card">
-                    <h5 class="card-title text-white">Đặc điểm của {{UserProfile.fullName}}</h5>
-                  </div>
-                </div>
-                <!--Đặc điểm-->
-                <div *ngIf="isViewCharaters" class="d-flex flex-row">
-                  <div class="card" style="width: 18rem;" (click)="setCharacters()">
-                    <div class="card-body bg-card">
-                      <h5 class="card-title text-white">Đặc điểm của {{UserProfile.fullName}}</h5>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column" style="width: 100%;">
-
-                    <!--Tính cách-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Tính cách" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.character}}"
-                        [(ngModel)]="UserProfile.profile.character" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.character}}"
-                        [(ngModel)]="UserProfile.profile.character" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="characters">
-                        <!-- <datalist id="educations"> -->
-                        <option value="{{UserProfile.profile.character}}" disabled selected hidden>
-                          {{UserProfile.profile.character}}</option>
-                        <option *ngFor="let item of profileData.character" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Cách sống-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Cách sống" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.lifeStyle}}"
-                        [(ngModel)]="UserProfile.profile.lifeStyle" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.lifeStyle}}"
-                        [(ngModel)]="UserProfile.profile.lifeStyle" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="lifeStyles">
-                        <!-- <datalist id="lifeStyles"> -->
-                        <option value="{{UserProfile.profile.lifeStyle}}" disabled selected hidden>
-                          {{UserProfile.profile.lifeStyle}}</option>
-                        <option *ngFor="let item of profileData.lifeStyle" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Điều quan trọng nhất-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Điều quan trọng nhất" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.mostValuable}}"
-                        [(ngModel)]="UserProfile.profile.mostValuable" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.mostValuable}}"
-                        [(ngModel)]="UserProfile.profile.mostValuable" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="lifeStyles">
-                        <!-- <datalist id="lifeStyles"> -->
-                        <option value="{{UserProfile.profile.mostValuable}}" disabled selected hidden>
-                          {{UserProfile.profile.mostValuable}}</option>
-                        <option *ngFor="let item of profileData.mostValuable" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                  </div>
-                </div>
-                <!--end-->
-
-                <div class="bg-default line-cut-profile"></div>
-
-                <div *ngIf="!isViewLikes" class="card" (click)="setLikes()">
-                  <div class="card-body bg-card">
-                    <h5 class="card-title text-white">Sở thích của {{UserProfile.fullName}}</h5>
-                  </div>
-                </div>
-                <!--Sở thích-->
-                <div *ngIf="isViewLikes" class="d-flex flex-row">
-                  <div class="card" style="width: 18rem;" (click)="setLikes()">
-                    <div class="card-body bg-card">
-                      <h5 class="card-title text-white">Sở thích của {{UserProfile.fullName}}</h5>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column" style="width: 100%;">
-
-                    <!--Thể loại phim yêu thích-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Thể loại phim yêu thích"
-                        class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.favoriteMovie}}"
-                        [(ngModel)]="UserProfile.profile.favoriteMovie" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.favoriteMovie}}"
-                        [(ngModel)]="UserProfile.profile.favoriteMovie" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="favoriteMovies">
-                        <!-- <datalist id="educations"> -->
-                        <option value="{{UserProfile.profile.favoriteMovie}}" disabled selected hidden>
-                          {{UserProfile.profile.favoriteMovie}}</option>
-                        <option *ngFor="let item of profileData.favoriteMovie" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Thích không khí-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Thích không khí" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.atmosphereLike}}"
-                        [(ngModel)]="UserProfile.profile.atmosphereLike" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.atmosphereLike}}"
-                        [(ngModel)]="UserProfile.profile.atmosphereLike" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="atmosphereLikes">
-                        <!-- <datalist id="atmosphereLikes"> -->
-                        <option value="{{UserProfile.profile.atmosphereLike}}" disabled selected hidden>
-                          {{UserProfile.profile.atmosphereLike}}</option>
-                        <option *ngFor="let item of profileData.atmosphereLike" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Yêu thích công nghệ-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Yêu thích công nghệ" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.likeTechnology}}"
-                        [(ngModel)]="UserProfile.profile.likeTechnology" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.likeTechnology}}"
-                        [(ngModel)]="UserProfile.profile.likeTechnology" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
-                        <!-- <datalist id="likeTechnologys"> -->
-                        <option value="{{UserProfile.profile.likeTechnology}}" disabled selected hidden>
-                          {{UserProfile.profile.likeTechnology}}</option>
-                        <option *ngFor="let item of profileData.likeTechnology" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Yêu thích thú cưng-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Yêu thích thú cưng" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.likePet}}"
-                        [(ngModel)]="UserProfile.profile.likePet" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.likePet}}"
-                        [(ngModel)]="UserProfile.profile.likePet" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
-                        <!-- <datalist id="likeTechnologys"> -->
-                        <option value="{{UserProfile.profile.likePet}}" disabled selected hidden>
-                          {{UserProfile.profile.likePet}}</option>
-                        <option *ngFor="let item of profileData.likePet" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                  </div>
-                </div>
-                <!--end-->
-
-                <div class="bg-default line-cut-profile"></div>
-
-                <div *ngIf="!isViewActions" class="card" (click)="setActions()">
-                  <div class="card-body bg-card">
-                    <h5 class="card-title text-white">Một số hoạt động của {{UserProfile.fullName}}</h5>
-                  </div>
-                </div>
-                <!--Các hoạt động-->
-                <div *ngIf="isViewActions" class="d-flex flex-row">
-                  <div class="card" style="width: 18rem;" (click)="setActions()">
-                    <div class="card-body bg-card">
-                      <h5 class="card-title text-white">Một số hoạt động của {{UserProfile.fullName}}</h5>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column" style="width: 100%;">
-
-                    <!--Tự nấu ăn-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Tự nấu ăn" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.cook}}"
-                        [(ngModel)]="UserProfile.profile.cook" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.cook}}"
-                        [(ngModel)]="UserProfile.profile.cook" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="cooks">
-                        <!-- <datalist id="cooks"> -->
-                        <option value="{{UserProfile.profile.cook}}" disabled selected hidden>
-                          {{UserProfile.profile.cook}}</option>
-                        <option *ngFor="let item of profileData.cook" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Chơi thể thao-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Chơi thể thao" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.playSport}}"
-                        [(ngModel)]="UserProfile.profile.playSport" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.playSport}}"
-                        [(ngModel)]="UserProfile.profile.playSport" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.playSport}}" disabled selected hidden>
-                          {{UserProfile.profile.playSport}}</option>
-                        <option *ngFor="let item of profileData.playSport" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Đi du lịch-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Đi du lịch" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.travel}}"
-                        [(ngModel)]="UserProfile.profile.travel" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.travel}}"
-                        [(ngModel)]="UserProfile.profile.travel" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.travel}}" disabled selected hidden>
-                          {{UserProfile.profile.travel}}</option>
-                        <option *ngFor="let item of profileData.travel" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Chơi game-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Chơi game" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.game}}"
-                        [(ngModel)]="UserProfile.profile.game" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.game}}"
-                        [(ngModel)]="UserProfile.profile.game" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.game}}" disabled selected hidden>
-                          {{UserProfile.profile.game}}</option>
-                        <option *ngFor="let item of profileData.game" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Mua sắm-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Mua sắm" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.shopping}}"
-                        [(ngModel)]="UserProfile.profile.shopping" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.shopping}}"
-                        [(ngModel)]="UserProfile.profile.shopping" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.shopping}}" disabled selected hidden>
-                          {{UserProfile.profile.shopping}}</option>
-                        <option *ngFor="let item of profileData.shopping" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Hút thuốc-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Hút thuốc" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.smoking}}"
-                        [(ngModel)]="UserProfile.profile.smoking" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.smoking}}"
-                        [(ngModel)]="UserProfile.profile.smoking" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.smoking}}" disabled selected hidden>
-                          {{UserProfile.profile.smoking}}</option>
-                        <option *ngFor="let item of profileData.smoking" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
-                    <!--Uống bia-->
-                    <div class="d-flex flex-row">
-                      <input type="text" value="Uống bia" class="form-control form-title text-center col-3"
-                        style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                      <input *ngIf="!editing" type="text" value="{{UserProfile.profile.drinkBeer}}"
-                        [(ngModel)]="UserProfile.profile.drinkBeer" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" readonly>
-                      <select *ngIf="editing" type="text" value="{{UserProfile.profile.drinkBeer}}"
-                        [(ngModel)]="UserProfile.profile.drinkBeer" [ngModelOptions]="{standalone: true}"
-                        class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="playSports">
-                        <!-- <datalist id="playSports"> -->
-                        <option value="{{UserProfile.profile.drinkBeer}}" disabled selected hidden>
-                          {{UserProfile.profile.drinkBeer}}</option>
-                        <option *ngFor="let item of profileData.drinkBeer" value="{{item}}">{{item}}</option>
-                      </select>
-                    </div>
-                    <!--end-->
-
                   </div>
                 </div>
                 <!--end-->
@@ -864,6 +536,7 @@
                 </div>
               </div>
             </div>
+
             <div *ngIf="isViewFriendList" class="h4 font-weight-300 animate-bottom"><b>Danh sách bạn bè</b> </div>
             <div *ngIf="isViewFriendList" class="col-lg-12 col-md-12 row pl-3"
               style="margin-left: 0%; margin-right: 0%;">

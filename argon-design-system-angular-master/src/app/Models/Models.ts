@@ -1,56 +1,3 @@
-export class Profile {
-    title: string;
-    findPeople: string;
-    weight: number;
-    height: number;
-    dob: String;
-    age: number;
-    job: string;
-    location: string;
-    marriage: string;
-    target: string;
-    education: string;
-    body: string;
-    character: string;
-    lifeStyle: string;
-    mostValuable: string;
-    religion: string;
-    favoriteMovie: string;
-    atmosphereLike: string;
-    smoking: string;
-    drinkBeer: string;
-
-    shopping: string;
-    travel: string;
-    game: string;
-    cook: string;
-    likeTechnology: string;
-    likePet: string;
-    playSport: string;
-}
-
-export class User {
-    id: string;
-    userName: string;
-    fullName: string;
-    gender: string;
-    avatarPath: string;
-    status: string;
-    email: string;
-    phoneNumber: string;
-    point: number;
-    hasAvatar: boolean;
-    summary: string;
-    numberOfFollowers: number;
-    numberOfFavoritors: number;
-    numberOfImages: number;
-    followed: boolean;
-    favorited: boolean;
-    blocked: boolean;
-    isInfoUpdated: boolean;
-    token?: any;
-    profile: Profile;
-}
 
 export class SocialUser {
     provider: string;
@@ -65,7 +12,7 @@ export class SocialUser {
 export class UserDisplay {
     id: string;
     fullName: string;
-    dob: Date;
+    dob: string;
     createdAt: Date;
     avatarPath: string;
     hasAvatar: boolean;
@@ -98,35 +45,38 @@ export class ChatFriend {
     pageIndex: number;
 }
 
+// export class ProfileData {
+//     gender: string[];
+//     job: string[];
+//     location: string[];
+//     operationType: string[];
+//     typeAccount: string[];
+//     userStatus: string[];
+//     ageGroup: string[];
+// }
+
+export class FeatureDetail {
+    id: number;
+    content: string;
+    weight: number;
+    featureId: number;
+}
+
+export class Feature {
+    id: number;
+    name: string;
+    weightRate: number;
+    isCalculated: boolean;
+    isSearchFeature:boolean;
+    featureDetails: FeatureDetail[];
+}
+
 export class ProfileData {
     findPeople: string[];
-    atmosphereLike: string[];
-    body: string[];
-    character: string[];
-    drinkBeer: string[];
-    education: string[];
-    favoriteMovie: string[];
-    gender: string[];
     job: string[];
-    lifeStyle: string[];
     location: string[];
-    marriage: string[];
-    mostValuable: string[];
-    operationType: string[];
-    religion: string[];
-    smoking: string[];
-    target: string[];
-    typeAccount: string[];
-    userStatus: string[];
-    
-    cook: string[];
-    likeTechnology: string[];
-    likePet: string[];
-    playSport: string[];
-    travel: string[];
-    game: string[];
-    shopping: string[];
     ageGroup: string[];
+    features: Feature[];
 }
 
 export class Image{
@@ -143,4 +93,48 @@ export class Image{
 export class ImageUser {
     id: string;
     images: Image[];
+}
+
+export class FeatureVM {
+    featureId: number;
+    featureDetailId: number;
+    name: string;
+    content: string;
+    updateFeatureId:number;
+    isSearchFeature:boolean;
+    featureDetails: FeatureDetail[];
+}
+
+export class User {
+    id: string;
+    role: string;
+    userName: string;
+    fullName: string;
+    gender: string;
+    avatarPath: string;
+    status: string;
+    email: string;
+    phoneNumber: string;
+    point: number;
+    hasAvatar: boolean;
+    summary: string;
+    numberOfFollowers: number;
+    numberOfFavoritors: number;
+    numberOfImages: number;
+    followed: boolean;
+    favorited: boolean;
+    blocked: boolean;
+    age: number;
+    isInfoUpdated: boolean;
+    token: string;
+    title: string;
+    weight: number;
+    height: number;
+    dob: string;
+    job: string;
+    location: string;
+    findPeople:string;
+    findAgeGroup: string;
+    features: FeatureVM[];
+    searchFeatures: FeatureVM[];
 }

@@ -15,8 +15,11 @@
         <li class="list-group-item" (click)="clickMyProfile()">
             Xem hồ sơ cá nhân
         </li>
-        <li class="list-group-item">
-            Ảnh
+        <li *ngIf="!urlFeatureManger" class="list-group-item" (click)="clickFeatureManager()">
+            Quản lý features
+        </li>
+        <li *ngIf="urlFeatureManger" class="list-group-item active" (click)="clickFeatureManager()">
+            Quản lý features
         </li>
         <li class="list-group-item" (click)="clickMessage()">
             Tin nhắn

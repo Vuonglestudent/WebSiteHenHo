@@ -254,7 +254,7 @@ select {
   font-size: 16px;
   padding-left: 1.75rem;
   margin: 1px 0 1px 0;
-  border: solid 1px #11CDEF;
+  border: solid 1px#deeefa;
   
 }
 
@@ -267,7 +267,7 @@ select {
 }
 
 .form-title[readonly] {
-  background-image: linear-gradient(to bottom right, #5E72E4, #11CDEF);
+  background-image: linear-gradient(to bottom right,white, white);
 }
 
 :root {

@@ -35,46 +35,43 @@ export class HomeComponent implements OnInit {
     };
 
     // Phân trang user
-    Favoritors: User[] = new Array();
-    FavoritePage: any = {
-        index: 1,
-        size: 12,
-        total: 0,
-        current: 1,
-        position: 1
-    };
+
 
     // Phân trang user
-    NewUsers: User[] = new Array();
     PageIndexNewUser = 1;
     PageSizeNewUser = 10;
 
     // LoadImageUser
-    imageUsers: ImageUser[] = new Array();
+    
 
     //
     clickSeenImageUser
     Loading = false;
     clickSeenImage = 0;
     ngOnInit() {
-        this.updatePagingNumber(1);
+        this.updatePagingNumber(this.usersService.FavoritePage.current);
         
         if (this.authenticationService.UserInfo != null) {
-            console.log('similar')
-            this.getSimilarUSer(false);
+            if(this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers){
+                this.getSimilarUSer(false);
+                this.usersService.IsGetSimilarityUsers = true;
+            }
         }
         else {
             this.getFavoritors();
         }
 
-        this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
+        if(this.usersService.NewUsers.length == 0){
+            this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
             .then(response => {
-                this.NewUsers = response;
+                this.usersService.NewUsers = response;
+
             })
             .catch(error => {
                 this.alertService.clear();
                 this.alertService.error("Lỗi server!", this.options);
             })
+        }
         this.LoadFilterData();
     }
 
@@ -87,20 +84,20 @@ export class HomeComponent implements OnInit {
     }
     getSimilarUSer = (filter:boolean) => {
         this.Loading = true;
-        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.FavoritePage.index, this.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
+        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
             .then(response =>{
                 this.Loading = false;
-                this.Favoritors = response.data;
-                this.FavoritePage.total = response.pageTotal;
+                this.usersService.Favoritors = response.data;
+                this.usersService.FavoritePage.total = response.pageTotal;
                 console.log(response)
-                console.log(this.Favoritors)
-                this.Favoritors.forEach(element => {
+                console.log(this.usersService.Favoritors)
+                this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
                             const imageUser = {} as ImageUser
                             imageUser.id = element.id;
                             imageUser.images = data;
-                            this.imageUsers.push(imageUser)
+                            this.usersService.imageUsers.push(imageUser)
                         })
                         .catch(error => {
                             this.alertService.clear();
@@ -114,20 +111,20 @@ export class HomeComponent implements OnInit {
 
     getFavoritors() {
         this.Loading = true;
-        console.log('get page: ' + this.FavoritePage.index);
-        this.usersService.GetFavoritest(this.FavoritePage.index, this.FavoritePage.size)
+        console.log('get page: ' + this.usersService.FavoritePage.index);
+        this.usersService.GetFavoritest(this.usersService.FavoritePage.index, this.usersService.FavoritePage.size)
             .then(response => {
                 this.Loading = false;
-                this.Favoritors = response.data;
-                this.FavoritePage.total = response.pageTotal;
+                this.usersService.Favoritors = response.data;
+                this.usersService.FavoritePage.total = response.pageTotal;
 
-                this.Favoritors.forEach(element => {
+                this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
                             const imageUser = {} as ImageUser
                             imageUser.id = element.id;
                             imageUser.images = data;
-                            this.imageUsers.push(imageUser)
+                            this.usersService.imageUsers.push(imageUser)
                         })
                         .catch(error => {
                             this.alertService.clear();
@@ -149,19 +146,19 @@ export class HomeComponent implements OnInit {
 
     updatePagingNumber(page: number) {
 
-        console.log(this.FavoritePage.total)
-        this.FavoritePage.index = page;
+        console.log(this.usersService.FavoritePage.total)
+        this.usersService.FavoritePage.index = page;
         if (page == 1) {
-            this.FavoritePage.position = 1;
-            this.FavoritePage.current = 2;
+            this.usersService.FavoritePage.position = 1;
+            this.usersService.FavoritePage.current = 2;
         }
-        else if (page == this.FavoritePage.total) {
-            this.FavoritePage.position = 3;
-            this.FavoritePage.current = page - 1;
+        else if (page == this.usersService.FavoritePage.total) {
+            this.usersService.FavoritePage.position = 3;
+            this.usersService.FavoritePage.current = page - 1;
         }
         else {
-            this.FavoritePage.position = 2;
-            this.FavoritePage.current = page;
+            this.usersService.FavoritePage.position = 2;
+            this.usersService.FavoritePage.current = page;
         }
     };
 
@@ -330,8 +327,8 @@ export class HomeComponent implements OnInit {
 
         var liked = stateImageCurrent.id.split("_")[2]
         if (liked === "true") {
-            this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -342,8 +339,8 @@ export class HomeComponent implements OnInit {
 
 
         } else {
-            this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
+            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -352,7 +349,7 @@ export class HomeComponent implements OnInit {
                     console.log('Khong like duoc hinh!');
                 })
         }
-        //console.log(this.imageUsers[this.clickSeenImageUser].images)
+        //console.log(this.usersService.imageUsers[this.clickSeenImageUser].images)
     }
 
     isFilter = false;
@@ -364,18 +361,18 @@ export class HomeComponent implements OnInit {
         this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
     }
     previousPage() {
-        if (this.FavoritePage.index == 1) {
+        if (this.usersService.FavoritePage.index == 1) {
             return
         }
-        this.updatePagingNumber(this.FavoritePage.index - 1);
+        this.updatePagingNumber(this.usersService.FavoritePage.index - 1);
         this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
     nextPage() {
-        if (this.FavoritePage.index == this.FavoritePage.total) {
+        if (this.usersService.FavoritePage.index == this.usersService.FavoritePage.total) {
             return;
         }
-        this.updatePagingNumber(this.FavoritePage.index + 1);
+        this.updatePagingNumber(this.usersService.FavoritePage.index + 1);
         this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }

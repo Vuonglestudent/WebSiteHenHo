@@ -15,16 +15,19 @@ export class NavbarAdminComponent implements OnInit {
   ) { }
   data: any;
   salesChart;
-  clicked: boolean = true;
-  clicked1: boolean = false
+
   urlStatistic = false;
   urlManagerUser = false;
+  urlFeatureManger = false;
+
 
   ngOnInit(): void {
     var url = this.router.url.split("/")[1];
     if (url === 'statistic') {
       this.urlStatistic = true;
     } else if (url === 'manager-user') {
+      this.urlManagerUser = true;
+    } else if (url == 'feature-manager'){
       this.urlManagerUser = true;
     }
   }
@@ -34,32 +37,43 @@ export class NavbarAdminComponent implements OnInit {
   clickMyProfile = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
+    this.urlFeatureManger = false;
     this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
   }
 
   clickMessage = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
+    this.urlFeatureManger = false;
     this.router.navigate(['/friendlist']);
   }
 
   clickStatistic = () => {
     this.urlStatistic = true;
     this.urlManagerUser = false;
+    this.urlFeatureManger = false;
     this.router.navigate(['/statistic']);
   }
 
   clickManagerUser = () => {
     this.urlStatistic = false;
     this.urlManagerUser = true;
+    this.urlFeatureManger = false;
     this.router.navigate(['/manager-user']);
   }
 
   clickHome = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
+    this.urlFeatureManger = false;
     this.router.navigate(['/home'])
   }
-
+  
+  clickFeatureManager = () => {
+    this.urlFeatureManger = true;
+    this.urlManagerUser = false;
+    this.urlStatistic = false;
+    this.router.navigate(['/feature-manager']);
+  }
 
 }
