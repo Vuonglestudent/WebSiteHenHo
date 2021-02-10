@@ -8,10 +8,6 @@
   background-size: cover;
 }
 
-.carousel-caption {
-  position: static;
-  margin-top: 160px;
-}
 
 .p-carousel {
   padding: 0.75rem 20rem 0.75rem 20rem;
@@ -240,10 +236,8 @@ a.btn-icon-card, a.icon-hover {
   100% { transform: rotate(360deg); }
 }
 
-.carousel-control-prev:hover , .carousel-control-next:hover {
-  cursor: pointer;
-  background-color:rgba(0 , 0 ,0 , 0.6);
-}
+
+
 .onlineCount{
   position: fixed;
   left: 5%;

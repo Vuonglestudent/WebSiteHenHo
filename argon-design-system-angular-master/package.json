@@ -29,6 +29,7 @@
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "angular2-notifications": "^9.0.0",
     "angularx-social-login": "^3.2.2",
+    "bootstrap": "^5.0.0-beta1",
     "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-datalabels": "^0.7.0",
@@ -48,8 +49,8 @@
     "zone.js": "0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1101.4",
-    "@angular/cli": "^11.1.4",
+    "@angular-devkit/build-angular": "0.900.5",
+    "@angular/cli": "9.0.5",
     "@angular/compiler-cli": "9.0.5",
     "@angular/language-service": "9.0.5",
     "@types/jasmine": "3.5.8",

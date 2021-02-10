@@ -159,16 +159,6 @@ export class HomeComponent implements OnInit {
     };
 
     ngAfterViewInit(): void {
-        var firstCarousel = <HTMLInputElement>document.getElementById("carousel_0");
-        var firstLiCarousel = <HTMLInputElement>document.getElementById("liCarousel_0");
-        firstCarousel.setAttribute('class', 'carousel-item active');
-        firstLiCarousel.setAttribute('class', 'active');
-        const source = timer(1000, 2000);
-        const subscribe = source.subscribe(val => {
-            if (val % 2 == 0) {
-                this.nextCarousel();
-            }
-        });
 
         if (this.authenticationService.UserInfo != null) {
             if (!this.authenticationService.UserInfo.IsInfoUpdated) {
@@ -237,67 +227,6 @@ export class HomeComponent implements OnInit {
         { title: '', description: '', img: './assets/img/theme/Screenshot3.jpg' },
     ]
 
-    changeCarousel = (event) => {
-        var target = event.target;
-        var checkClass = target.getAttribute('class');
-        if (checkClass == 'carousel-control-next-icon' || checkClass == 'carousel-control-next') {
-            this.nextCarousel()
-        } else if (checkClass == 'carousel-control-prev-icon' || checkClass == 'carousel-control-prev') {
-            this.prevCarousel()
-        } else {
-            this.changeByLi(event)
-        }
-    }
-
-    nextCarousel = () => {
-        var current = document.getElementsByClassName("carousel-item active")[0].getAttribute('id').split('_')[1];
-        var currentLiCarousel = <HTMLInputElement>document.getElementById(`liCarousel_${current}`);
-        currentLiCarousel.setAttribute('class', '');
-        var currentCarousel = <HTMLInputElement>document.getElementById(`carousel_${current}`);
-        currentCarousel.setAttribute('class', '');
-        currentCarousel.setAttribute('hidden', 'true')
-        var next: number = Number(current) + 1;
-        if (next > (this.imageCarousel.length - 1)) {
-            next = 0;
-        }
-        this.setCarousel(next);
-    }
-
-    prevCarousel = () => {
-        var current = document.getElementsByClassName("carousel-item active")[0].getAttribute('id').split('_')[1];
-        var currentLiCarousel = <HTMLInputElement>document.getElementById(`liCarousel_${current}`);
-        currentLiCarousel.setAttribute('class', '');
-        var currentCarousel = <HTMLInputElement>document.getElementById(`carousel_${current}`);
-        currentCarousel.setAttribute('class', '');
-        currentCarousel.setAttribute('hidden', 'true')
-        var next: number = Number(current) - 1;
-        if (next < 0) {
-            next = this.imageCarousel.length - 1;
-        }
-        this.setCarousel(next);
-    }
-
-    changeByLi = (event) => {
-        var current = document.getElementsByClassName("carousel-item active")[0].getAttribute('id').split('_')[1];
-        var currentLiCarousel = <HTMLInputElement>document.getElementById(`liCarousel_${current}`);
-        currentLiCarousel.setAttribute('class', '');
-        var currentCarousel = <HTMLInputElement>document.getElementById(`carousel_${current}`);
-        currentCarousel.setAttribute('class', '');
-        currentCarousel.setAttribute('hidden', 'true')
-        var target = event.target;
-        var next = target.getAttribute('id').split('_')[1];
-        this.setCarousel(Number(next));
-    }
-
-    setCarousel = (next: number) => {
-        var liCarousel = <HTMLInputElement>document.getElementById(`liCarousel_${next}`);
-        var carousel = <HTMLInputElement>document.getElementById(`carousel_${next}`);
-        var imgCarousel = <HTMLInputElement>document.getElementById(`carouselExampleCaptions`)
-        liCarousel.setAttribute('class', 'active');
-        carousel.setAttribute('class', 'carousel-item active')
-        carousel.removeAttribute('hidden');
-        imgCarousel.setAttribute('style', `background-image: url('${this.imageCarousel[next].img}')`)
-    }
 
     seenImage = () => {
         this.clickSeenImage = 1;
