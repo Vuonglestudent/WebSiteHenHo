@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     Features: FeatureVM[] = new Array();
     SearchFeatures: FeatureVM[] = new Array();
     UpdateFeatures = new Array();
-
+    isYourself = false;
     ngOnInit() {
         this.currentUserId = this.route.snapshot.paramMap.get('id');
         if (this.route.snapshot.paramMap.get('id') === this.authenticationService.UserInfo.Id) {
@@ -116,8 +116,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                                 }
                             }
                             if (!isExist) {
+                                if(this.CheckNonFeature(this.profileData.features[i].id)){
+                                    continue;
+                                }
                                 var feature = new FeatureVM();
-                                feature.featureId = -1;
+                                feature.featureId = this.profileData.features[i].id;
                                 feature.featureDetailId = -1;
                                 feature.name = this.profileData.features[i].name;
                                 feature.content = 'CHƯA CẬP NHẬT!';
@@ -128,7 +131,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                         }
 
                         for (let i = 0; i < this.profileData.features.length; i++) {
-                            if(!this.profileData.features[i].isSearchFeature){
+                            if (!this.profileData.features[i].isSearchFeature) {
                                 continue;
                             }
                             var isExist = false;
@@ -140,8 +143,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                                 }
                             }
                             if (!isExist) {
+                                if(this.CheckNonSearchFeature(this.profileData.features[i].id)){
+                                    continue;
+                                }
                                 var feature = new FeatureVM();
-                                feature.featureId = -1;
+                                feature.featureId = this.profileData.features[i].id;
                                 feature.featureDetailId = -1;
                                 feature.name = this.profileData.features[i].name;
                                 feature.content = 'CHƯA CẬP NHẬT!';
@@ -167,7 +173,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                         //         }
                         //     });
                         // });
-
+                        console.log(this.SearchFeatures);
                         this.profileData.job.unshift(this.UserProfile.job);
                         this.profileData.location.unshift(this.UserProfile.location);
                     })
@@ -182,6 +188,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
 
         this.onViewImage()
+        if(this.authenticationService.UserInfo.Id == this.currentUserId){
+            this.onViewFriendList();
+            this.isYourself = true;
+        }
+    }
+
+    CheckNonFeature(featureId:number){
+        for (let i = 0; i < this.Features.length; i++) {
+            if(this.Features[i].featureId === featureId){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    CheckNonSearchFeature(featureId:number){
+        for (let i = 0; i < this.SearchFeatures.length; i++) {
+            if(this.SearchFeatures[i].featureId === featureId){
+                return true;
+            }
+        }
+        return false;
     }
 
     isSeenMoreImage = false;
@@ -225,6 +253,42 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.clear();
                 this.alertService.error(error.error.message, this.options);
             })
+    }
+
+    onOptionsSearchFeatureSelected(event, index: number) {
+        const value = event.target.value;
+        console.log(value);
+        for (let i = 0; i < this.profileData.features.length; i++) {
+            if (this.profileData.features[i].id === this.SearchFeatures[index].featureId) {
+                for (let j = 0; j < this.profileData.features[i].featureDetails.length; j++) {
+                    if (this.profileData.features[i].featureDetails[j].id == value) {
+                        this.SearchFeatures[index].content = this.profileData.features[i].featureDetails[j].content;
+
+                        this.SearchFeatures[index].featureDetailId = this.profileData.features[i].featureDetails[j].id;
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    onOptionsFeatureSelected(event, index: number) {
+        const value = event.target.value;
+        console.log(value);
+        for (let i = 0; i < this.profileData.features.length; i++) {
+            if (this.profileData.features[i].id === this.Features[index].featureId) {
+                for (let j = 0; j < this.profileData.features[i].featureDetails.length; j++) {
+                    if (this.profileData.features[i].featureDetails[j].id == value) {
+                        this.Features[index].content = this.profileData.features[i].featureDetails[j].content;
+
+                        this.Features[index].featureDetailId = this.profileData.features[i].featureDetails[j].id;
+
+                    }
+                }
+            }
+
+        }
     }
 
     clickFavourite = () => {
@@ -278,10 +342,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     onUpload() {
         this.uploadStatus = 'loading';
         this.imageService.addImages(this.authenticationService.UserInfo.Id, this.files, this.imageTitle)
-            .then(data => {
+            .then(response => {
                 this.uploadStatus = 'none';
                 this.alertService.clear();
-                this.alertService.success("Đăng ảnh thành công!", this.options);
+                if(response.approved){
+                    this.alertService.success(response.message, this.options);
+                }
+                else{
+                    this.alertService.warn(response.message, this.options);
+                }
                 this.files = [];
                 this.ngOnInit();
                 this.uploadImage = !this.uploadImage;

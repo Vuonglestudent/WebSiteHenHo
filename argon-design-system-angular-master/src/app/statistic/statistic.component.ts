@@ -117,7 +117,7 @@ export class StatisticComponent implements OnInit {
   ];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      backgroundColor: ['#172B4D', '#5E72E4', '#FB6340'],
     },
   ];
   public lineChartLegend = true;

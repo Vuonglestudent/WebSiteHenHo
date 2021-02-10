@@ -4,6 +4,8 @@
         <div *ngIf="Loading">
             <div id="loader"></div>
         </div>
+
+        <alert></alert>
         <!-- Create feature button -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFeature">Add
             Feature</button>
@@ -22,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of featureService.features; let i = index">
+                    <tr *ngFor="let item of featureService.features; let i = index" class="row-data">
                         <td class="text-center">{{i + 1}}</td>
                         <td class="text-center">{{item.name}}</td>
                         <td class="text-center">{{item.weightRate}}</td>
@@ -35,8 +37,9 @@
 
                             </button>
                             <!-- Update Feature Button -->
-                            <button (click)="onClickUpdateFeature(item)" type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm"
-                                data-toggle="modal" data-target="#updateFeature" title="">
+                            <button (click)="onClickUpdateFeature(item)" type="button" rel="tooltip"
+                                class="btn btn-success btn-icon btn-sm" data-toggle="modal" data-target="#updateFeature"
+                                title="">
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                             </button>
                             <button (click)="onDeleteFeature(item.id)" type="button" rel="tooltip"
@@ -75,13 +78,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of FeatureDetails; let i = index">
+                                <tr *ngFor="let item of FeatureDetails; let i = index" class='row-data'>
                                     <td class="text-center">{{i + 1}}</td>
                                     <td class="text-center">{{item.content}}</td>
                                     <td class="text-center">{{item.weight}}</td>
                                     <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm "
-                                            data-original-title="" title="">
+                                        <button (click)="onClickUpdateFeatureDetail(item)" type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm "
+                                        data-toggle="modal" data-target="#updateFeatureDetail">
                                             <i class="fa fa-cog" aria-hidden="true"></i>
                                         </button>
                                         <button (click)="onDeleteFeatureDetail(item.id)" type="button" rel="tooltip"
@@ -114,7 +117,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <button (click)="onDelete()" type="button" class="btn btn-primary">Yes</button>
+                        <button (click)="onDelete()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             aria-label="Close">No</button>
                     </div>
@@ -137,27 +140,29 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Feature name" value="{{UpdateFeature.name}}" [(ngModel)]="UpdateFeature.name"
-                                    [ngModelOptions]="{standalone: true}">
+                                    placeholder="Feature name" value="{{UpdateFeature.name}}"
+                                    [(ngModel)]="UpdateFeature.name" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
-                                    placeholder="Weight rate" value="{{UpdateFeature.weightRate}}" [(ngModel)]="UpdateFeature.weightRate"
-                                    [ngModelOptions]="{standalone: true}">
+                                    placeholder="Weight rate" value="{{UpdateFeature.weightRate}}"
+                                    [(ngModel)]="UpdateFeature.weightRate" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="row">
-                                <label style="margin-right: 6px;margin-left: 4%;">Calculate: </label>
+                                <label style="margin-right: 30px;margin-left: 4%;">Calculate: </label>
                                 <div class="form-group">
                                     <label class="custom-toggle">
-                                        <input *ngIf="UpdateFeature.isCalculated" type="checkbox" checked [(ngModel)]="UpdateFeature.isCalculated"
-                                        [ngModelOptions]="{standalone: true}">
-                                        <input *ngIf="!UpdateFeature.isCalculated" type="checkbox" [(ngModel)]="UpdateFeature.isCalculated"
-                                        [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="UpdateFeature.isCalculated" type="checkbox" checked
+                                            [(ngModel)]="UpdateFeature.isCalculated"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="!UpdateFeature.isCalculated" type="checkbox"
+                                            [(ngModel)]="UpdateFeature.isCalculated"
+                                            [ngModelOptions]="{standalone: true}">
                                         <span class="custom-toggle-slider rounded-circle"></span>
                                     </label>
                                 </div>
@@ -167,13 +172,15 @@
 
                         <div class="col-md-12">
                             <div class="row">
-                                <label style="margin-right: 14px;margin-left: 4%;">Search feature: </label>
+                                <label style="margin-right: 5px;margin-left: 4%;">Search feature: </label>
                                 <div class="form-group">
                                     <label class="custom-toggle">
-                                        <input *ngIf="UpdateFeature.isSearchFeature" type="checkbox" checked [(ngModel)]="UpdateFeature.isSearchFeature"
-                                        [ngModelOptions]="{standalone: true}">
-                                        <input *ngIf="!UpdateFeature.isSearchFeature" type="checkbox" [(ngModel)]="UpdateFeature.isSearchFeature"
-                                        [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="UpdateFeature.isSearchFeature" type="checkbox" checked
+                                            [(ngModel)]="UpdateFeature.isSearchFeature"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="!UpdateFeature.isSearchFeature" type="checkbox"
+                                            [(ngModel)]="UpdateFeature.isSearchFeature"
+                                            [ngModelOptions]="{standalone: true}">
                                         <span class="custom-toggle-slider rounded-circle"></span>
                                     </label>
                                 </div>
@@ -181,7 +188,42 @@
                             </div>
                         </div>
 
-                        <button (click)="onUpdateFeature()" type="button" class="btn btn-primary">Update</button>
+                        <button (click)="onUpdateFeature()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update feature detail Modal -->
+        <div class="modal fade bd-example-modal-sm" id="updateFeatureDetail" tabindex="2" role="dialog"
+            aria-labelledby="updateFeatureDetail" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update feature content</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Feature name" value="{{UpdateFeatureDetail.content}}"
+                                    [(ngModel)]="UpdateFeatureDetail.content" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
+                                    placeholder="Weight rate" value="{{UpdateFeatureDetail.weight}}"
+                                    [(ngModel)]="UpdateFeatureDetail.weight" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <button (click)="onUpdateFeatureDetail()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Update</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                             Cancel</button>
                     </div>
@@ -222,7 +264,7 @@
                                 <div class="form-group">
                                     <label class="custom-toggle">
                                         <input type="checkbox" checked [(ngModel)]="CreateFeature.isCalculated"
-                                        [ngModelOptions]="{standalone: true}" value="true">
+                                            [ngModelOptions]="{standalone: true}" value="true">
                                         <span class="custom-toggle-slider rounded-circle"></span>
                                     </label>
                                 </div>
@@ -236,7 +278,7 @@
                                 <div class="form-group">
                                     <label class="custom-toggle">
                                         <input type="checkbox" checked [(ngModel)]="CreateFeature.isSearchFeature"
-                                        [ngModelOptions]="{standalone: true}" value="true">
+                                            [ngModelOptions]="{standalone: true}" value="true">
                                         <span class="custom-toggle-slider rounded-circle"></span>
                                     </label>
                                 </div>
@@ -244,7 +286,7 @@
                             </div>
                         </div>
 
-                        <button (click)="onClickCreateFeature()" type="button" class="btn btn-primary">Create</button>
+                        <button (click)="onClickCreateFeature()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Create</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                             Cancel</button>
                     </div>
@@ -280,7 +322,7 @@
                         </div>
 
 
-                        <button (click)="onAddFeatureDetail()" type="button" class="btn btn-primary">Add</button>
+                        <button (click)="onAddFeatureDetail()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                             Cancel</button>
                     </div>

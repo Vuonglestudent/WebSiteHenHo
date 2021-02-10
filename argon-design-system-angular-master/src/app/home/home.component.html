@@ -17,7 +17,7 @@
       </div>
 
       <div class="p-carousel">
-        <div id="carouselExampleCaptions" class="carousel slide img-n card-img thumb" data-ride="carousel"
+        <!-- <div id="carouselExampleCaptions" class="carousel slide img-n card-img thumb" data-ride="carousel"
           style="background-image: url('./assets/img/theme/Screenshot.jpg')">
           <ol class="carousel-indicators">
             <li *ngFor="let item of imageCarousel; let i = index" data-target="#carouselExampleCaptions"
@@ -39,7 +39,9 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
-        </div>
+        </div> -->
+      
+        <app-carousel></app-carousel>
       </div>
       <!-- SVG separator -->
       <div class="separator separator-bottom separator-skew zindex-100">
@@ -56,7 +58,7 @@
       </div>
 
       <div class="BackToTop">
-        <button id="myBtn" (click)="onScrollUp()" title="Go to top">
+        <button id="myBtn"(click)="onActivate($event)" title="Go to top">
           <i class="fa fa-angle-up"></i>
         </button>
       </div>
@@ -199,7 +201,7 @@
                 <select [(ngModel)]="location" [ngModelOptions]="{standalone: true}" class="form-control dropbtn" id="ThanhPho">
                   <option *ngFor="let item of filterData.location;">{{item}}</option>
                 </select>
-                <button (click)="onSearch()" class="btn btn-success">
+                <button (click)="onSearch()" class="btn btn-primary">
                   Tìm kiếm
                 </button>
               </form>

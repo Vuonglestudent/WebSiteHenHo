@@ -1,8 +1,12 @@
 .navbar-admin {
+    /* position: fixed; */
     height: 100vh;
     background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9);
     padding-left: 15px;
     padding-right: 15px;
+    width: 250px;
+    /* left:0;
+    top: 0; */
 }
 
 .list-group-item {

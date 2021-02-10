@@ -168,7 +168,7 @@
                     <div class="tab-content" id="myTabContent">
 
                       <!-- Tab 01 - Thông tin cơ bản -->
-                      <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                      <div class="tab-pane fade show active animate-bottom" id="tabs-icons-text-1" role="tabpanel"
                         aria-labelledby="tabs-icons-text-1-tab">
 
                         <!--Giới tính-->
@@ -353,9 +353,10 @@
                               style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
 
 
-                            <select *ngIf="item.isSearchFeature" type="text" value="{{item.featureDetailId}}"
-                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
-                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+                            <select (change)='onOptionsFeatureSelected($event, i)' *ngIf="item.isSearchFeature"
+                              type="text" value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
+                              [ngModelOptions]="{standalone: true}" class="form-control"
+                              style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
 
                               <option value="{{item.featureDetailId}}">{{item.content}}
                               </option>
@@ -368,7 +369,7 @@
                       </div>
 
                       <!-- Tab 02 - Sở thích -->
-                      <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                      <div class="tab-pane fade animate-bottom" id="tabs-icons-text-2" role="tabpanel"
                         aria-labelledby="tabs-icons-text-2-tab">
 
                         <div *ngIf="!editing">
@@ -388,9 +389,10 @@
                               class="form-control form-title text-center col-3"
                               style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
 
-                            <select *ngIf="!item.isSearchFeature" type="text" value="{{item.featureDetailId}}"
-                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
-                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+                            <select (change)='onOptionsFeatureSelected($event, i)' *ngIf="!item.isSearchFeature"
+                              type="text" value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
+                              [ngModelOptions]="{standalone: true}" class="form-control"
+                              style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
 
                               <option value="{{item.featureDetailId}}">{{item.content}}
                               </option>
@@ -403,7 +405,7 @@
                       </div>
 
                       <!-- Tab 03 - Các Search features -->
-                      <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
+                      <div class="tab-pane fade animate-bottom" id="tabs-icons-text-3" role="tabpanel"
                         aria-labelledby="tabs-icons-text-3-tab">
                         <!--Giới tính gợi ý-->
                         <div class="d-flex flex-row">
@@ -452,13 +454,14 @@
                         </div>
 
                         <div *ngIf="editing">
-                          <div *ngFor="let item of Features; let i = index" class="d-flex flex-row">
+                          <div *ngFor="let item of SearchFeatures; let i = index" class="d-flex flex-row">
                             <input type="text" value="{{item.name}}" class="form-control form-title text-center col-3"
                               style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
 
-                            <select type="text" value="{{item.featureDetailId}}"
-                              [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
-                              class="form-control" style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
+                            <select (change)='onOptionsSearchFeatureSelected($event, i)' type="text"
+                              value="{{item.featureDetailId}}" [(ngModel)]="SearchFeatures[i].featureDetailId"
+                              [ngModelOptions]="{standalone: true}" class="form-control"
+                              style="border-radius: 0 0.25rem 0.25rem 0;" list="likeTechnologys">
 
                               <option value="{{item.featureDetailId}}">{{item.content}}
                               </option>
@@ -482,8 +485,9 @@
 
             <div class="row justify-content-center">
               <div *ngIf="!isViewFriendList && !isViewImageList" class="col-lg-9">
-                <div *ngIf="uploadImage">
 
+                <!-- Upload Images -->
+                <div *ngIf="uploadImage">
                   <div *ngIf="uploadStatus=='none'" style="display:block;" #myDiv class="animate-bottom">
                     <p>Upload your pictures!</p>
 
@@ -523,12 +527,12 @@
 
                   <form role="form" #Info="ngForm">
                     <button *ngIf="editing && !updating" style="width:100%" (click)="onUpdateInfo(Info)"
-                      class="btn btn-success float-right mt-2 mb-2">
+                      class="btn btn-primary float-right mt-2 mb-2">
                       <i class="fa fa-edit"></i>
                       Cập nhật
                     </button>
 
-                    <button *ngIf="updating" style="width:100%" type="button" class="btn btn-success float-right">
+                    <button *ngIf="updating" style="width:100%" type="button" class="btn btn-primary float-right">
                       <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                       Updating...
                     </button>
@@ -537,33 +541,7 @@
               </div>
             </div>
 
-            <div *ngIf="isViewFriendList" class="h4 font-weight-300 animate-bottom"><b>Danh sách bạn bè</b> </div>
-            <div *ngIf="isViewFriendList" class="col-lg-12 col-md-12 row pl-3"
-              style="margin-left: 0%; margin-right: 0%;">
 
-              <div *ngFor="let item of FriendList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
-                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
-                <div class="card card2">
-                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
-                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
-                        src="{{item.avatarPath}}" alt="Avatar"></a>
-                  </div>
-                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
-                      <a style="cursor: pointer">
-                        <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
-                          {{item.fullName}}
-                        </h6>
-                      </a>
-                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
-                          class="text-muted">{{item.summary}}</small></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div *ngIf="isViewBlockList" class="h4 font-weight-300 animate-bottom text-danger"><b>Danh sách Block</b>
             </div>
             <div *ngIf="isViewBlockList" class="col-lg-12 col-md-12 row pl-3"
@@ -592,9 +570,15 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="isViewImageList" class="h4 font-weight-300 animate-bottom"><b>Danh sách hình ảnh</b> </div>
-            <div *ngIf="isViewImageList" class="col-lg-12 col-md-12 row pl-3"
-              style="margin-left: 0%; margin-right: 0%;">
+            <hr>
+            <!-- Xem hình -->
+            <div *ngIf="imagesResponse.length > 0" class="h4 font-weight-300 animate-bottom"><b>Hình ảnh của
+                {{UserProfile.fullName}}</b> </div>
+
+            <div *ngIf="imagesResponse.length == 0" class="h4 font-weight-300 animate-bottom"><b>Chưa có hình ảnh
+                nào!</b> </div>
+
+            <div class="col-lg-12 col-md-12 row pl-3" style="margin-left: 0%; margin-right: 0%;">
               <div *ngFor="let item of imagesResponse; let i = index" class="col-md-3 col-xl-3 animate-bottom">
                 <div *ngIf="i < 8" style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                   <div class="card card2">
@@ -623,9 +607,42 @@
               <div *ngIf="!isSeenMoreImage && imagesResponse.length >= 8"
                 class="alert alert-default btn active-viewImage" style="width: 100%; margin: 0 15px;"
                 (click)="clickSeenMoreImage()">
-                <h5 class="font-weight-300 text-white" style="margin-bottom: 0;">Xem Thêm</h5>
+                <h6 class="text-white" style="margin:-1%;padding:-2%;">Xem Thêm</h6>
               </div>
             </div>
+
+            <hr>
+            <br>
+
+            <!-- Danh sách bạn bè -->
+            <div *ngIf="isYourself" class="h4 font-weight-300 animate-bottom"><b>Danh sách bạn bè</b> </div>
+            <div *ngIf="isYourself" class="col-lg-12 col-md-12 row pl-3" style="margin-left: 0%; margin-right: 0%;">
+
+              <div *ngFor="let item of FriendList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
+                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                <div class="card card2">
+                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
+                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
+                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
+                        src="{{item.avatarPath}}" alt="Avatar"></a>
+                  </div>
+                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
+                      <a style="cursor: pointer">
+                        <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
+                          {{item.fullName}}
+                        </h6>
+                      </a>
+                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
+                          class="text-muted">{{item.summary}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

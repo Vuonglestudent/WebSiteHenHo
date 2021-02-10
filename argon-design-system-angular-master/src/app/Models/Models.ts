@@ -138,3 +138,14 @@ export class User {
     features: FeatureVM[];
     searchFeatures: FeatureVM[];
 }
+
+export class ImageScore {
+    active: boolean;
+    autoFilter: boolean;
+    drawings: number;
+    hentai: number;
+    neutral: number;
+    porn: number;
+    sexy: number;
+    updatedAt: Date;
+}

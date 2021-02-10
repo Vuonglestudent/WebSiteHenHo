@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     private messageService: MessageService,
     private usersService: UsersService,
     private _ngZone: NgZone,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
   ) {
     this.subscribeToEvents();
   }
@@ -84,25 +84,26 @@ export class AppComponent implements OnInit {
     };
     this.authenticationService.UserInfo = userInfo;
 
-    this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
+    this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'));
+
     if (this.authenticationService.UserInfo != null) {
 
       this.authenticationService.ValidateToken()
         .then(() => {
           this.authenticationService.IsLogin = true;
           console.log('Valid token')
-
+          //console.log(this.signalRService.connectionId);
+          //this.signalRService.SaveHubId();
         })
         .catch(error => {
-          if (error.status == 401) {
-            console.log('Token Invalid');
-            localStorage.clear();
-            this.authenticationService.IsLogin = false;
-            this.authenticationService.UserInfo = null;
-          }
+          console.log('Token Invalid');
+          localStorage.clear();
+          this.authenticationService.IsLogin = false;
+          this.authenticationService.UserInfo = null;
         })
     }
     else {
+      localStorage.clear();
       this.authenticationService.IsLogin = false;
       this.authenticationService.UserInfo = null;
     }
@@ -223,10 +224,6 @@ export class AppComponent implements OnInit {
               }
               catch { }
             }
-
-            //Tin nhắn rác
-          } else {
-
           }
         }
 

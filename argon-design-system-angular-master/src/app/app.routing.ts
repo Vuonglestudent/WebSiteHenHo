@@ -16,6 +16,7 @@ import { FacebookLoginComponent } from './facebook-login/facebook-login.componen
 import { FriendListComponent } from './friend-list/friend-list.component'
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import {FeatureManagerComponent} from './feature-manager/feature-manager.component';
+import { ImageScoreComponent } from './image-score/image-score.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },
@@ -30,7 +31,8 @@ const routes: Routes = [
   { path: 'filterfriends' , component: FilterFriendsComponent},
   { path: 'statistic' , component: StatisticComponent},
   { path: 'manager-user' , component: ManagerUserComponent},
-  {path: 'feature-manager', component: FeatureManagerComponent}
+  {path: 'feature-manager', component: FeatureManagerComponent},
+  {path: 'image-score', component: ImageScoreComponent}
 ];
 
 @NgModule({

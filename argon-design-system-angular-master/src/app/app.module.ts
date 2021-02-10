@@ -41,6 +41,8 @@ import { NavbarAdminComponent } from './shared/navbar-admin/navbar-admin.compone
 import { ChartsModule } from 'ng2-charts';
 import { TagInputModule } from 'ngx-chips';
 import { FeatureManagerComponent } from './feature-manager/feature-manager.component';
+import { ImageScoreComponent } from './image-score/image-score.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { FeatureManagerComponent } from './feature-manager/feature-manager.compo
     ManagerUserComponent,
     NavbarAdminComponent,
     FeatureManagerComponent,
+    ImageScoreComponent,
+    CarouselComponent,
   ],
   imports: [
     BrowserModule,

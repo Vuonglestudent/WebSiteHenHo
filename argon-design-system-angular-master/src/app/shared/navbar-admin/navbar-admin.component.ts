@@ -19,16 +19,35 @@ export class NavbarAdminComponent implements OnInit {
   urlStatistic = false;
   urlManagerUser = false;
   urlFeatureManger = false;
+  urlImageScore = false;
 
 
   ngOnInit(): void {
     var url = this.router.url.split("/")[1];
     if (url === 'statistic') {
       this.urlStatistic = true;
+
+      this.urlFeatureManger = false;
+      this.urlManagerUser = false;
+      this.urlImageScore = false;
     } else if (url === 'manager-user') {
       this.urlManagerUser = true;
-    } else if (url == 'feature-manager'){
-      this.urlManagerUser = true;
+
+      this.urlStatistic = false;
+      this.urlFeatureManger = false;
+      this.urlImageScore = false;
+    } else if (url === 'feature-manager'){
+      this.urlFeatureManger = true;
+
+      this.urlStatistic = false;
+      this.urlManagerUser = false;
+      this.urlImageScore = false;
+    }else if(url === 'image-score'){
+      this.urlImageScore = true;
+
+      this.urlStatistic = false;
+      this.urlFeatureManger = false;
+      this.urlManagerUser = false;
     }
   }
 
@@ -52,6 +71,7 @@ export class NavbarAdminComponent implements OnInit {
     this.urlStatistic = true;
     this.urlManagerUser = false;
     this.urlFeatureManger = false;
+    this.urlImageScore = false;
     this.router.navigate(['/statistic']);
   }
 
@@ -59,6 +79,7 @@ export class NavbarAdminComponent implements OnInit {
     this.urlStatistic = false;
     this.urlManagerUser = true;
     this.urlFeatureManger = false;
+    this.urlImageScore = false;
     this.router.navigate(['/manager-user']);
   }
 
@@ -66,6 +87,7 @@ export class NavbarAdminComponent implements OnInit {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
+    this.urlImageScore = false;
     this.router.navigate(['/home'])
   }
   
@@ -73,7 +95,17 @@ export class NavbarAdminComponent implements OnInit {
     this.urlFeatureManger = true;
     this.urlManagerUser = false;
     this.urlStatistic = false;
+    this.urlImageScore = false;
     this.router.navigate(['/feature-manager']);
+  }
+
+  clickImageScore = () => {
+    this.urlImageScore = true;
+
+    this.urlStatistic = false;
+    this.urlFeatureManger = false;
+    this.urlManagerUser = false;
+    this.router.navigate(['/image-score']);
   }
 
 }

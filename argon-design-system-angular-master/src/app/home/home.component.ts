@@ -2,7 +2,7 @@ import { ImageService } from './../service/image.service';
 import { ImageUser, User } from '../models/models';
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
-import {MessageService} from '../service/message.service';
+import { MessageService } from '../service/message.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../service/users.service';
 import { AlertService } from '../_alert';
@@ -42,17 +42,17 @@ export class HomeComponent implements OnInit {
     PageSizeNewUser = 10;
 
     // LoadImageUser
-    
+
 
     //
     clickSeenImageUser
     Loading = false;
     clickSeenImage = 0;
     ngOnInit() {
-        this.updatePagingNumber(this.usersService.FavoritePage.current);
-        
+        this.updatePagingNumber(this.usersService.FavoritePage.index);
+
         if (this.authenticationService.UserInfo != null) {
-            if(this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers){
+            if (this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers) {
                 this.getSimilarUSer(false);
                 this.usersService.IsGetSimilarityUsers = true;
             }
@@ -61,16 +61,16 @@ export class HomeComponent implements OnInit {
             this.getFavoritors();
         }
 
-        if(this.usersService.NewUsers.length == 0){
+        if (this.usersService.NewUsers.length == 0) {
             this.usersService.GetNewUsers(this.PageIndexNewUser, this.PageSizeNewUser)
-            .then(response => {
-                this.usersService.NewUsers = response;
+                .then(response => {
+                    this.usersService.NewUsers = response;
 
-            })
-            .catch(error => {
-                this.alertService.clear();
-                this.alertService.error("Lỗi server!", this.options);
-            })
+                })
+                .catch(error => {
+                    this.alertService.clear();
+                    this.alertService.error("Lỗi server!", this.options);
+                })
         }
         this.LoadFilterData();
     }
@@ -82,15 +82,13 @@ export class HomeComponent implements OnInit {
         gender: '',
 
     }
-    getSimilarUSer = (filter:boolean) => {
+    getSimilarUSer = (filter: boolean) => {
         this.Loading = true;
         this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
-            .then(response =>{
+            .then(response => {
                 this.Loading = false;
                 this.usersService.Favoritors = response.data;
                 this.usersService.FavoritePage.total = response.pageTotal;
-                console.log(response)
-                console.log(this.usersService.Favoritors)
                 this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
@@ -106,12 +104,11 @@ export class HomeComponent implements OnInit {
                 });
             })
             .catch(error => console.log(error))
-        
+
     }
 
     getFavoritors() {
         this.Loading = true;
-        console.log('get page: ' + this.usersService.FavoritePage.index);
         this.usersService.GetFavoritest(this.usersService.FavoritePage.index, this.usersService.FavoritePage.size)
             .then(response => {
                 this.Loading = false;
@@ -146,7 +143,6 @@ export class HomeComponent implements OnInit {
 
     updatePagingNumber(page: number) {
 
-        console.log(this.usersService.FavoritePage.total)
         this.usersService.FavoritePage.index = page;
         if (page == 1) {
             this.usersService.FavoritePage.position = 1;
@@ -194,7 +190,7 @@ export class HomeComponent implements OnInit {
             this.LoginRequired();
             return;
         }
-        if(this.likeProcessing == true){
+        if (this.likeProcessing == true) {
             return;
         }
         this.likeProcessing = true;
@@ -389,24 +385,24 @@ export class HomeComponent implements OnInit {
     fromAge = 15;
     toAge = 60;
     location = "Tất cả";
-    LoadFilterData(){
+    LoadFilterData() {
         for (let i = 16; i <= 60; i++) {
-            this.filterData.fromAge.push(i); 
-            this.filterData.toAge.push(i);            
+            this.filterData.fromAge.push(i);
+            this.filterData.toAge.push(i);
         }
-        
+
         this.usersService.GetProfileData()
-        .then(response =>{
-            this.filterData.location = response.location;
-            this.filterData.location.unshift("Tất cả");
-            this.filterData.fromAge.unshift("15");
-            this.filterData.toAge.unshift("60");
-            this.filterData.gender.unshift("Tất cả");
-        })
-        .catch(error => {console.log(error)})
+            .then(response => {
+                this.filterData.location = response.location;
+                this.filterData.location.unshift("Tất cả");
+                this.filterData.fromAge.unshift("15");
+                this.filterData.toAge.unshift("60");
+                this.filterData.gender.unshift("Tất cả");
+            })
+            .catch(error => { console.log(error) })
     }
-    onSearch(){
-        if(!this.authenticationService.IsLogin){
+    onSearch() {
+        if (!this.authenticationService.IsLogin) {
             this.LoginRequired();
             return;
         }
@@ -414,20 +410,14 @@ export class HomeComponent implements OnInit {
         this.getSimilarUSer(this.isFilter);
     }
 
-    onScrollUp(){
-
-        // var el = document.querySelector('container');
-        // el.scrollTop = el.scrollHeight;
-        
-        // setTimeout(function(){
-        //   el.scrollTop = 0;
-        // }, 500);
-
-        window.scrollTo(0, 0);
-
-        // element.setAttribute("body.scrollTop", "0");
-        // element.setAttribute("documentElement.scrollTop", "0");
-        // document.body.scrollTop = 0;
-        // document.documentElement.scrollTop = 0;
+    onActivate(event) {
+        let scrollToTop = window.setInterval(() => {
+            let pos = window.pageYOffset;
+            if (pos > 0) {
+                window.scrollTo(0, pos - 30); // how far to scroll on each step
+            } else {
+                window.clearInterval(scrollToTop);
+            }
+        }, 5);
     }
 }

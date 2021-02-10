@@ -9,6 +9,7 @@ import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import { from } from 'rxjs';
 import { slideInOutAnimation } from '../_animates/animates';
+import { SignalRService } from '../service/signal-r.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     protected alertService: AlertService,
-    private authService: SocialAuthService
+    private authService: SocialAuthService,
+    private signalRService: SignalRService,
   ) { }
 
   options = {
@@ -115,11 +117,16 @@ export class LoginComponent implements OnInit {
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
 
+        this.signalRService.SaveHubId()
+          .then(response => console.log(response))
+          .catch(error => console.log("Can not save connectionId"))
+
         // Retrieve the object from storage
         this.alertService.clear();
         this.alertService.success('Success!!', this.options);
         console.log('this is info');
         console.log(this.authenticationService.UserInfo);
+
         if (!this.authenticationService.UserInfo.IsInfoUpdated) {
           this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
           return;
@@ -290,11 +297,18 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    console.log(FacebookLoginProvider.PROVIDER_ID)
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
+      .then(response =>{
+        console.log(response);
 
+        this.signalRService.SaveHubId()
+        .then(response => console.log(response))
+        .catch(error => console.log("Can not save connectionId"))
+      })
+      .catch(error => console.log(error))
+    console.log(FacebookLoginProvider.PROVIDER_ID);
   }
-
+  
   signOut(): void {
     this.authService.signOut();
   }

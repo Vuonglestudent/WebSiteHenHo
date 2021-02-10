@@ -196,3 +196,6 @@
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+.row-data:hover{
+  background-color: #c7dbfc;
+}
