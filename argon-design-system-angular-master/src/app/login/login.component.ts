@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../user-components/signup/authentication.service';
 import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AlertService } from '../_alert';

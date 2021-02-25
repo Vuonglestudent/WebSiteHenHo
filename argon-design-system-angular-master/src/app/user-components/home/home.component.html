@@ -1,0 +1,406 @@
+<main>
+  <div class="position-relative">
+    <!-- Hero for FREE version -->
+    <section class="section section-lg section-hero section-shaped">
+      <!-- Background circles -->
+      <div class="shape shape-style-1 shape-primary">
+        <span class="span-150"></span>
+        <span class="span-50"></span>
+        <span class="span-50"></span>
+        <span class="span-75"></span>
+        <span class="span-100"></span>
+        <span class="span-75"></span>
+        <span class="span-50"></span>
+        <span class="span-100"></span>
+        <span class="span-50"></span>
+        <span class="span-100"></span>
+      </div>
+
+      <div class="p-carousel">
+
+        <app-carousel></app-carousel>
+      </div>
+      <!-- SVG separator -->
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </section>
+    <div class="container">
+      <div class="onlineCount">
+        <i class="fa fa-globe"></i>
+        Online: {{messageService.onlineCount}}
+      </div>
+
+      <div class="BackToTop">
+        <button id="myBtn" (click)="onActivate($event)" title="Go to top">
+          <i class="fa fa-angle-up"></i>
+        </button>
+      </div>
+
+      <div class="row" style="margin-bottom: 50px;">
+        <div style="width: 70%;">
+
+          <!--  -->
+          <div id="alert-custom">
+            <alert style="padding-left: 15px; padding-right: 15px;"></alert>
+          </div>
+
+          <div class="col-md-12">
+            <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link rounded-circle active" id="first-tab" data-toggle="tab" href="#link22" role="tab"
+                  aria-selected="false">
+                  <span class="nav-link-icon d-block"><i class="ni ni-atom"></i></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="second-tab" data-toggle="tab" href="#link23" role="tab" aria-selected="false">
+                  <span class="nav-link-icon d-block"><i class="ni ni ni-image"></i></span>
+                </a>
+              </li>
+
+            </ul>
+            <div class="card card-plain">
+              <div class="tab-content tab-space">
+                <div class="tab-pane fade active show" id="link22">
+
+                  <div *ngIf="!Loading" style="padding-right: 15px; padding-left: 15px;" class="animate-bottom">
+                    <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+                      <h4 *ngIf="authenticationService.UserInfo==null" class="text-white "><strong
+                          class="text-warning">Hot!</strong><span> Bạn được yêu thích nhiều!</span>
+                      </h4>
+                      <h4 *ngIf="authenticationService.UserInfo!=null" class="text-white "><strong
+                          class="text-warning">Hot!</strong><span> Gợi ý dành cho riêng bạn!</span>
+                      </h4>
+                    </div>
+                  </div>
+                  <div *ngIf="Loading">
+                    <div id="loader" style="position: absolute; margin-top: 150px;"></div>
+                  </div>
+                  <div class="row pr-3 pl-3">
+                    <div *ngIf="!Loading" class="card-deck">
+                      <div *ngFor="let item of usersService.Favoritors; let i = index"
+                        class="col-md-6 col-xl-4 col-12 animate-bottom"
+                        style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                        <div class="card person-card">
+                          <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
+                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
+                                class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
+                                alt="Avatar"></a>
+                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                                class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                          </div>
+                          <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
+                            <div style="height: 90px;" (click)="clickProfileUser(item.id)">
+                              <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
+                                <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
+                                  {{item.fullName}}
+                                </h6>
+                              </a>
+                              <p class="card-text limit-text"
+                                style="line-height: 100%; cursor: pointer; margin-bottom: 0;"><small
+                                  class="text-muted">{{item.summary}}</small></p>
+                              <p *ngIf="item.point != 0" style="margin-bottom: 0;"><small>Point: {{item.point}}</small>
+                              </p>
+                            </div>
+                            <div class="d-flex">
+                              <div>
+                                <button class="btn-icon-card icon-hover">
+                                  <a *ngIf="item.favorited == true" style="cursor: pointer"
+                                    (click)="Favorite(item.id, $event)"><i
+                                      class="ni ni-favourite-28 text-danger"><span><small class="text-dark"
+                                          style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
+                                  <a *ngIf="item.favorited == false" style="cursor: pointer"
+                                    (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"><span><small
+                                          style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
+                                </button>
+                              </div>
+                              <div class="flex-grow-1 ml-2">
+                                <button class="btn-icon-card icon-hover">
+                                  <i class="ni ni-chat-round " style="cursor: pointer;"><span><small class="text-dark"
+                                        style="font-size: 60%; margin-left: 1px; "></small></span></i>
+                                </button>
+                              </div>
+                              <div *ngFor="let itemImage of usersService.imageUsers; let z = index">
+                                <button *ngIf="item.id == itemImage.id" class="btn-icon-card icon-hover"
+                                  id="img_{{itemImage.id}}" onclick="selectImage(id)" (click)="debug(itemImage.id , z)">
+                                  <i class="ni ni-camera-compact" style="cursor: pointer">
+                                    <span><small class="text-dark"
+                                        style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
+                                    </span>
+                                  </i>
+                                  <img *ngFor="let image of usersService.imageUsers[z].images; let j = index"
+                                    id="img_{{j + 1}}_{{image.liked}}_{{usersService.imageUsers[z].images.length}}_{{image.id}}_{{image.numberOfLikes}}"
+                                    display="true" hidden="true" src="" alt="{{image.imagePath}}">
+                                  <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
+                                  id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
+                                  <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!Loading" class="d-flex justify-content-end"
+                    style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
+
+                    <nav aria-label="...">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a (click)="previousPage()" class="page-link" href="#" tabindex="-1">
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+
+                        <li *ngIf="usersService.FavoritePage.position==1"
+                          (click)="paging(usersService.FavoritePage.current - 1)" class="page-item active"><a
+                            class="page-link" href="#">{{usersService.FavoritePage.current - 1}}</a></li>
+                        <li *ngIf="usersService.FavoritePage.position!=1"
+                          (click)="paging(usersService.FavoritePage.current - 1)" class="page-item"><a class="page-link"
+                            href="#">{{usersService.FavoritePage.current - 1}}</a></li>
+
+                        <li *ngIf="usersService.FavoritePage.position==2"
+                          (click)="paging(usersService.FavoritePage.current)" class="page-item active"><a
+                            class="page-link" href="#">{{usersService.FavoritePage.current}}</a></li>
+                        <li *ngIf="usersService.FavoritePage.position!=2"
+                          (click)="paging(usersService.FavoritePage.current)" class="page-item"><a class="page-link"
+                            href="#">{{usersService.FavoritePage.current}}</a></li>
+
+                        <li *ngIf="usersService.FavoritePage.position==3"
+                          (click)="paging(usersService.FavoritePage.current + 1)" class="page-item active"><a
+                            class="page-link" href="#">{{usersService.FavoritePage.current + 1}}</a></li>
+                        <li *ngIf="usersService.FavoritePage.position!=3"
+                          (click)="paging(usersService.FavoritePage.current + 1)" class="page-item"><a class="page-link"
+                            href="#">{{usersService.FavoritePage.current + 1}}</a></li>
+
+                        <li class="page-item">
+                          <a (click)="nextPage()" class="page-link" href="#">
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+                <div class="tab-pane fade " id="link23">
+                  <!-- Đăng tin -->
+                  <div>
+                    <textarea *ngIf="!uploading"  [(ngModel)]="ImageTitle" style="margin-top:5px;" class="form-control news"
+                      placeholder="Nói gì đó về hình ảnh này..."></textarea>
+                  </div>
+                  <div  *ngIf="!uploading" class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                    <ngx-dropzone-label>
+                      <div>
+                        <h2 style="color: white;">Thêm hình ảnh ...</h2>
+                      </div>
+                    </ngx-dropzone-label>
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                      [removable]="true" (removed)="onRemove(f)">
+                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+                  </div>
+
+                  <div style="text-align: center; margin-right:20px; margin-top:0">
+                    <button (click)='onUpload()' *ngIf="!uploading" class="btn btn-primary">Cập nhật</button>
+                    <div *ngIf="uploading" style='margin-top: 20px'>
+                      <fa-icon style="color:#5E72E4" size="4x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- Bản tin -->
+                  <div class="news-body">
+                    <div *ngFor="let item of NewImages; let i = index" style='margin-left:3px' class="new-content">
+
+                      <div class="row">
+                        <div style="max-width:80px" class="col-6 mt-5 mt-sm-0">
+                          <img *ngIf="item.hasAvatar" src="data:image/gif;base64,{{item.avatarPath}}"
+                            alt="Raised circle image" class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+                          <img *ngIf="!item.hasAvatar" src="{{item.avatarPath}}" alt="Raised circle image"
+                            class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+                        </div>
+                        <div>
+                          <p class="d-block font-weight-bold mb-0">{{item.fullName}}</p>
+                          <div class='row'>
+                            <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
+                            <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <!-- Hình ảnh -->
+                      <div style="text-align:center">
+                        <p style="margin-top: -10px;margin-bottom: 2px; text-align: left;">{{item.title}}</p>
+                        <img class="image-content" src="data:image/gif;base64,{{item.imagePath}}">
+                      </div>
+                      <div
+                        style="margin-top:1px; margin-bottom: -31px; margin-left: 0px;justify-content: space-between; margin-right: 1%;"
+                        class="row">
+                        <button (click)="onLikeImage(item.id, i)" *ngIf="!item.liked" type="button"
+                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-gratipay" aria-hidden="true"></i>
+                          Thích</button>
+                        <button (click)="onLikeImage(item.id, i)" *ngIf="item.liked" type="button"
+                          class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-gratipay"
+                            aria-hidden="true"></i> Thích</button>
+                        <button (click)="onFollowed(item.userId, i)" *ngIf="!item.followed" type="button"
+                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-rss" aria-hidden="true"></i> Theo
+                          dõi</button>
+                        <button (click)="onFollowed(item.userId, i)" *ngIf="item.followed" type="button"
+                          class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-rss" aria-hidden="true"></i>
+                          Theo dõi</button>
+
+                        <button (click)="clickProfileUser(item.userId)" type="button"
+                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-address-card"
+                            aria-hidden="true"></i> Thông tin</button>
+                        <button (click)="clickBlock(item.userId, item.fullName)" type="button"
+                          class="btn btn-secondary btn-lg func-button" data-toggle="modal"
+                          data-target="#mySmallModalLabel"><i class="fa fa-times-circle-o"
+                            aria-hidden="true"></i> Chặn</button>
+                        <!--  -->
+
+                      </div>
+
+                      <hr>
+                    </div>
+                    <div style="text-align: center">
+                      <button (click)="onSeeMoreImage()" class="btn btn-primary">Xem thêm</button>
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!--  -->
+
+        </div>
+
+        <div style="width: 30%" class="pl-5">
+          <div class="d-flex justify-content-start">
+            <div class="col">
+              <div class="text-box">
+                <h6 class="d-flex justify-content-center" style="padding-top: 10px;">
+                  <span>
+                    <i class="fa fa-search mr-2 text-white"></i>
+                  </span>
+                  <span class="text-white"> Tìm kiếm bạn bè </span>
+                </h6>
+              </div>
+              <form class="form-search" action="">
+
+                <input [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control"
+                  placeholder="Tìm theo tên">
+                <select [(ngModel)]="gender" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
+                  id="GioiTinh">
+                  <option *ngFor="let item of filterData.gender;">Tìm {{item}}</option>
+                </select>
+                <select [(ngModel)]="fromAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
+                  id="TuoiBatDau">
+                  <option *ngFor="let item of filterData.fromAge;">Từ tuổi {{item}}</option>
+                </select>
+
+                <select [(ngModel)]="toAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
+                  id="TuoiKetThuc">
+                  <option *ngFor="let item of filterData.toAge;">Đến tuổi {{item}}</option>
+                </select>
+                <select [(ngModel)]="location" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
+                  id="ThanhPho">
+                  <option *ngFor="let item of filterData.location;">{{item}}</option>
+                </select>
+                <!-- <button (click)="onSearch()" class="btn btn-primary">
+                  Tìm kiếm
+                </button> -->
+                <button (click)="onSearch()" class="btn btn-1 btn-outline-primary" type="button">Tìm kiếm</button>
+              </form>
+            </div>
+          </div>
+          <div class="col">
+            <div class="alert text-center" style="margin-bottom: 0px;" role="alert">
+            </div>
+            <table class="table" border="0">
+              <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
+                <h5 class="text-white"><strong class="text-warning">New!</strong><span> Mới tham gia!</span></h5>
+              </div>
+              <div *ngFor="let item of usersService.NewUsers;" style="margin-bottom: 10px;">
+                <tr>
+                  <td>
+                    <div>
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
+                          class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                          class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
+                    </div>
+                  </td>
+                  <td style="padding-left: 5px;">
+                    <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
+                      <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
+                      </h6>
+                    </a>
+                    <p class="limit-text" style=" -webkit-line-clamp: 1; line-height: 90%;">
+                      <small>{{item.summary}}</small></p>
+                  </td>
+                </tr>
+              </div>
+            </table>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- <div class="row">
+        <div class="pl-5" style="width: 30%;">
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <!-- <app-sections></app-sections> -->
+</main>
+
+<section class="imagePop" id="imagePopId">
+  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
+  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)" (click)="updateStateImage()"><i
+      class="ni ni-favourite-28 text-white"></i></div>
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
+</section>
+
+<section class="imagePop" id="imagePopAvatar">
+  <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <section class="imagePopUnder" onclick="imagePopNone()"></section>
+</section>
+<app-footer></app-footer>
+
+<div class="modal fade bd-example-modal-sm" id="mySmallModalLabel" tabindex="2" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chặn {{blockName}}?</h5>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="">Bạn sẽ không còn nhận được tin của {{blockName}} nữa!</p>
+        <button (click)="onBlockUser()" type="button" class="btn btn-primary" data-dismiss="modal"
+          aria-label="Close">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">No</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,379 @@
+.dropdown-menu::before {
+  background: #fff;
+  box-shadow: none;
+  content: "";
+  display: block;
+  height: 16px;
+  width: 16px;
+  left: 75px;
+  position: absolute;
+  bottom: 100%;
+  -webkit-transform: rotate(-45deg) translateY(1rem);
+  transform: rotate(-45deg) translateY(1rem);
+  z-index: -5;
+  border-radius: 0.2rem;
+}
+
+.btn-icon-card span {
+  cursor: pointer;
+}
+
+hr {
+  margin: 20px 0px 10px 0px;
+}
+
+.table th,
+.table td {
+  padding: 0px 1rem 0px 1rem;
+  border: 0.0625rem solid #dee2e6;
+}
+
+.table-hover-profile tr:hover {
+  background-color: beige;
+}
+
+.table th {
+  width: 35%;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+label {
+  font-size: 1rem;
+  margin-bottom: 0px;
+  color: black;
+}
+
+.placeSelect {
+  font-size: 1rem;
+  width: 100%;
+  border: 0px;
+  padding-left: 0.8rem;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: black;
+}
+
+.placeSelect:focus,
+.dobUser:focus,
+button:focus {
+  outline: 0;
+}
+
+.placeSelect:hover,
+.placeSelect:focus,
+.radioProfile:hover,
+.dobUser:hover {
+  background-color: beige;
+  option {
+    background-color: white;
+  }
+}
+
+.dobUser {
+  width: 100%;
+  padding-left: 1rem;
+}
+
+.radioProfile {
+  background-color: white;
+}
+
+ngx-dropzone,
+.custom-dropzone {
+  margin: 20px;
+}
+
+.custom-dropzone {
+  height: 250px;
+  background: #8666ce;
+  background-image: linear-gradient(to bottom right, #3c2693, #d782d9);
+  color: #fff;
+
+  font-size: 20px;
+}
+
+.custom-dropzone.ngx-dz-hovered {
+  border: 5px solid rgb(235, 79, 79);
+}
+
+.profile-page .card-profile .card-profile-actions {
+  padding: 0.875rem 0;
+}
+.btn-icon-card:active span i {
+  transform: translateY(10px);
+}
+
+/* Popup Image */
+.close {
+  position: absolute;
+  z-index: 14;
+  top: 1%;
+  right: 5%;
+  cursor: pointer;
+  font-size: 50px;
+  color: white;
+}
+
+.close i:hover {
+  color: red;
+}
+// End
+
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+.thumb-table {
+  width: 100%;
+  height: auto;
+  min-height: 196px;
+  max-height: 196px;
+  background-color: white;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s;
+}
+
+@-webkit-keyframes animatebottom {
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+#myDiv {
+  display: none;
+  text-align: center;
+}
+
+//
+
+.icon-hover {
+  padding-bottom: 15%;
+  margin-bottom: 8%;
+}
+
+// .btn-icon-card:hover {
+//   font-size: 150%;
+//   padding-bottom: 0%;
+// }
+.card2:hover {
+  background-color: #f0e1f7;
+  transition: 0.5s;
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  .btn-icon-card {
+    background-color: #f0e1f7;
+  }
+}
+
+.dropbtn:hover {
+  background-color: beige;
+  option {
+    background-color: white;
+  }
+}
+
+.card-profile-image img {
+  width: 180px;
+  height: 180px;
+}
+
+select option,
+select div {
+  font-family: "FontAwesome" !important;
+  font-size: 16px;
+}
+
+select {
+  font-family: "FontAwesome" !important;
+  font-size: 16px;
+}
+
+.active-viewImage:active {
+  transform: translateY(10px);
+}
+
+.form-control {
+  font-size: 16px;
+  padding-left: 1.75rem;
+  margin: 1px 0 1px 0;
+  border: solid 1px#deeefa;
+  
+}
+
+.card-title {
+  margin-bottom: 0%;
+}
+
+.form-control[readonly] {
+  background-color: white;
+}
+
+.form-title[readonly] {
+  background-image: linear-gradient(to bottom right,white, white);
+}
+
+:root {
+  --color: rebeccapurple;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.radio {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+  font-size: 1.25rem;
+  color: var(--color);
+
+  &:focus-within {
+    .radio__label {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+}
+
+.radio__label {
+  line-height: 1;
+  transition: 180ms all ease-in-out;
+  opacity: 0.8;
+}
+
+.radio__input {
+  display: flex;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:focus + .radio__control {
+      box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
+    }
+  }
+}
+
+.radio-gradient input:checked + .radio__control {
+  background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
+}
+
+.radio-before {
+  .radio__control {
+    display: grid;
+    place-items: center;
+  }
+
+  input + .radio__control::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    box-shadow: inset 0.5em 0.5em currentColor;
+    border-radius: 50%;
+    transition: 180ms transform ease-in-out;
+    transform: scale(0);
+  }
+
+  input:checked + .radio__control::before {
+    transform: scale(1);
+  }
+}
+
+.radio__control {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 0.1em solid currentColor;
+  transform: translateY(-0.05em);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.line-cut-profile {
+  width: 100%;
+  height: 10px;
+  margin: 0.25rem 0 0.25rem 0;
+  border-radius: 0.125rem;
+}
+
+.bg-card {
+  background-image: linear-gradient(to bottom right, #3c2693, #d782d9);
+}
+
+option:hover{
+  background-color: #5E72E4
+}
+#alert-custom {
+  top: 47px;
+  right: 658px;
+  position: fixed;
+  z-index: 3000;
+}

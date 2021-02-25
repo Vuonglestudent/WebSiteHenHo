@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UrlMainService } from 'src/app/service/url-main.service';
-import { AuthenticationService } from 'src/app/signup/authentication.service';
+import { AuthenticationService } from 'src/app/user-components/signup/authentication.service';
 import { SubscribeService } from 'src/app/service/subscribe.service';
 import { faSpinner, faCheck } from '@fortawesome/free-solid-svg-icons';
 @Component({

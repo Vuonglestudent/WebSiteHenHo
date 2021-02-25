@@ -1,0 +1,335 @@
+<div style="display: flex; flex-direction: row;">
+    <app-navbar-admin></app-navbar-admin>
+    <div class="col-10 col-xl-10 col-lg-10 col-md-10 p-5 contain-manager-user">
+        <div *ngIf="Loading">
+            <div id="loader"></div>
+        </div>
+
+        <alert></alert>
+        <!-- Create feature button -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFeature">Add
+            Feature</button>
+
+        <!-- Features -->
+        <div *ngIf="!Loading" class="card table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Weight rate</th>
+                        <th class="text-center">Calculate</th>
+                        <th class="text-center">Search feature</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of featureService.features; let i = index" class="row-data">
+                        <td class="text-center">{{i + 1}}</td>
+                        <td class="text-center">{{item.name}}</td>
+                        <td class="text-center">{{item.weightRate}}</td>
+                        <td class="text-center">{{item.isCalculated}}</td>
+                        <td class="text-center">{{item.isSearchFeature}}</td>
+                        <td class="td-actions text-center">
+                            <button (click)="onDetails(i)" type="button" rel="tooltip"
+                                class="btn btn-info btn-icon btn-sm " data-toggle="modal" data-target="#exampleModal">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+                            </button>
+                            <!-- Update Feature Button -->
+                            <button (click)="onClickUpdateFeature(item)" type="button" rel="tooltip"
+                                class="btn btn-success btn-icon btn-sm" data-toggle="modal" data-target="#updateFeature"
+                                title="">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </button>
+                            <button (click)="onDeleteFeature(item.id)" type="button" rel="tooltip"
+                                class="btn btn-danger btn-icon btn-sm " data-toggle="modal"
+                                data-target="#mySmallModalLabel">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Feature detail Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Feature details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContent">Add
+                            content</button>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-right">Content</th>
+                                    <th class="text-right">Weight</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of FeatureDetails; let i = index" class='row-data'>
+                                    <td class="text-center">{{i + 1}}</td>
+                                    <td class="text-center">{{item.content}}</td>
+                                    <td class="text-center">{{item.weight}}</td>
+                                    <td class="td-actions text-right">
+                                        <button (click)="onClickUpdateFeatureDetail(item)" type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm "
+                                        data-toggle="modal" data-target="#updateFeatureDetail">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </button>
+                                        <button (click)="onDeleteFeatureDetail(item.id)" type="button" rel="tooltip"
+                                            class="btn btn-danger btn-icon btn-sm " data-toggle="modal"
+                                            data-target="#mySmallModalLabel" title="">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Modal -->
+        <div class="modal fade bd-example-modal-sm" id="mySmallModalLabel" tabindex="2" role="dialog"
+            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Do you want to continue?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <button (click)="onBlockUser()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            aria-label="Close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update feature Modal -->
+        <div class="modal fade bd-example-modal-sm" id="updateFeature" tabindex="2" role="dialog"
+            aria-labelledby="updateFeature" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update feature</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Feature name" value="{{UpdateFeature.name}}"
+                                    [(ngModel)]="UpdateFeature.name" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
+                                    placeholder="Weight rate" value="{{UpdateFeature.weightRate}}"
+                                    [(ngModel)]="UpdateFeature.weightRate" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label style="margin-right: 30px;margin-left: 4%;">Calculate: </label>
+                                <div class="form-group">
+                                    <label class="custom-toggle">
+                                        <input *ngIf="UpdateFeature.isCalculated" type="checkbox" checked
+                                            [(ngModel)]="UpdateFeature.isCalculated"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="!UpdateFeature.isCalculated" type="checkbox"
+                                            [(ngModel)]="UpdateFeature.isCalculated"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label style="margin-right: 5px;margin-left: 4%;">Search feature: </label>
+                                <div class="form-group">
+                                    <label class="custom-toggle">
+                                        <input *ngIf="UpdateFeature.isSearchFeature" type="checkbox" checked
+                                            [(ngModel)]="UpdateFeature.isSearchFeature"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="!UpdateFeature.isSearchFeature" type="checkbox"
+                                            [(ngModel)]="UpdateFeature.isSearchFeature"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <button (click)="onUpdateFeature()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update feature detail Modal -->
+        <div class="modal fade bd-example-modal-sm" id="updateFeatureDetail" tabindex="2" role="dialog"
+            aria-labelledby="updateFeatureDetail" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update feature content</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Feature name" value="{{UpdateFeatureDetail.content}}"
+                                    [(ngModel)]="UpdateFeatureDetail.content" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
+                                    placeholder="Weight rate" value="{{UpdateFeatureDetail.weight}}"
+                                    [(ngModel)]="UpdateFeatureDetail.weight" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <button (click)="onUpdateFeatureDetail()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create feature Modal -->
+        <div class="modal fade bd-example-modal-sm" id="createFeature" tabindex="2" role="dialog"
+            aria-labelledby="updateFeature" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add feature</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Feature name" [(ngModel)]="CreateFeature.name"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
+                                    placeholder="Weight rate" [(ngModel)]="CreateFeature.weightRate"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label style="margin-right: 30px;margin-left: 4%;">Calculate: </label>
+                                <div class="form-group">
+                                    <label class="custom-toggle">
+                                        <input type="checkbox" checked [(ngModel)]="CreateFeature.isCalculated"
+                                            [ngModelOptions]="{standalone: true}" value="true">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label style="margin-right: 5px;margin-left: 4%;">Search feature: </label>
+                                <div class="form-group">
+                                    <label class="custom-toggle">
+                                        <input type="checkbox" checked [(ngModel)]="CreateFeature.isSearchFeature"
+                                            [ngModelOptions]="{standalone: true}" value="true">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <button (click)="onClickCreateFeature()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Create</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add content Modal -->
+        <div class="modal fade bd-example-modal-sm" id="addContent" tabindex="2" role="dialog"
+            aria-labelledby="updateFeature" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add content</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Content" [(ngModel)]="CreateFeatureDetail.content"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="exampleFormControlInput1" value='1'
+                                    placeholder="Weight" [(ngModel)]="CreateFeatureDetail.weight"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+
+                        <button (click)="onAddFeatureDetail()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

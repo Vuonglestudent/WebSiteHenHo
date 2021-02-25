@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as path from 'path';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../user-components/signup/authentication.service';
 import { UrlMainService } from './url-main.service';
 
 @Injectable({

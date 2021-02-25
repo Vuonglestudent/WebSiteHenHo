@@ -149,3 +149,19 @@ export class ImageScore {
     sexy: number;
     updatedAt: Date;
 }
+
+export class News{
+    id: number;
+    userId:string;
+    fullName:string;
+    avatarPath:string;
+    hasAvatar: boolean;
+    followed: boolean;
+    location: string;
+    title: string;
+    numberOfLikes:number;
+    liked:boolean;
+    imagePath:string;
+    hasImage: boolean;
+    createdAt: string;
+}

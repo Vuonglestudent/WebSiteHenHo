@@ -1,7 +1,7 @@
 import { UrlMainService } from './url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../user-components/signup/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,4 +46,31 @@ export class ImageService {
     return this.http.post<any>(this.mainUrl + path ,data, {headers: headers}).toPromise();
   }
 
+  public GetWaitingImages = (pageIndex:number, pageSize: number)=>{
+    var path = `WaitingImage?PageIndex=${pageIndex}&PageSize=${pageSize}`;
+    var headers = this.authenticationService.GetHeader();
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
+
+  public ApprovedImage = (imageId) =>{
+    var path = `Approved/${imageId}`;
+    var headers = this.authenticationService.GetHeader();
+
+    return this.http.put<any>(this.mainUrl + path, null, {headers: headers}).toPromise();
+  }
+
+  public BlockOutImage = (imageId) =>{
+    var path = `BlockOut/${imageId}`;
+    var headers = this.authenticationService.GetHeader();
+
+    return this.http.put<any>(this.mainUrl + path, null, {headers: headers}).toPromise();
+  }
+
+  public GetNewImages = (pageIndex:number, pageSize: number) =>{
+    var path = `new?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    var headers = this.authenticationService.GetHeader();
+
+    return this.http.get<any>(this.mainUrl + path, {headers: headers}).toPromise();
+  }
 }

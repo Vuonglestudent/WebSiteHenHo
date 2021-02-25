@@ -1,22 +1,22 @@
-import { ManagerUserComponent } from './manager-user/manager-user.component';
-import { StatisticComponent } from './statistic/statistic.component';
-import { FilterFriendsComponent } from './filter-friends/filter-friends.component';
-import { SeenImageComponent } from './seen-image/seen-image.component';
+import { ManagerUserComponent } from './admin-components/manager-user/manager-user.component';
+import { StatisticComponent } from './admin-components/statistic/statistic.component';
+import { FilterFriendsComponent } from './user-components/filter-friends/filter-friends.component';
+import { SeenImageComponent } from './user-components/seen-image/seen-image.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SignupComponent } from './signup/signup.component';
+import { HomeComponent } from './user-components/home/home.component';
+import { ProfileComponent } from './user-components/profile/profile.component';
+import { SignupComponent } from './user-components/signup/signup.component';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
-import { FacebookLoginComponent } from './facebook-login/facebook-login.component';
-import { FriendListComponent } from './friend-list/friend-list.component'
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import {FeatureManagerComponent} from './feature-manager/feature-manager.component';
-import { ImageScoreComponent } from './image-score/image-score.component';
+import { FacebookLoginComponent } from './user-components/facebook-login/facebook-login.component';
+import { FriendListComponent } from './user-components/friend-list/friend-list.component'
+import { ChangePasswordComponent } from './user-components/change-password/change-password.component';
+import {FeatureManagerComponent} from './admin-components/feature-manager/feature-manager.component';
+import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },

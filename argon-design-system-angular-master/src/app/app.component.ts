@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/common';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
-import { AuthenticationService } from './signup/authentication.service';
+import { AuthenticationService } from './user-components/signup/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
 import { ChatFriend, Message, User, UserDisplay } from './models/models';

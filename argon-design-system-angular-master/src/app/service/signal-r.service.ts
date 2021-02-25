@@ -4,7 +4,7 @@ import * as signalR from '@aspnet/signalr';
 import { Message } from '../models/models';
 import { AppComponent } from '../app.component';
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../user-components/signup/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
