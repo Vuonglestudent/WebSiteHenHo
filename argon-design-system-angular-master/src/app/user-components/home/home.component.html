@@ -77,8 +77,10 @@
                       </h4>
                     </div>
                   </div>
-                  <div *ngIf="Loading">
-                    <div id="loader" style="position: absolute; margin-top: 150px;"></div>
+                  <div *ngIf="Loading" style="text-align: center">
+                    
+                    <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon> 
+                    <p>Đang tìm bạn bè...</p>
                   </div>
                   <div class="row pr-3 pl-3">
                     <div *ngIf="!Loading" class="card-deck">
@@ -87,11 +89,11 @@
                         style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                         <div class="card person-card">
                           <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
-                                class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
+                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img 
+                                class="card-img-top thumb-table" src="{{item.avatarPath}}"
                                 alt="Avatar"></a>
-                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
-                                class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                            <!-- <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                                class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a> -->
                           </div>
                           <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
                             <div style="height: 90px;" (click)="clickProfileUser(item.id)">
@@ -196,6 +198,7 @@
                     <textarea *ngIf="!uploading"  [(ngModel)]="ImageTitle" style="margin-top:5px;" class="form-control news"
                       placeholder="Nói gì đó về hình ảnh này..."></textarea>
                   </div>
+                  
                   <div  *ngIf="!uploading" class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
                     <ngx-dropzone-label>
                       <div>
@@ -221,10 +224,10 @@
 
                       <div class="row">
                         <div style="max-width:80px" class="col-6 mt-5 mt-sm-0">
-                          <img *ngIf="item.hasAvatar" src="data:image/gif;base64,{{item.avatarPath}}"
+                          <img src="{{item.avatarPath}}"
                             alt="Raised circle image" class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
-                          <img *ngIf="!item.hasAvatar" src="{{item.avatarPath}}" alt="Raised circle image"
-                            class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+                          <!-- <img *ngIf="!item.hasAvatar" src="{{item.avatarPath}}" alt="Raised circle image"
+                            class="img-fluid rounded-circle shadow-lg" style="width: 150px;"> -->
                         </div>
                         <div>
                           <p class="d-block font-weight-bold mb-0">{{item.fullName}}</p>
@@ -232,14 +235,13 @@
                             <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
                             <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
                           </div>
-
                         </div>
                       </div>
 
                       <!-- Hình ảnh -->
                       <div style="text-align:center">
                         <p style="margin-top: -10px;margin-bottom: 2px; text-align: left;">{{item.title}}</p>
-                        <img class="image-content" src="data:image/gif;base64,{{item.imagePath}}">
+                        <img class="image-content" src="{{item.imagePath}}">
                       </div>
                       <div
                         style="margin-top:1px; margin-bottom: -31px; margin-left: 0px;justify-content: space-between; margin-right: 1%;"
@@ -336,10 +338,10 @@
                 <tr>
                   <td>
                     <div>
-                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
-                          class="img-thumbnail" src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img
                           class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a>
+                      <!-- <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                          class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a> -->
                     </div>
                   </td>
                   <td style="padding-left: 5px;">

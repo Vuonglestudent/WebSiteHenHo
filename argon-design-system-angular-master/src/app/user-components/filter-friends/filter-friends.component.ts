@@ -5,6 +5,7 @@ import { User, ImageUser, ProfileData } from '../../models/models';
 import { UsersService } from './../../service/users.service';
 import { Component, OnInit } from '@angular/core';
 import { slideInOutAnimation } from '../../_animates/animates';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-filter-friends',
@@ -42,6 +43,7 @@ export class FilterFriendsComponent implements OnInit {
   ]
 
   extend = false;
+  faSpinner = faSpinner;
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,

@@ -37,6 +37,10 @@ export class Message {
     avatar: string;
     fullName: string;
     onlineCount:number;
+    //
+    fromId:string;
+    toId:string;
+    createdAt: string;
 }
 
 export class ChatFriend {

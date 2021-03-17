@@ -19,10 +19,10 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image dropdown" style="display: block;">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img *ngIf="UserProfile.hasAvatar" src="data:image/gif;base64,{{UserProfile.avatarPath}}"
+                  <img src="{{UserProfile.avatarPath}}"
                     class="rounded-circle" (click)="checkUserClickAvatar()">
-                  <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
-                    (click)="checkUserClickAvatar()">
+                  <!-- <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
+                    (click)="checkUserClickAvatar()"> -->
                 </a>
                 <div *ngIf="checkUser && authenticationService.UserInfo.Id == currentUserId" id="changeAvatar"
                   class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
@@ -70,16 +70,26 @@
             </div>
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
-                <div *ngIf="!checkUser && UserProfile.blocked">
+                <!-- <div *ngIf="!checkUser && UserProfile.blocked">
                   <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
                     <span class="description"><i class="fa fa-user-times text-danger"></i></span>
                   </button>
+                </div> -->
+                <div>
+                  <span style="cursor: pointer" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                      class="fa fa-ellipsis-v text-dark" style="font-size: 25px; margin-top: 15px;"></i></span>
+                  <div class="dropdown-menu dropdown-menu-custom" style="top: 179px;left: -184px;">
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-assistive-listening-systems"></i> Theo dõi</a>
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-heartbeat"></i> Yêu thích</a>
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-ban"></i>Không muốn gặp lại</a>
+                    <a *ngIf="isYourself" href="#" class="dropdown-item"><i class="fa fa-users"></i>Xem danh sách đen</a>
+                  </div>
                 </div>
-                <div *ngIf="!checkUser && !UserProfile.blocked">
+                <!-- <div *ngIf="!checkUser && !UserProfile.blocked">
                   <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
                     <span class="description"><i class="fa fa-user text-info"></i></span>
                   </button>
-                </div>
+                </div> -->
                 <div *ngIf="checkUser">
                   <span class="heading">{{UserProfile.numberOfFollowers}}</span>
                   <button class="btn-icon-card" (click)="onViewFriendList()">
@@ -87,12 +97,12 @@
                   </button>
                   <!--Xem danh sách bạn bè-->
                 </div>
-                <div *ngIf="checkUser">
+                <!-- <div *ngIf="checkUser">
                   <button class="btn-icon-card" (click)="onViewBlockList()" style="margin-top: 26px;">
                     <span class="description"><i class="fa fa-user-times text-danger"></i></span>
                   </button>
-                  <!--Xem danh sách block-->
-                </div>
+                  
+                </div> -->
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
                   <button class="btn-icon-card" id="img_{{UserProfile.id}}" (click)="viewImageList()">
@@ -544,7 +554,7 @@
             </div>
 
 
-            <div *ngIf="isViewBlockList" class="h4 font-weight-300 animate-bottom text-danger"><b>Danh sách Block</b>
+            <!-- <div *ngIf="isViewBlockList" class="h4 font-weight-300 animate-bottom text-danger"><b>Danh sách Block</b>
             </div>
             <div *ngIf="isViewBlockList" class="col-lg-12 col-md-12 row pl-3"
               style="margin-left: 0%; margin-right: 0%;">
@@ -571,11 +581,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <hr>
             <!-- Xem hình -->
             <div *ngIf="imagesResponse.length > 0" class="h2 font-weight-300 animate-bottom"><b>Hình ảnh
-                </b> </div>
+              </b> </div>
 
             <div *ngIf="imagesResponse.length == 0" class="h2 font-weight-300 animate-bottom"><b>Chưa có hình ảnh
                 nào!</b> </div>
@@ -587,7 +597,7 @@
                     <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
                       onclick="selectImage(id)">
                       <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
-                          src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar"></a>
+                          src="{{item.imagePath}}" alt="Avatar"></a>
                       <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
                           src="{{item.imagePath}}" alt="Avatar"></a>
                     </div>
@@ -599,7 +609,7 @@
                     <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
                       onclick="selectImage(id)">
                       <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
-                          src="data:image/gif;base64,{{item.imagePath}}" alt="Avatar"></a>
+                          src="{{item.imagePath}}" alt="Avatar"></a>
                       <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
                           src="{{item.imagePath}}" alt="Avatar"></a>
                     </div>
@@ -617,18 +627,21 @@
             <br>
 
             <!-- Danh sách bạn bè -->
-            <div *ngIf="isYourself && FriendList.length > 0" class="h2 font-weight-300 animate-bottom"><b>Bạn bè</b> </div>
-            <div *ngIf="isYourself && FriendList.length == 0" class="h2 font-weight-300 animate-bottom"><b>Chưa có bạn bè</b> </div>
-            <div *ngIf="isYourself" class="col-lg-12 col-md-12 row pl-3 shadow" style="margin-left: 0%; margin-right: 0%;">
+            <div *ngIf="isYourself && FriendList.length > 0" class="h2 font-weight-300 animate-bottom"><b>Bạn bè</b>
+            </div>
+            <div *ngIf="isYourself && FriendList.length == 0" class="h2 font-weight-300 animate-bottom"><b>Chưa có bạn
+                bè</b> </div>
+            <div *ngIf="isYourself" class="col-lg-12 col-md-12 row pl-3 shadow"
+              style="margin-left: 0%; margin-right: 0%;">
 
               <div *ngFor="let item of FriendList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card card2">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
-                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
+                    <a style="cursor: pointer"><img class="card-img-top thumb-table"
                         src="{{item.avatarPath}}" alt="Avatar"></a>
+                    <!-- <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
+                        src="{{item.avatarPath}}" alt="Avatar"></a> -->
                   </div>
                   <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
                     <div style="height: 90px;" (click)="clickProfileUser(item.id)">
@@ -677,7 +690,7 @@
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId"
-    style="background: url(data:image/gif;base64,{{UserProfile.avatarPath}});" value=""></section>
+    style="background: url({{UserProfile.avatarPath}});" value=""></section>
 </section>
 
 <app-footer></app-footer>

@@ -1,5 +1,6 @@
 <nav id="navbar-main"
-  class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned headroom--not-top" style="height: 60px;">
+  class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned headroom--not-top"
+  style="height: 60px;">
   <div class="container-fluid" style="height: 60px">
     <a class="navbar-brand ml-lg-5 mr-lg-5" [routerLink]="['/home']">
       <img src="./assets/img/brand/logo.JPG" style="height: 60px;">
@@ -26,94 +27,34 @@
         </div>
       </div>
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-        <li class="nav-item dropdown" >
+        <li class="nav-item dropdown">
           <a class="nav-link no-caret" role="button" href="/#/filterfriends">
             <i class="ni ni-ui-04 d-lg-none"></i>
             <h4 class="text-white"><span class="nav-link-inner--text">Tìm kiếm</span></h4>
           </a>
-          <!-- <div class="dropdown-menu-xl dropdown-menu">
-            <div class="dropdown-menu-inner">
-              <a routerLinkActive="active" [routerLink]="['documentation/tutorial']"
-                class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
-                  <i class="ni ni-spaceship"></i>
-                </div>
-                <div class="media-body ml-3">
-                  <h6 class="heading text-primary mb-md-1">Getting started</h6>
-                  <p class="description d-none d-md-inline-block mb-0">Learn how to use Argon compiling Scss, change
-                    brand colors and more.</p>
-                </div>
-              </a>
-              <a routerLinkActive="active" [routerLink]="['documentation/colors']"
-                class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
-                  <i class="ni ni-palette"></i>
-                </div>
-                <div class="media-body ml-3">
-                  <h6 class="heading text-primary mb-md-1">Foundation</h6>
-                  <p class="description d-none d-md-inline-block mb-0">Learn more about colors, typography, icons and
-                    the grid system we used for Argon.</p>
-                </div>
-              </a>
-              <a routerLinkActive="active" [routerLink]="['documentation/alerts']"
-                class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
-                  <i class="ni ni-ui-04"></i>
-                </div>
-                <div class="media-body ml-3">
-                  <h5 class="heading text-warning mb-md-1">Components</h5>
-                  <p class="description d-none d-md-inline-block mb-0">Browse our 50 beautiful handcrafted components
-                    offered in the Free version.</p>
-                </div>
-              </a>
-            </div>
-          </div> -->
+
         </li>
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link no-caret" data-toggle="dropdown" role="button">
-            <i class="ni ni-collection d-lg-none"></i>
-            <h4 class="text-white"><span class="nav-link-inner--text">Danh mục</span></h4>
-          </a>
-          <div class="dropdown-menu">
-            <a [routerLink]="['/landing']" class="dropdown-item">Tìm người yêu</a>
-            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn đời</a>
-            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn tâm sự</a>
-            <a [routerLink]="['/user-profile']" class="dropdown-item">Tìm người bạn mới</a>
-          </div>
-        </li> -->
+
       </ul>
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-        <!-- <li class="nav-item">
-          <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip" title="Like us on Facebook">
-            <i class="fa fa-facebook-square"></i>
-            <span class="nav-link-inner--text d-lg-none">Facebook</span>
-          </a>
+
+        <li *ngIf="this.authenticationService.IsLogin == true" class="nav-item">
+          <button (click)="onViewNotification()" class="btn icons" role="button" type="button" rel="tooltip" data-toggle="modal"
+            data-target="#showNotification" title="">
+            <i class="ni ni-bell-55" style="font-size: 20px;"></i>
+          </button>
+          <div class="label-icons">
+            <span class="text-white"><small>*</small></span>
+          </div>
+
         </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip"
-            title="Follow us on Instagram">
-            <i class="fa fa-instagram"></i>
-            <span class="nav-link-inner--text d-lg-none">Instagram</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip" title="Follow us on Twitter">
-            <i class="fa fa-twitter-square"></i>
-            <span class="nav-link-inner--text d-lg-none">Twitter</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip" title="Star us on Github">
-            <i class="fa fa-github"></i>
-            <span class="nav-link-inner--text d-lg-none">Github</span>
-          </a>
-        </li> -->
+
         <li *ngIf="this.authenticationService.IsLogin == true" class="nav-item">
           <button class="btn icons" (click)="onMessageClick()">
             <i class="ni ni-chat-round" style="font-size: 20px;"></i>
           </button>
           <div class="label-icons">
-            <span class="text-white"><small>{{messageAwait}}</small></span>
+            <span class="text-white"><small>*</small></span>
           </div>
         </li>
         <li *ngIf="this.authenticationService.IsLogin == false" class="nav-item d-none d-lg-block ml-lg-4">
@@ -134,10 +75,12 @@
         </li>
         <li *ngIf="this.authenticationService.IsLogin == true">
           <div class="dropleft">
-            <div class="btn" style="padding: 0%; border-radius: 50%;"
-              role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img *ngIf="!authenticationService.UserInfo.hasAvatar" class="imgAvatar" src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
-              <img *ngIf="authenticationService.UserInfo.hasAvatar" class="imgAvatar" src="data:image/gif;base64,{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
+            <div class="btn" style="padding: 0%; border-radius: 50%;" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <!-- <img *ngIf="!authenticationService.UserInfo.hasAvatar" class="imgAvatar"
+                src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar"> -->
+              <img class="imgAvatar"
+                src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
             </div>
             <div class="dropdown-menu">
               <a href="javascript:;" (click)="clickMyProfile()" class="dropdown-item">
@@ -176,3 +119,45 @@
     </div>
   </div>
 </nav>
+
+<div class="modal fade bd-example-modal-sm" id="showNotification" tabindex="2" role="dialog"
+  aria-labelledby="updateFeature" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h5 class="modal-title">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="notification-popup" *ngFor="let item of notificationUserService.Notification">
+          <div style="padding-top: 5px;" class="row">
+            <div style="max-width:80px;" class="col-6 mt-5 mt-sm-0">
+              <!-- <img *ngIf="item.hasAvatar" src="data:image/gif;base64,{{item.avatar}}" alt="Raised circle image"
+                class="img-fluid rounded-circle shadow-lg" style="width: 150px;"> -->
+              <img src="{{item.avatar}}" alt="Raised circle image"
+                class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+
+            </div>
+            <div>
+              <p class="d-block mb-0">{{item.fullName}} {{item.content}}</p>
+              <div class='row' style="margin-bottom: -12px;">
+                <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
+                <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top:5px">
+          <button *ngIf="!loadingNotification" (click)="onMoreNotifications()" type="button" class="btn btn-outline-primary">
+            Xem thêm</button>
+            <div *ngIf="loadingNotification">
+              <fa-icon style="color:#5E72E4" size="3x" [icon]="faSpinner" [spin]="true"></fa-icon>  
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

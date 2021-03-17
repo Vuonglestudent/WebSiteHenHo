@@ -10,6 +10,7 @@ import { MessageService } from './service/message.service';
 import { ChatFriend, Message, User, UserDisplay } from './models/models';
 import { UsersService } from './service/users.service';
 import { NotificationsService } from 'angular2-notifications';
+import { NotificationUserService } from './service/notification-user.service';
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5;
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     private usersService: UsersService,
     private _ngZone: NgZone,
     private notificationService: NotificationsService,
+    private notificationUserService: NotificationUserService,
   ) {
     this.subscribeToEvents();
   }
@@ -92,6 +94,7 @@ export class AppComponent implements OnInit {
         .then(() => {
           this.authenticationService.IsLogin = true;
           console.log('Valid token')
+
           //console.log(this.signalRService.connectionId);
           //this.signalRService.SaveHubId();
         })
@@ -143,6 +146,12 @@ export class AppComponent implements OnInit {
           console.log('Number of online users: ' + message.onlineCount)
           this.messageService.onlineCount = message.onlineCount;
         }
+        else if (message.type == "notification") {
+          if (checkUrl !== "chat" && checkUrl !== "friendlist") {
+            this.notificationUserService.Notification.splice( 0, 0, message );
+            this.showNotification(response);
+          }
+        }
         else {
           //Là người gửi
           if (message.senderId == this.authenticationService.UserInfo.Id) {
@@ -183,23 +192,9 @@ export class AppComponent implements OnInit {
 
             //Hiện thông báo
             if (checkUrl !== "chat" && checkUrl !== "friendlist") {
-              this.notificationService.html(`
-              <div class="d-flex align-items-center" style="padding-bottom: 0%;">
-                <img class="rounded-circle user_img_msg"
-                  src="data:image/gif;base64,${response.avatar}" alt="">
-                  <div class="col-12">
-                    <h5 style="margin-bottom: 0%;">${response.fullName}</h5>
-                    <p>${response.content}</p>
-                  </div>
-              </div>`, null, {
-                position: ['bottom', 'right'],
-                timeOut: 2000,
-                clickToClose: false,
-                theClass: 'notification_mes',
-                animate: 'fade',
-                showProgressBar: true,
-              });
+              this.showNotification(response);
             }
+
 
             var userIndex = this.getUserIndex(message.senderId);
 
@@ -243,5 +238,26 @@ export class AppComponent implements OnInit {
         return i;
       }
     }
+  }
+
+  showNotification(message) {
+
+
+    this.notificationService.html(`
+    <div class="d-flex align-items-center" style="padding-bottom: 0%;">
+      <img class="rounded-circle user_img_msg"
+        src="data:image/gif;base64,${message.avatar}" alt="">
+        <div class="col-12">
+          <h5 style="margin-bottom: 0%;">${message.fullName}</h5>
+          <p>${message.content}</p>
+        </div>
+    </div>`, null, {
+      position: ['bottom', 'right'],
+      timeOut: 2000,
+      clickToClose: false,
+      theClass: 'notification_mes',
+      animate: 'fade',
+      showProgressBar: true,
+    });
   }
 }

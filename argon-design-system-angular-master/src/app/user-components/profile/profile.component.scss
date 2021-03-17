@@ -377,3 +377,11 @@ option:hover{
   position: fixed;
   z-index: 3000;
 }
+
+.dropdown-menu-custom{
+  top: 182px;
+  left: -103px;
+}
+.dropdown-menu:before{
+  display:none;
+}

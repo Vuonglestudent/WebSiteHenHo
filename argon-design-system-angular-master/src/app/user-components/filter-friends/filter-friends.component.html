@@ -55,18 +55,20 @@
     </div>
     <div id="contentUsers" class="col-lg-12 col-xl-12 col-md-12 col-12 pl-5 pr-5"
         style="position: absolute;">
-        <div *ngIf="Loading">
-            <div id="loader" style="position: absolute; margin-top: 150px;"></div>
+        <div *ngIf="Loading" style="text-align: center">
+                    
+            <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon> 
+            <p>Đang tìm bạn bè...</p>
           </div>
         <div *ngIf="!Loading" class="card-deck">
             <div *ngFor="let item of Users; let i = index" class="col-xl-2 col-lg-3 col-md-4 col-6 animate-bottom"
                 style="flex: none; margin-left: 25px; margin-right: 15px; margin-bottom: 15px; padding: 0;">
                 <div class="card">
                     <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
+                        <!-- <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
                                 class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
-                                alt="Avatar"></a>
-                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
+                                alt="Avatar"></a> -->
+                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img 
                                 class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
                     <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">

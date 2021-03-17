@@ -135,7 +135,7 @@
 
                         <div>
                             <div *ngFor="let item of WaitingImages; let i = index" class="column">
-                                <img src="data:image/gif;base64,{{item.imagePath}}"
+                                <img src="{{item.imagePath}}"
                                     (click)="openModal();currentSlide(i+1)" class="hover-shadow cursor slides">
                             </div>
 
@@ -147,7 +147,7 @@
 
                                 <div *ngFor="let item of WaitingImages; let i = index" class="mySlides">
                                     <div class="numbertext">{{i + 1}} / {{WaitingImages.length + 1}}</div>
-                                    <img class="full-screen" src="data:image/gif;base64,{{item.imagePath}}"
+                                    <img class="full-screen" src="{{item.imagePath}}"
                                         style="width:50%">
                                     <button (click)="onApprove(item.id)" style="margin-left: 1%;"
                                         class="btn btn-primary">Approve</button>
@@ -162,7 +162,7 @@
                                 </div>
 
                                 <div *ngFor="let item of WaitingImages; let i = index" class="mySlides" class="column">
-                                    <img class="demo cursor" src="data:image/gif;base64,{{item.imagePath}}"
+                                    <img class="demo cursor" src="{{item.imagePath}}"
                                         (click)="currentSlide(i + 1)" alt="{{item.title}}">
                                 </div>
 
