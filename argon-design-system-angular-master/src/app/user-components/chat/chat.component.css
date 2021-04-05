@@ -239,7 +239,11 @@ img {
 }
 .card-footer {
   border-top: 0 !important;
-  background-color: #66a3ff;
+  background-color: #5e72e4;
+  position: fixed;
+  bottom: 0px;
+  right: 31px;
+  width: 72.5%;
 }
 .container {
   align-content: center;
@@ -384,7 +388,7 @@ img {
   margin-bottom: auto;
   margin-right: 10px;
   border-radius: 25px;
-  background-color: #0084ff;
+  background-color: #5e72e4;
   padding: 10px;
   position: relative;
   color: white;

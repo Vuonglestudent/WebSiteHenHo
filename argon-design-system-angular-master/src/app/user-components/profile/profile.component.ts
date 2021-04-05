@@ -1,4 +1,4 @@
-import {  FeatureVM } from '../../models/models';
+import { FeatureVM } from '../../models/models';
 import { MessageService } from './../../service/message.service';
 import { AlertService } from './../../_alert/alert.service';
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
@@ -116,7 +116,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                                 }
                             }
                             if (!isExist) {
-                                if(this.CheckNonFeature(this.profileData.features[i].id)){
+                                if (this.CheckNonFeature(this.profileData.features[i].id)) {
                                     continue;
                                 }
                                 var feature = new FeatureVM();
@@ -143,7 +143,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                                 }
                             }
                             if (!isExist) {
-                                if(this.CheckNonSearchFeature(this.profileData.features[i].id)){
+                                if (this.CheckNonSearchFeature(this.profileData.features[i].id)) {
                                     continue;
                                 }
                                 var feature = new FeatureVM();
@@ -188,24 +188,24 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
 
         this.onViewImage()
-        if(this.authenticationService.UserInfo.Id == this.currentUserId){
+        if (this.authenticationService.UserInfo.Id == this.currentUserId) {
             this.onViewFriendList();
             this.isYourself = true;
         }
     }
 
-    CheckNonFeature(featureId:number){
+    CheckNonFeature(featureId: number) {
         for (let i = 0; i < this.Features.length; i++) {
-            if(this.Features[i].featureId === featureId){
+            if (this.Features[i].featureId === featureId) {
                 return true;
             }
         }
         return false;
     }
 
-    CheckNonSearchFeature(featureId:number){
+    CheckNonSearchFeature(featureId: number) {
         for (let i = 0; i < this.SearchFeatures.length; i++) {
-            if(this.SearchFeatures[i].featureId === featureId){
+            if (this.SearchFeatures[i].featureId === featureId) {
                 return true;
             }
         }
@@ -247,6 +247,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.success("Cập nhật hồ sơ thành công!");
                 this.editing = false;
                 this.authenticationService.UserInfo.IsInfoUpdated = true;
+                localStorage.setItem('UserInfo', JSON.stringify(this.authenticationService.UserInfo));
             })
             .catch(error => {
                 this.updating = false;
@@ -345,10 +346,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             .then(response => {
                 this.uploadStatus = 'none';
                 this.alertService.clear();
-                if(response.approved){
+                if (response.approved) {
                     this.alertService.success(response.message, this.options);
                 }
-                else{
+                else {
                     this.alertService.warn(response.message, this.options);
                 }
                 this.files = [];
@@ -743,11 +744,59 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.isViewActions = !this.isViewActions;
     }
 
-    clickBlockUser = () => {
+    blocking = false;
+    clickBlockUser = (id, name) => {
+        if(this.blocking){
+            return;
+        }
+
+        this.alertService.clear();
+
+        if (this.UserProfile.blocked) {
+            this.alertService.success(`Giờ đây, bạn và ${name} đã có thể tìm thấy nhau.`, this.options);
+        }
+        else {
+            this.alertService.warn(`Bạn và ${name} sẽ không thể tìm thấy nhau trên ứng dụng!`);
+        }
         this.UserProfile.blocked = !this.UserProfile.blocked;
-        this.usersService.BlockUser(this.UserProfile.id)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+
+        this.blocking = true;
+        this.usersService.BlockUser(id)
+            .then(response => {
+                console.log(response);
+                this.blocking = false;
+            })
+            .catch(error => {
+                this.blocking = false;
+                console.log(error)
+            });
+    }
+
+    //blocking = false;
+    onBlockUser = (item: User) => {
+        if(this.blocking){
+            return;
+        }
+
+        this.alertService.clear();
+
+        if (item.blocked) {
+            this.alertService.success(`Giờ đây, bạn và ${item.fullName} đã có thể tìm thấy nhau.`, this.options);
+        }
+        else {
+            this.alertService.warn(`Bạn và ${item.fullName} sẽ không thể tìm thấy nhau trên ứng dụng!`);
+        }
+        item.blocked = !item.blocked;
+        this.blocking = true;
+        this.usersService.BlockUser(item.id)
+            .then(response => {
+                console.log(response);
+                this.blocking = false;
+            })
+            .catch(error => {
+                this.blocking = false;
+                console.log(error)
+            });
     }
 
     onViewBlockList() {
@@ -761,6 +810,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.usersService.GetBlockList()
             .then(data => {
                 this.BlockList = data;
+                this.BlockList.forEach(item =>{
+                    item.blocked = true;
+                })
+                console.log(this.BlockList)
             })
             .catch(error => {
                 console.log(error);

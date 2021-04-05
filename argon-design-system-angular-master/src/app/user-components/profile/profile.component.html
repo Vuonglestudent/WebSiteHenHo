@@ -19,8 +19,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image dropdown" style="display: block;">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img src="{{UserProfile.avatarPath}}"
-                    class="rounded-circle" (click)="checkUserClickAvatar()">
+                  <img src="{{UserProfile.avatarPath}}" class="rounded-circle" (click)="checkUserClickAvatar()">
                   <!-- <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
                     (click)="checkUserClickAvatar()"> -->
                 </a>
@@ -76,13 +75,22 @@
                   </button>
                 </div> -->
                 <div>
-                  <span style="cursor: pointer" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                      class="fa fa-ellipsis-v text-dark" style="font-size: 25px; margin-top: 15px;"></i></span>
+                  <span style="cursor: pointer" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"><i class="fa fa-ellipsis-v text-dark"
+                      style="font-size: 25px; margin-top: 15px;"></i></span>
                   <div class="dropdown-menu dropdown-menu-custom" style="top: 179px;left: -184px;">
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-assistive-listening-systems"></i> Theo dõi</a>
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i
+                        class="fa fa-assistive-listening-systems"></i> Theo dõi</a>
                     <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-heartbeat"></i> Yêu thích</a>
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-ban"></i>Không muốn gặp lại</a>
-                    <a *ngIf="isYourself" href="#" class="dropdown-item"><i class="fa fa-users"></i>Xem danh sách đen</a>
+                    <a *ngIf="!isYourself && UserProfile.blocked"
+                      (click)="clickBlockUser(UserProfile.id, UserProfile.fullName)" style="cursor:pointer;"
+                      class="dropdown-item"><i class="fa fa-ban"></i>Bỏ chặn</a>
+                    <a *ngIf="!isYourself && !UserProfile.blocked"
+                      (click)="clickBlockUser(UserProfile.id, UserProfile.fullName)" style="cursor:pointer;"
+                      class="dropdown-item"><i class="fa fa-ban"></i>Không muốn gặp
+                      lại</a>
+                    <a *ngIf="isYourself" (click)="onViewBlockList()" style="cursor:pointer;" class="dropdown-item"
+                      data-toggle="modal" data-target="#exampleModal"><i class="fa fa-users"></i>Xem danh sách đen</a>
                   </div>
                 </div>
                 <!-- <div *ngIf="!checkUser && !UserProfile.blocked">
@@ -638,8 +646,8 @@
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card card2">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img class="card-img-top thumb-table"
-                        src="{{item.avatarPath}}" alt="Avatar"></a>
+                    <a style="cursor: pointer"><img class="card-img-top thumb-table" src="{{item.avatarPath}}"
+                        alt="Avatar"></a>
                     <!-- <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
                         src="{{item.avatarPath}}" alt="Avatar"></a> -->
                   </div>
@@ -689,8 +697,88 @@
   <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId"
-    style="background: url({{UserProfile.avatarPath}});" value=""></section>
+  <section class="imageContain" id="imageContainId" style="background: url({{UserProfile.avatarPath}});" value="">
+  </section>
 </section>
+
+<!-- BACK LIST -->
+<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Danh sách đen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table table-hover">
+
+          <tbody *ngFor="let item of BlockList; let i = index">
+            <ul class="row ul">
+              <li class="li">#{{i}}</li>
+              <li class="avatar"><img width="50px" height="50px" src="{{item.avatarPath}}"></li>
+              <li class="li">{{item.fullName}}</li>
+              <li class="li end">
+                <button *ngIf="item.blocked" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                  class="btn btn-success btn-icon btn-sm ">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                  Bỏ chặn
+                </button>
+
+                <button *ngIf="!item.blocked && blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                  class="btn btn-success btn-icon btn-sm ">
+                  <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  Bỏ chặn
+                </button>
+
+                <button *ngIf="!item.blocked && !blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                  class="btn btn-primary btn-icon btn-sm ">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                  Hoàn tác
+                </button>
+                
+
+              </li>
+
+
+            </ul>
+          </tbody>
+        </table>
+
+
+
+        <!-- <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-right">avatar</th>
+              <th class="text-right">Tên</th>
+              <th class="text-right">Bỏ chặn</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of BlockList; let i = index" class='row-data'>
+              <td class="text-center"><img src="{{item.avatarPath}}"></td>
+              <td class="text-center">{{item.fullName}}</td>
+              <td class="td-actions text-right">
+                <button (click)="onClickUpdateFeatureDetail(item)" type="button" rel="tooltip"
+                  class="btn btn-success btn-icon btn-sm " data-toggle="modal" data-target="#updateFeatureDetail">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <app-footer></app-footer>

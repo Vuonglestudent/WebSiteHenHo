@@ -16,9 +16,10 @@ export class SignalRService {
   private MainUrl = `${this.url.urlHost}`;
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${this.url.urlHost}/chatHub`)
-      .build();
-
+    // .withUrl(`${this.url.urlHost}/chatHub`)
+    .withUrl(`https://localhost:5101/chatHub`)
+    .build();
+      
     this.hubConnection
       .start()
       .then(() => {
