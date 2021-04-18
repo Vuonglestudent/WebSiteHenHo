@@ -4,13 +4,14 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/common';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
-import { AuthenticationService } from './user-components/signup/authentication.service';
+import { AuthenticationService } from './service/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
-import { ChatFriend, Message, User, UserDisplay } from './models/models';
+import { ChatFriend, IUser, Message, User, UserDisplay } from './models/models';
 import { UsersService } from './service/users.service';
 import { NotificationsService } from 'angular2-notifications';
 import { NotificationUserService } from './service/notification-user.service';
+import { timeout } from 'rxjs/operators';
 var didScroll;
 var lastScrollTop = 0;
 var delta = 5;
@@ -22,69 +23,50 @@ var navbarHeight = 0;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private _router: Subscription;
 
+  @ViewChild('openModal') modal: ElementRef<HTMLElement>;
+  private caller: IUser;
   constructor(private renderer: Renderer2,
     private router: Router, @Inject(DOCUMENT,) private document: any,
-    private element: ElementRef,
     public location: Location,
     private authenticationService: AuthenticationService,
     public signalRService: SignalRService,
     private messageService: MessageService,
-    private usersService: UsersService,
     private _ngZone: NgZone,
     private notificationService: NotificationsService,
     private notificationUserService: NotificationUserService,
   ) {
     this.subscribeToEvents();
+    this.signalRService.connectedObservable
+      .subscribe(connected => {
+        if (connected && this.authenticationService.IsLogin) {
+          this.signalRService.getMyInfo()
+            .then(data => {
+              console.log('this is my data');
+              console.log(data)
+            })
+            .catch(err => console.log(err))
+        }
+      })
+
+    signalRService.callerObservable
+      .subscribe(user => {
+        console.log('this is caller Info:');
+        if (user == undefined || user == null) {
+          console.log('null or undefined')
+          return;
+        }
+        this.modal.nativeElement.click();
+        console.log(user);
+        this.caller = user;
+        //this.notificationService.info("Cuộc gọi đến", `${user.userName} đang gọi video đến bạn...`);
+      })
+
   }
-  // @HostListener('window:scroll', ['$event'])
-  // hasScrolled() {
 
-  //   var st = window.pageYOffset;
-  //   // Make sure they scroll more than delta
-  //   if (Math.abs(lastScrollTop - st) <= delta)
-  //     return;
-
-  //   var navbar = document.getElementsByTagName('nav')[0];
-
-  //   // If they scrolled down and are past the navbar, add class .headroom--unpinned.
-  //   // This is necessary so you never see what is "behind" the navbar.
-  //   if (st > lastScrollTop && st > navbarHeight) {
-  //     // Scroll Down
-  //     if (navbar.classList.contains('headroom--pinned')) {
-  //       navbar.classList.remove('headroom--pinned');
-  //       navbar.classList.add('headroom--unpinned');
-  //     }
-  //     // $('.navbar.headroom--pinned').removeClass('headroom--pinned').addClass('headroom--unpinned');
-  //   } else {
-  //     // Scroll Up
-  //     //  $(window).height()
-  //     if (st + window.innerHeight < document.body.scrollHeight) {
-  //       // $('.navbar.headroom--unpinned').removeClass('headroom--unpinned').addClass('headroom--pinned');
-  //       if (navbar.classList.contains('headroom--unpinned')) {
-  //         navbar.classList.remove('headroom--unpinned');
-  //         navbar.classList.add('headroom--pinned');
-  //       }
-  //     }
-  //   }
-
-  //   lastScrollTop = st;
-  // };
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-    var userInfo = {
-      Id: '',
-      UserName: '',
-      FullName: '',
-      Email: '',
-      token: '',
-      IsInfoUpdated: false,
-      hasAvatar: false,
-      avatarPath: ''
-    };
-    this.authenticationService.UserInfo = userInfo;
 
     this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'));
 
@@ -93,10 +75,8 @@ export class AppComponent implements OnInit {
       this.authenticationService.ValidateToken()
         .then(() => {
           this.authenticationService.IsLogin = true;
-          console.log('Valid token')
+          //console.log('Valid token')
 
-          //console.log(this.signalRService.connectionId);
-          //this.signalRService.SaveHubId();
         })
         .catch(error => {
           console.log('Token Invalid');
@@ -111,28 +91,10 @@ export class AppComponent implements OnInit {
       this.authenticationService.UserInfo = null;
     }
 
+  }
 
-    //var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
-    // var navbar = <HTMLElement> document.getElementById('navbar-main')
-    // console.log(navbar)
-    // this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-    //   if (window.outerWidth > 991) {
-    //     window.document.children[0].scrollTop = 0;
-    //   } else {
-    //     window.document.activeElement.scrollTop = 0;
-    //   }
-    //   this.renderer.listen('window', 'scroll', (event) => {
-    //     const number = window.scrollY;
-    //     if (number > 150 || window.pageYOffset > 150) {
-    //       // add logic
-    //       navbar.classList.add('headroom--not-top');
-    //     } else {
-    //       // remove logic
-    //       navbar.classList.remove('headroom--not-top');
-    //     }
-    //   });
-    // });
-    // this.hasScrolled();
+  onClick() {
+    console.log('clicked')
   }
 
   senderId = ''
@@ -143,12 +105,12 @@ export class AppComponent implements OnInit {
         message = response;
 
         if (message.type == "onlineCount") {
-          console.log('Number of online users: ' + message.onlineCount)
+          //console.log('Number of online users: ' + message.onlineCount)
           this.messageService.onlineCount = message.onlineCount;
         }
         else if (message.type == "notification") {
           if (checkUrl !== "chat" && checkUrl !== "friendlist") {
-            this.notificationUserService.Notification.splice( 0, 0, message );
+            this.notificationUserService.Notification.splice(0, 0, message);
             this.showNotification(response);
           }
         }
@@ -241,12 +203,10 @@ export class AppComponent implements OnInit {
   }
 
   showNotification(message) {
-
-
     this.notificationService.html(`
     <div class="d-flex align-items-center" style="padding-bottom: 0%;">
       <img class="rounded-circle user_img_msg"
-        src="data:image/gif;base64,${message.avatar}" alt="">
+        src="${message.avatar}" alt="">
         <div class="col-12">
           <h5 style="margin-bottom: 0%;">${message.fullName}</h5>
           <p>${message.content}</p>
@@ -259,5 +219,13 @@ export class AppComponent implements OnInit {
       animate: 'fade',
       showProgressBar: true,
     });
+  }
+
+  onAccept() {
+    window.open('/#/video-call/true/' + this.caller.userId, '_blank');
+  }
+
+  onDecline(){
+    console.log('Decline a call');
   }
 }

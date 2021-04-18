@@ -1,4 +1,4 @@
-import { AuthenticationService } from '../../user-components/signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';

@@ -2,7 +2,7 @@ import { UrlMainService } from './url-main.service';
 import { FeatureVM, ImageUser, ProfileData, User } from '../models/models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { AuthenticationService } from "../user-components/signup/authentication.service";
+import { AuthenticationService } from "./authentication.service";
 @Injectable({
   providedIn: "root",
 })
@@ -20,7 +20,7 @@ export class UsersService {
   public Favoritors: User[] = new Array();
   public FavoritePage: any = {
       index: 1,
-      size: 12,
+      size: 5,
       total: 0,
       current: 1,
       position: 1
@@ -170,7 +170,6 @@ export class UsersService {
     }
     var headers = this.authenticationService.GetHeader();
     var path = `${this.url.urlHost}/api/v1/Profiles/similar/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}&IsFilter=${isFilter}&Location=${location}&FullName=${fullName}&FromAge=${fromAge}&ToAge=${toAge}&gender=${gender}`;
-    console.log(path)
     return this.http.get<any>(path, {headers: headers}).toPromise();
   }
 

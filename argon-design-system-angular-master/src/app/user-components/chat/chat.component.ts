@@ -3,12 +3,13 @@ import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { MessageService } from '../../service/message.service';
 import { UsersService } from '../../service/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { timer } from 'rxjs';
-
+import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { AlertService } from 'src/app/_alert';
 
 @Component({
   selector: 'app-chat',
@@ -23,9 +24,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private usersService: UsersService,
     private router: Router,
+    private alertService: AlertService
   ) {
 
   }
+  faEllipsisV = faEllipsisV;
+  faVideo = faVideo;
+  faPhoneAlt = faPhoneAlt;
 
   IsStarted = false;
   setScrollInterval
@@ -58,18 +63,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.messageService.friendList.forEach(item => {
           item.pageIndex = 1;
         });
-        //console.log('Trước khi more message');
-        //console.log(this.messageService.friendList[0].messages);
 
-        //this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
-
-        //console.log('SAU khi more message');
-        console.log(this.messageService.friendList[0].messages);
+        try {
+          this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
+        } catch (error) {
+          
+        }
 
         this.nameReceiver = this.messageService.friendList[0].user.fullName;
         this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
         this.avatarPath = this.messageService.friendList[0].user.avatarPath;
-
+        this.ReceiverId = this.messageService.friendList[0].user.id;
       })
       .catch(error => {
         console.log('this is error');
@@ -82,14 +86,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     if (this.messageService.friendList.length > 0) {
       this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
     }
-    // this.timer = timer(1000, 1000)
-
-    // this.timer.subscribe(val => {
-    //   if (val % 2 == 0) {
-    //     //console.log(val)
-    //     clearInterval(this.setScrollInterval)
-    //   }
-    // })
   }
 
 
@@ -103,23 +99,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       this.messageService.SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
         .then(data => {
-          console.log(data)
+          console.log(data);
+          this.setScroll();
         })
         .catch(error => {
           console.log(error)
         });
       this.txtMessage = '';
-      this.setScroll()
+      
     }
   }
 
   setScroll = () => {
     var scroll = <HTMLElement>document.getElementById('contentMessage');
-    // var shouldScroll = scroll.scrollTop + scroll.clientHeight === scroll.scrollHeight;
-    // if (!shouldScroll) {
-
-    setTimeout(() => scroll.scrollTop = scroll.scrollHeight, 500)
-    //}
+    scroll.scrollTop = scroll.scrollHeight;
+    setTimeout(() => scroll.scrollTop = scroll.scrollHeight, 10);
   }
 
 
@@ -130,14 +124,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }
     });
     return false;
-  }
-
-
-  onScroll = () => {
-    var scroll = <HTMLElement>document.getElementById('contentMessage')
-    if (scroll.scrollTop === 0) {
-      //this.MoreMessages(this.DestUserId, this.UserIndex)
-    }
   }
 
   MoreMessages = (userId: string, userIndex: number) => {
@@ -159,8 +145,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   clickSendUser = (idUser, nameUser) => {
     var destUserIdOld = <HTMLElement>document.getElementById(`DestUserId_${localStorage.getItem('DestUserId')}`);
     if (destUserIdOld != null) {
-      console.log(destUserIdOld)
+      //console.log(destUserIdOld)
       destUserIdOld.setAttribute('class', 'd-flex bd-highlight')
+      this.setScroll();
     }
 
     this.DestUserId = idUser;
@@ -177,7 +164,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
-    this.nameReceiver = nameUser
+    this.nameReceiver = nameUser;
+    this.ReceiverId = this.messageService.friendList[userIndex].user.id;
     this.avatarPath = this.messageService.friendList[userIndex].user.avatarPath;
     this.hasAvatar = this.messageService.friendList[userIndex].user.hasAvatar;
     this.setScroll()
@@ -206,5 +194,33 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
 
     return false;
+  }
+
+
+  onVideoCall(){
+    console.log(this.ReceiverId);
+    this.onCheckTarget();
+  }
+  openCallVideoTab(receiverId: string) {  
+    window.open('/#/video-call/false/' + receiverId, '_blank');
+  }
+
+  onCheckTarget() {
+    this.signalRService.getTargetInfo(this.ReceiverId)
+      .then(data =>{
+        console.log(data);
+        if(data == null){
+          this.alertService.clear();
+          this.alertService.error("Target is not online");
+          return;
+        }
+        // target is online
+        this.openCallVideoTab(this.ReceiverId);
+      })
+      .catch(err => {
+        console.log(err);
+        this.alertService.clear();
+        this.alertService.error("Target is not online");
+      })
   }
 }

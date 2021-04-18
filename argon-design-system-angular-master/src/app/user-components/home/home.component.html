@@ -64,7 +64,7 @@
 
             </ul>
             <div class="card card-plain">
-              <div class="tab-content tab-space">
+              <div class="tab-content tab-space tab-custom">
                 <div class="tab-pane fade active show" id="link22">
 
                   <div *ngIf="!Loading" style="padding-right: 15px; padding-left: 15px;" class="animate-bottom">
@@ -192,88 +192,90 @@
                     </nav>
                   </div>
                 </div>
-                <div class="tab-pane fade " id="link23">
+                <div class="tab-pane fade tab-custom" id="link23">
                   <!-- Đăng tin -->
-                  <div>
-                    <textarea *ngIf="!uploading"  [(ngModel)]="ImageTitle" style="margin-top:5px;" class="form-control news"
-                      placeholder="Nói gì đó về hình ảnh này..."></textarea>
-                  </div>
-                  
-                  <div  *ngIf="!uploading" class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
-                    <ngx-dropzone-label>
-                      <div>
-                        <h2 style="color: white;">Thêm hình ảnh ...</h2>
-                      </div>
-                    </ngx-dropzone-label>
-                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
-                      [removable]="true" (removed)="onRemove(f)">
-                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                    </ngx-dropzone-image-preview>
-                  </div>
-
-                  <div style="text-align: center; margin-right:20px; margin-top:0">
-                    <button (click)='onUpload()' *ngIf="!uploading" class="btn btn-primary">Cập nhật</button>
-                    <div *ngIf="uploading" style='margin-top: 20px'>
-                      <fa-icon style="color:#5E72E4" size="4x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  <div class="news-content">
+                    <div>
+                      <textarea *ngIf="!uploading"  [(ngModel)]="ImageTitle" style="margin-top:5px;" class="form-control news"
+                        placeholder="Nói gì đó về hình ảnh này..."></textarea>
                     </div>
-                  </div>
-                  <hr>
-                  <!-- Bản tin -->
-                  <div class="news-body">
-                    <div *ngFor="let item of NewImages; let i = index" style='margin-left:3px' class="new-content">
-
-                      <div class="row">
-                        <div style="max-width:80px" class="col-6 mt-5 mt-sm-0">
-                          <img src="{{item.avatarPath}}"
-                            alt="Raised circle image" class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
-                          <!-- <img *ngIf="!item.hasAvatar" src="{{item.avatarPath}}" alt="Raised circle image"
-                            class="img-fluid rounded-circle shadow-lg" style="width: 150px;"> -->
-                        </div>
+                    
+                    <div  *ngIf="!uploading" class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                      <ngx-dropzone-label>
                         <div>
-                          <p class="d-block font-weight-bold mb-0">{{item.fullName}}</p>
-                          <div class='row'>
-                            <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
-                            <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
+                          <h2 style="color: white;">Thêm hình ảnh ...</h2>
+                        </div>
+                      </ngx-dropzone-label>
+                      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                        [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-image-preview>
+                    </div>
+  
+                    <div style="text-align: center; margin-right:20px; margin-top:0">
+                      <button (click)='onUpload()' *ngIf="!uploading" class="btn btn-primary">Cập nhật</button>
+                      <div *ngIf="uploading" style='margin-top: 20px'>
+                        <fa-icon style="color:#5E72E4" size="4x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- Bản tin -->
+                    <div class="news-body">
+                      <div *ngFor="let item of NewImages; let i = index" style='margin-left:3px' class="new-content">
+  
+                        <div class="row">
+                          <div style="max-width:80px" class="col-6 mt-5 mt-sm-0">
+                            <img src="{{item.avatarPath}}"
+                              alt="Raised circle image" class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+                            <!-- <img *ngIf="!item.hasAvatar" src="{{item.avatarPath}}" alt="Raised circle image"
+                              class="img-fluid rounded-circle shadow-lg" style="width: 150px;"> -->
+                          </div>
+                          <div>
+                            <p class="d-block font-weight-bold mb-0">{{item.fullName}}</p>
+                            <div class='row'>
+                              <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
+                              <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
+                            </div>
                           </div>
                         </div>
+  
+                        <!-- Hình ảnh -->
+                        <div style="text-align:center">
+                          <p style="margin-top: -10px;margin-bottom: 2px; text-align: left;">{{item.title}}</p>
+                          <img class="image-content" src="{{item.imagePath}}">
+                        </div>
+                        <div
+                          style="margin-top:1px; margin-bottom: -31px; margin-left: 0px;justify-content: space-between; margin-right: 1%;"
+                          class="row">
+                          <button (click)="onLikeImage(item.id, i)" *ngIf="!item.liked" type="button"
+                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-gratipay" aria-hidden="true"></i>
+                            Thích</button>
+                          <button (click)="onLikeImage(item.id, i)" *ngIf="item.liked" type="button"
+                            class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-gratipay"
+                              aria-hidden="true"></i> Thích</button>
+                          <button (click)="onFollowed(item.userId, i)" *ngIf="!item.followed" type="button"
+                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-rss" aria-hidden="true"></i> Theo
+                            dõi</button>
+                          <button (click)="onFollowed(item.userId, i)" *ngIf="item.followed" type="button"
+                            class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-rss" aria-hidden="true"></i>
+                            Theo dõi</button>
+  
+                          <button (click)="clickProfileUser(item.userId)" type="button"
+                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-address-card"
+                              aria-hidden="true"></i> Thông tin</button>
+                          <button (click)="clickBlock(item.userId, item.fullName)" type="button"
+                            class="btn btn-secondary btn-lg func-button" data-toggle="modal"
+                            data-target="#mySmallModalLabel"><i class="fa fa-times-circle-o"
+                              aria-hidden="true"></i> Chặn</button>
+                          <!--  -->
+  
+                        </div>
+  
+                        <hr>
                       </div>
-
-                      <!-- Hình ảnh -->
-                      <div style="text-align:center">
-                        <p style="margin-top: -10px;margin-bottom: 2px; text-align: left;">{{item.title}}</p>
-                        <img class="image-content" src="{{item.imagePath}}">
+                      <div style="text-align: center">
+                        <button (click)="onSeeMoreImage()" class="btn btn-primary">Xem thêm</button>
                       </div>
-                      <div
-                        style="margin-top:1px; margin-bottom: -31px; margin-left: 0px;justify-content: space-between; margin-right: 1%;"
-                        class="row">
-                        <button (click)="onLikeImage(item.id, i)" *ngIf="!item.liked" type="button"
-                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-gratipay" aria-hidden="true"></i>
-                          Thích</button>
-                        <button (click)="onLikeImage(item.id, i)" *ngIf="item.liked" type="button"
-                          class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-gratipay"
-                            aria-hidden="true"></i> Thích</button>
-                        <button (click)="onFollowed(item.userId, i)" *ngIf="!item.followed" type="button"
-                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-rss" aria-hidden="true"></i> Theo
-                          dõi</button>
-                        <button (click)="onFollowed(item.userId, i)" *ngIf="item.followed" type="button"
-                          class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-rss" aria-hidden="true"></i>
-                          Theo dõi</button>
-
-                        <button (click)="clickProfileUser(item.userId)" type="button"
-                          class="btn btn-secondary btn-lg func-button"><i class="fa fa-address-card"
-                            aria-hidden="true"></i> Thông tin</button>
-                        <button (click)="clickBlock(item.userId, item.fullName)" type="button"
-                          class="btn btn-secondary btn-lg func-button" data-toggle="modal"
-                          data-target="#mySmallModalLabel"><i class="fa fa-times-circle-o"
-                            aria-hidden="true"></i> Chặn</button>
-                        <!--  -->
-
-                      </div>
-
-                      <hr>
-                    </div>
-                    <div style="text-align: center">
-                      <button (click)="onSeeMoreImage()" class="btn btn-primary">Xem thêm</button>
                     </div>
                   </div>
 

@@ -43,7 +43,10 @@ import { TagInputModule } from 'ngx-chips';
 import { FeatureManagerComponent } from './admin-components/feature-manager/feature-manager.component';
 import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
 import { CarouselComponent } from './user-components/carousel/carousel.component';
-
+import { VideoCallComponent } from './user-components/video-call/video-call.component';
+import { VideoMemberComponent } from './user-components/video-member/video-member.component';
+//import { RtcSignalRService } from './service/rtc-signal-r.service';
+import { SignalRService } from './service/signal-r.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +70,8 @@ import { CarouselComponent } from './user-components/carousel/carousel.component
     FeatureManagerComponent,
     ImageScoreComponent,
     CarouselComponent,
+    VideoCallComponent,
+    VideoMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +94,8 @@ import { CarouselComponent } from './user-components/carousel/carousel.component
     ReactiveFormsModule
   ],
   providers: [
+    // RtcSignalRService,
+    SignalRService,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

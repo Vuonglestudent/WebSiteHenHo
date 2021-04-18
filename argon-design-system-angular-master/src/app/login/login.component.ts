@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthenticationService } from '../user-components/signup/authentication.service';
+import { AuthenticationService } from '../service/authentication.service';
 import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AlertService } from '../_alert';
@@ -117,15 +117,13 @@ export class LoginComponent implements OnInit {
         // Put the object into storage
         localStorage.setItem('UserInfo', JSON.stringify(userInfo));
 
-        this.signalRService.SaveHubId()
-          .then(response => console.log(response))
-          .catch(error => console.log("Can not save connectionId"))
+        // this.signalRService.SaveHubId()
+        //   .then(response => console.log(response))
+        //   .catch(error => console.log("Can not save connectionId"))
 
         // Retrieve the object from storage
         this.alertService.clear();
         this.alertService.success('Success!!', this.options);
-        console.log('this is info');
-        console.log(this.authenticationService.UserInfo);
 
         if (!this.authenticationService.UserInfo.IsInfoUpdated) {
           this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
@@ -265,6 +263,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('UserInfo', JSON.stringify(userInfo));
           console.log('this is userInfo');
           console.log(this.authenticationService.UserInfo);
+
           if (!this.authenticationService.UserInfo.IsInfoUpdated) {
             this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
           }
@@ -301,9 +300,9 @@ export class LoginComponent implements OnInit {
       .then(response =>{
         console.log(response);
 
-        this.signalRService.SaveHubId()
-        .then(response => console.log(response))
-        .catch(error => console.log("Can not save connectionId"))
+        // this.signalRService.SaveHubId()
+        // .then(response => console.log(response))
+        // .catch(error => console.log("Can not save connectionId"))
       })
       .catch(error => console.log(error))
     console.log(FacebookLoginProvider.PROVIDER_ID);
@@ -312,6 +311,4 @@ export class LoginComponent implements OnInit {
   signOut(): void {
     this.authService.signOut();
   }
-
-
 }

@@ -5,10 +5,8 @@
         </li>
         <li>
             <div class="card-profile-image dropdown d-flex align-items-center mb-3" style="display: block;">
-                <img *ngIf="!authenticationService.UserInfo.hasAvatar" class="rounded-circle"
+                <img class="rounded-circle"
                     src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
-                <img *ngIf="authenticationService.UserInfo.hasAvatar" class="rounded-circle"
-                    src="data:image/gif;base64,{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
                 <h6 class="text-white m-1">{{authenticationService.UserInfo.FullName}}</h6>
             </div>
         </li>

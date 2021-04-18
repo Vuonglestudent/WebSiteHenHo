@@ -1,6 +1,6 @@
 import { ImageService } from './../../service/image.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { User, ImageUser, ProfileData } from '../../models/models';
 import { UsersService } from './../../service/users.service';
 import { Component, OnInit } from '@angular/core';

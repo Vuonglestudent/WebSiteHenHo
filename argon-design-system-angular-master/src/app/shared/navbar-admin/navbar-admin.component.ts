@@ -1,4 +1,4 @@
-import { AuthenticationService } from '../../user-components/signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 

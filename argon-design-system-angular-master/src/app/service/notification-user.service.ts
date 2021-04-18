@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Message } from '../models/models';
 import { UrlMainService } from './url-main.service';
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../user-components/signup/authentication.service';
+import { AuthenticationService } from './authentication.service';
 @Injectable({
   providedIn: 'root'
 })

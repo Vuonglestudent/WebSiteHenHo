@@ -17,6 +17,7 @@ import { FriendListComponent } from './user-components/friend-list/friend-list.c
 import { ChangePasswordComponent } from './user-components/change-password/change-password.component';
 import {FeatureManagerComponent} from './admin-components/feature-manager/feature-manager.component';
 import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
+import { VideoCallComponent } from './user-components/video-call/video-call.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'statistic' , component: StatisticComponent},
   { path: 'manager-user' , component: ManagerUserComponent},
   {path: 'feature-manager', component: FeatureManagerComponent},
-  {path: 'image-score', component: ImageScoreComponent}
+  {path: 'image-score', component: ImageScoreComponent},
+  {path: 'video-call/:isAccept/:id', component: VideoCallComponent}
 ];
 
 @NgModule({

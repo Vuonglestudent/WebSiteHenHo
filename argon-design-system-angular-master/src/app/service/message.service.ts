@@ -2,7 +2,7 @@ import { UrlMainService } from './url-main.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as path from 'path';
-import { AuthenticationService } from '../user-components/signup/authentication.service';
+import { AuthenticationService } from './authentication.service';
 import { ChatFriend } from '../models/models';
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class MessageService {
   public moreMessages = (PageIndex: number, PageSize: number, SenderId: string, ReceiverId: string) => {
     var query = `?PageIndex=${PageIndex}&PageSize=${PageSize}&SenderId=${SenderId}&ReceiverId=${ReceiverId}`;
     var url = this.mainUrl + '/MoreMessages'+ query;
-    console.log(url);
+    //console.log(url);
     var headers = this.authenticationService.GetHeader();
 
     return this.http.get<any>(url, {headers: headers}).toPromise();

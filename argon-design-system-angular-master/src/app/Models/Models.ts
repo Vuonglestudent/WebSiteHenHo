@@ -1,3 +1,4 @@
+import { BehaviorSubject, Observable } from "rxjs";
 
 export class SocialUser {
     provider: string;
@@ -36,10 +37,10 @@ export class Message {
     hasAvatar: boolean;
     avatar: string;
     fullName: string;
-    onlineCount:number;
+    onlineCount: number;
     //
-    fromId:string;
-    toId:string;
+    fromId: string;
+    toId: string;
     createdAt: string;
 }
 
@@ -71,7 +72,7 @@ export class Feature {
     name: string;
     weightRate: number;
     isCalculated: boolean;
-    isSearchFeature:boolean;
+    isSearchFeature: boolean;
     featureDetails: FeatureDetail[];
 }
 
@@ -83,13 +84,13 @@ export class ProfileData {
     features: Feature[];
 }
 
-export class Image{
+export class Image {
     id: number;
-    userId:string;
+    userId: string;
     title: string;
-    numberOfLikes:number;
-    liked:boolean;
-    imagePath:string;
+    numberOfLikes: number;
+    liked: boolean;
+    imagePath: string;
     hasImage: boolean;
     createdAt: string;
 }
@@ -104,8 +105,8 @@ export class FeatureVM {
     featureDetailId: number;
     name: string;
     content: string;
-    updateFeatureId:number;
-    isSearchFeature:boolean;
+    updateFeatureId: number;
+    isSearchFeature: boolean;
     featureDetails: FeatureDetail[];
 }
 
@@ -137,7 +138,7 @@ export class User {
     dob: string;
     job: string;
     location: string;
-    findPeople:string;
+    findPeople: string;
     findAgeGroup: string;
     features: FeatureVM[];
     searchFeatures: FeatureVM[];
@@ -154,18 +155,74 @@ export class ImageScore {
     updatedAt: Date;
 }
 
-export class News{
+export class News {
     id: number;
-    userId:string;
-    fullName:string;
-    avatarPath:string;
+    userId: string;
+    fullName: string;
+    avatarPath: string;
     hasAvatar: boolean;
     followed: boolean;
     location: string;
     title: string;
-    numberOfLikes:number;
-    liked:boolean;
-    imagePath:string;
+    numberOfLikes: number;
+    liked: boolean;
+    imagePath: string;
     hasImage: boolean;
     createdAt: string;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export interface IUser {
+    userId: string,
+    connectionId: string;
+    userName: string;
+}
+
+export class UserConnection {
+    user: IUser;
+    isCurrentUser: boolean;
+    rtcConnection: RTCPeerConnection;
+    streamSub: BehaviorSubject<MediaStream>;
+    streamObservable: Observable<MediaStream>;
+    creatingOffer = false;
+    creatingAnswer = false;
+
+    constructor(user: IUser, isCurrentUser: boolean, rtcConnection: RTCPeerConnection) {
+        this.user = user;
+        this.isCurrentUser = isCurrentUser;
+        this.rtcConnection = rtcConnection;
+        this.streamSub = new BehaviorSubject<MediaStream>(undefined);
+        this.streamObservable = this.streamSub.asObservable();
+    }
+
+    setStream(stream: MediaStream) {
+        this.streamSub.next(stream);
+    }
+
+    end() {
+        if (this.rtcConnection) {
+            this.rtcConnection.close();
+        }
+        if (this.streamSub.getValue()) {
+            this.setStream(undefined);
+        }
+    }
+}
+
+export interface IOtherUserMedia {
+    otherUserConnectionId: string;
+    track: RTCTrackEvent;
+}
+
+export enum SignalType {
+    newIceCandidate,
+    videoOffer,
+    videoAnswer
+}
+
+export interface ISignal {
+    type: SignalType;
+    sdp?: RTCSessionDescription;
+    candidate?: RTCIceCandidate;
 }

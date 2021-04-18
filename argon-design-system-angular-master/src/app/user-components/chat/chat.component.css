@@ -428,10 +428,11 @@ textarea.textarea_chat {
 }
 #action_menu_btn {
   position: absolute;
-  right: 15px;
+  right: 100px;
   top: 10px;
   color: white;
   cursor: pointer;
+  display:flex;
   font-size: 20px;
 }
 .action_menu {
@@ -479,4 +480,9 @@ textarea.textarea_chat {
   display: -webkit-box;
   -webkit-line-clamp: 1; /* number of lines to show */
   -webkit-box-orient: vertical;
+}
+
+.custom-icon{
+  cursor: pointer;
+  padding: 30%;
 }

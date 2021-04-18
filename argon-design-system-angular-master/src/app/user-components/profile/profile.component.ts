@@ -4,7 +4,7 @@ import { AlertService } from './../../_alert/alert.service';
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { UsersService } from '../../service/users.service';
 import { User, ProfileData, Image } from '../../models/models';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { NgForm } from '@angular/forms';
 import { ImageService } from './../../service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';

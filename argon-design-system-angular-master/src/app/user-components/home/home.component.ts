@@ -6,7 +6,7 @@ import { MessageService } from '../../service/message.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../service/users.service';
 import { AlertService } from '../../_alert';
-import { AuthenticationService } from '../signup/authentication.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { fadeInAnimation } from '../../_animates/animates';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
 
     // Phân trang user
     PageIndexNewUser = 1;
-    PageSizeNewUser = 10;
+    PageSizeNewUser = 5;
 
     // LoadImageUser
 
@@ -76,7 +76,9 @@ export class HomeComponent implements OnInit {
                 })
         }
         this.LoadFilterData();
-        this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
+        if(this.authenticationService.UserInfo != null){
+            this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
+        }
     }
 
     onSeeMoreImage = () =>{

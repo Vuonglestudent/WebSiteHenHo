@@ -46,6 +46,7 @@
     "popper.js": "1.14.7",
     "rxjs": "6.5.4",
     "rxjs-compat": "6.5.4",
+    "webrtc-adapter": "^7.7.1",
     "zone.js": "0.10.2"
   },
   "devDependencies": {

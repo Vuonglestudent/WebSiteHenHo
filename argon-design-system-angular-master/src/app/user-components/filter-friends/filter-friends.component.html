@@ -65,9 +65,7 @@
                 style="flex: none; margin-left: 25px; margin-right: 15px; margin-bottom: 15px; padding: 0;">
                 <div class="card">
                     <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                        <!-- <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="item.hasAvatar"
-                                class="card-img-top thumb-table" src="data:image/gif;base64,{{item.avatarPath}}"
-                                alt="Avatar"></a> -->
+
                         <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img 
                                 class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
