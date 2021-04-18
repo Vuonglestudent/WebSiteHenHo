@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild, HostListener, NgZone, TemplateRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/common';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { AuthenticationService } from './service/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
@@ -11,12 +9,6 @@ import { ChatFriend, IUser, Message, User, UserDisplay } from './models/models';
 import { UsersService } from './service/users.service';
 import { NotificationsService } from 'angular2-notifications';
 import { NotificationUserService } from './service/notification-user.service';
-import { timeout } from 'rxjs/operators';
-var didScroll;
-var lastScrollTop = 0;
-var delta = 5;
-var navbarHeight = 0;
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,7 +18,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
   private caller: IUser;
-  constructor(private renderer: Renderer2,
+  constructor(
     private router: Router, @Inject(DOCUMENT,) private document: any,
     public location: Location,
     private authenticationService: AuthenticationService,
@@ -59,7 +51,6 @@ export class AppComponent implements OnInit {
         this.modal.nativeElement.click();
         console.log(user);
         this.caller = user;
-        //this.notificationService.info("Cuộc gọi đến", `${user.userName} đang gọi video đến bạn...`);
       })
 
   }

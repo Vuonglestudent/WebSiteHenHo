@@ -121,18 +121,6 @@ export class SignalRService {
     );
   }
 
-  // public SaveHubId = () => {
-  //   var headers = this.authenticationService.GetHeader();
-  //   if (this.authenticationService.UserInfo == null) {
-  //     return;
-  //   }
-  //   var connectionId = this.connectionId;
-  //   var path = this.MainUrl + '/api/v1/users/hub?userId=' + this.authenticationService.UserInfo.Id;
-  //   var data = new FormData();
-  //   data.append("connectionId", this.connectionId);
-  //   return this.http.put<any>(path, data, { headers: headers }).toPromise();
-  // }
-
   constructor(
     private authenticationService: AuthenticationService,
     private url: UrlMainService
