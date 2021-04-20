@@ -1,3 +1,4 @@
+import { IUserInfo } from './../models/models';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
@@ -21,13 +22,18 @@ import { SignalRService } from '../service/signal-r.service';
 })
 export class LoginComponent implements OnInit {
 
+  userInfo:IUserInfo;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     protected alertService: AlertService,
     private authService: SocialAuthService,
     private signalRService: SignalRService,
-  ) { }
+  ) {
+    this.authenticationService.userInfoObservable
+      .subscribe(user => this.userInfo = user)
+   }
 
   options = {
     autoClose: false,
@@ -67,35 +73,22 @@ export class LoginComponent implements OnInit {
     this.authenticationService.Login(f.value.Email, f.value.Password)
       .then(response => {
         this.Loading = false;
+        this.userInfo = response;
+        console.log(this.userInfo);
 
-        var userInfo = {
-          Id: response.id,
-          UserName: response.userName,
-          FullName: response.fullName,
-          Email: response.email,
-          token: response.token,
-          role: response.role,
-          IsInfoUpdated: response.isInfoUpdated,
-          hasAvatar: response.hasAvatar,
-          avatarPath: response.avatarPath
-        };
-
-        this.authenticationService.IsLogin = true;
-        this.authenticationService.UserInfo = userInfo;
-        // Put the object into storage
-        localStorage.setItem('UserInfo', JSON.stringify(userInfo));
+        this.authenticationService.setUserInfo(this.userInfo);
 
         this.alertService.clear();
         this.alertService.success('Success!!', this.options);
 
-        if (!this.authenticationService.UserInfo.IsInfoUpdated) {
-          this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
+        if (!this.userInfo.isInfoUpdated) {
+          this.router.navigate(['/profile', this.userInfo.id]);
           return;
         }
-        if (userInfo.role == "User") {
+        if (this.userInfo.role == "User") {
           this.router.navigateByUrl('/home');
         }
-        else if (userInfo.role == "Admin") {
+        else if (this.userInfo.role == "Admin") {
           this.router.navigateByUrl("/statistic");
         }
       })
@@ -209,32 +202,16 @@ export class LoginComponent implements OnInit {
       this.authenticationService.FacebookLogin(this.user)
         .then(response => {
           this.loggedIn = true;
-          var userInfo = {
-            Id: response.id,
-            UserName: response.userName,
-            FullName: response.fullName,
-            Email: response.email,
-            token: response.token,
-            IsInfoUpdated: response.isInfoUpdated,
-            role: response.role,
-            hasAvatar: response.hasAvatar,
-            avatarPath: response.avatarPath
-          };
-          this.authenticationService.IsLogin = true;
-          this.authenticationService.UserInfo = userInfo;
+          this.userInfo = response;
+          this.authenticationService.setUserInfo(this.userInfo);
           // Put the object into storage
-          localStorage.setItem('UserInfo', JSON.stringify(userInfo));
-          console.log('this is userInfo');
-          console.log(this.authenticationService.UserInfo);
-
-          if (!this.authenticationService.UserInfo.IsInfoUpdated) {
-            this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
+          if (!this.userInfo.isInfoUpdated) {
+            this.router.navigate(['/profile', this.userInfo.id]);
           }
-          console.log(userInfo);
-          if (userInfo.role == "User") {
+          if (this.userInfo.role == "User") {
             this.router.navigateByUrl('/home');
           }
-          else if (userInfo.role == "Admin") {
+          else if (this.userInfo.role == "Admin") {
             this.router.navigateByUrl("/statistic");
           }
         })

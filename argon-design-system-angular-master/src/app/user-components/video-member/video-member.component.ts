@@ -1,6 +1,6 @@
 import { AuthenticationService } from './../../service/authentication.service';
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { UserConnection } from 'src/app/models/models';
+import { IUserInfo, UserConnection } from 'src/app/models/models';
 
 
 @Component({
@@ -23,16 +23,19 @@ export class VideoMemberComponent implements OnInit {
   }
 
   
-
+  userInfo:IUserInfo;
   constructor(
     private authenticationService:AuthenticationService
-  ) { }
+  ) { 
+    this.authenticationService.userInfoObservable
+	    .subscribe(user => this.userInfo = user)
+  }
 
   ngOnInit() {
     this.user.streamObservable.subscribe(stream => {
 
       if (stream) {
-        if (this.user.user.userId == this.authenticationService.UserInfo.Id) {
+        if (this.user.user.userId == this.userInfo.id) {
           this.theVideo.srcObject = stream;
           this.theVideo.defaultMuted = true;
           this.theVideo.volume = 0;
@@ -47,4 +50,3 @@ export class VideoMemberComponent implements OnInit {
     });
   }
 }
-  

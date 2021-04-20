@@ -226,3 +226,13 @@ export interface ISignal {
     sdp?: RTCSessionDescription;
     candidate?: RTCIceCandidate;
 }
+
+export interface IUserInfo{
+    id:string;
+    fullName:string;
+    email:string;
+    role:string;
+    isInfoUpdated:boolean;
+    avatarPath:string;
+    token:string;
+}

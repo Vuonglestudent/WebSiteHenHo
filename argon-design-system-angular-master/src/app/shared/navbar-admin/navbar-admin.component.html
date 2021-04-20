@@ -1,13 +1,13 @@
-<div class="navbar-admin">
+<div *ngIf="userInfo != undefined" class="navbar-admin">
     <ul class="list-group">
         <li class="logoAdmin" style="border: none;" (click)="clickHome()">
-            <img class="col-12 col-lg-12 col-md-12 mb-4 mt-2" style="padding: 0%;" src="./assets/img/brand/logo.JPG" alt="">
+            <img class="col-12 col-lg-12 col-md-12 mb-4 mt-2" style="padding: 0%;" src="./assets/img/brand/logo.png" alt="">
         </li>
         <li>
             <div class="card-profile-image dropdown d-flex align-items-center mb-3" style="display: block;">
                 <img class="rounded-circle"
-                    src="{{authenticationService.UserInfo.avatarPath}}" alt="avatar">
-                <h6 class="text-white m-1">{{authenticationService.UserInfo.FullName}}</h6>
+                    src="{{userInfo.avatarPath}}" alt="avatar">
+                <h6 class="text-white m-1">{{userInfo.fullName}}</h6>
             </div>
         </li>
         <li class="list-group-item" (click)="clickMyProfile()">

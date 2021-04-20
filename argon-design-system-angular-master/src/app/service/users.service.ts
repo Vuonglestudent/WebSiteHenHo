@@ -1,5 +1,5 @@
 import { UrlMainService } from './url-main.service';
-import { FeatureVM, ImageUser, ProfileData, User } from '../models/models';
+import { FeatureVM, ImageUser, IUserInfo, ProfileData, User } from '../models/models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "./authentication.service";
@@ -7,11 +7,16 @@ import { AuthenticationService } from "./authentication.service";
   providedIn: "root",
 })
 export class UsersService {
+
+  userInfo:IUserInfo;
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService,
     private url: UrlMainService
-    ) { }
+    ) { 
+      this.authenticationService.userInfoObservable
+      .subscribe(user => this.userInfo = user)
+    }
 
   private mainUrl = `${this.url.urlHost}/api/v1/users`;
 
@@ -143,7 +148,7 @@ export class UsersService {
 
     var data = new FormData();
     data.append("Avatar", file);
-    data.append("UserId", this.authenticationService.UserInfo.Id);
+    data.append("UserId", this.userInfo.id);
 
     return this.http.put<any>(path, data, {headers: headers}).toPromise();
   }

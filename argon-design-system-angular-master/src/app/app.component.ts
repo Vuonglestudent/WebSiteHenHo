@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild, HostListener, NgZone, TemplateRef } from '@angular/core';
-import { Router} from '@angular/router';
+import { Component, OnInit, Inject, ElementRef, ViewChild, NgZone } from '@angular/core';
 import 'rxjs/add/operator/filter';
+import {Location} from '@angular/common';
+import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { AuthenticationService } from './service/authentication.service';
 import { SignalRService } from './service/signal-r.service';
 import { MessageService } from './service/message.service';
-import { ChatFriend, IUser, Message, User, UserDisplay } from './models/models';
-import { UsersService } from './service/users.service';
+import { IUser, IUserInfo, Message } from './models/models';
 import { NotificationsService } from 'angular2-notifications';
 import { NotificationUserService } from './service/notification-user.service';
 @Component({
@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
   private caller: IUser;
+
+  userInfo:IUserInfo;
   constructor(
     private router: Router, @Inject(DOCUMENT,) private document: any,
     public location: Location,
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit {
     this.subscribeToEvents();
     this.signalRService.connectedObservable
       .subscribe(connected => {
-        if (connected && this.authenticationService.IsLogin) {
+        if (connected && this.userInfo != undefined) {
           this.signalRService.getMyInfo()
             .then(data => {
               console.log('this is my data');
@@ -53,35 +55,14 @@ export class AppComponent implements OnInit {
         this.caller = user;
       })
 
+      this.authenticationService.userInfoObservable
+	      .subscribe(user => this.userInfo = user)
+
   }
 
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-
-    this.authenticationService.UserInfo = JSON.parse(localStorage.getItem('UserInfo'));
-
-    if (this.authenticationService.UserInfo != null) {
-
-      this.authenticationService.ValidateToken()
-        .then(() => {
-          this.authenticationService.IsLogin = true;
-          //console.log('Valid token')
-
-        })
-        .catch(error => {
-          console.log('Token Invalid');
-          localStorage.clear();
-          this.authenticationService.IsLogin = false;
-          this.authenticationService.UserInfo = null;
-        })
-    }
-    else {
-      localStorage.clear();
-      this.authenticationService.IsLogin = false;
-      this.authenticationService.UserInfo = null;
-    }
-
   }
 
   onClick() {
@@ -107,7 +88,7 @@ export class AppComponent implements OnInit {
         }
         else {
           //Là người gửi
-          if (message.senderId == this.authenticationService.UserInfo.Id) {
+          if (message.senderId == this.userInfo.id) {
             message.type = 'sent';
             console.log('sender');
 
@@ -136,7 +117,7 @@ export class AppComponent implements OnInit {
             }
 
             //Là người nhận
-          } else if (message.receiverId == this.authenticationService.UserInfo.Id) {
+          } else if (message.receiverId == this.userInfo.id) {
             message.type = 'received';
             console.log('receiver');
             var checkUrl = this.router.url.split("/")[1]

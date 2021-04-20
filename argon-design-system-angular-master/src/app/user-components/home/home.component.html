@@ -69,10 +69,10 @@
 
                   <div *ngIf="!Loading" style="padding-right: 15px; padding-left: 15px;" class="animate-bottom">
                     <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-                      <h4 *ngIf="authenticationService.UserInfo==null" class="text-white "><strong
+                      <h4 *ngIf="userInfo == undefined" class="text-white "><strong
                           class="text-warning">Hot!</strong><span> Bạn được yêu thích nhiều!</span>
                       </h4>
-                      <h4 *ngIf="authenticationService.UserInfo!=null" class="text-white "><strong
+                      <h4 *ngIf="userInfo!=undefined" class="text-white "><strong
                           class="text-warning">Hot!</strong><span> Gợi ý dành cho riêng bạn!</span>
                       </h4>
                     </div>

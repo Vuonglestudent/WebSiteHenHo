@@ -1,3 +1,4 @@
+import { IUserInfo } from './../../models/models';
 import { ImageService } from './../../service/image.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication.service';
@@ -44,12 +45,17 @@ export class FilterFriendsComponent implements OnInit {
 
   extend = false;
   faSpinner = faSpinner;
+
+  userInfo:IUserInfo;
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
     private router: Router,
     private imageService: ImageService
-  ) { }
+  ) { 
+    this.authenticationService.userInfoObservable
+	    .subscribe(user => this.userInfo = user)
+  }
 
   items = [];
 
@@ -221,7 +227,7 @@ export class FilterFriendsComponent implements OnInit {
   }
 
   clickProfileUser = (id) => {
-    if (!this.authenticationService.IsLogin) {
+    if (this.userInfo == undefined) {
       //this.LoginRequired();
       return;
     }
@@ -230,7 +236,7 @@ export class FilterFriendsComponent implements OnInit {
 
   Favorite = (userId: string, event) => {
 
-    if (!this.authenticationService.IsLogin) {
+    if (this.userInfo == undefined) {
       //this.LoginRequired();
       return;
     }

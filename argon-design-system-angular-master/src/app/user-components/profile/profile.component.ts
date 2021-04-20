@@ -1,4 +1,4 @@
-import { FeatureVM } from '../../models/models';
+import { FeatureVM, IUserInfo } from '../../models/models';
 import { MessageService } from './../../service/message.service';
 import { AlertService } from './../../_alert/alert.service';
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
@@ -48,7 +48,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
-    isViewImageList = false
+    isViewImageList = false;
+
+    userInfo:IUserInfo;
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
@@ -62,10 +64,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.route.paramMap.subscribe(params => {
             this.ngOnInit();
         });
+        this.authenticationService.userInfoObservable
+	        .subscribe(user => this.userInfo = user)
     }
 
     ngAfterViewInit(): void {
-        if (!this.authenticationService.UserInfo.IsInfoUpdated) {
+        if (!this.userInfo.isInfoUpdated) {
             this.editing = true;
             this.alertService.clear();
             this.alertService.warn('Vui lòng cập nhật hồ sơ để tiếp tục sử dụng ứng dụng!');
@@ -84,7 +88,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isYourself = false;
     ngOnInit() {
         this.currentUserId = this.route.snapshot.paramMap.get('id');
-        if (this.route.snapshot.paramMap.get('id') === this.authenticationService.UserInfo.Id) {
+        if (this.route.snapshot.paramMap.get('id') === this.userInfo.id) {
             this.checkUser = true;
         } else {
             this.checkUser = false;
@@ -188,7 +192,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
 
         this.onViewImage()
-        if (this.authenticationService.UserInfo.Id == this.currentUserId) {
+        if (this.userInfo.id == this.currentUserId) {
             this.onViewFriendList();
             this.isYourself = true;
         }
@@ -246,8 +250,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.clear();
                 this.alertService.success("Cập nhật hồ sơ thành công!");
                 this.editing = false;
-                this.authenticationService.UserInfo.IsInfoUpdated = true;
-                localStorage.setItem('UserInfo', JSON.stringify(this.authenticationService.UserInfo));
+                this.userInfo.isInfoUpdated = true;
+                localStorage.setItem('UserInfo', JSON.stringify(this.userInfo));
             })
             .catch(error => {
                 this.updating = false;
@@ -342,7 +346,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     uploadStatus: string = 'none';
     onUpload() {
         this.uploadStatus = 'loading';
-        this.imageService.addImages(this.authenticationService.UserInfo.Id, this.files, this.imageTitle)
+        this.imageService.addImages(this.userInfo.id, this.files, this.imageTitle)
             .then(response => {
                 this.uploadStatus = 'none';
                 this.alertService.clear();
@@ -603,7 +607,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         //this.router.navigate(['/chat', id])
         console.log(id, this.txtMessage)
         if (this.txtMessage != '') {
-            this.messageService.SendMessage(this.authenticationService.UserInfo.Id, id, this.txtMessage)
+            this.messageService.SendMessage(this.userInfo.id, id, this.txtMessage)
                 .then(data => {
                     console.log(data)
                     this.alertService.clear();
@@ -629,7 +633,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         var liked = stateImageCurrent.id.split("_")[2]
         if (liked === "true") {
             this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.imageService.likeImage(this.userInfo.id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -641,7 +645,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
         } else {
             this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.imageService.likeImage(this.userInfo.id, this.imagesResponse[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -665,10 +669,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.usersService.UpdateAvatar(event.target.files[0])
                 .then(data => {
                     this.UserProfile.avatarPath = data.avatarPath;
+                    this.userInfo.avatarPath = data.avatarPath;
 
-                    this.authenticationService.UserInfo.hasAvatar = true;
-                    this.authenticationService.UserInfo.avatarPath = data.avatarPath;
-                    localStorage.setItem('UserInfo', JSON.stringify(this.authenticationService.UserInfo));
+                    this.authenticationService.setUserInfo(this.userInfo);
 
                     this.alertService.clear();
                     this.alertService.success('Cập nhật avatar thành công!');
@@ -716,7 +719,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     checkUserClickAvatar = () => {
-        if (this.currentUserId !== this.authenticationService.UserInfo.Id) {
+        if (this.currentUserId !== this.userInfo.id) {
             this.seenImageAvatar()
         } else {
             var mainUser = <HTMLElement>document.getElementById('changeAvatar')

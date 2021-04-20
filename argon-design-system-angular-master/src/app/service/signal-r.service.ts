@@ -1,7 +1,7 @@
 import { UrlMainService } from './url-main.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { ISignal, IUser, Message, SignalType, UserConnection } from '../models/models';
+import { ISignal, IUser, IUserInfo, Message, SignalType, UserConnection } from '../models/models';
 import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -121,14 +121,18 @@ export class SignalRService {
     );
   }
 
+  userInfo: IUserInfo;
   constructor(
     private authenticationService: AuthenticationService,
     private url: UrlMainService
   ) {
     this._hubConnection = new signalR.HubConnectionBuilder()
-       .withUrl(`http://localhost:5100/chatHub`)
+      .withUrl(`http://localhost:5100/chatHub`)
       //.withUrl(`https://hieuit.tech:5201/chatHub`)
       .build();
+
+    this.authenticationService.userInfoObservable
+      .subscribe(user => this.userInfo = user)
   }
 
   //////////////////////////////////////////////////////////////
@@ -140,7 +144,7 @@ export class SignalRService {
   }
 
   public async getMyInfo() {
-    var myInfo = await this._hubConnection.invoke("getMyInfo", this.authenticationService.UserInfo.Id, this.currentConnectionId, this.authenticationService.UserInfo.FullName);
+    var myInfo = await this._hubConnection.invoke("getMyInfo", this.userInfo.id, this.currentConnectionId, this.userInfo.fullName);
     return myInfo;
   }
 
@@ -195,7 +199,7 @@ export class SignalRService {
   public hangUp() {
     this._hubConnection.invoke('hangUp');
     this.closeAllVideoCalls();
-    
+
     //this.closeVideoCall(this.currentConnectionId);
   }
 
@@ -436,7 +440,7 @@ export class SignalRService {
     }
   }
 
-  public getUserById(userId:string){
+  public getUserById(userId: string) {
     return this._hubConnection.invoke('GetUserById', userId);
   }
 }

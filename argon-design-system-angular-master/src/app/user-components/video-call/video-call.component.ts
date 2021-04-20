@@ -1,3 +1,4 @@
+import { IUserInfo } from './../../models/models';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IUser, UserConnection } from 'src/app/models/models';
@@ -20,6 +21,7 @@ export class VideoCallComponent implements OnInit {
   callerInfo: IUser;
   targetInfo: IUser;
 
+  userInfo:IUserInfo;
   constructor(
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
@@ -32,10 +34,12 @@ export class VideoCallComponent implements OnInit {
     console.log(this.isAccept)
     console.log('this is userId:' + this.userId);
 
+    this.authenticationService.userInfoObservable
+	    .subscribe(user => this.userInfo = user)
 
     signalRService.connectedObservable
       .subscribe(isConnected =>{
-        if (isConnected && this.authenticationService.IsLogin) {
+        if (isConnected && this.userInfo != undefined) {
           this.signalRService.getMyInfo()
             .then(data => {
               if(this.isAccept == 'true'){
@@ -80,7 +84,7 @@ export class VideoCallComponent implements OnInit {
   }
 
   onStartACall() {
-    this.signalRService.join(this.authenticationService.UserInfo.Id, this.authenticationService.UserInfo.FullName, true);
+    this.signalRService.join(this.userInfo.id, this.userInfo.fullName, true);
     this.joined = true;
   }
 
@@ -88,7 +92,7 @@ export class VideoCallComponent implements OnInit {
     this.signalRService.getUserById(this.userId)
       .then(user =>{
         this.signalRService.callerInfo = user;
-        this.signalRService.join(this.authenticationService.UserInfo.Id, this.authenticationService.UserInfo.FullName, false);
+        this.signalRService.join(this.userInfo.id, this.userInfo.fullName, false);
         this.joined = true;
       })
   }

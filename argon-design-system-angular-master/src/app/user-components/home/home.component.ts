@@ -1,8 +1,7 @@
+import { MessageService } from './../../service/message.service';
 import { ImageService } from '../../service/image.service';
-import { ImageUser, User, News } from '../../models/models';
+import { ImageUser, User, News, IUserInfo } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
-import { MessageService } from '../../service/message.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../service/users.service';
 import { AlertService } from '../../_alert';
@@ -21,14 +20,18 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export class HomeComponent implements OnInit {
 
+    userInfo:IUserInfo;
     constructor(
         private router: Router,
         private usersService: UsersService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
         private imageService: ImageService,
-        private messageService: MessageService,
-    ) { }
+        private messageService:MessageService
+    ) { 
+        this.authenticationService.userInfoObservable
+	        .subscribe(user => this.userInfo = user)
+    }
 
     faSpinner = faSpinner;
 
@@ -54,7 +57,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.updatePagingNumber(this.usersService.FavoritePage.index);
 
-        if (this.authenticationService.UserInfo != null) {
+        if (this.userInfo != null) {
             if (this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers) {
                 this.getSimilarUSer(false);
                 this.usersService.IsGetSimilarityUsers = true;
@@ -76,7 +79,7 @@ export class HomeComponent implements OnInit {
                 })
         }
         this.LoadFilterData();
-        if(this.authenticationService.UserInfo != null){
+        if(this.userInfo != null){
             this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
         }
     }
@@ -95,7 +98,7 @@ export class HomeComponent implements OnInit {
     }
     getSimilarUSer = (filter: boolean) => {
         this.Loading = true;
-        this.usersService.GetSimilarUSer(this.authenticationService.UserInfo.Id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
+        this.usersService.GetSimilarUSer(this.userInfo.id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
             .then(response => {
                 this.Loading = false;
                 this.usersService.Favoritors = response.data;
@@ -167,9 +170,9 @@ export class HomeComponent implements OnInit {
 
     ngAfterViewInit(): void {
 
-        if (this.authenticationService.UserInfo != null) {
-            if (!this.authenticationService.UserInfo.IsInfoUpdated) {
-                this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
+        if (this.userInfo != null) {
+            if (!this.userInfo.isInfoUpdated) {
+                this.router.navigate(['/profile', this.userInfo.id]);
                 return;
             }
         }
@@ -183,7 +186,7 @@ export class HomeComponent implements OnInit {
     likeProcessing = false;
     Favorite = (userId: string, event) => {
 
-        if (!this.authenticationService.IsLogin) {
+        if (!this.userInfo == undefined) {
             this.LoginRequired();
             return;
         }
@@ -246,7 +249,7 @@ export class HomeComponent implements OnInit {
     }
 
     clickProfileUser = (id) => {
-        if (!this.authenticationService.IsLogin) {
+        if (this.userInfo == undefined) {
             this.LoginRequired();
             return;
         }
@@ -260,7 +263,7 @@ export class HomeComponent implements OnInit {
         var liked = stateImageCurrent.id.split("_")[2]
         if (liked === "true") {
             this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.imageService.likeImage(this.userInfo.id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -272,7 +275,7 @@ export class HomeComponent implements OnInit {
 
         } else {
             this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
-            this.imageService.likeImage(this.authenticationService.UserInfo.Id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
+            this.imageService.likeImage(this.userInfo.id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
                 .then(data => {
                     console.log(data);
 
@@ -290,14 +293,14 @@ export class HomeComponent implements OnInit {
 
         this.updatePagingNumber(index);
 
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
     }
     previousPage() {
         if (this.usersService.FavoritePage.index == 1) {
             return
         }
         this.updatePagingNumber(this.usersService.FavoritePage.index - 1);
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
     nextPage() {
@@ -305,7 +308,7 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.updatePagingNumber(this.usersService.FavoritePage.index + 1);
-        this.authenticationService.UserInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
 
@@ -338,7 +341,7 @@ export class HomeComponent implements OnInit {
             .catch(error => { console.log(error) })
     }
     onSearch() {
-        if (!this.authenticationService.IsLogin) {
+        if (this.userInfo == undefined) {
             this.LoginRequired();
             return;
         }
@@ -380,7 +383,7 @@ export class HomeComponent implements OnInit {
 
     onLikeImage = (imageId, index) =>{
         this.NewImages[index].liked = ! this.NewImages[index].liked;
-        this.imageService.likeImage(this.authenticationService.UserInfo.Id, imageId)
+        this.imageService.likeImage(this.userInfo.id, imageId)
             .then(response =>{
                 console.log(response)
             })
@@ -397,7 +400,7 @@ export class HomeComponent implements OnInit {
     }
 
     onBlockUser(){
-        if(this.blockUserId == this.authenticationService.UserInfo.Id){
+        if(this.blockUserId == this.userInfo.id){
             return;
         }
         this.usersService.BlockUser(this.blockUserId)
@@ -419,7 +422,7 @@ export class HomeComponent implements OnInit {
     uploading = false;
     onUpload() {
         this.uploading = !this.uploading;
-        this.imageService.addImages(this.authenticationService.UserInfo.Id, this.files, this.ImageTitle)
+        this.imageService.addImages(this.userInfo.id, this.files, this.ImageTitle)
             .then(response => {
                 this.alertService.clear();
                 if(response.approved){

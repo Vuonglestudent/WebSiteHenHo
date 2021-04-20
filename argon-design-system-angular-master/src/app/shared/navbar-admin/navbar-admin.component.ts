@@ -1,6 +1,7 @@
 import { AuthenticationService } from '../../service/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { IUserInfo } from 'src/app/models/models';
 
 @Component({
   selector: 'app-navbar-admin',
@@ -9,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarAdminComponent implements OnInit {
 
+  userInfo:IUserInfo;
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-  ) { }
+  ) {
+    this.authenticationService.userInfoObservable
+	  .subscribe(user => this.userInfo = user)
+   }
   data: any;
   salesChart;
 
@@ -57,7 +62,7 @@ export class NavbarAdminComponent implements OnInit {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
-    this.router.navigate(['/profile', this.authenticationService.UserInfo.Id]);
+    this.router.navigate(['/profile', this.userInfo.id]);
   }
 
   clickMessage = () => {

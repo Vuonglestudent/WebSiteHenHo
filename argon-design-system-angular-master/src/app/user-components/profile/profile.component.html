@@ -23,7 +23,7 @@
                   <!-- <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
                     (click)="checkUserClickAvatar()"> -->
                 </a>
-                <div *ngIf="checkUser && authenticationService.UserInfo.Id == currentUserId" id="changeAvatar"
+                <div *ngIf="checkUser && userInfo.id == currentUserId" id="changeAvatar"
                   class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
                   <a href="javascript:;" class="dropdown-item" (click)="seenImageAvatar()">
                     <i class="ni ni-circle-08"></i>

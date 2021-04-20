@@ -1,4 +1,4 @@
-import { UserDisplay, Message, ChatFriend } from '../../models/models';
+import { UserDisplay, Message, ChatFriend, IUserInfo } from '../../models/models';
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SignalRService } from '../../service/signal-r.service';
 import { HttpClient } from '@angular/common/http';
@@ -18,6 +18,9 @@ import { AlertService } from 'src/app/_alert';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
 
+  userInfo:IUserInfo;
+  public CurrentUserId = ""
+  public DestUserId = "";
   constructor(
     public signalRService: SignalRService,
     private authenticationService: AuthenticationService,
@@ -26,7 +29,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private router: Router,
     private alertService: AlertService
   ) {
-
+    this.authenticationService.userInfoObservable
+      .subscribe(user => {
+        this.userInfo = user;
+        this.CurrentUserId = this.userInfo.id;
+      })
   }
   faEllipsisV = faEllipsisV;
   faVideo = faVideo;
@@ -34,9 +41,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   IsStarted = false;
   setScrollInterval
-
-  public CurrentUserId = this.authenticationService.UserInfo.Id;
-  public DestUserId = "";
 
   public PageSize = 20;
   public From: string;
@@ -54,7 +58,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.CurrentUserId = this.authenticationService.UserInfo.Id;
+    this.CurrentUserId = this.userInfo.id;
     this.messageService.friendList = new Array<ChatFriend>();
     this.messageService.GetFriendList(this.CurrentUserId)
       .then(response => {
@@ -140,7 +144,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       .catch(error => {
       })
   }
-
 
   clickSendUser = (idUser, nameUser) => {
     var destUserIdOld = <HTMLElement>document.getElementById(`DestUserId_${localStorage.getItem('DestUserId')}`);

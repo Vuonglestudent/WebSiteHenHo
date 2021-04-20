@@ -1,4 +1,4 @@
-import { Image } from './../../models/models';
+import { Image } from '../../models/models';
 import { ImageScore } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
 import { ImageScoreService } from '../../service/image-score.service';

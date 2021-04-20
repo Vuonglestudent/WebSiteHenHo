@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FeatureManagerComponent } from './feature-manager.component';
 
@@ -6,7 +6,7 @@ describe('FeatureManagerComponent', () => {
   let component: FeatureManagerComponent;
   let fixture: ComponentFixture<FeatureManagerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FeatureManagerComponent ]
     })

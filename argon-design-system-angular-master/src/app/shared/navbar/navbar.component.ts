@@ -4,6 +4,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';
 import { NotificationUserService } from 'src/app/service/notification-user.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { IUserInfo } from 'src/app/models/models';
 
 @Component({
     selector: 'app-navbar',
@@ -18,12 +19,16 @@ export class NavbarComponent implements OnInit {
     imgAvatar = './assets/img/theme/team-3-800x800.jpg'
     messageAwait = 4
     faSpinner = faSpinner;
+
+    userInfo:IUserInfo;
     constructor(
         public location: Location,
         private router: Router,
         private authenticationService: AuthenticationService,
         private notificationUserService: NotificationUserService,
     ) {
+        this.authenticationService.userInfoObservable
+	        .subscribe(user => this.userInfo = user)
     }
     onMessageClick(){
         this.router.navigateByUrl('friendlist');
@@ -70,22 +75,20 @@ export class NavbarComponent implements OnInit {
     }
 
     logout = () => {
-        this.authenticationService.Logout();
-        localStorage.removeItem('UserInfo');
-        this.token = null;
-        this.authenticationService.IsLogin = false;
+        this.userInfo = undefined;
+        this.authenticationService.setUserInfo(this.userInfo);
         this.router.navigateByUrl('/home');
     }
 
     clickMyProfile = () => {
-        this.router.navigate(['/profile' , this.authenticationService.UserInfo.Id]);
+        this.router.navigate(['/profile' , this.userInfo.id]);
     }
     loadingNotification = false;
 
     onMoreNotifications(){
         this.loadingNotification = true;
         this.notificationUserService.pageIndex += 1;
-        this.notificationUserService.GetNotification(this.authenticationService.UserInfo.Id, this.notificationUserService.pageIndex, this.notificationUserService.pageSize)
+        this.notificationUserService.GetNotification(this.userInfo.id, this.notificationUserService.pageIndex, this.notificationUserService.pageSize)
             .then(data =>{
                 this.loadingNotification = false;
                 this.notificationUserService.Notification = this.notificationUserService.Notification.concat(data);
@@ -100,7 +103,7 @@ export class NavbarComponent implements OnInit {
             return;
         }
         this.loadingNotification = true;
-        this.notificationUserService.GetNotification(this.authenticationService.UserInfo.Id, 1, 3)
+        this.notificationUserService.GetNotification(this.userInfo.id, 1, 3)
         .then(data=>{
             this.loadingNotification = false;
           this.notificationUserService.Notification = data;
