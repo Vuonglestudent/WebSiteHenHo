@@ -1,7 +1,7 @@
 import { UrlMainService } from './url-main.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { ISignal, IUser, IUserInfo, Message, SignalType, UserConnection } from '../models/models';
+import { INotification, ISignal, IUser, IUserInfo, Message, SignalType, UserConnection } from '../models/models';
 import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -12,6 +12,14 @@ export class SignalRService {
 
   private _hubConnection: signalR.HubConnection;
   private _connections: { [index: string]: UserConnection } = {};
+
+  private onlineCount: number = 0;
+  private onlineCountSub = new BehaviorSubject<number>(0);
+  public onlineCountObservable = this.onlineCountSub.asObservable();
+
+  private notification: INotification = {} as INotification;
+  private notificationCountSub = new BehaviorSubject<INotification>(undefined);
+  public notificationObservable = this.notificationCountSub.asObservable();
 
   private connSub = new BehaviorSubject<boolean>(false);
   public connObservable = this.connSub.asObservable();
@@ -37,8 +45,12 @@ export class SignalRService {
 
   //////////////////////////////////////////////////
 
-  messageReceived = new EventEmitter<Message>();
-  //private hubConnection: signalR.HubConnection;
+  //messageReceived = new EventEmitter<Message>();
+
+  private message = new Message();
+  private messageSub = new BehaviorSubject<Message>(undefined);
+  public messageObservable = this.messageSub.asObservable();
+
   public connectionId: string;
 
   public startConnection = () => {
@@ -52,7 +64,6 @@ export class SignalRService {
 
         this.closeAllVideoCalls();
         this.connSub.next(true);
-        //this.getMyInfo({ userId: this.authenticationService.UserInfo.Id, connectionId: this.currentConnectionId, userName: this.authenticationService.UserInfo.FullName });
 
       } catch (error) {
         console.error(error);
@@ -104,13 +115,31 @@ export class SignalRService {
         this.callerInfo = user;
         this.callerSub.next(user);
       })
+
+    this._hubConnection
+      .on('onlineCount', async (onlineCount: number) => {
+        this.onlineCount = onlineCount;
+        this.onlineCountSub.next(this.onlineCount);
+      })
+
+    this._hubConnection
+      .on('notification', async (notification: INotification) => {
+        this.notification = notification;
+        this.notificationCountSub.next(this.notification);
+      })
+
+    this._hubConnection
+      .on('messageResponse', async (message: Message) => {
+        this.message = message;
+        this.messageSub.next(this.message);
+      })
   }
 
-  public addTransferChartDataListener = () => {
-    this._hubConnection.on('messageResponse', (data) => {
-      this.messageReceived.emit(data);
-    });
-  }
+  // public addTransferChartDataListener = () => {
+  //   this._hubConnection.on('messageResponse', (data) => {
+  //     this.messageReceived.emit(data);
+  //   });
+  // }
 
   public getConnectionId = () => {
     this._hubConnection.invoke('getconnectionid').then(

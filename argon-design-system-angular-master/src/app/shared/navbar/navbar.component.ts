@@ -76,7 +76,7 @@ export class NavbarComponent implements OnInit {
 
     logout = () => {
         this.userInfo = undefined;
-        this.authenticationService.setUserInfo(this.userInfo);
+        this.authenticationService.removeUserInfo();
         this.router.navigateByUrl('/home');
     }
 

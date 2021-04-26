@@ -1,3 +1,4 @@
+import { INotification } from './../models/models';
 import { Injectable } from '@angular/core';
 import { Message } from '../models/models';
 import { UrlMainService } from './url-main.service';
@@ -14,7 +15,7 @@ export class NotificationUserService {
     private authenticationService: AuthenticationService,
   ) { }
 
-  public Notification: Message[] = new Array();
+  public Notification: INotification[] = new Array();
 
   public pageIndex:number = 1;
   public pageSize: number = 3;

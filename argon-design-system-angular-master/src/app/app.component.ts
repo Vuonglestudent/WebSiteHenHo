@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject, ElementRef, ViewChild, NgZone } from '@angular/core';
-import 'rxjs/add/operator/filter';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { AuthenticationService } from './service/authentication.service';
@@ -19,7 +18,8 @@ export class AppComponent implements OnInit {
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
   private caller: IUser;
 
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
+  connected: boolean;
   constructor(
     private router: Router, @Inject(DOCUMENT,) private document: any,
     public location: Location,
@@ -30,17 +30,10 @@ export class AppComponent implements OnInit {
     private notificationService: NotificationsService,
     private notificationUserService: NotificationUserService,
   ) {
-    this.subscribeToEvents();
     this.signalRService.connectedObservable
       .subscribe(connected => {
-        if (connected && this.userInfo != undefined) {
-          this.signalRService.getMyInfo()
-            .then(data => {
-              console.log('this is my data');
-              console.log(data)
-            })
-            .catch(err => console.log(err))
-        }
+        this.connected = connected;
+        this.connectToHub();
       })
 
     signalRService.callerObservable
@@ -55,39 +48,41 @@ export class AppComponent implements OnInit {
         this.caller = user;
       })
 
-      this.authenticationService.userInfoObservable
-	      .subscribe(user => this.userInfo = user)
+    this.authenticationService.userInfoObservable
+      .subscribe(user => {
+        this.userInfo = user;
+        this.connectToHub();
+      })
 
+    this.signalRService.notificationObservable
+      .subscribe(notification => {
+        if (notification != undefined) {
+          this.notificationUserService.Notification.splice(0, 0, notification);
+          this.showNotification(notification);
+        }
+      })
+  }
+
+  connectToHub() {
+    if (this.connected && this.userInfo != undefined) {
+      this.signalRService.getMyInfo()
+        .then(data => {
+          console.log('this is my data');
+          console.log(data)
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   ngOnInit() {
     this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener();
-  }
 
-  onClick() {
-    console.log('clicked')
-  }
+    this.signalRService.messageObservable
+      .subscribe(response => {
+        if (response != undefined) {
+          var message = new Message();
+          message = response;
 
-  senderId = ''
-  subscribeToEvents = () => {
-    this.signalRService.messageReceived.subscribe((response: any) => {
-      this._ngZone.run(() => {
-        var message = new Message();
-        message = response;
-
-        if (message.type == "onlineCount") {
-          //console.log('Number of online users: ' + message.onlineCount)
-          this.messageService.onlineCount = message.onlineCount;
-        }
-        else if (message.type == "notification") {
-          if (checkUrl !== "chat" && checkUrl !== "friendlist") {
-            this.notificationUserService.Notification.splice(0, 0, message);
-            this.showNotification(response);
-          }
-        }
-        else {
-          //Là người gửi
           if (message.senderId == this.userInfo.id) {
             message.type = 'sent';
             console.log('sender');
@@ -120,12 +115,11 @@ export class AppComponent implements OnInit {
           } else if (message.receiverId == this.userInfo.id) {
             message.type = 'received';
             console.log('receiver');
-            var checkUrl = this.router.url.split("/")[1]
-            console.log(checkUrl)
+            this.pageUrl = this.router.url.split("/")[1];
             this.senderId = response.senderId
 
             //Hiện thông báo
-            if (checkUrl !== "chat" && checkUrl !== "friendlist") {
+            if (this.pageUrl !== "chat" && this.pageUrl !== "friendlist") {
               this.showNotification(response);
             }
 
@@ -155,10 +149,16 @@ export class AppComponent implements OnInit {
             }
           }
         }
-
       })
-    })
+
   }
+
+  onClick() {
+    console.log('clicked')
+  }
+
+  senderId = ''
+  pageUrl: string = '';
 
   clickNotificationMes = (sendId) => {
     console.log("click", sendId)
@@ -197,7 +197,7 @@ export class AppComponent implements OnInit {
     window.open('/#/video-call/true/' + this.caller.userId, '_blank');
   }
 
-  onDecline(){
+  onDecline() {
     console.log('Decline a call');
   }
 }

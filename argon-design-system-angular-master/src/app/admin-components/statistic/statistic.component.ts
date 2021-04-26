@@ -146,7 +146,6 @@ export class StatisticComponent implements OnInit {
       .then(data =>{
         this.monthAuthorizeResponse = [];
         this.monthUnauthorizeResponse = [];
-        //console.log(data)
         data.listAccess.forEach(element => {
           this.monthAuthorizeResponse.push(element.authorizeCount);
           this.monthUnauthorizeResponse.push(element.unauthorizeCount);
@@ -167,7 +166,6 @@ export class StatisticComponent implements OnInit {
         this.yearAuthorizeResponse = [];
         this.yearUnauthorizeResponse = [];
 
-        console.log(data)
         data.listAccess.forEach(element => {
           this.yearAuthorizeResponse.push(element.authorizeCount);
           this.yearUnauthorizeResponse.push(element.unauthorizeCount);
@@ -199,7 +197,6 @@ export class StatisticComponent implements OnInit {
 
     this.statisticService.GetTheAccountNumberOfEachType()
       .then(data => {
-        console.log(data);
         this.pieChartLabels = ['System', 'Facebook', "Google"];
         this.pieChartData = [data.system, data.facebook, data.google];
       })

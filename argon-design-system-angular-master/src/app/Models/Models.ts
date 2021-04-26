@@ -227,12 +227,19 @@ export interface ISignal {
     candidate?: RTCIceCandidate;
 }
 
-export interface IUserInfo{
-    id:string;
-    fullName:string;
-    email:string;
-    role:string;
-    isInfoUpdated:boolean;
-    avatarPath:string;
-    token:string;
+export interface IUserInfo {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+    isInfoUpdated: boolean;
+    avatarPath: string;
+    token: string;
+}
+
+export interface INotification {
+    id: number;
+    fromId: string;
+    toId: string;
+    createdAt: Date;
 }

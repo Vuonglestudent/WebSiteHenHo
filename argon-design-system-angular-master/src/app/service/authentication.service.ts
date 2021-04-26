@@ -6,7 +6,6 @@ import { SocialUser } from '../models/models'
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -30,13 +29,11 @@ export class AuthenticationService {
   private userInfo: IUserInfo = {} as IUserInfo;
 
   setUserInfo(userInfo: IUserInfo) {
-
+    console.log('set user Info')
+    console.log(userInfo);
     if (userInfo != undefined && userInfo != null) {
-
-      console.log("Set user Info")
-      console.log(userInfo);
+      this.userInfo = {} as IUserInfo;
       this.userInfo.id = userInfo.id;
-
       this.userInfo.email = userInfo.email;
       this.userInfo.avatarPath = userInfo.avatarPath;
       this.userInfo.token = userInfo.token;
@@ -44,14 +41,16 @@ export class AuthenticationService {
       this.userInfo.isInfoUpdated = userInfo.isInfoUpdated;
       this.userInfo.role = userInfo.role;
 
-
-
       localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
       this.userInfoSub.next(this.userInfo);
     }
-    console.log('This is userInfo')
-    console.log(this.userInfo);
 
+  }
+
+  removeUserInfo(){
+    this.userInfo = null;
+    localStorage.clear();
+    this.userInfoSub.next(undefined);
   }
 
   private userInfoSub = new BehaviorSubject<IUserInfo>(undefined);

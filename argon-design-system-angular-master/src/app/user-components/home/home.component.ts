@@ -1,4 +1,4 @@
-import { MessageService } from './../../service/message.service';
+import { SignalRService } from 'src/app/service/signal-r.service';
 import { ImageService } from '../../service/image.service';
 import { ImageUser, User, News, IUserInfo } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
@@ -20,17 +20,21 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export class HomeComponent implements OnInit {
 
-    userInfo:IUserInfo;
+    userInfo: IUserInfo;
+    onlineCount: number = 0;
     constructor(
         private router: Router,
         private usersService: UsersService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
         private imageService: ImageService,
-        private messageService:MessageService
-    ) { 
+        private signalRService: SignalRService
+    ) {
         this.authenticationService.userInfoObservable
-	        .subscribe(user => this.userInfo = user)
+            .subscribe(user => this.userInfo = user)
+
+        this.signalRService.onlineCountObservable
+            .subscribe(onlineCount => this.onlineCount = onlineCount)
     }
 
     faSpinner = faSpinner;
@@ -58,6 +62,9 @@ export class HomeComponent implements OnInit {
         this.updatePagingNumber(this.usersService.FavoritePage.index);
 
         if (this.userInfo != null) {
+            console.log('user info khác null')
+            console.log(this.usersService.IsGetSimilarityUsers);
+            console.log(this.usersService.Favoritors.length)
             if (this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers) {
                 this.getSimilarUSer(false);
                 this.usersService.IsGetSimilarityUsers = true;
@@ -79,12 +86,12 @@ export class HomeComponent implements OnInit {
                 })
         }
         this.LoadFilterData();
-        if(this.userInfo != null){
+        if (this.userInfo != null) {
             this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
         }
     }
 
-    onSeeMoreImage = () =>{
+    onSeeMoreImage = () => {
         this.PageIndexImage += 1;
         this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
     }
@@ -103,6 +110,7 @@ export class HomeComponent implements OnInit {
                 this.Loading = false;
                 this.usersService.Favoritors = response.data;
                 this.usersService.FavoritePage.total = response.pageTotal;
+
                 this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
@@ -128,6 +136,9 @@ export class HomeComponent implements OnInit {
                 this.Loading = false;
                 this.usersService.Favoritors = response.data;
                 this.usersService.FavoritePage.total = response.pageTotal;
+
+                console.log("Người yêu thích nhiều")
+                console.log(this.usersService.Favoritors);
 
                 this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
@@ -293,14 +304,14 @@ export class HomeComponent implements OnInit {
 
         this.updatePagingNumber(index);
 
-        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == undefined ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
     }
     previousPage() {
         if (this.usersService.FavoritePage.index == 1) {
             return
         }
         this.updatePagingNumber(this.usersService.FavoritePage.index - 1);
-        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == undefined ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
     nextPage() {
@@ -308,7 +319,7 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.updatePagingNumber(this.usersService.FavoritePage.index + 1);
-        this.userInfo == null ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
+        this.userInfo == undefined ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
 
     }
 
@@ -371,40 +382,40 @@ export class HomeComponent implements OnInit {
         this.files.splice(this.files.indexOf(event), 1);
     }
 
-    NewImages:News[] = new Array();
-    GetNewImages = (pageIndex:number, pageSize: number) =>{
+    NewImages: News[] = new Array();
+    GetNewImages = (pageIndex: number, pageSize: number) => {
         console.log(pageIndex)
         this.imageService.GetNewImages(pageIndex, pageSize)
-            .then(response =>{
+            .then(response => {
                 this.NewImages = this.NewImages.concat(response);
             })
             .catch(err => console.log(err))
     }
 
-    onLikeImage = (imageId, index) =>{
-        this.NewImages[index].liked = ! this.NewImages[index].liked;
+    onLikeImage = (imageId, index) => {
+        this.NewImages[index].liked = !this.NewImages[index].liked;
         this.imageService.likeImage(this.userInfo.id, imageId)
-            .then(response =>{
+            .then(response => {
                 console.log(response)
             })
             .catch(err => console.log(err))
     }
 
-    onFollowed = (userId, index) =>{
-        this.NewImages[index].followed = ! this.NewImages[index].followed;
+    onFollowed = (userId, index) => {
+        this.NewImages[index].followed = !this.NewImages[index].followed;
         this.usersService.Follow(userId)
-            .then(response =>{
+            .then(response => {
                 console.log(response)
             })
             .catch(err => console.log(err))
     }
 
-    onBlockUser(){
-        if(this.blockUserId == this.userInfo.id){
+    onBlockUser() {
+        if (this.blockUserId == this.userInfo.id) {
             return;
         }
         this.usersService.BlockUser(this.blockUserId)
-            .then(response=>{
+            .then(response => {
                 console.log(response)
             })
             .catch(err => console.log(err))
@@ -412,7 +423,7 @@ export class HomeComponent implements OnInit {
 
     blockName;
     blockUserId;
-    clickBlock = (userId, userName) =>{
+    clickBlock = (userId, userName) => {
         this.blockName = userName;
         this.blockUserId = userId;
         console.log(this.blockName + this.blockUserId)
@@ -425,10 +436,10 @@ export class HomeComponent implements OnInit {
         this.imageService.addImages(this.userInfo.id, this.files, this.ImageTitle)
             .then(response => {
                 this.alertService.clear();
-                if(response.approved){
+                if (response.approved) {
                     this.alertService.success(response.message, this.options);
                 }
-                else{
+                else {
                     this.alertService.warn(response.message, this.options);
                 }
                 this.files = [];

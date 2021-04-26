@@ -31,10 +31,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     editing: boolean = false;
     imageTitle: string;
     checkUser = false;
-    imagesResponse: Array<Image>;
+    imagesResponse: Image[] = new Array();
     isViewFriendList: boolean = false;
-    FriendList: Array<User>;
-    BlockList: Array<User>;
+    FriendList: User[] = new Array();
+    BlockList: User[] = new Array();
     //icon
     faSpinner = faSpinner;
     currentUserId;
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     public UserProfile: User = new User();
     isViewImageList = false;
 
-    userInfo:IUserInfo;
+    userInfo: IUserInfo;
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
@@ -61,11 +61,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         private messageService: MessageService,
         private imageService: ImageService
     ) {
-        this.route.paramMap.subscribe(params => {
-            this.ngOnInit();
-        });
+
         this.authenticationService.userInfoObservable
-	        .subscribe(user => this.userInfo = user)
+            .subscribe(user => {
+                this.userInfo = user;
+                console.log("profile data")
+                console.log(this.userInfo)
+            })
     }
 
     ngAfterViewInit(): void {
@@ -93,11 +95,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         } else {
             this.checkUser = false;
         }
-        this.usersService.GetById(this.route.snapshot.paramMap.get('id'))
+        this.usersService.GetById(this.currentUserId)
             .then(data => {
                 this.UserProfile = data;
-                console.log('Day la USER PROFILE')
-                console.log(this.UserProfile)
                 this.Features = this.UserProfile.features;
                 this.SearchFeatures = this.UserProfile.searchFeatures;
 
@@ -107,8 +107,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.usersService.GetProfileData()
                     .then(data => {
                         this.profileData = data;
-                        console.log('day la profile data')
-                        console.log(this.profileData)
 
                         for (let i = 0; i < this.profileData.features.length; i++) {
                             var isExist = false;
@@ -161,22 +159,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                             }
                         }
 
-                        // this.UpdateFeatures = new Array();
-                        // this.UserProfile.features.forEach(element => {
-                        //     var feature = {
-                        //         featureId: element.featureId,
-                        //         featureDetailId: element.featureDetailId
-                        //     }
-                        //     this.UpdateFeatures.push(feature);
-                        //     this.profileData.features.forEach(item => {
-                        //         if(element.featureId === item.id){
-                        //             var dt = new FeatureDetail();
-                        //             dt.content = element.content;
-                        //             dt.id = element.featureDetailId;
-                        //             item.featureDetails.unshift(dt);
-                        //         }
-                        //     });
-                        // });
                         console.log(this.SearchFeatures);
                         this.profileData.job.unshift(this.UserProfile.job);
                         this.profileData.location.unshift(this.UserProfile.location);
@@ -251,7 +233,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.success("Cập nhật hồ sơ thành công!");
                 this.editing = false;
                 this.userInfo.isInfoUpdated = true;
-                localStorage.setItem('UserInfo', JSON.stringify(this.userInfo));
+                this.authenticationService.setUserInfo(this.userInfo);
+                this.usersService.Favoritors = new Array();
             })
             .catch(error => {
                 this.updating = false;
@@ -749,7 +732,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     blocking = false;
     clickBlockUser = (id, name) => {
-        if(this.blocking){
+        if (this.blocking) {
             return;
         }
 
@@ -777,7 +760,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     //blocking = false;
     onBlockUser = (item: User) => {
-        if(this.blocking){
+        if (this.blocking) {
             return;
         }
 
@@ -813,7 +796,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.usersService.GetBlockList()
             .then(data => {
                 this.BlockList = data;
-                this.BlockList.forEach(item =>{
+                this.BlockList.forEach(item => {
                     item.blocked = true;
                 })
                 console.log(this.BlockList)

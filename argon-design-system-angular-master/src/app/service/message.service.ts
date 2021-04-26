@@ -15,7 +15,7 @@ export class MessageService {
     private url: UrlMainService
   ) { }
 
-  public onlineCount:number = 0;
+  // public onlineCount:number = 0;
   private mainUrl = `${this.url.urlHost}/api/v1/chats`;
 
   public SendMessage = (senderId: string, receiveId: string, content: string) => {

@@ -1,3 +1,5 @@
+import { IUserInfo } from './../../models/models';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { Component, OnInit } from "@angular/core";
 import { UsersService } from "../../service/users.service";
 import { HttpClient } from "@angular/common/http";
@@ -11,12 +13,17 @@ import { faSpinner, faCheck } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ["./change-password.component.css"],
 })
 export class ChangePasswordComponent implements OnInit {
+  userInfo:IUserInfo;
   constructor(
     private usersService: UsersService,
     http: HttpClient,
     private router: Router,
-    protected alertService: AlertService
-  ) { }
+    protected alertService: AlertService,
+    private authenticationService:AuthenticationService
+  ) { 
+    this.authenticationService.userInfoObservable
+      .subscribe(user => this.userInfo = user);
+  }
 
   ngOnInit(): void { }
 
@@ -41,16 +48,11 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
 
-    var GetUserInfo = localStorage.getItem('UserInfo');
-    console.log(GetUserInfo);
-    if (GetUserInfo == "" || GetUserInfo == undefined) {
+    if (this.userInfo == undefined) {
       this.router.navigateByUrl('login');
     }
 
-    var outPut = JSON.parse(GetUserInfo);
-
-
-    this.usersService.ChangePassword(outPut.Email, f.value.OldPassword, f.value.NewPassword, f.value.ConfirmPassword)
+    this.usersService.ChangePassword(this.userInfo.email, f.value.OldPassword, f.value.NewPassword, f.value.ConfirmPassword)
       .then(response => {
         this.alertService.clear();
         this.alertService.success(response.message, this.options);

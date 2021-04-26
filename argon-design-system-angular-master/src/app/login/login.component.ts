@@ -22,7 +22,7 @@ import { SignalRService } from '../service/signal-r.service';
 })
 export class LoginComponent implements OnInit {
 
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.authenticationService.userInfoObservable
       .subscribe(user => this.userInfo = user)
-   }
+  }
 
   options = {
     autoClose: false,
@@ -89,7 +89,8 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/home');
         }
         else if (this.userInfo.role == "Admin") {
-          this.router.navigateByUrl("/statistic");
+          // this.router.navigateByUrl("/statistic");
+          this.router.navigateByUrl("/home");
         }
       })
       .catch(error => {
@@ -237,7 +238,7 @@ export class LoginComponent implements OnInit {
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then(response =>{
+      .then(response => {
         console.log(response);
 
         // this.signalRService.SaveHubId()
@@ -247,7 +248,7 @@ export class LoginComponent implements OnInit {
       .catch(error => console.log(error))
     console.log(FacebookLoginProvider.PROVIDER_ID);
   }
-  
+
   signOut(): void {
     this.authService.signOut();
   }
