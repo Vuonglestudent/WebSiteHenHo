@@ -20,6 +20,7 @@ export class FeatureManagerComponent implements OnInit {
     keepAfterRouteChange: false
   };
 
+  Loading = false;
   ngOnInit(): void {
     if (this.featureService.features.length == 0) {
       this.getAllFeature();

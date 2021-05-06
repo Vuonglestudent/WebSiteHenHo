@@ -64,6 +64,7 @@ button:focus {
 .radioProfile:hover,
 .dobUser:hover {
   background-color: beige;
+
   option {
     background-color: white;
   }
@@ -99,6 +100,7 @@ ngx-dropzone,
 .profile-page .card-profile .card-profile-actions {
   padding: 0.875rem 0;
 }
+
 .btn-icon-card:active span i {
   transform: translateY(10px);
 }
@@ -117,6 +119,7 @@ ngx-dropzone,
 .close i:hover {
   color: red;
 }
+
 // End
 
 #loader {
@@ -152,6 +155,7 @@ ngx-dropzone,
   0% {
     -webkit-transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
   }
@@ -161,6 +165,7 @@ ngx-dropzone,
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -180,6 +185,7 @@ ngx-dropzone,
     bottom: -100px;
     opacity: 0;
   }
+
   to {
     bottom: 0px;
     opacity: 1;
@@ -191,6 +197,7 @@ ngx-dropzone,
     bottom: -100px;
     opacity: 0;
   }
+
   to {
     bottom: 0;
     opacity: 1;
@@ -218,6 +225,7 @@ ngx-dropzone,
   transition: 0.5s;
   box-shadow: 1px 8px 20px grey;
   -webkit-transition: box-shadow 0.2s ease-in;
+
   .btn-icon-card {
     background-color: #f0e1f7;
   }
@@ -225,6 +233,7 @@ ngx-dropzone,
 
 .dropbtn:hover {
   background-color: beige;
+
   option {
     background-color: white;
   }
@@ -255,7 +264,7 @@ select {
   padding-left: 1.75rem;
   margin: 1px 0 1px 0;
   border: solid 1px#deeefa;
-  
+
 }
 
 .card-title {
@@ -267,7 +276,7 @@ select {
 }
 
 .form-title[readonly] {
-  background-image: linear-gradient(to bottom right,white, white);
+  background-image: linear-gradient(to bottom right, white, white);
 }
 
 :root {
@@ -309,13 +318,13 @@ select {
     width: 0;
     height: 0;
 
-    &:focus + .radio__control {
+    &:focus+.radio__control {
       box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
     }
   }
 }
 
-.radio-gradient input:checked + .radio__control {
+.radio-gradient input:checked+.radio__control {
   background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
 }
 
@@ -325,7 +334,7 @@ select {
     place-items: center;
   }
 
-  input + .radio__control::before {
+  input+.radio__control::before {
     content: "";
     width: 0.5em;
     height: 0.5em;
@@ -335,7 +344,7 @@ select {
     transform: scale(0);
   }
 
-  input:checked + .radio__control::before {
+  input:checked+.radio__control::before {
     transform: scale(1);
   }
 }
@@ -368,9 +377,10 @@ input[type="number"]::-webkit-outer-spin-button {
   background-image: linear-gradient(to bottom right, #3c2693, #d782d9);
 }
 
-option:hover{
+option:hover {
   background-color: #5E72E4
 }
+
 #alert-custom {
   top: 47px;
   right: 658px;
@@ -378,22 +388,33 @@ option:hover{
   z-index: 3000;
 }
 
-.dropdown-menu-custom{
+.dropdown-menu-custom {
   top: 182px;
   left: -103px;
 }
-.dropdown-menu:before{
-  display:none;
+
+.dropdown-menu:before {
+  display: none;
 }
-.ul{
+
+.ul {
   list-style: none;
   justify-content: space-between;
 }
 
-.li{
+.li {
   padding-top: 3%;
-  
+
 }
-.end{
+
+.end {
   padding-right: 5%;
+}
+
+.avatar-custom {
+  object-fit: cover;
+}
+
+.avatar-block {
+  margin-top: 1%;
 }

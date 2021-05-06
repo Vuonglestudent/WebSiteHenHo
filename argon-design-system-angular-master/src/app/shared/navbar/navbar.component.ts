@@ -16,8 +16,7 @@ export class NavbarComponent implements OnInit {
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
     token: string
-    imgAvatar = './assets/img/theme/team-3-800x800.jpg'
-    messageAwait = 4
+
     faSpinner = faSpinner;
 
     userInfo:IUserInfo;
@@ -25,7 +24,7 @@ export class NavbarComponent implements OnInit {
         public location: Location,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private notificationUserService: NotificationUserService,
+        public notificationUserService: NotificationUserService,
     ) {
         this.authenticationService.userInfoObservable
 	        .subscribe(user => this.userInfo = user)
@@ -55,9 +54,9 @@ export class NavbarComponent implements OnInit {
     }
 
     isHome() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
+        var title = this.location.prepareExternalUrl(this.location.path());
 
-        if (titlee === '#/home') {
+        if (title === '#/home') {
             return true;
         }
         else {
@@ -65,8 +64,8 @@ export class NavbarComponent implements OnInit {
         }
     }
     isDocumentation() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        if (titlee === '#/documentation') {
+        var title = this.location.prepareExternalUrl(this.location.path());
+        if (title === '#/documentation') {
             return true;
         }
         else {
@@ -92,6 +91,9 @@ export class NavbarComponent implements OnInit {
             .then(data =>{
                 this.loadingNotification = false;
                 this.notificationUserService.Notification = this.notificationUserService.Notification.concat(data);
+                this.notificationUserService.Notification.forEach(element => {
+                    element.fullName = this.getLastName(element.fullName);
+                });
             })
             .catch(err =>{
                 this.loadingNotification = false;
@@ -107,10 +109,19 @@ export class NavbarComponent implements OnInit {
         .then(data=>{
             this.loadingNotification = false;
           this.notificationUserService.Notification = data;
+          this.notificationUserService.Notification.forEach(element => {
+              element.fullName = this.getLastName(element.fullName);
+          });
+          
           console.log(this.notificationUserService.Notification);
         })
         .catch(error => {
             this.loadingNotification = false;
             console.log(error)})
+    }
+
+     getLastName(fullName:string) {
+        var n = fullName.split(" ");
+        return n[n.length - 1];
     }
 }

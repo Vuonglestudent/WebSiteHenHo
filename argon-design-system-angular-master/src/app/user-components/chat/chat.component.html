@@ -13,7 +13,7 @@
         </div>
         <div class="contacts_body">
           <ul class="contacts">
-            <li *ngFor="let friend of messageService.friendList"
+            <li *ngFor="let friend of messageService.friendList" class="friend-content"
               (click)="clickSendUser(friend.user.id, friend.user.fullName)" style="cursor: pointer;">
               <div id="DestUserId_{{friend.user.id}}" class="d-flex bd-highlight">
                 <div class="d-flex img_cont" style="padding-left: 15px;">

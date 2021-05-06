@@ -63,14 +63,6 @@ export class VideoCallComponent implements OnInit {
         console.log(this.users)
         //this.onCheckTarget();
       });
-
-      // signalRService.callerObservable
-      // .subscribe(user => {
-      //   console.log('this is caller Info:');
-      //   console.log(user);
-      //   this.callerInfo = user;
-      // })
-
   }
 
   ngOnInit() {
@@ -78,9 +70,10 @@ export class VideoCallComponent implements OnInit {
   }
 
   hangUp(){
-    this.users.forEach(element => {
-      element.end();
-    });
+    window.close();
+    // this.users.forEach(element => {
+    //   element.end();
+    // });
   }
 
   onStartACall() {
@@ -104,11 +97,15 @@ export class VideoCallComponent implements OnInit {
   onCheckTarget() {
     this.signalRService.getTargetInfo(this.userId)
       .then(data =>{
-        console.log(data);
+        console.log(data)
         if(data == null){
           this.alertService.clear();
           this.alertService.error("Target is not online");
           return;
+        }
+        else{
+          this.targetInfo = data;
+          
         }
         // target is online
       })

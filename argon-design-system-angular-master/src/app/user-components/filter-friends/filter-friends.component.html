@@ -33,14 +33,14 @@
                         </p>
                         <ul *ngIf="i < 4" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue}}</div>
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue.content == null ? itemValue : itemValue.content}}</div>
                             </li>
                         </ul>
                         <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">
                             {{item.title}}</p>
                         <ul *ngIf="i >= 4 && extend" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue}}</div>
+                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue.content}}</div>
                             </li>
                         </ul>
                     </div>

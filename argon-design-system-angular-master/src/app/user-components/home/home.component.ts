@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     onlineCount: number = 0;
     constructor(
         private router: Router,
-        private usersService: UsersService,
+        public usersService: UsersService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
         private imageService: ImageService,

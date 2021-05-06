@@ -207,7 +207,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-line-clamp: 1;
+  /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 
@@ -218,18 +219,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-line-clamp: 1;
+  /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 
 
-.statistic-change-left{
+.statistic-change-left {
   position: absolute;
   left: 1%;
   top: 50%;
 }
 
-.statistic-change-left i, .statistic-change-right i {
+.statistic-change-left i,
+.statistic-change-right i {
   font-size: 30px !important;
   color: black !important;
 }
@@ -260,6 +263,15 @@ body {
   font-family: "FontAwesome" !important;
 }
 
-div , a , input {
+div,
+a,
+input {
   font-family: "FontAwesome" !important;
+}
+#showNotification .modal-content{
+  margin-top: 60px;
+  left: 153%;
+}
+.avatar-custom img{
+  object-fit:contain !important;
 }

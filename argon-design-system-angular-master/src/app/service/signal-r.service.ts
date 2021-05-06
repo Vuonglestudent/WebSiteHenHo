@@ -156,7 +156,7 @@ export class SignalRService {
     private url: UrlMainService
   ) {
     this._hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`http://localhost:5100/chatHub`)
+      .withUrl(`${this.url}/chatHub`)
       //.withUrl(`https://hieuit.tech:5201/chatHub`)
       .build();
 
@@ -180,7 +180,7 @@ export class SignalRService {
   public async getTargetInfo(userId: string) {
     return await this._hubConnection.invoke("getTargetInfo", userId);
   }
-
+  
   private async updateUserList(users: IUser[]): Promise<void> {
     const iceServers = await this.getIceServers();
     users.forEach(async user => {

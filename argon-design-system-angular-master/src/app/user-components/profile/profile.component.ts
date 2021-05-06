@@ -1,11 +1,10 @@
 import { FeatureVM, IUserInfo } from '../../models/models';
 import { MessageService } from './../../service/message.service';
 import { AlertService } from './../../_alert/alert.service';
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UsersService } from '../../service/users.service';
 import { User, ProfileData, Image } from '../../models/models';
 import { AuthenticationService } from '../../service/authentication.service';
-import { NgForm } from '@angular/forms';
 import { ImageService } from './../../service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,11 +22,6 @@ import { slideInOutAnimation } from '../../_animates/animates';
 
 export class ProfileComponent implements OnInit, AfterViewInit {
 
-    nameUser = 'Lê Quốc Nguyên Vương'
-    ageUser = '20'
-    addressUser = 'Đường số 8, Linh Trung, Thủ đức'
-    imgAvatar = "./assets/img/theme/team-3-800x800.jpg"
-
     editing: boolean = false;
     imageTitle: string;
     checkUser = false;
@@ -44,7 +38,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isViewCharaters = false;
     isViewLikes = false;
     isViewActions = false;
-    isViewBlockList = false;
 
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
@@ -55,7 +48,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private el: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
         private messageService: MessageService,
@@ -65,9 +57,14 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.authenticationService.userInfoObservable
             .subscribe(user => {
                 this.userInfo = user;
-                console.log("profile data")
-                console.log(this.userInfo)
             })
+
+            this.currentUserId = this.route.snapshot.paramMap.get('id');
+            if (this.route.snapshot.paramMap.get('id') === this.userInfo.id) {
+                this.checkUser = true;
+            } else {
+                this.checkUser = false;
+            }
     }
 
     ngAfterViewInit(): void {
@@ -89,12 +86,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     UpdateFeatures = new Array();
     isYourself = false;
     ngOnInit() {
-        this.currentUserId = this.route.snapshot.paramMap.get('id');
-        if (this.route.snapshot.paramMap.get('id') === this.userInfo.id) {
-            this.checkUser = true;
-        } else {
-            this.checkUser = false;
-        }
+
         this.usersService.GetById(this.currentUserId)
             .then(data => {
                 this.UserProfile = data;
@@ -159,7 +151,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                             }
                         }
 
-                        console.log(this.SearchFeatures);
                         this.profileData.job.unshift(this.UserProfile.job);
                         this.profileData.location.unshift(this.UserProfile.location);
                     })
@@ -173,7 +164,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 console.log(error);
             })
 
-        this.onViewImage()
+        this.onViewImage();
+
         if (this.userInfo.id == this.currentUserId) {
             this.onViewFriendList();
             this.isYourself = true;
@@ -205,7 +197,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     viewImageList = () => {
         this.isViewImageList = !this.isViewImageList
-        this.isViewBlockList = false;
         this.isSeenMoreImage = false;
         this.isViewFriendList = false;
         this.editing = false;
@@ -296,7 +287,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     clickEdit = () => {
         this.editing = !this.editing;
-        this.isViewBlockList = false;
         this.uploadImage = false;
         this.isViewFriendList = false;
         this.isViewImageList = false;
@@ -321,7 +311,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     uploadImages() {
         this.uploadImage = !this.uploadImage;
-        this.isViewBlockList = false;
         this.editing = false;
         this.isViewImageList = false;
         this.isViewFriendList = false;
@@ -353,7 +342,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     onViewImage = () => {
         this.imageService.getImageByUserId(this.route.snapshot.paramMap.get('id'))
             .then(data => {
-                console.log(data)
                 this.imagesResponse = data;
             })
             .catch(error => {
@@ -592,7 +580,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         if (this.txtMessage != '') {
             this.messageService.SendMessage(this.userInfo.id, id, this.txtMessage)
                 .then(data => {
-                    console.log(data)
                     this.alertService.clear();
                     this.alertService.success('Tin nhắn của bạn đã được gửi đến ' + this.UserProfile.fullName, this.options);
                 })
@@ -665,7 +652,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     onViewFriendList() {
         this.isViewFriendList = !this.isViewFriendList;
-        this.isViewBlockList = false;
         this.isViewImageList = false;
         this.editing = false;
         this.uploadImage = false;
@@ -682,7 +668,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         //}
     }
     clickProfileUser = (id) => {
-        this.isViewBlockList = false;
         this.isViewFriendList = false;
         this.uploadImage = false;
         this.editing = false;
@@ -786,7 +771,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
 
     onViewBlockList() {
-        this.isViewBlockList = !this.isViewBlockList;
         this.isViewFriendList = false;
         this.isViewImageList = false;
         this.editing = false;
@@ -808,13 +792,4 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
         //}
     }
-
-    // checkExistObject = (obj) => {
-    //     if (obj != null) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 }
-

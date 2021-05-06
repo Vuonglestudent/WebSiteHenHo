@@ -1,13 +1,8 @@
-import { UserDisplay, Message, ChatFriend, IUserInfo } from '../../models/models';
-import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Message, ChatFriend, IUserInfo } from '../../models/models';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SignalRService } from '../../service/signal-r.service';
-import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../../service/authentication.service';
 import { MessageService } from '../../service/message.service';
-import { UsersService } from '../../service/users.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { timer } from 'rxjs';
 import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/_alert';
 
@@ -17,16 +12,14 @@ import { AlertService } from 'src/app/_alert';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, AfterViewInit {
-
   userInfo:IUserInfo;
   public CurrentUserId = ""
   public DestUserId = "";
+  
   constructor(
     public signalRService: SignalRService,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService,
-    private usersService: UsersService,
-    private router: Router,
+    public messageService: MessageService,
     private alertService: AlertService
   ) {
     this.authenticationService.userInfoObservable
@@ -57,7 +50,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   timer;
 
   ngOnInit(): void {
-
     this.CurrentUserId = this.userInfo.id;
     this.messageService.friendList = new Array<ChatFriend>();
     this.messageService.GetFriendList(this.CurrentUserId)
@@ -87,9 +79,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
   time = 0
   ngAfterViewInit(): void {
-    if (this.messageService.friendList.length > 0) {
+    setTimeout(() => {
       this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
-    }
+    }, 500);
   }
 
 
@@ -103,7 +95,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       this.messageService.SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
         .then(data => {
-          console.log(data);
           this.setScroll();
         })
         .catch(error => {
@@ -122,12 +113,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
 
   IsExist = (messageId: number, messages: Array<Message>) => {
-    messages.forEach(element => {
-      if (element.id == messageId) {
-        return true;
-      }
-    });
-    return false;
+    var message = messages.filter(x=>x.id === messageId);
+    return message.length == 0 ? false : true;
   }
 
   MoreMessages = (userId: string, userIndex: number) => {
@@ -211,7 +198,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   onCheckTarget() {
     this.signalRService.getTargetInfo(this.ReceiverId)
       .then(data =>{
-        console.log(data);
         if(data == null){
           this.alertService.clear();
           this.alertService.error("Target is not online");

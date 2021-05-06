@@ -31,7 +31,7 @@ export class ChangePasswordComponent implements OnInit {
   faSpinner = faSpinner;
   faCheck = faCheck;
   //
-
+  Loading = false;
   options = {
     autoClose: false,
     keepAfterRouteChange: false
@@ -51,9 +51,10 @@ export class ChangePasswordComponent implements OnInit {
     if (this.userInfo == undefined) {
       this.router.navigateByUrl('login');
     }
-
+    this.Loading = true;
     this.usersService.ChangePassword(this.userInfo.email, f.value.OldPassword, f.value.NewPassword, f.value.ConfirmPassword)
       .then(response => {
+        this.Loading = false;
         this.alertService.clear();
         this.alertService.success(response.message, this.options);
         setTimeout(() => {
@@ -62,6 +63,7 @@ export class ChangePasswordComponent implements OnInit {
       }, 3000);
       })
       .catch(error => {
+        this.Loading = false;
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
       });

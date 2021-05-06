@@ -25,7 +25,7 @@ export class UsersService {
   public Favoritors: User[] = new Array();
   public FavoritePage: any = {
       index: 1,
-      size: 5,
+      size: 12,
       total: 0,
       current: 1,
       position: 1
@@ -123,18 +123,6 @@ export class UsersService {
   public UpdateProfile = (profile:User, features:FeatureVM[], searchFeatures:FeatureVM[]) =>{
     var headers = this.authenticationService.GetHeader();
     var path = `${this.url.urlHost}/api/v1/Profiles`;
-    // var data = new FormData();
-    // data.append("Id", profile.id);
-    // data.append("FullName", profile.fullName);
-    // data.append("Gender", profile.gender);
-    // data.append("Location", profile.location);
-    // data.append("PhoneNumber", profile.phoneNumber);
-    // data.append("Job", profile.job);
-    // data.append("Title", profile.title);
-    // data.append("Summary", profile.summary);
-    // data.append("Weight", profile.weight.toString());
-    // data.append("Height", profile.height.toString());
-    // data.append("Dob", profile.dob.toString());
 
     profile.features = features;
     profile.searchFeatures = searchFeatures;

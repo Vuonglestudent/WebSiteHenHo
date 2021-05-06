@@ -82,6 +82,7 @@ export class ProfileData {
     location: string[];
     ageGroup: string[];
     features: Feature[];
+    genders:string[] = ["Nam", "Nữ"];
 }
 
 export class Image {
@@ -239,6 +240,7 @@ export interface IUserInfo {
 
 export interface INotification {
     id: number;
+    fullName:string;
     fromId: string;
     toId: string;
     createdAt: Date;

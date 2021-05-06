@@ -1,18 +1,4 @@
 
-<div class='test'>
-    <alert></alert>
-    <div *ngIf="signalRService.connected && !joined">
-        <input placeholder="User name" [(ngModel)]="targetId" value='ec826af8-0310-48cf-8a14-da11bdb1c967'>
-        <br />
-        <button [disabled]="!targetId || targetId === ''" (click)="onCheckTarget()">Check Target</button>
-        
-
-        <!-- <button *ngIf="callerInfo!=null" (click)="onAcceptACall()">Accept a call</button> -->
-    </div>
-    <button (click)="hangUp()">hangUp</button>
-    
-</div>
-
 <div class="video-container">
     <div *ngIf="users != undefined && users.length > 1" class="your-friend-video">
         <app-video-member [className]="'friend-video'" [user]="users[1]">

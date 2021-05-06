@@ -16,12 +16,12 @@ import { NotificationUserService } from './service/notification-user.service';
 export class AppComponent implements OnInit {
 
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
-  private caller: IUser;
+  public caller: IUser;
 
   userInfo: IUserInfo;
   connected: boolean;
   constructor(
-    private router: Router, @Inject(DOCUMENT,) private document: any,
+    public router: Router, @Inject(DOCUMENT,) private document: any,
     public location: Location,
     private authenticationService: AuthenticationService,
     public signalRService: SignalRService,
@@ -38,9 +38,7 @@ export class AppComponent implements OnInit {
 
     signalRService.callerObservable
       .subscribe(user => {
-        console.log('this is caller Info:');
         if (user == undefined || user == null) {
-          console.log('null or undefined')
           return;
         }
         this.modal.nativeElement.click();
@@ -67,8 +65,6 @@ export class AppComponent implements OnInit {
     if (this.connected && this.userInfo != undefined) {
       this.signalRService.getMyInfo()
         .then(data => {
-          console.log('this is my data');
-          console.log(data)
         })
         .catch(err => console.log(err))
     }

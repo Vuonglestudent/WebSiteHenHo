@@ -21,25 +21,8 @@ export class FilterFriendsComponent implements OnInit {
 
   filterSet = [
     { feature: "ageGroup", title: "Độ tuổi", value: [] },
-    { feature: "body", title: "Dáng người", value: [] },
     { feature: "gender", title: "Giới tính", value: [] },
-    { feature: "education", title: "Học vấn", value: [] },
-    { feature: "religion", title: "Tôn giáo", value: [] },
-    { feature: "cook", title: "Nấu ăn", value: [] },
-    { feature: "likeTechnology", title: "Công nghệ", value: [] },
-    { feature: "likePet", title: "Thú cưng", value: [] },
-    { feature: "playSport", title: "Thể thao", value: [] },
-    { feature: "travel", title: "Du lịch", value: [] },
-    { feature: "game", title: "Chơi game", value: [] },
-    { feature: "shopping", title: "Mua sắm", value: [] },
     { feature: "location", title: "Địa chỉ", value: [] },
-    { feature: "character", title: "Tính cách", value: [] },
-
-    { feature: "favoriteMovie", title: "Thể loại phim", value: [] },
-    { feature: "atmosphereLike", title: "Không khí", value: [] },
-    { feature: "drinkBeer", title: "Uống bia", value: [] },
-    { feature: "smoking", title: "Hút thuốc", value: [] },
-    { feature: "marriage", title: "Hôn nhân", value: [] },
     { feature: "job", title: "Công việc", value: [] },
   ]
 
@@ -76,7 +59,6 @@ export class FilterFriendsComponent implements OnInit {
     this.getUsers();
     this.usersService.GetProfileData()
       .then(data => {
-        console.log(data)
         this.mappingProfileData(data)
         setTimeout(() => this.changeHeight(), 10)
       })
@@ -85,28 +67,15 @@ export class FilterFriendsComponent implements OnInit {
 
   private mappingProfileData(data: ProfileData) {
 
-    this.filterSet[0].value = data.ageGroup;
-    // this.filterSet[1].value = data.body;
-    // this.filterSet[2].value = data.gender;
-    // this.filterSet[3].value = data.education;
-    // this.filterSet[4].value = data.religion;
-    // this.filterSet[5].value = data.cook;
-    // this.filterSet[6].value = data.likeTechnology;
-    // this.filterSet[7].value = data.likePet;
-    // this.filterSet[8].value = data.playSport;
-    // this.filterSet[9].value = data.travel;
-    // this.filterSet[10].value = data.game;
-    // this.filterSet[11].value = data.shopping;
-    this.filterSet[12].value = data.location;
-    // this.filterSet[13].value = data.character;
+    var n = 0;
+    this.filterSet[n++].value = data.ageGroup;
+    this.filterSet[n++].value = ['Nam', "Nữ"];
 
-    // this.filterSet[14].value = data.favoriteMovie;
-    // this.filterSet[15].value = data.atmosphereLike;
-    // this.filterSet[16].value = data.drinkBeer;
-    // this.filterSet[17].value = data.smoking;
-    // this.filterSet[18].value = data.marriage;
-    this.filterSet[19].value = data.job;
-
+    data.features.forEach(item => {
+      this.filterSet.push({feature:item.id.toString(), title: item.name, value: item.featureDetails});
+    });
+    // this.filterSet[2].value = data.location;
+    // this.filterSet[3].value = data.job;
   }
 
   ngAfterViewInit(): void {
@@ -206,7 +175,6 @@ export class FilterFriendsComponent implements OnInit {
   };
 
   paging(index: number) {
-    //console.log('paging to page ' + index.toString());
 
     this.updatePagingNumber(index);
     this.getUsers();

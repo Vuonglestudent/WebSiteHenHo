@@ -199,3 +199,7 @@ img.hover-shadow {
     background: #5E72E4;
     cursor: pointer;
 }
+
+.object-center{
+    margin: 0 auto;
+}

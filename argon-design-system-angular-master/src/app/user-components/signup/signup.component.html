@@ -42,40 +42,31 @@
 
               <form role="form" #SignUp="ngForm">
 
-                <div class="form-group" [ngClass]="{'focused':focus1===true}">
+                <div class="form-group" >
                   <div class="input-group input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input matInput name="Email" ngModel #From="ngModel" class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
+                    <input matInput name="Email" class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
                   </div>
                 </div>
 
-                <div class="form-group" [ngClass]="{'focused':focus===true}">
+                <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input matInput name="FullName" ngModel #From="ngModel" class="form-control" placeholder="Full Name" type="text" (focus)="focus=true" (blur)="focus=false">
+                    <input matInput name="FullName" class="form-control" placeholder="Full Name" type="text" (focus)="focus=true" (blur)="focus=false">
                   </div>
                 </div>
 
-                <!-- <div class="form-group" [ngClass]="{'focused':focus1===true}">
-                  <div class="input-group input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-single-02"></i></span>
-                    </div>
-                    <input matInput name="UserName" ngModel #From="ngModel" class="form-control" placeholder="UserName" type="text" (focus)="focus1=true" (blur)="focus1=false">
-                  </div>
-                </div> -->
 
-
-                <div class="form-group" [ngClass]="{'focused':focus2===true}">
+                <div class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="Password" ngModel #From="ngModel" class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
+                    <input matInput name="Password" class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
                   </div>
                 </div>
 
@@ -84,7 +75,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="ConfirmPassword" ngModel #From="ngModel" class="form-control" placeholder="Confirm Password" type="password" >
+                    <input matInput name="ConfirmPassword" class="form-control" placeholder="Confirm Password" type="password" >
                   </div>
                 </div>
                 <div class="text-muted font-italic">

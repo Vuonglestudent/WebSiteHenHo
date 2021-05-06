@@ -137,9 +137,9 @@
 
             </div>
             <div>
-              <p class="d-block mb-0">{{item.fullName}} {{item.content}}</p>
+              <p class="d-block mb-0"><strong style="font-weight: 600">{{item.fullName}}</strong> {{item.content}}</p>
               <div class='row' style="margin-bottom: -12px;">
-                <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt}}</small>
+                <small style="margin-left: 13px;" class="d-block mb-4">{{item.createdAt | date:'short'}}</small>
                 <i style="margin-left: 4px; margin-top:1px" class="ni ni ni-world"></i>
               </div>
             </div>

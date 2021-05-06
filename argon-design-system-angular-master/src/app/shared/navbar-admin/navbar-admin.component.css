@@ -1,7 +1,8 @@
 .navbar-admin {
     /* position: fixed; */
-    height: 100vh;
-    background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9);
+    height: 100%;
+    /* background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9); */
+    background-color: #172b4d ;
     padding-left: 15px;
     padding-right: 15px;
     width: 250px;
@@ -21,7 +22,7 @@
 }
 
 .list-group-item:hover {
-    background-image: linear-gradient(to bottom right, #b3b3b3 , #b3b3b3);
+    background-image: linear-gradient(to bottom right,  #5E72E4 , #5E72E4);
     cursor: pointer;
 }
 

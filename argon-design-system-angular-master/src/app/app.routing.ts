@@ -10,7 +10,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './user-components/home/home.component';
 import { ProfileComponent } from './user-components/profile/profile.component';
 import { SignupComponent } from './user-components/signup/signup.component';
-import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { FacebookLoginComponent } from './user-components/facebook-login/facebook-login.component';
 import { FriendListComponent } from './user-components/friend-list/friend-list.component'
@@ -22,7 +21,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'register', component: SignupComponent },
-  { path: 'landing', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'facebooklogin', component: FacebookLoginComponent },

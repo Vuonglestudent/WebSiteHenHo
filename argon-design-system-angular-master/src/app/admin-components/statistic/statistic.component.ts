@@ -1,3 +1,4 @@
+import { SignalRService } from './../../service/signal-r.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
@@ -14,10 +15,14 @@ import { MessageService } from '../../service/message.service';
 })
 export class StatisticComponent implements OnInit {
 
+  onlineCount = 0;
   constructor(
     private statisticService: StatisticService,
-    private messageService: MessageService,
-  ) { }
+    private signalRService:SignalRService
+  ) { 
+    this.signalRService.onlineCountObservable
+      .subscribe(count => this.onlineCount = count)
+  }
 
   chartChange = false;
 
@@ -90,22 +95,7 @@ export class StatisticComponent implements OnInit {
     }
   };
   public lineChartColors: Color[] = [
-    // { // grey
-    //   backgroundColor: 'rgba(148,159,177,0.2)',
-    //   borderColor: 'rgba(148,159,177,1)',
-    //   pointBackgroundColor: 'rgba(148,159,177,1)',
-    //   pointBorderColor: '#fff',
-    //   pointHoverBackgroundColor: '#fff',
-    //   pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    // },
-    // { // dark grey
-    //   backgroundColor: 'rgba(77,83,96,0.2)',
-    //   borderColor: 'rgba(77,83,96,1)',
-    //   pointBackgroundColor: 'rgba(77,83,96,1)',
-    //   pointBorderColor: '#fff',
-    //   pointHoverBackgroundColor: '#fff',
-    //   pointHoverBorderColor: 'rgba(77,83,96,1)'
-    // },
+
     { // red
       backgroundColor: 'rgba(255,0,0,0.3)',
       borderColor: 'red',

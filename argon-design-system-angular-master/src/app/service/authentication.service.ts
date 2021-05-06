@@ -29,8 +29,7 @@ export class AuthenticationService {
   private userInfo: IUserInfo = {} as IUserInfo;
 
   setUserInfo(userInfo: IUserInfo) {
-    console.log('set user Info')
-    console.log(userInfo);
+
     if (userInfo != undefined && userInfo != null) {
       this.userInfo = {} as IUserInfo;
       this.userInfo.id = userInfo.id;

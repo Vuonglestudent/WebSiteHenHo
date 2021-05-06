@@ -1,4 +1,3 @@
-import { SectionsModule } from './sections/sections.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +7,6 @@ import { AppRoutingModule } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './user-components/signup/signup.component';
-import { LandingComponent } from './landing/landing.component';
 import { ProfileComponent } from './user-components/profile/profile.component';
 import { HomeComponent } from './user-components/home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -51,7 +49,6 @@ import { SignalRService } from './service/signal-r.service';
   declarations: [
     AppComponent,
     SignupComponent,
-    LandingComponent,
     ProfileComponent,
     NavbarComponent,
     FooterComponent,
@@ -85,7 +82,6 @@ import { SignalRService } from './service/signal-r.service';
     AlertModule,
     SocialLoginModule,
     CommonModule,
-    SectionsModule,
     NgxDropzoneModule,
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,

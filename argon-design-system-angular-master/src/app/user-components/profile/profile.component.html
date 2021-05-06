@@ -19,12 +19,11 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image dropdown" style="display: block;">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img src="{{UserProfile.avatarPath}}" class="rounded-circle" (click)="checkUserClickAvatar()">
-                  <!-- <img *ngIf="!UserProfile.hasAvatar" src="{{UserProfile.avatarPath}}" class="rounded-circle"
-                    (click)="checkUserClickAvatar()"> -->
+                  <img src="{{UserProfile.avatarPath}}" class="rounded-circle avatar-custom"
+                    (click)="checkUserClickAvatar()">
                 </a>
-                <div *ngIf="checkUser && userInfo.id == currentUserId" id="changeAvatar"
-                  class="dropdown-menu" style="margin-top: 130px; margin-left: 6%;">
+                <div *ngIf="checkUser && userInfo.id == currentUserId" id="changeAvatar" class="dropdown-menu"
+                  style="margin-top: 130px; margin-left: 6%;">
                   <a href="javascript:;" class="dropdown-item" (click)="seenImageAvatar()">
                     <i class="ni ni-circle-08"></i>
                     <span>Xem ảnh đại diện</span>
@@ -69,11 +68,6 @@
             </div>
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
-                <!-- <div *ngIf="!checkUser && UserProfile.blocked">
-                  <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
-                    <span class="description"><i class="fa fa-user-times text-danger"></i></span>
-                  </button>
-                </div> -->
                 <div>
                   <span style="cursor: pointer" role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"><i class="fa fa-ellipsis-v text-dark"
@@ -93,11 +87,7 @@
                       data-toggle="modal" data-target="#exampleModal"><i class="fa fa-users"></i>Xem danh sách đen</a>
                   </div>
                 </div>
-                <!-- <div *ngIf="!checkUser && !UserProfile.blocked">
-                  <button class="btn-icon-card" (click)="clickBlockUser()" style="margin-top: 26px;">
-                    <span class="description"><i class="fa fa-user text-info"></i></span>
-                  </button>
-                </div> -->
+
                 <div *ngIf="checkUser">
                   <span class="heading">{{UserProfile.numberOfFollowers}}</span>
                   <button class="btn-icon-card" (click)="onViewFriendList()">
@@ -105,19 +95,15 @@
                   </button>
                   <!--Xem danh sách bạn bè-->
                 </div>
-                <!-- <div *ngIf="checkUser">
-                  <button class="btn-icon-card" (click)="onViewBlockList()" style="margin-top: 26px;">
-                    <span class="description"><i class="fa fa-user-times text-danger"></i></span>
-                  </button>
-                  
-                </div> -->
+
                 <div>
                   <span class="heading">{{UserProfile.numberOfImages}}</span>
                   <button class="btn-icon-card" id="img_{{UserProfile.id}}" (click)="viewImageList()">
                     <span class="description">
                       <i class="fa fa-camera text-dark"></i>
                     </span>
-                    <img *ngFor="let item of imagesResponse; let i = index" display="true" hidden="true"
+                    <img *ngFor="let item of imagesResponse; let i = index" display="true" class="avatar-custom"
+                      hidden="true"
                       id="img_{{i + 1}}_{{item.liked}}_{{imagesResponse.length}}_{{item.id}}_{{item.numberOfLikes}}"
                       src="" alt="{{item.imagePath}}">
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
@@ -147,12 +133,12 @@
             </div>
 
           </div>
-          <hr>
+
           <div class="text-center">
             <div id="alert-custom">
               <alert style="padding-left: 15px; padding-right: 15px;"></alert>
             </div>
-            <div *ngIf="!isViewFriendList && !isViewImageList && !isViewBlockList">
+            <div>
               <div *ngIf="!uploadImage" style="display:block;" class="animate-bottom">
                 <div *ngIf="!editing" class="h2 font-weight-300"><b>{{UserProfile.title}}</b>
                 </div>
@@ -210,66 +196,6 @@
                             <option value="Nữ">Nữ</option>
                           </datalist>
                         </div>
-
-                        <!-- <div class="d-flex flex-row">
-                          <input type="text" value="Giới tính" class="form-control form-title text-center col-3"
-                            style="color: black; border-radius: 0.25rem 0 0 0.25rem;" readonly>
-                          <div *ngIf="!editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                            <label class="radio radio-before">
-                              <span class="radio__input">
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked
-                                  disabled>
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam" disabled>
-                                <span class="radio__control"></span>
-                              </span>
-                              <span class="radio__label">Nam</span>
-                            </label>
-                          </div>
-
-
-                          <div *ngIf="!editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                            <label class="radio radio-before">
-                              <span class="radio__input">
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked
-                                  disabled>
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ" disabled>
-                                <span class="radio__control"></span>
-                              </span>
-                              <span class="radio__label">Nữ</span>
-                            </label>
-                          </div>
-
-                          
-                          <div *ngIf="editing" class="d-flex align-items-center ml-3 col-3 col-xl-3 col-lg-3 col-md-3">
-                            <label class="radio radio-before">
-                              <span class="radio__input">
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender == 'Nam'" type="radio" name="gender" value="Nam" checked>
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender != 'Nam'" type="radio" name="gender" value="Nam">
-                                <span class="radio__control"></span>
-                              </span>
-                              <span class="radio__label">Nam</span>
-                            </label>
-                          </div>
-                          <div *ngIf="editing" class="d-flex align-items-center col-3 col-xl-3 col-lg-3 col-md-3">
-                            <label class="radio radio-before">
-                              <span class="radio__input">
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender == 'Nữ'" type="radio" name="gender" value="Nữ" checked>
-                                <input [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  *ngIf="UserProfile.gender != 'Nữ'" type="radio" name="gender" value="Nữ">
-                                <span class="radio__control"></span>
-                              </span>
-                              <span class="radio__label">Nữ</span>
-                            </label>
-                          </div>
-                        </div> -->
-                        <!--end-->
 
                         <!--Nơi ở-->
                         <div class="d-flex flex-row">
@@ -524,11 +450,11 @@
                     </div>
 
                     <div>
-                      <input *ngIf="files.length>0" class="form-control" style="color: #525f7f;"
-                        [(ngModel)]="imageTitle" type="text" placeholder="Description...">
+                      <textarea *ngIf="files.length>0" class="form-control" style="color: #525f7f;"
+                        [(ngModel)]="imageTitle" type="text" placeholder="Description..."></textarea>
                       <br>
                       <button *ngIf="files.length>0" type="button" style="width:100%" (click)="onUpload()"
-                        class="btn btn-sm btn-success">
+                        class="btn btn-sm btn-primary">
                         <i class="fa fa-upload"></i>
                         Upload
                       </button>
@@ -562,34 +488,6 @@
             </div>
 
 
-            <!-- <div *ngIf="isViewBlockList" class="h4 font-weight-300 animate-bottom text-danger"><b>Danh sách Block</b>
-            </div>
-            <div *ngIf="isViewBlockList" class="col-lg-12 col-md-12 row pl-3"
-              style="margin-left: 0%; margin-right: 0%;">
-
-              <div *ngFor="let item of BlockList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
-                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
-                <div class="card card2">
-                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img *ngIf="item.hasAvatar" class="card-img-top thumb-table"
-                        src="data:image/gif;base64,{{item.avatarPath}}" alt="Avatar"></a>
-                    <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
-                        src="{{item.avatarPath}}" alt="Avatar"></a>
-                  </div>
-                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
-                      <a style="cursor: pointer">
-                        <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
-                          {{item.fullName}}
-                        </h6>
-                      </a>
-                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
-                          class="text-muted">{{item.summary}}</small></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <hr>
             <!-- Xem hình -->
             <div *ngIf="imagesResponse.length > 0" class="h2 font-weight-300 animate-bottom"><b>Hình ảnh
@@ -604,9 +502,7 @@
                   <div class="card card2">
                     <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
                       onclick="selectImage(id)">
-                      <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
-                          src="{{item.imagePath}}" alt="Avatar"></a>
-                      <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
+                      <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
                           src="{{item.imagePath}}" alt="Avatar"></a>
                     </div>
                   </div>
@@ -616,16 +512,14 @@
                   <div class="card card2">
                     <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
                       onclick="selectImage(id)">
-                      <a style="cursor: pointer"><img *ngIf="item.imagePath" class="card-img-top thumb-table"
-                          src="{{item.imagePath}}" alt="Avatar"></a>
-                      <a style="cursor: pointer"><img *ngIf="!item.imagePath" class="card-img-top thumb-table"
+                      <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
                           src="{{item.imagePath}}" alt="Avatar"></a>
                     </div>
                   </div>
                 </div>
               </div>
               <div *ngIf="!isSeenMoreImage && imagesResponse.length >= 8"
-                class="alert alert-default btn active-viewImage" style="width: 100%; margin: 0 15px;"
+                class="alert alert-default btn active-viewImage" style="width: 100%; margin: 0 15px 1% 0px;"
                 (click)="clickSeenMoreImage()">
                 <h6 class="text-white" style="margin:-1%;padding:-2%;">Xem Thêm</h6>
               </div>
@@ -646,10 +540,8 @@
                 style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                 <div class="card card2">
                   <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img class="card-img-top thumb-table" src="{{item.avatarPath}}"
-                        alt="Avatar"></a>
-                    <!-- <a style="cursor: pointer"><img *ngIf="!item.hasAvatar" class="card-img-top thumb-table"
-                        src="{{item.avatarPath}}" alt="Avatar"></a> -->
+                    <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
+                        src="{{item.avatarPath}}" alt="Avatar"></a>
                   </div>
                   <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
                     <div style="height: 90px;" (click)="clickProfileUser(item.id)">
@@ -691,10 +583,8 @@
   <button class="btnSendMessage btn btn-info" style="border-radius: 0px 0px 5px 5px;"
     (click)="sendMessage(UserProfile.id)">Gửi</button>
 </section>
-<!-- <app-seen-image image="{{UserProfile.avatarPath}}"></app-seen-image> -->
 
 <section class="imagePop" id="imagePopAvatar">
-  <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
   <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
   <section class="imageContain" id="imageContainId" style="background: url({{UserProfile.avatarPath}});" value="">
@@ -719,7 +609,7 @@
           <tbody *ngFor="let item of BlockList; let i = index">
             <ul class="row ul">
               <li class="li">#{{i}}</li>
-              <li class="avatar"><img width="50px" height="50px" src="{{item.avatarPath}}"></li>
+              <li class="avatar avatar-block"><img width="50px" height="50px" src="{{item.avatarPath}}"></li>
               <li class="li">{{item.fullName}}</li>
               <li class="li end">
                 <button *ngIf="item.blocked" (click)="onBlockUser(item)" type="button" rel="tooltip"
@@ -739,7 +629,7 @@
                   <i class="fa fa-cog" aria-hidden="true"></i>
                   Hoàn tác
                 </button>
-                
+
 
               </li>
 
@@ -748,33 +638,9 @@
           </tbody>
         </table>
 
-
-
-        <!-- <table class="table table-hover">
-          <thead>
-            <tr>
-              <th class="text-right">avatar</th>
-              <th class="text-right">Tên</th>
-              <th class="text-right">Bỏ chặn</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of BlockList; let i = index" class='row-data'>
-              <td class="text-center"><img src="{{item.avatarPath}}"></td>
-              <td class="text-center">{{item.fullName}}</td>
-              <td class="td-actions text-right">
-                <button (click)="onClickUpdateFeatureDetail(item)" type="button" rel="tooltip"
-                  class="btn btn-success btn-icon btn-sm " data-toggle="modal" data-target="#updateFeatureDetail">
-                  <i class="fa fa-cog" aria-hidden="true"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
