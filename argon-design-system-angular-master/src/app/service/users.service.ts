@@ -196,4 +196,16 @@ export class UsersService {
 
     return this.http.get<any>(this.mainUrl + path, {headers}).toPromise();
   }
+
+  public CreateRelationship(fromId:string, toId:string, relationShipType:number){
+    let header = this.authenticationService.GetHeader();
+    var path = `${this.url.urlHost}/api/relationships`;
+
+    var data ={
+      fromId,
+      toId,
+      relationShipType
+    };
+    return this.http.post<any>(path, data);
+  }
 }

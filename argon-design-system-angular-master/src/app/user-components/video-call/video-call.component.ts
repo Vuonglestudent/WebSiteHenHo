@@ -5,7 +5,7 @@ import { IUser, UserConnection } from 'src/app/models/models';
 import { SignalRService } from 'src/app/service/signal-r.service';
 import { AlertService } from 'src/app/_alert';
 import { AuthenticationService } from '../../service/authentication.service';
-
+import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-video-call',
   templateUrl: './video-call.component.html',
@@ -21,7 +21,11 @@ export class VideoCallComponent implements OnInit {
   callerInfo: IUser;
   targetInfo: IUser;
 
-  userInfo:IUserInfo;
+  faPhoneAlt = faPhoneAlt;
+  faMicrophone = faMicrophone;
+  faVideo = faVideo;
+
+  userInfo: IUserInfo = undefined;
   constructor(
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
@@ -30,37 +34,37 @@ export class VideoCallComponent implements OnInit {
 
     this.userId = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
     this.isAccept = this.route.snapshot.paramMap.get('isAccept');
-    console.log(this.route.snapshot.params)
-    console.log(this.isAccept)
-    console.log('this is userId:' + this.userId);
 
     this.authenticationService.userInfoObservable
-	    .subscribe(user => this.userInfo = user)
+      .subscribe(user => {
+        if (user != undefined) {
+          this.userInfo = user;
+        }
+      })
 
-    signalRService.connectedObservable
-      .subscribe(isConnected =>{
-        if (isConnected && this.userInfo != undefined) {
-          this.signalRService.getMyInfo()
-            .then(data => {
-              if(this.isAccept == 'true'){
-      
-                this.onAcceptACall();
-                console.log('accept a call')
-              }
-              else{
-                this.onStartACall();
-                console.log('start a call')
-              }
-            })
-            .catch(err => console.log(err))
+    this.signalRService.myInfoObservable
+      .subscribe((data) => {
+
+        if(data != undefined){
+          if (this.isAccept == 'true') {
+
+            this.onAcceptACall();
+            console.log('accept a call')
+          }
+          else {
+            this.onStartACall();
+            console.log('start a call')
+          }
         }
       })
 
     signalRService.usersObservable
       .subscribe(users => {
-        this.users = users;
-        console.log('this is users:')
-        console.log(this.users)
+        if (users != undefined) {
+          this.users = users;
+          console.log('this is users:')
+          console.log(this.users)
+        }
         //this.onCheckTarget();
       });
   }
@@ -69,11 +73,8 @@ export class VideoCallComponent implements OnInit {
 
   }
 
-  hangUp(){
+  hangUp() {
     window.close();
-    // this.users.forEach(element => {
-    //   element.end();
-    // });
   }
 
   onStartACall() {
@@ -83,7 +84,7 @@ export class VideoCallComponent implements OnInit {
 
   onAcceptACall() {
     this.signalRService.getUserById(this.userId)
-      .then(user =>{
+      .then(user => {
         this.signalRService.callerInfo = user;
         this.signalRService.join(this.userInfo.id, this.userInfo.fullName, false);
         this.joined = true;
@@ -94,25 +95,4 @@ export class VideoCallComponent implements OnInit {
     return user.connectionId;
   }
 
-  onCheckTarget() {
-    this.signalRService.getTargetInfo(this.userId)
-      .then(data =>{
-        console.log(data)
-        if(data == null){
-          this.alertService.clear();
-          this.alertService.error("Target is not online");
-          return;
-        }
-        else{
-          this.targetInfo = data;
-          
-        }
-        // target is online
-      })
-      .catch(err => {
-        console.log(err);
-        this.alertService.clear();
-        this.alertService.error("Target is not online");
-      })
-  }
 }

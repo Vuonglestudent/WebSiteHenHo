@@ -44,6 +44,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isViewImageList = false;
 
     userInfo: IUserInfo;
+
+    relationship = 1;
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
@@ -791,5 +793,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.alertService.error('Có lỗi trong khi lấy danh sách block!');
             })
         //}
+    }
+
+    onSaveRelationship(){
+        this.usersService.CreateRelationship(this.userInfo.id, this.currentUserId, this.relationship)
+            .subscribe(data =>{
+                console.log(data);
+                this.alertService.success("Success", "Tạo quan hệ thành công");
+            }, err =>{
+                this.alertService.error("Error", "Không thể tạo mối quan hệ");
+            })    
     }
 }

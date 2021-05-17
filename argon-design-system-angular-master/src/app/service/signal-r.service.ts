@@ -41,7 +41,9 @@ export class SignalRService {
   private callerSub = new BehaviorSubject<IUser>(undefined);
   public callerObservable = this.callerSub.asObservable();
 
-  public myInfo: IUser;
+  private myInfo: IUser;
+  private myInfoSub = new BehaviorSubject<IUser>(undefined);
+  public myInfoObservable = this.myInfoSub.asObservable();
 
   //////////////////////////////////////////////////
 
@@ -110,24 +112,28 @@ export class SignalRService {
         await this.newSignal(user, signal);
       });
 
+      //Nhận thông tin người gọi
     this._hubConnection
       .on("callerInfo", async (user: IUser) => {
         this.callerInfo = user;
         this.callerSub.next(user);
       })
 
+      //Nhận số lượng online
     this._hubConnection
       .on('onlineCount', async (onlineCount: number) => {
         this.onlineCount = onlineCount;
         this.onlineCountSub.next(this.onlineCount);
       })
 
+      //Nhận thông báo
     this._hubConnection
       .on('notification', async (notification: INotification) => {
         this.notification = notification;
         this.notificationCountSub.next(this.notification);
       })
 
+      //Nhận tin nhắn
     this._hubConnection
       .on('messageResponse', async (message: Message) => {
         this.message = message;
@@ -135,17 +141,10 @@ export class SignalRService {
       })
   }
 
-  // public addTransferChartDataListener = () => {
-  //   this._hubConnection.on('messageResponse', (data) => {
-  //     this.messageReceived.emit(data);
-  //   });
-  // }
-
   public getConnectionId = () => {
     this._hubConnection.invoke('getconnectionid').then(
       (data) => {
         this.connectionId = data;
-        //this.SaveHubId();
       }
     );
   }
@@ -156,7 +155,7 @@ export class SignalRService {
     private url: UrlMainService
   ) {
     this._hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${this.url}/chatHub`)
+      .withUrl(`${this.url.urlHost}/chatHub`)
       //.withUrl(`https://hieuit.tech:5201/chatHub`)
       .build();
 
@@ -174,6 +173,7 @@ export class SignalRService {
 
   public async getMyInfo() {
     var myInfo = await this._hubConnection.invoke("getMyInfo", this.userInfo.id, this.currentConnectionId, this.userInfo.fullName);
+    this.myInfoSub.next(myInfo);
     return myInfo;
   }
 
@@ -181,6 +181,7 @@ export class SignalRService {
     return await this._hubConnection.invoke("getTargetInfo", userId);
   }
   
+
   private async updateUserList(users: IUser[]): Promise<void> {
     const iceServers = await this.getIceServers();
     users.forEach(async user => {
@@ -211,8 +212,6 @@ export class SignalRService {
 
     this._connections[this.currentConnectionId] =
       new UserConnection({ userId: userId, connectionId: this.currentConnectionId, userName: userName }, true, undefined);
-    console.log('current connection:');
-    console.log(this._connections[this.currentConnectionId]);
 
     if (isCaller) {
       this.currentRoomName = userId;
@@ -220,9 +219,9 @@ export class SignalRService {
     else {
       this.currentRoomName = this.callerInfo.userId;
     }
-    //this.currentRoomName = room;
+
     this._hubConnection
-      .invoke('Join', userId, this.currentConnectionId, userName, this.currentRoomName);
+      .invoke('Join', userId, this.currentConnectionId, userName, this.currentRoomName, false);
   }
 
   public hangUp() {
@@ -232,6 +231,8 @@ export class SignalRService {
     //this.closeVideoCall(this.currentConnectionId);
   }
 
+
+  //Yêu cầu quyền truy cập
   private async getUserMediaInternal(): Promise<MediaStream> {
     if (this.currentMediaStream) {
       return this.currentMediaStream;
@@ -247,6 +248,7 @@ export class SignalRService {
     }
   }
 
+  //Get RTC server
   private async getIceServers(): Promise<RTCIceServer[]> {
     if (this.currentIceServers) {
       return this.currentIceServers;
@@ -359,8 +361,6 @@ export class SignalRService {
   }
 
   private async getConnection(partnerClientId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
-    console.log('partnerClientId');
-    console.log(partnerClientId);
     const connection = this._connections[partnerClientId]
       || (await this.createConnection(partnerClientId, iceServers, createOffer));
     return connection;
@@ -377,8 +377,6 @@ export class SignalRService {
     const userConnection = new UserConnection({ userId: '', connectionId: partnerClientId, userName: '' },
       false, connection);
 
-    console.log('partner Client:');
-    console.log(userConnection);
     this._connections[partnerClientId] = userConnection;
 
 

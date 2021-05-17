@@ -1,9 +1,8 @@
 <nav id="navbar-main"
-  class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned headroom--not-top"
-  style="height: 60px;">
-  <div class="container-fluid" style="height: 60px">
+  class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned headroom--not-top">
+  <div class="container-fluid">
     <a class="navbar-brand ml-lg-5 mr-lg-5" [routerLink]="['/home']">
-      <img class="logo-image" src="./assets/img/brand/logo.png" >
+      <img class="logo-image" src="./assets/img/brand/logo.png">
     </a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
       [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
@@ -14,7 +13,7 @@
         <div class="row">
           <div class="col-6 collapse-brand">
             <a [routerLink]="['/home']">
-              <img src="./assets/img/brand/blue.png">
+              <img src="./assets/img/brand/logo.png">
             </a>
           </div>
           <div class="col-6 collapse-close">
@@ -26,27 +25,72 @@
           </div>
         </div>
       </div>
-      <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-        <li class="nav-item dropdown">
-          <a class="nav-link no-caret" role="button" href="/#/filterfriends">
-            <i class="ni ni-ui-04 d-lg-none"></i>
-            <h4 class="text-white"><span class="nav-link-inner--text">Tìm kiếm</span></h4>
-          </a>
 
+      <ul class="navbar-nav">
+
+        <li *ngIf="userInfo == undefined" class="nav-item">
+          <a class="nav-link" href="/#/login">Đăng nhập</a>
         </li>
 
-      </ul>
-      <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+        <li *ngIf="userInfo == undefined" class="nav-item">
+          <a class="nav-link" href="/#/register">Đăng ký</a>
+        </li>
 
         <li *ngIf="userInfo != undefined" class="nav-item">
-          <button (click)="onViewNotification()" class="btn icons" role="button" type="button" rel="tooltip" data-toggle="modal"
-            data-target="#showNotification" title="">
+          <a class="nav-link" href="/#/filterfriends">Bộ lọc</a>
+        </li>
+
+        <li *ngIf="userInfo != undefined" class="nav-item">
+          <a class="nav-link" href="javascript:;" (click)="clickMyProfile()">Hồ sơ</a>
+        </li>
+
+        <li *ngIf="userInfo != undefined" class="nav-item">
+          <a class="nav-link" href="javascript:;" (click)="onViewNotification()" rel="tooltip" data-toggle="modal"
+            data-target="#showNotification">Thông báo</a>
+        </li>
+
+        <li *ngIf="userInfo != undefined" class="nav-item">
+          <a class="nav-link" href="javascript:;" (click)="onMessageClick()">Tin nhắn</a>
+        </li>
+
+        <li *ngIf="userInfo != undefined" class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbar-primary_dropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thêm <fa-icon size="1x" [icon]="faCaretDown" [spin]="false"></fa-icon></a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-primary_dropdown_2">
+            <a class="dropdown-item" href="#" (click)="clickMyProfile()">
+              <fa-icon class='space-right' size="1x" [icon]="faAddressCard" [spin]="false"></fa-icon>
+              Xem hồ sơ
+            </a>
+            <a class="dropdown-item" href="#" (click)="onMessageClick()">
+              <fa-icon class='space-right' size="1x" [icon]="faComments" [spin]="false"></fa-icon>
+              Tin nhắn
+            </a>
+            <a class="dropdown-item" href="/#/changepassword">
+              <fa-icon class='space-right' size="1x" [icon]="faLock" [spin]="false"></fa-icon>
+              Đổi mật khẩu
+            </a>
+            <a class="dropdown-item" href="/#/statistic;">
+              <fa-icon class='space-right' size="1x" [icon]="faChartPie" [spin]="false"></fa-icon>
+              Quản trị viên
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" (click)="logout()">
+              <fa-icon class='space-right' size="1x" [icon]="faSignOutAlt" [spin]="false"></fa-icon>
+              Logout
+            </a>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav navbar-nav-custom align-items-lg-center ml-lg-auto hide-when-small">
+
+        <li *ngIf="userInfo != undefined" class="nav-item">
+          <button (click)="onViewNotification()" class="btn icons" role="button" type="button" rel="tooltip"
+            data-toggle="modal" data-target="#showNotification" title="">
             <i class="ni ni-bell-55" style="font-size: 20px;"></i>
           </button>
           <div class="label-icons">
             <span class="text-white"><small>*</small></span>
           </div>
-
         </li>
 
         <li *ngIf="userInfo != undefined" class="nav-item">
@@ -77,8 +121,7 @@
           <div class="dropleft">
             <div class="btn" style="padding: 0%; border-radius: 50%;" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <img class="imgAvatar"
-                src="{{userInfo.avatarPath}}" alt="avatar">
+              <img class="imgAvatar" src="{{userInfo.avatarPath}}" alt="avatar">
             </div>
             <div class="dropdown-menu">
               <a href="javascript:;" (click)="clickMyProfile()" class="dropdown-item">
@@ -132,8 +175,8 @@
         <div class="notification-popup" *ngFor="let item of notificationUserService.Notification">
           <div style="padding-top: 5px;" class="row">
             <div style="max-width:80px;" class="col-6 mt-5 mt-sm-0">
-              <img src="{{item.avatar}}" alt="Raised circle image"
-                class="img-fluid rounded-circle shadow-lg" style="width: 150px;">
+              <img src="{{item.avatar}}" alt="Raised circle image" class="img-fluid rounded-circle shadow-lg"
+                style="width: 150px;">
 
             </div>
             <div>
@@ -147,11 +190,12 @@
         </div>
 
         <div style="text-align: center; margin-top:5px">
-          <button *ngIf="!loadingNotification" (click)="onMoreNotifications()" type="button" class="btn btn-outline-primary">
+          <button *ngIf="!loadingNotification" (click)="onMoreNotifications()" type="button"
+            class="btn btn-outline-primary">
             Xem thêm</button>
-            <div *ngIf="loadingNotification">
-              <fa-icon style="color:#5E72E4" size="3x" [icon]="faSpinner" [spin]="true"></fa-icon>  
-            </div>
+          <div *ngIf="loadingNotification">
+            <fa-icon style="color:#5E72E4" size="3x" [icon]="faSpinner" [spin]="true"></fa-icon>
+          </div>
         </div>
       </div>
     </div>

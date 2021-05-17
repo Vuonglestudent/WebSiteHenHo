@@ -45,6 +45,8 @@ import { VideoCallComponent } from './user-components/video-call/video-call.comp
 import { VideoMemberComponent } from './user-components/video-member/video-member.component';
 //import { RtcSignalRService } from './service/rtc-signal-r.service';
 import { SignalRService } from './service/signal-r.service';
+import { IntroduceComponent } from './user-components/introduce/introduce.component';
+import { SharedStoryComponent } from './user-components/shared-story/shared-story.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +71,8 @@ import { SignalRService } from './service/signal-r.service';
     CarouselComponent,
     VideoCallComponent,
     VideoMemberComponent,
+    IntroduceComponent,
+    SharedStoryComponent,
   ],
   imports: [
     BrowserModule,

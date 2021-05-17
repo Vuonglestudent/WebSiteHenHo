@@ -1,7 +1,34 @@
-.col-18 img{
+.col-18 img {
     align-self: center;
     border-radius: 8px;
 }
-.container-fluid{
+
+.container-fluid {
     height: 300px;
+}
+
+.carousel-item-custom {
+    width: 100%;
+    height: 300px;
+}
+
+@media(max-width: 768.01px) {
+    .carousel-item-custom {
+        width: 100%;
+        height: 250px;
+    }
+
+    .container-fluid {
+        height: 250px;
+    }
+}
+
+@media(max-width: 426.01px) {
+    .carousel-item-custom {
+        width: 100%;
+        height: 170px;
+    }
+    .container-fluid {
+        height: 150px;
+    }
 }

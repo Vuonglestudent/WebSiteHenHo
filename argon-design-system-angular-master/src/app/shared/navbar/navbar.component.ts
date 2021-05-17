@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';
 import { NotificationUserService } from 'src/app/service/notification-user.service';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faCaretDown, faSignOutAlt, faChartPie, faLock, faComments, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { IUserInfo } from 'src/app/models/models';
 
 @Component({
@@ -18,8 +18,15 @@ export class NavbarComponent implements OnInit {
     token: string
 
     faSpinner = faSpinner;
+    faCaretDown = faCaretDown;
+    faChartPie = faChartPie;
+    faLock = faLock;
+    faComments = faComments;
+    faAddressCard = faAddressCard;
+    faSignOutAlt = faSignOutAlt;
 
-    userInfo:IUserInfo;
+
+    userInfo: IUserInfo;
     constructor(
         public location: Location,
         private router: Router,
@@ -27,9 +34,9 @@ export class NavbarComponent implements OnInit {
         public notificationUserService: NotificationUserService,
     ) {
         this.authenticationService.userInfoObservable
-	        .subscribe(user => this.userInfo = user)
+            .subscribe(user => this.userInfo = user)
     }
-    onMessageClick(){
+    onMessageClick() {
         this.router.navigateByUrl('friendlist');
     }
     ngOnInit() {
@@ -80,47 +87,48 @@ export class NavbarComponent implements OnInit {
     }
 
     clickMyProfile = () => {
-        this.router.navigate(['/profile' , this.userInfo.id]);
+        this.router.navigate(['/profile', this.userInfo.id]);
     }
     loadingNotification = false;
 
-    onMoreNotifications(){
+    onMoreNotifications() {
         this.loadingNotification = true;
         this.notificationUserService.pageIndex += 1;
         this.notificationUserService.GetNotification(this.userInfo.id, this.notificationUserService.pageIndex, this.notificationUserService.pageSize)
-            .then(data =>{
+            .then(data => {
                 this.loadingNotification = false;
                 this.notificationUserService.Notification = this.notificationUserService.Notification.concat(data);
                 this.notificationUserService.Notification.forEach(element => {
                     element.fullName = this.getLastName(element.fullName);
                 });
             })
-            .catch(err =>{
+            .catch(err => {
                 this.loadingNotification = false;
             })
     }
 
-    onViewNotification(){
-        if(this.notificationUserService.Notification.length > 0){
+    onViewNotification() {
+        if (this.notificationUserService.Notification.length > 0) {
             return;
         }
         this.loadingNotification = true;
         this.notificationUserService.GetNotification(this.userInfo.id, 1, 3)
-        .then(data=>{
-            this.loadingNotification = false;
-          this.notificationUserService.Notification = data;
-          this.notificationUserService.Notification.forEach(element => {
-              element.fullName = this.getLastName(element.fullName);
-          });
-          
-          console.log(this.notificationUserService.Notification);
-        })
-        .catch(error => {
-            this.loadingNotification = false;
-            console.log(error)})
+            .then(data => {
+                this.loadingNotification = false;
+                this.notificationUserService.Notification = data;
+                this.notificationUserService.Notification.forEach(element => {
+                    element.fullName = this.getLastName(element.fullName);
+                });
+
+                console.log(this.notificationUserService.Notification);
+            })
+            .catch(error => {
+                this.loadingNotification = false;
+                console.log(error)
+            })
     }
 
-     getLastName(fullName:string) {
+    getLastName(fullName: string) {
         var n = fullName.split(" ");
         return n[n.length - 1];
     }

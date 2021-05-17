@@ -33,7 +33,21 @@ export class AppComponent implements OnInit {
     this.signalRService.connectedObservable
       .subscribe(connected => {
         this.connected = connected;
-        this.connectToHub();
+
+        if (this.connected) {
+          this.authenticationService.userInfoObservable
+            .subscribe(user => {
+              this.userInfo = user;
+
+              if (this.userInfo != undefined) {
+                this.signalRService.getMyInfo()
+                  .then(data => {
+                  })
+                  .catch(err => console.log(err))
+              }
+            })
+        }
+
       })
 
     signalRService.callerObservable
@@ -46,11 +60,6 @@ export class AppComponent implements OnInit {
         this.caller = user;
       })
 
-    this.authenticationService.userInfoObservable
-      .subscribe(user => {
-        this.userInfo = user;
-        this.connectToHub();
-      })
 
     this.signalRService.notificationObservable
       .subscribe(notification => {
@@ -61,14 +70,6 @@ export class AppComponent implements OnInit {
       })
   }
 
-  connectToHub() {
-    if (this.connected && this.userInfo != undefined) {
-      this.signalRService.getMyInfo()
-        .then(data => {
-        })
-        .catch(err => console.log(err))
-    }
-  }
 
   ngOnInit() {
     this.signalRService.startConnection();

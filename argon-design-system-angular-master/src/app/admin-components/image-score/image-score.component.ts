@@ -16,7 +16,7 @@ export class ImageScoreComponent implements OnInit {
     private imageService: ImageService
   ) { }
 
-  imageScore: ImageScore;
+  imageScore: ImageScore = {} as ImageScore;
 
   pageSize:number = 20;
   pageIndex: number = 1;

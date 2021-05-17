@@ -255,23 +255,75 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "FontAwesome" !important;
+  font-family: inherit !important;
   font-weight: 600;
 }
 
 body {
-  font-family: "FontAwesome" !important;
+  font-family: inherit !important;
 }
 
 div,
 a,
 input {
-  font-family: "FontAwesome" !important;
+  font-family: inherit !important;
 }
-#showNotification .modal-content{
+
+#showNotification .modal-content {
   margin-top: 60px;
   left: 153%;
 }
-.avatar-custom img{
-  object-fit:contain !important;
+
+.avatar-custom img {
+  object-fit: cover !important;
+}
+
+.avatar-custom {
+  object-fit: cover !important;
+}
+
+#card-border-none {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+@media(max-width: 1025.01px) {
+  #showNotification .modal-content {
+    margin-top: 70px;
+    left: 85%;
+  }
+}
+
+@media(max-width: 769.01px) {
+  #showNotification .modal-content {
+    margin-top: 0px;
+    left: 0%;
+  }
+}
+
+@media(max-width: 426.01px) {
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  h4 {
+    font-size: 16px !important;
+  }
+
+  h5 {
+    font-size: 14px !important;
+  }
+
+  h5 {
+    font-size: 13px !important;
+  }
+
 }

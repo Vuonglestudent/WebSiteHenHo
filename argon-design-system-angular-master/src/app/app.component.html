@@ -22,8 +22,8 @@
                 
                 <div *ngIf="caller!=undefined" class='row caller-info'>
                     <a class="avatar">
-                        <img src="https://demos.creative-tim.com/argon-dashboard-pro-angular/assets/img/theme/team-4.jpg"
-                            class="rounded-circle" alt="Image placeholder" />
+                        <img src="{{caller.avatarPath}}"
+                            class="rounded-circle avatar-custom" alt="Image placeholder" />
                     </a>
                     <p class="caller-name">{{caller.userName}} đang gọi bạn</p>
                 </div>

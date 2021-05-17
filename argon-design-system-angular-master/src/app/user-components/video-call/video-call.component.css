@@ -1,0 +1,16 @@
+.actions{
+    position: fixed;
+    bottom:3%;
+    left: 40%;
+}
+
+.video-container{
+    background-color: black;
+    height: 750px;
+    overflow: hidden;
+}
+
+.hover-item:hover{
+    margin-top: -2px;
+    cursor: pointer;
+}

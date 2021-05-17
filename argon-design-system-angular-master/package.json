@@ -29,6 +29,7 @@
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "angular2-notifications": "^9.0.0",
     "angularx-social-login": "^3.2.2",
+    "aos": "^2.3.4",
     "bootstrap": "^5.0.0-beta1",
     "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",

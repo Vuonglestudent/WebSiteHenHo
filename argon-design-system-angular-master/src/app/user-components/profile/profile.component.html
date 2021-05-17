@@ -85,6 +85,9 @@
                       lại</a>
                     <a *ngIf="isYourself" (click)="onViewBlockList()" style="cursor:pointer;" class="dropdown-item"
                       data-toggle="modal" data-target="#exampleModal"><i class="fa fa-users"></i>Xem danh sách đen</a>
+
+                    <a (click)="onViewBlockList()" style="cursor:pointer;" class="dropdown-item" data-toggle="modal"
+                      data-target="#relationshipModal"><i class="fa fa-heart"></i>Tạo mối quan hệ</a>
                   </div>
                 </div>
 
@@ -580,7 +583,7 @@
   <textarea class="textareaMessage" name="" id="" cols="" rows="" (keyup.enter)="sendMessage(UserProfile.id)"
     [value]="txtMessage" (input)="txtMessage=$event.target.value"></textarea>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
-  <button class="btnSendMessage btn btn-info" style="border-radius: 0px 0px 5px 5px;"
+  <button class="btnSendMessage btn btn-primary" style="border-radius: 0px 0px 5px 5px;"
     (click)="sendMessage(UserProfile.id)">Gửi</button>
 </section>
 
@@ -645,6 +648,53 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="relationshipModal" tabindex="1" role="dialog" aria-labelledby="relationshipModal"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tạo mối quan hệ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="custom-control custom-radio mb-3">
+          <input name="relationship" class="custom-control-input" id="customRadio1" type="radio" value="0" [checked]="relationship === 0" (change)='relationship=$event.target.value'>
+          <label class="custom-control-label" for="customRadio1">Bạn bè</label>
+        </div>
+        <div class="custom-control custom-radio mb-3">
+          <input name="relationship" class="custom-control-input" id="customRadio2" type="radio" value="1" [checked]="relationship === 1" (change)='relationship=$event.target.value'>
+          <label class="custom-control-label" for="customRadio2">Đang tìm hiểu</label>
+        </div>
+
+        <div class="custom-control custom-radio mb-3">
+          <input name="relationship" class="custom-control-input" id="customRadio3" type="radio" value="2" [checked]="relationship === 2" (change)='relationship=$event.target.value'>
+          <label class="custom-control-label" for="customRadio3">Đang yêu</label>
+        </div>
+
+        <div class="custom-control custom-radio mb-3">
+          <input name="relationship" class="custom-control-input" id="customRadio4" type="radio" value="3" [checked]="relationship === 3" (change)='relationship=$event.target.value'>
+          <label class="custom-control-label" for="customRadio4">Đã kết hôn</label>
+        </div>
+
+        <div class="custom-control custom-radio mb-3">
+          <input name="relationship" class="custom-control-input" id="customRadio5" type="radio" value="-1" [checked]="relationship === -1" (change)='relationship=$event.target.value'>
+          <label class="custom-control-label" for="customRadio5">Không có gì</label>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+        <button (click)="onSaveRelationship()" type="button" class="btn btn-primary" data-dismiss="modal">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <app-footer></app-footer>

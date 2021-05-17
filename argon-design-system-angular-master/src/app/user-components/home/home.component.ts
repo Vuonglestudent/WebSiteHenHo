@@ -1,13 +1,13 @@
 import { SignalRService } from 'src/app/service/signal-r.service';
 import { ImageService } from '../../service/image.service';
 import { ImageUser, User, News, IUserInfo } from '../../models/models';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../service/users.service';
 import { AlertService } from '../../_alert';
 import { AuthenticationService } from '../../service/authentication.service';
 import { fadeInAnimation } from '../../_animates/animates';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -19,6 +19,18 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 })
 
 export class HomeComponent implements OnInit {
+
+    @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
+
+        var element = document.getElementById('fixed-content-id');
+        if(window.pageYOffset > 1000){
+            element.classList.add('fixed-content');
+        }
+        else{
+            element.classList.remove('fixed-content');
+        }
+
+    }
 
     userInfo: IUserInfo;
     onlineCount: number = 0;
@@ -48,7 +60,7 @@ export class HomeComponent implements OnInit {
 
     // Phân trang user
     PageIndexNewUser = 1;
-    PageSizeNewUser = 5;
+    PageSizeNewUser = 10;
 
     // LoadImageUser
 
@@ -111,6 +123,7 @@ export class HomeComponent implements OnInit {
                 this.usersService.Favoritors = response.data;
                 this.usersService.FavoritePage.total = response.pageTotal;
 
+                this.usersService.imageUsers = new Array();
                 this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
@@ -207,7 +220,7 @@ export class HomeComponent implements OnInit {
         this.likeProcessing = true;
 
         var target = event.target;
-        var favouritesCurrent = Number(target.innerText)
+        var numberFavorite = <HTMLElement>document.getElementById(`numberFavorites_${userId}`).children[0];
         this.usersService.Favorite(userId)
             .then(response => {
                 this.likeProcessing = false;
@@ -215,10 +228,10 @@ export class HomeComponent implements OnInit {
                 // this.alertService.success(response.message, this.options);
                 if (response.message == 'Favorited') {
                     target.className = 'ni ni-favourite-28 text-danger'
-                    target.innerHTML = `<span><small class="text-dark" style="font-size: 60%;">${favouritesCurrent + 1}</small></span>`
+                    numberFavorite.innerText = (Number(numberFavorite.innerText) + 1).toString();
                 } else {
                     target.className = 'ni ni-favourite-28'
-                    target.innerHTML = `<span><small class="text-dark" style="font-size: 60%;">${favouritesCurrent - 1}</small></span>`
+                    numberFavorite.innerText = (Number(numberFavorite.innerText) - 1).toString();
                 }
             })
             .catch(error => {

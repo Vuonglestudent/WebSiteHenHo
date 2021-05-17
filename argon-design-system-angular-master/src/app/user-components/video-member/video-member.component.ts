@@ -22,13 +22,15 @@ export class VideoMemberComponent implements OnInit {
     this.theVideo.classList.add(this.className);
   }
 
-  
+  isYou = false;
   userInfo:IUserInfo;
   constructor(
     private authenticationService:AuthenticationService
   ) { 
     this.authenticationService.userInfoObservable
-	    .subscribe(user => this.userInfo = user)
+	    .subscribe(user => {
+        this.userInfo = user;
+      })
   }
 
   ngOnInit() {
@@ -40,12 +42,11 @@ export class VideoMemberComponent implements OnInit {
           this.theVideo.defaultMuted = true;
           this.theVideo.volume = 0;
           this.theVideo.muted = true;
+          this.isYou = true;
         } else {
+          this.isYou = false;
           this.theVideo.srcObject = stream;
         }
-      }
-      else {
-        console.log('No stream');
       }
     });
   }

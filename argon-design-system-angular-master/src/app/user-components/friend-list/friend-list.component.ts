@@ -27,8 +27,6 @@ export class FriendListComponent implements OnInit {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
-    //this.CurrentUserId = f.value.From;
-    //this.DestUserId = f.value.To;
 
     localStorage.setItem("CurrentUserId", f.value.From);
     localStorage.setItem("DestUserId", f.value.To);
