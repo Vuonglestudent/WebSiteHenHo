@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ImageScore } from '../models/models';
+import { ImageScore } from '../../models/models';
 import { AuthenticationService } from './authentication.service';
 import { UrlMainService } from './url-main.service';
 

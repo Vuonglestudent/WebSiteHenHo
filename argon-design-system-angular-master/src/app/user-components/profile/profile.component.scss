@@ -1,3 +1,94 @@
+.relationship {
+  width: 94%;
+  display: flex;
+  justify-content: center;
+  padding: 3%;
+  margin: 3%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.have-relationship {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+
+  h5 {
+    width: 100%;
+  }
+
+  h6 {
+    width: 100%;
+  }
+}
+
+.user-info {
+  width: 30%;
+}
+
+.user-name {
+  margin: 0 0 0 3%;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.imgAvatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.content-tab {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .feature-item {
+    width: 50%;
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+
+  .feature-item-edit {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.form-title {
+  border-radius: 0%;
+  width: 40%;
+  padding: 0 !important;
+}
+
+.form-value {
+  width: 60%;
+  font-family: inherit !important;
+}
+
+.form-value:hover {
+
+  width: 60%;
+  background-color: #5e72e4 !important;
+  color: white;
+
+  option {
+    background-color: white;
+    color: black;
+  }
+}
+
+.suggest-action {
+  margin: 10%;
+}
+
+
+//////////////////////////
 .dropdown-menu::before {
   background: #fff;
   box-shadow: none;
@@ -70,9 +161,9 @@ button:focus {
   }
 }
 
-.dobUser {
-  width: 100%;
-  padding-left: 1rem;
+.dobUser:hover {
+  background-color: #5e72e4;
+  color: white;
 }
 
 .radioProfile {
@@ -263,8 +354,8 @@ select {
   font-size: 16px;
   padding-left: 1.75rem;
   margin: 1px 0 1px 0;
-  border: solid 1px#deeefa;
-
+  border: none;
+  color: #8898aa;
 }
 
 .card-title {
@@ -275,9 +366,6 @@ select {
   background-color: white;
 }
 
-.form-title[readonly] {
-  background-image: linear-gradient(to bottom right, white, white);
-}
 
 :root {
   --color: rebeccapurple;
@@ -381,11 +469,11 @@ option:hover {
   background-color: #5E72E4
 }
 
-#alert-custom {
-  top: 47px;
-  right: 658px;
-  position: fixed;
-  z-index: 3000;
+.modal-header {
+  h6 {
+    color: #5e72e4;
+    font-weight: 600;
+  }
 }
 
 .dropdown-menu-custom {

@@ -2,9 +2,9 @@ import { IUserInfo } from './../../models/models';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IUser, UserConnection } from 'src/app/models/models';
-import { SignalRService } from 'src/app/service/signal-r.service';
-import { AlertService } from 'src/app/_alert';
-import { AuthenticationService } from '../../service/authentication.service';
+import { SignalRService } from 'src/app/shared/service/signal-r.service';
+import { AlertService } from 'src/app/shared/_alert';
+import { AuthenticationService } from '../../shared/service/authentication.service';
 import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-video-call',

@@ -1,8 +1,8 @@
 import { Image } from '../../models/models';
 import { ImageScore } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
-import { ImageScoreService } from '../../service/image-score.service';
-import { ImageService } from 'src/app/service/image.service';
+import { ImageScoreService } from '../../shared/service/image-score.service';
+import { ImageService } from 'src/app/shared/service/image.service';
 
 @Component({
   selector: 'app-image-score',

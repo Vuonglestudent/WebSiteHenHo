@@ -1,7 +1,7 @@
 import { UrlMainService } from './url-main.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { INotification, ISignal, IUser, IUserInfo, Message, SignalType, UserConnection } from '../models/models';
+import { INotification, ISignal, IUser, IUserInfo, Message, SignalType, UserConnection } from '../../models/models';
 import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -221,6 +221,7 @@ export class SignalRService {
     }
 
     this._hubConnection
+    //Khi chạy trên mobile thì truyền vào true.
       .invoke('Join', userId, this.currentConnectionId, userName, this.currentRoomName, false);
   }
 

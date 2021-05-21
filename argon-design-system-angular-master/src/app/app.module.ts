@@ -13,13 +13,15 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 //import { HomeModule } from './home/home.module';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './shared/login/login.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AlertModule } from './_alert';
+import { AlertModule } from './shared/_alert';
 import { ConfirmEmailComponent } from './user-components/confirm-email/confirm-email.component';
 import { FacebookLoginComponent } from './user-components/facebook-login/facebook-login.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { ChatComponent } from './user-components/chat/chat.component';
+import { NgxStarRatingModule } from 'ngx-star-rating';
+
 import {
   GoogleLoginProvider,
   FacebookLoginProvider,
@@ -44,11 +46,15 @@ import { CarouselComponent } from './user-components/carousel/carousel.component
 import { VideoCallComponent } from './user-components/video-call/video-call.component';
 import { VideoMemberComponent } from './user-components/video-member/video-member.component';
 //import { RtcSignalRService } from './service/rtc-signal-r.service';
-import { SignalRService } from './service/signal-r.service';
+import { SignalRService } from './shared/service/signal-r.service';
 import { IntroduceComponent } from './user-components/introduce/introduce.component';
 import { SharedStoryComponent } from './user-components/shared-story/shared-story.component';
+import { StringEnumPipe } from './shared/pipe/string-enum-pipe';
+import { TestComponent } from './user-components/test/test.component';
+import { ScanAroundComponent } from './user-components/scan-around/scan-around.component';
 @NgModule({
   declarations: [
+    StringEnumPipe,
     AppComponent,
     SignupComponent,
     ProfileComponent,
@@ -73,8 +79,11 @@ import { SharedStoryComponent } from './user-components/shared-story/shared-stor
     VideoMemberComponent,
     IntroduceComponent,
     SharedStoryComponent,
+    TestComponent,
+    ScanAroundComponent,
   ],
   imports: [
+    NgxStarRatingModule,
     BrowserModule,
     NgbModule,
     FormsModule,
@@ -120,6 +129,9 @@ import { SharedStoryComponent } from './user-components/shared-story/shared-stor
         ],
       } as SocialAuthServiceConfig,
     }
+  ],
+  exports:[
+    StringEnumPipe
   ],
   bootstrap: [AppComponent]
 })

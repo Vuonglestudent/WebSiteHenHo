@@ -1,16 +1,17 @@
-import { IUserInfo } from './../models/models';
+import { UsersService } from './../service/users.service';
+import { IUserInfo } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AlertService } from '../_alert';
-import { User, SocialUser } from '../models/models';
+import { User, SocialUser } from '../../models/models';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import { from } from 'rxjs';
 import { slideInOutAnimation } from '../_animates/animates';
-import { SignalRService } from '../service/signal-r.service';
+import { GeolocationService } from '@ng-web-apis/geolocation';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,10 +30,16 @@ export class LoginComponent implements OnInit {
     private router: Router,
     protected alertService: AlertService,
     private authService: SocialAuthService,
-    private signalRService: SignalRService,
+    private usersService: UsersService,
+    private readonly geolocationService: GeolocationService,
   ) {
     this.authenticationService.userInfoObservable
-      .subscribe(user => this.userInfo = user)
+      .subscribe(user => {
+        if (user != undefined) {
+          this.userInfo = user;
+          this.getPosition();
+        }
+      })
   }
 
   options = {
@@ -74,7 +81,6 @@ export class LoginComponent implements OnInit {
       .then(response => {
         this.Loading = false;
         this.userInfo = response;
-        console.log(this.userInfo);
 
         this.authenticationService.setUserInfo(this.userInfo);
 
@@ -251,5 +257,30 @@ export class LoginComponent implements OnInit {
 
   signOut(): void {
     this.authService.signOut();
+  }
+
+
+  isSubscribe = false;
+
+  getPosition() {
+    this.geolocationService.subscribe(position => {
+
+      if (!this.isSubscribe) {
+        console.log(position);
+        this.savePosition(position.coords.latitude, position.coords.longitude);
+      }
+      this.isSubscribe = true;
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  savePosition(latitude: number, longitude: number) {
+    this.usersService.SavePosition(this.userInfo.id, latitude, longitude)
+      .subscribe(data => {
+        console.log('saved successful');
+      }, err => {
+        console.log(err.error.message);
+      })
   }
 }

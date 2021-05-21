@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { slideInOutAnimation } from '../../_animates/animates';
+import { slideInOutAnimation } from '../../shared/_animates/animates';
 @Component({
   selector: 'app-friend-list',
   templateUrl: './friend-list.component.html',

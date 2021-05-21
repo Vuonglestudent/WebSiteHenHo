@@ -1,11 +1,11 @@
-import { SignalRService } from './../../service/signal-r.service';
+import { SignalRService } from '../../shared/service/signal-r.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { StatisticService } from '../../service/statistic.service';
-import { MessageService } from '../../service/message.service';
+import { StatisticService } from '../../shared/service/statistic.service';
+import { MessageService } from '../../shared/service/message.service';
 
 @Component({
   selector: 'app-statistic',

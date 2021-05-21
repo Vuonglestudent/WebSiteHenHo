@@ -50,16 +50,6 @@ export class ChatFriend {
     pageIndex: number;
 }
 
-// export class ProfileData {
-//     gender: string[];
-//     job: string[];
-//     location: string[];
-//     operationType: string[];
-//     typeAccount: string[];
-//     userStatus: string[];
-//     ageGroup: string[];
-// }
-
 export class FeatureDetail {
     id: number;
     content: string;
@@ -82,7 +72,7 @@ export class ProfileData {
     location: string[];
     ageGroup: string[];
     features: Feature[];
-    genders:string[] = ["Nam", "Nữ"];
+    genders: string[] = ["Nam", "Nữ"];
 }
 
 export class Image {
@@ -143,6 +133,8 @@ export class User {
     findAgeGroup: string;
     features: FeatureVM[];
     searchFeatures: FeatureVM[];
+
+    relationship: IRelationship;
 }
 
 export class ImageScore {
@@ -240,8 +232,41 @@ export interface IUserInfo {
 
 export interface INotification {
     id: number;
-    fullName:string;
+    fullName: string;
     fromId: string;
     toId: string;
+    type: string;
     createdAt: Date;
+}
+
+export interface IRelationship {
+    id: number;
+    fromId: string;
+    toId: string;
+    fromName: string;
+    toName: string;
+    fromAvatar: string;
+    toAvatar: string;
+    createdAt: Date;
+    updatedAt: Date;
+    relationshipType: RelationshipType
+}
+
+export enum RelationshipType {
+    Không_có_gì,
+    Đang_tìm_hiểu,
+    Đang_yêu,
+    Đã_kết_hôn
+}
+
+export interface IFeedback {
+    id: number;
+    userId: string;
+    userName: string;
+    avatar: string;
+    title: string;
+    content: string;
+    vote: number;
+    createdAt: Date;
+    updatedAt: Date;
 }

@@ -1,11 +1,11 @@
 import { IUserInfo } from './../../models/models';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AuthenticationService } from 'src/app/shared/service/authentication.service';
 import { Component, OnInit } from "@angular/core";
-import { UsersService } from "../../service/users.service";
+import { UsersService } from "../../shared/service/users.service";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
-import { AlertService } from '../../_alert';
+import { AlertService } from '../../shared/_alert';
 import { faSpinner, faCheck } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: "app-change-password",

@@ -1,10 +1,13 @@
-import { AuthenticationService } from '../../service/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { AlertService } from './../_alert/alert.service';
+import { IRelationship, RelationshipType } from './../../models/models';
+import { RelationshipService } from './../service/relationship.service';
+import { AuthenticationService } from '../service/authentication.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, PopStateEvent } from '@angular/common';
-import { NotificationUserService } from 'src/app/service/notification-user.service';
+import { NotificationUserService } from 'src/app/shared/service/notification-user.service';
 import { faSpinner, faCaretDown, faSignOutAlt, faChartPie, faLock, faComments, faAddressCard } from '@fortawesome/free-solid-svg-icons';
-import { IUserInfo } from 'src/app/models/models';
+import { INotification, IUserInfo } from 'src/app/models/models';
 
 @Component({
     selector: 'app-navbar',
@@ -12,6 +15,9 @@ import { IUserInfo } from 'src/app/models/models';
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+    @ViewChild('openConfirmModal') modal: ElementRef<HTMLElement>;
+
     public isCollapsed = true;
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
@@ -25,6 +31,7 @@ export class NavbarComponent implements OnInit {
     faAddressCard = faAddressCard;
     faSignOutAlt = faSignOutAlt;
 
+    RelationshipType = RelationshipType;
 
     userInfo: IUserInfo;
     constructor(
@@ -32,6 +39,8 @@ export class NavbarComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         public notificationUserService: NotificationUserService,
+        private relationshipService: RelationshipService,
+        private alertService: AlertService
     ) {
         this.authenticationService.userInfoObservable
             .subscribe(user => this.userInfo = user)
@@ -58,6 +67,8 @@ export class NavbarComponent implements OnInit {
         this.location.subscribe((ev: PopStateEvent) => {
             this.lastPoppedUrl = ev.url;
         });
+
+        //setTimeout(() => this.modal.nativeElement.click(), 500);
     }
 
     isHome() {
@@ -116,9 +127,6 @@ export class NavbarComponent implements OnInit {
             .then(data => {
                 this.loadingNotification = false;
                 this.notificationUserService.Notification = data;
-                this.notificationUserService.Notification.forEach(element => {
-                    element.fullName = this.getLastName(element.fullName);
-                });
 
                 console.log(this.notificationUserService.Notification);
             })
@@ -131,5 +139,69 @@ export class NavbarComponent implements OnInit {
     getLastName(fullName: string) {
         var n = fullName.split(" ");
         return n[n.length - 1];
+    }
+
+
+    currentNotification: INotification = {} as INotification;
+    onClick(item: INotification) {
+        this.currentNotification = item;
+
+        if (item.type === "follow" || item.type === "like" || item.type == "likeImage") {
+            this.router.navigate(['/profile/' + item.fromId]);
+            return;
+        }
+
+        if (item.type === "relationship") {
+            console.log(item);
+            this.getRelationship(item.fromId);
+            this.modal.nativeElement.click();
+        }
+    }
+
+
+    relationshipNotification: IRelationship = {} as IRelationship;
+
+    getRelationship(fromId: string) {
+        this.relationshipService.GetByFromId(fromId)
+            .subscribe(data => {
+                this.relationshipNotification = data;
+
+            }, err => {
+                this.alertService.error("Không lấy được relationship");
+            })
+    }
+
+    onAccept() {
+        this.relationshipService.Accept(this.relationshipNotification.id)
+            .subscribe(data => {
+                this.router.navigate(['/profile/' + this.relationshipNotification.fromId]);
+                this.alertService.success("Chúc mừng, bạn đã có mối quan hệ mới, hãy cố gắng nhé!");
+                this.deleteNotification();
+            }, err => {
+                this.alertService.error("Không thể chấp nhận lúc này");
+            })
+    }
+
+    onDecline() {
+        this.relationshipService.Decline(this.relationshipNotification.id)
+            .subscribe(data => {
+                this.alertService.warn("Bạn đã từ chối mối quan hệ với " + this.getLastName(this.relationshipNotification.fromName));
+                this.deleteNotification();
+            }, err => {
+                this.alertService.error("Không thể từ chối lúc này");
+            })
+    }
+
+    deleteNotification() {
+        this.notificationUserService.DeleteNotification(this.currentNotification.id)
+            .subscribe(data => {
+                this.removeNotificationFromList(this.currentNotification.id);
+            }, err => {
+                alert("Không thể xóa notification")
+            })
+    }
+
+    removeNotificationFromList(notificationId: number) {
+        this.notificationUserService.Notification = this.notificationUserService.Notification.filter(x => x.id != notificationId);
     }
 }

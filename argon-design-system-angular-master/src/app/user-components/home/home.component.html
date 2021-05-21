@@ -35,20 +35,17 @@
       </div>
 
       <div class="BackToTop">
-        <button id="myBtn" (click)="onActivate($event)" title="Go to top">
+        <button id="myBtn" (click)="onActivate()" title="Go to top">
           <i class="fa fa-angle-up"></i>
         </button>
       </div>
 
-      <!-- <app-introduce></app-introduce>
-      <app-shared-story></app-shared-story> -->
-      <div class="row">
+      <app-introduce *ngIf="userInfo == undefined"></app-introduce>
+      <!-- <app-shared-story></app-shared-story> -->
+      <div *ngIf="isViewFriend" class="row">
         <div class='left-content'>
 
           <!--  -->
-          <div id="alert-custom">
-            <alert style="padding-left: 15px; padding-right: 15px;"></alert>
-          </div>
 
           <div class="col-md-12 ">
             <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
@@ -394,7 +391,9 @@
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
 </section>
 
-
+<div id="alert-custom">
+  <alert></alert>
+</div>
 
 <app-footer></app-footer>
 

@@ -1,10 +1,10 @@
 import { Message, ChatFriend, IUserInfo } from '../../models/models';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { SignalRService } from '../../service/signal-r.service';
-import { AuthenticationService } from '../../service/authentication.service';
-import { MessageService } from '../../service/message.service';
+import { SignalRService } from '../../shared/service/signal-r.service';
+import { AuthenticationService } from '../../shared/service/authentication.service';
+import { MessageService } from '../../shared/service/message.service';
 import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
-import { AlertService } from 'src/app/_alert';
+import { AlertService } from 'src/app/shared/_alert';
 
 @Component({
   selector: 'app-chat',

@@ -1,110 +1,88 @@
-<section>
+<div class="top-space"></div>
+<div id="alert-custom">
+    <alert></alert>
+</div>
+<section class="container">
 
     <div class="d-flex align-items-center header">
         <header>
             Những hội viên đã tìm được đối tượng trên Zinger
         </header>
         <div class="center-button">
-            <button (click)="onSignUp()" class="btn btn-primary">Tham gia ngay</button>
+            <button *ngIf="userInfo == undefined" (click)="onSignUp()" class="btn btn-primary">Tham gia ngay</button>
+            <button *ngIf="userInfo != undefined" class="btn btn-primary" type="button" data-toggle="modal"
+                data-target="#createFeedback">Viết câu chuyện của
+                bạn</button>
         </div>
     </div>
 
     <div class="user-group d-flex justify-content-between">
 
-        <div class="user">
+        <div *ngFor="let item of feedbacks" class="user">
             <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
+                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder" src="{{item.avatar}}">
             </div>
 
+            <ngx-star-rating [(ngModel)]="item.vote" [id]="item.id" [disabled]="true">
+            </ngx-star-rating>
+
             <p class="title">
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
+                {{item.title}}
             </p>
 
             <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
+                {{item.content}}
             </p>
         </div>
 
-        <div class="user">
-            <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
-            </div>
-
-            <p class="title">
-                tôi đã tìm được người vừa ý xứng đôi
-            </p>
-
-            <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
-            </p>
-        </div>
-
-        <div class="user">
-            <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
-            </div>
-
-            <p class="title">
-                tôi đã tìm được người vừa ý xứng đôi
-            </p>
-
-            <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
-            </p>
-        </div>
-
-        <div class="user">
-            <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
-            </div>
-
-            <p class="title">
-                tôi đã tìm được người vừa ý xứng đôi
-            </p>
-
-            <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
-            </p>
-        </div>
-
-        <div class="user">
-            <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
-            </div>
-
-            <p class="title">
-                tôi đã tìm được người vừa ý xứng đôi
-            </p>
-
-            <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
-            </p>
-        </div>
-
-        <div class="user">
-            <div class='d-flex justify-content-center'>
-                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder"
-                    src="../../../assets/img/theme/wedding-01.JPG">
-            </div>
-
-            <p class="title">
-                tôi đã tìm được người vừa ý xứng đôi
-            </p>
-
-            <p class='content'>
-                Cảm ơn trang hẹn hò này tôi đã tìm được người vừa ý xứng đôi
-            </p>
-        </div>
-        
     </div>
 
-    <div class="center-button view-more">
-        <button class="btn btn-primary">Xem thêm</button>
+    <div *ngIf="!isFinalPage && !isLoadingMore" class="center-button view-more">
+        
+        <button (click)="onMore()" class="btn btn-primary">Xem thêm</button>
+
+        <button *ngIf="isLoadingMore" class="btn btn-primary">
+            <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+            Đang tải...
+        </button>
     </div>
 
 </section>
+
+
+<div class="modal fade bd-example-modal-xl" id="createFeedback" tabindex="2" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" role="document">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Viết câu chuyện của bạn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Hãy đánh giá hệ thống của chúng tôi</h6>
+                <ngx-star-rating [(ngModel)]="feedback.vote" class="star-custom" [id]="'rating'" [disabled]="false">
+                </ngx-star-rating>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="feedback.title" class="form-control" id="exampleFormControlInput1"
+                        placeholder="Nhập tiêu đề">
+                </div>
+
+                <textarea [(ngModel)]="feedback.content" class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="Viết câu chuyện của bạn..."></textarea>
+
+                <br>
+                <div class='text-right'>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" aria-label="Close">Trở
+                        về</button>
+                    <button (click)="onCreate()" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"
+                        aria-label="Close">Lưu lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-footer></app-footer>

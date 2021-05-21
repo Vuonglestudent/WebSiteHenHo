@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {AuthenticationService} from '../../service/authentication.service';
+import {AuthenticationService} from '../../shared/service/authentication.service';
 import { faSpinner, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
-import { AlertService } from '../../_alert';
-import { slideInOutAnimation } from '../../_animates/animates';
+import { AlertService } from '../../shared/_alert';
+import { slideInOutAnimation } from '../../shared/_animates/animates';
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',

@@ -1,13 +1,15 @@
-import { Component, OnInit, Inject, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { UsersService } from './shared/service/users.service';
+import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { AuthenticationService } from './service/authentication.service';
-import { SignalRService } from './service/signal-r.service';
-import { MessageService } from './service/message.service';
+import { AuthenticationService } from './shared/service/authentication.service';
+import { SignalRService } from './shared/service/signal-r.service';
+import { MessageService } from './shared/service/message.service';
 import { IUser, IUserInfo, Message } from './models/models';
 import { NotificationsService } from 'angular2-notifications';
-import { NotificationUserService } from './service/notification-user.service';
+import { NotificationUserService } from './shared/service/notification-user.service';
+import { GeolocationService } from '@ng-web-apis/geolocation';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,9 +28,10 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     public signalRService: SignalRService,
     private messageService: MessageService,
-    private _ngZone: NgZone,
+    private usersService: UsersService,
     private notificationService: NotificationsService,
     private notificationUserService: NotificationUserService,
+    private readonly geolocationService: GeolocationService,
   ) {
     this.signalRService.connectedObservable
       .subscribe(connected => {
@@ -40,6 +43,9 @@ export class AppComponent implements OnInit {
               this.userInfo = user;
 
               if (this.userInfo != undefined) {
+
+                this.getPosition();
+
                 this.signalRService.getMyInfo()
                   .then(data => {
                   })
@@ -64,12 +70,16 @@ export class AppComponent implements OnInit {
     this.signalRService.notificationObservable
       .subscribe(notification => {
         if (notification != undefined) {
+          //notification.fullName = this.getLastName(notification.fullName);
           this.notificationUserService.Notification.splice(0, 0, notification);
           this.showNotification(notification);
         }
       })
   }
-
+  getLastName(fullName: string) {
+    var n = fullName.split(" ");
+    return n[n.length - 1];
+  }
 
   ngOnInit() {
     this.signalRService.startConnection();
@@ -196,5 +206,29 @@ export class AppComponent implements OnInit {
 
   onDecline() {
     console.log('Decline a call');
+  }
+
+  isSubscribe = false;
+
+  getPosition() {
+    this.geolocationService.subscribe(position => {
+
+      if (!this.isSubscribe) {
+        console.log(position);
+        this.savePosition(position.coords.latitude, position.coords.longitude);
+      }
+      this.isSubscribe = true;
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  savePosition(latitude: number, longitude: number) {
+    this.usersService.SavePosition(this.userInfo.id, latitude, longitude)
+      .subscribe(data => {
+        console.log('saved successful');
+      }, err => {
+        console.log(err.error.message);
+      })
   }
 }

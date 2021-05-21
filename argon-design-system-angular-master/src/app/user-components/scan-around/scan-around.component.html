@@ -1,0 +1,76 @@
+<div class="space">
+</div>
+<h3 class="text-primary text-center font-weight-600">Đang tìm quanh đây...</h3>
+<div class="loading-content">
+    <div class="lds-ripple">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<div #openSearchModal type="button" rel="tooltip" data-toggle="modal" data-target="#searchModal">
+
+</div>
+
+<!-- Confirm relationship modal -->
+<div class="modal fade bd-example-modal-sm" id="searchModal" tabindex="2" role="dialog" aria-labelledby="searchModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" role="document">
+            <div class="modal-header">
+                <h6 class="modal-title text-primary" id="exampleModalLabel">Tìm kiếm quanh đây</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="custom-radio-1" (change)="onChangeRadioButton($event)" class="custom-control-input"
+                            id="customRadio1" type="radio" value="0" checked>
+                        <label class="custom-control-label" for="customRadio1">Tất cả</label>
+                    </div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="custom-radio-1" (change)=onChangeRadioButton($event) class="custom-control-input"
+                            id="customRadio2" type="radio" value="1">
+                        <label class="custom-control-label" for="customRadio2">Nam</label>
+                    </div>
+
+                    <div class="custom-control custom-radio mb-3">
+                        <input name="custom-radio-1" (change)=onChangeRadioButton($event) class="custom-control-input"
+                            id="customRadio3" type="radio" value="2">
+                        <label class="custom-control-label" for="customRadio3">Nữ</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="example-number-input" class="form-control-label">Độ tuổi:</label>
+                    <select (change)="onChangeSelect($event)" class="form-control">
+                        <option value="-1">Tất cả</option>
+                        <option value="0">Dưới 18 tuổi</option>
+                        <option value="1">Từ 18 đến 25</option>
+                        <option value="2">Từ 25 đến 30</option>
+                        <option value="3">Từ 31 đến 40</option>
+                        <option value="4">Từ 41 đến 50</option>
+                        <option value="5">Trên 50</option>
+                    </select>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="example-number-input" class="form-control-label">Bán kính (km):</label>
+                    <input (change)="onChangeNumber($event)" class="form-control" type="number" value="5"
+                        id="example-number-input">
+                </div>
+
+                <div class="text-right">
+                    <button type="button" (click)="onSearch()" class="btn btn-primary btn-sm" data-dismiss="modal"
+                        aria-label="Close">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

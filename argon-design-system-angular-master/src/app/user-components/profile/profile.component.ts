@@ -1,14 +1,14 @@
-import { FeatureVM, IUserInfo } from '../../models/models';
-import { MessageService } from './../../service/message.service';
-import { AlertService } from './../../_alert/alert.service';
+import { FeatureVM, IRelationship, IUserInfo, RelationshipType } from '../../models/models';
+import { MessageService } from '../../shared/service/message.service';
+import { AlertService } from '../../shared/_alert/alert.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { UsersService } from '../../service/users.service';
+import { UsersService } from '../../shared/service/users.service';
 import { User, ProfileData, Image } from '../../models/models';
-import { AuthenticationService } from '../../service/authentication.service';
-import { ImageService } from './../../service/image.service';
+import { AuthenticationService } from '../../shared/service/authentication.service';
+import { ImageService } from '../../shared/service/image.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
-import { slideInOutAnimation } from '../../_animates/animates';
+import { slideInOutAnimation } from '../../shared/_animates/animates';
 
 @Component({
     selector: 'app-profile',
@@ -22,6 +22,7 @@ import { slideInOutAnimation } from '../../_animates/animates';
 
 export class ProfileComponent implements OnInit, AfterViewInit {
 
+    RelationshipType = RelationshipType;
     editing: boolean = false;
     imageTitle: string;
     checkUser = false;
@@ -45,7 +46,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     userInfo: IUserInfo;
 
-    relationship = 1;
+    relationship: IRelationship = { id: 0 } as IRelationship;
     constructor(
         private usersService: UsersService,
         private authenticationService: AuthenticationService,
@@ -61,12 +62,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 this.userInfo = user;
             })
 
-            this.currentUserId = this.route.snapshot.paramMap.get('id');
-            if (this.route.snapshot.paramMap.get('id') === this.userInfo.id) {
-                this.checkUser = true;
-            } else {
-                this.checkUser = false;
-            }
+        this.currentUserId = this.route.snapshot.paramMap.get('id');
+        if (this.route.snapshot.paramMap.get('id') === this.userInfo.id) {
+            this.checkUser = true;
+        } else {
+            this.checkUser = false;
+        }
     }
 
     ngAfterViewInit(): void {
@@ -89,9 +90,25 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isYourself = false;
     ngOnInit() {
 
+        this.loadUser();
+
+        this.onViewImage();
+
+        if (this.userInfo.id == this.currentUserId) {
+            this.onViewFriendList();
+            this.isYourself = true;
+        }
+    }
+
+    loadUser() {
         this.usersService.GetById(this.currentUserId)
             .then(data => {
+                if (data.relationship) {
+                    this.relationship = data.relationship;
+                }
+                console.log(this.relationship);
                 this.UserProfile = data;
+                this.replaceCharacter();
                 this.Features = this.UserProfile.features;
                 this.SearchFeatures = this.UserProfile.searchFeatures;
 
@@ -157,21 +174,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                         this.profileData.location.unshift(this.UserProfile.location);
                     })
                     .catch(error => {
-                        alert(error);
                         console.log(error);
                     })
             })
             .catch(error => {
-                alert("không lấy được không tin!");
+
                 console.log(error);
             })
-
-        this.onViewImage();
-
-        if (this.userInfo.id == this.currentUserId) {
-            this.onViewFriendList();
-            this.isYourself = true;
-        }
     }
 
     CheckNonFeature(featureId: number) {
@@ -208,19 +217,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     onUpdateInfo() {
         this.updating = true;
         var updateProfile = this.UserProfile;
+        this.reReplaceCharacter(updateProfile);
         this.usersService.UpdateProfile(updateProfile, this.Features, this.SearchFeatures)
             .then(data => {
                 this.updating = false;
                 this.UserProfile = data;
 
-                var oldInfo = {
-                    numberOfFollowers: this.UserProfile.numberOfFollowers,
-                    numberOfFavoritors: this.UserProfile.numberOfFavoritors,
-                    numberOfImages: this.UserProfile.numberOfImages
-                };
-                this.UserProfile.numberOfFollowers = oldInfo.numberOfFollowers;
-                this.UserProfile.numberOfFavoritors = oldInfo.numberOfFavoritors;
-                this.UserProfile.numberOfImages = oldInfo.numberOfImages;
+                this.loadUser();
 
                 this.alertService.clear();
                 this.alertService.success("Cập nhật hồ sơ thành công!");
@@ -352,223 +355,18 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
     }
 
-    // replaceCharacter = (userProfile: User) => {
-    //     userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/_/g, " ");
-    //     userProfile.profile.job = userProfile.profile.job.replace(/_/g, " ");
-    //     userProfile.profile.location = userProfile.profile.location.replace(/_/g, " ");
-    //     userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, " ");
-    //     userProfile.profile.target = userProfile.profile.target.replace(/_/g, " ");
-    //     userProfile.profile.education = userProfile.profile.education.replace(/_/g, " ");
-    //     userProfile.profile.body = userProfile.profile.body.replace(/_/g, " ");
-    //     userProfile.profile.character = userProfile.profile.character.replace(/_/g, " ");
-    //     userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/_/g, " ");
-    //     userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/_/g, " ");
-    //     userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
-    //     userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/_/g, " ");
-    //     userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/_/g, " ");
-    //     userProfile.profile.smoking = userProfile.profile.smoking.replace(/_/g, " ");
-    //     userProfile.profile.religion = userProfile.profile.religion.replace(/_/g, " ");
-    //     userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/_/g, " ");
-    //     userProfile.profile.cook = userProfile.profile.cook.replace(/_/g, " ");
-    //     userProfile.profile.likeTechnology = userProfile.profile.likeTechnology.replace(/_/g, " ");
-    //     userProfile.profile.likePet = userProfile.profile.likePet.replace(/_/g, " ");
-    //     userProfile.profile.playSport = userProfile.profile.playSport.replace(/_/g, " ");
-    //     userProfile.profile.travel = userProfile.profile.travel.replace(/_/g, " ");
-    //     userProfile.profile.game = userProfile.profile.game.replace(/_/g, " ");
-    //     userProfile.profile.shopping = userProfile.profile.shopping.replace(/_/g, " ");
-    // };
+    replaceCharacter = () => {
+        this.UserProfile.job = this.UserProfile.job.replace(/_/g, " ");
+        this.UserProfile.location = this.UserProfile.location.replace(/_/g, " ");
+        this.UserProfile.findAgeGroup = this.UserProfile.findAgeGroup.replace(/_/g, " ");
+    };
 
-    // reReplaceCharacter = (userProfile: User) => {
-    //     userProfile.profile.findPeople = userProfile.profile.findPeople.replace(/ /g, "_");
-    //     userProfile.profile.job = userProfile.profile.job.replace(/ /g, "_");
-    //     userProfile.profile.location = userProfile.profile.location.replace(/ /g, "_");
-    //     userProfile.profile.marriage = userProfile.profile.marriage.replace(/ /g, "_");
-    //     userProfile.profile.target = userProfile.profile.target.replace(/ /g, "_");
-    //     userProfile.profile.education = userProfile.profile.education.replace(/ /g, "_");
-    //     userProfile.profile.body = userProfile.profile.body.replace(/ /g, "_");
-    //     userProfile.profile.character = userProfile.profile.character.replace(/ /g, "_");
-    //     userProfile.profile.lifeStyle = userProfile.profile.lifeStyle.replace(/ /g, "_");
-    //     userProfile.profile.mostValuable = userProfile.profile.mostValuable.replace(/ /g, "_");
-    //     userProfile.profile.religion = userProfile.profile.religion.replace(/ /g, "_");
-    //     userProfile.profile.favoriteMovie = userProfile.profile.favoriteMovie.replace(/ /g, "_");
-    //     userProfile.profile.atmosphereLike = userProfile.profile.atmosphereLike.replace(/ /g, "_");
-    //     userProfile.profile.smoking = userProfile.profile.smoking.replace(/ /g, "_");
-    //     userProfile.profile.drinkBeer = userProfile.profile.drinkBeer.replace(/ /g, "_");
-    //     userProfile.profile.marriage = userProfile.profile.marriage.replace(/_/g, "_");
+    reReplaceCharacter = (userProfile: User) => {
+        userProfile.location = userProfile.location.replace(/ /g, "_");
+        userProfile.job = userProfile.job.replace(/ /g, "_");
+        userProfile.findAgeGroup = userProfile.findAgeGroup.replace(/ /g, "_");
+    }
 
-    //     userProfile.profile.cook = userProfile.profile.cook.replace(/ /g, "_");
-    //     userProfile.profile.likeTechnology = userProfile.profile.likeTechnology.replace(/ /g, "_");
-    //     userProfile.profile.likePet = userProfile.profile.likePet.replace(/ /g, "_");
-    //     userProfile.profile.playSport = userProfile.profile.playSport.replace(/ /g, "_");
-    //     userProfile.profile.travel = userProfile.profile.travel.replace(/ /g, "_");
-    //     userProfile.profile.game = userProfile.profile.game.replace(/ /g, "_");
-    //     userProfile.profile.shopping = userProfile.profile.shopping.replace(/ /g, "_");
-    // };
-
-    // standardizedProfileData() {
-    //     var temp = [];
-    //     this.profileData.atmosphereLike.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.atmosphereLike = temp;
-
-    //     temp = [];
-    //     this.profileData.body.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.body = temp;
-
-    //     temp = [];
-    //     this.profileData.character.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.character = temp;
-
-    //     temp = [];
-    //     this.profileData.cook.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.cook = temp;
-
-    //     temp = [];
-    //     this.profileData.drinkBeer.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.drinkBeer = temp;
-
-    //     temp = [];
-    //     this.profileData.education.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.education = temp;
-
-    //     temp = [];
-    //     this.profileData.favoriteMovie.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.favoriteMovie = temp;
-
-    //     temp = [];
-    //     this.profileData.findPeople.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.findPeople = temp;
-
-    //     temp = [];
-    //     this.profileData.game.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.game = temp;
-
-    //     temp = [];
-    //     this.profileData.gender.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.gender = temp;
-
-    //     temp = [];
-    //     this.profileData.job.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.job = temp;
-
-    //     temp = [];
-    //     this.profileData.lifeStyle.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.lifeStyle = temp;
-
-    //     temp = [];
-    //     this.profileData.likePet.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.likePet = temp;
-
-    //     temp = [];
-    //     this.profileData.likeTechnology.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.likeTechnology = temp;
-
-    //     temp = [];
-    //     this.profileData.location.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.location = temp;
-
-    //     temp = [];
-    //     this.profileData.marriage.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.marriage = temp;
-
-    //     temp = [];
-    //     this.profileData.mostValuable.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.mostValuable = temp;
-
-    //     temp = [];
-    //     this.profileData.playSport.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.playSport = temp;
-
-    //     temp = [];
-    //     this.profileData.shopping.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.shopping = temp;
-
-    //     temp = [];
-    //     this.profileData.religion.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.religion = temp;
-
-    //     temp = [];
-    //     this.profileData.smoking.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.smoking = temp;
-
-    //     temp = [];
-    //     this.profileData.target.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.target = temp;
-
-    //     temp = [];
-    //     this.profileData.typeAccount.forEach(element => {
-    //         element = element.replace(/_/g, " ");
-    //         temp.push(element);
-    //     });
-    //     this.profileData.typeAccount = temp;
-
-    //     temp = [];
-    // }
 
     popMessage = false
     popTextAreaMessage = () => {
@@ -795,13 +593,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         //}
     }
 
-    onSaveRelationship(){
-        this.usersService.CreateRelationship(this.userInfo.id, this.currentUserId, this.relationship)
-            .subscribe(data =>{
+    onSaveRelationship() {
+        this.usersService.CreateRelationship(this.userInfo.id, this.currentUserId, this.relationship.relationshipType)
+            .subscribe(data => {
                 console.log(data);
-                this.alertService.success("Success", "Tạo quan hệ thành công");
-            }, err =>{
-                this.alertService.error("Error", "Không thể tạo mối quan hệ");
-            })    
+                this.alertService.success("Tạo quan hệ thành công");
+            }, err => {
+                this.alertService.error("Không thể tạo mối quan hệ");
+            })
     }
 }

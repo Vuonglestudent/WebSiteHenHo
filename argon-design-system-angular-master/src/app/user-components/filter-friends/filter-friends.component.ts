@@ -1,11 +1,11 @@
 import { IUserInfo } from './../../models/models';
-import { ImageService } from './../../service/image.service';
+import { ImageService } from '../../shared/service/image.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../service/authentication.service';
+import { AuthenticationService } from '../../shared/service/authentication.service';
 import { User, ImageUser, ProfileData } from '../../models/models';
-import { UsersService } from './../../service/users.service';
+import { UsersService } from '../../shared/service/users.service';
 import { Component, OnInit } from '@angular/core';
-import { slideInOutAnimation } from '../../_animates/animates';
+import { slideInOutAnimation } from '../../shared/_animates/animates';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

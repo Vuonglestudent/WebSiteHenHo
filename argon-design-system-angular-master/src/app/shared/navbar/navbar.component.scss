@@ -4,6 +4,15 @@
   border-radius: 50%;
 }
 
+.user-info {
+  padding: 0% 0 10% 0;
+}
+
+.user-name {
+  margin: 0 0 0 3%;
+  font-weight: 600;
+}
+
 .navbar-nav-custom .dropdown-menu:before {
   transform: rotate(-45deg) translateY(3rem);
   left: 150px;
@@ -70,7 +79,7 @@ button:focus {
     display: none;
   }
 
-  .logo-image{
+  .logo-image {
     height: 40px;
     overflow: hidden;
   }

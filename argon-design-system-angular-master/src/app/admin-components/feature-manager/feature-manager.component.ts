@@ -1,7 +1,7 @@
 import { Feature, FeatureDetail } from '../../models/models';
 import { Component, OnInit } from '@angular/core';
-import { FeatureService } from '../../service/feature.service';
-import { AlertService } from '../../_alert/alert.service';
+import { FeatureService } from '../../shared/service/feature.service';
+import { AlertService } from '../../shared/_alert/alert.service';
 
 @Component({
   selector: 'app-feature-manager',

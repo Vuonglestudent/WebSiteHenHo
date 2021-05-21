@@ -151,8 +151,8 @@
 .close {
   position: absolute;
   z-index: 14;
-  top: 1%;
-  right: 5%;
+  top: 2%;
+  right: 1%;
   cursor: pointer;
   font-size: 50px;
   color: white;
@@ -326,4 +326,17 @@ input {
     font-size: 13px !important;
   }
 
+}
+
+#alert-custom {
+  width: 100%;
+  top: 10%;
+  position: fixed;
+  z-index: 3000;
+  display: flex;
+  justify-content: center;
+}
+
+.star-custom form{
+  width: 360px !important;
 }

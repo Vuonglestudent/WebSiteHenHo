@@ -1,12 +1,12 @@
-import { SignalRService } from 'src/app/service/signal-r.service';
-import { ImageService } from '../../service/image.service';
+import { SignalRService } from 'src/app/shared/service/signal-r.service';
+import { ImageService } from '../../shared/service/image.service';
 import { ImageUser, User, News, IUserInfo } from '../../models/models';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsersService } from '../../service/users.service';
-import { AlertService } from '../../_alert';
-import { AuthenticationService } from '../../service/authentication.service';
-import { fadeInAnimation } from '../../_animates/animates';
+import { UsersService } from '../../shared/service/users.service';
+import { AlertService } from '../../shared/_alert';
+import { AuthenticationService } from '../../shared/service/authentication.service';
+import { fadeInAnimation } from '../../shared/_animates/animates';
 import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-home',
@@ -23,16 +23,19 @@ export class HomeComponent implements OnInit {
     @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
 
         var element = document.getElementById('fixed-content-id');
-        if(window.pageYOffset > 1000){
-            element.classList.add('fixed-content');
-        }
-        else{
-            element.classList.remove('fixed-content');
+        if(element){
+            if(window.pageYOffset > 1000){
+                element.classList.add('fixed-content');
+            }
+            else{
+                element.classList.remove('fixed-content');
+            }
         }
 
     }
 
     userInfo: IUserInfo;
+    isViewFriend = false;
     onlineCount: number = 0;
     constructor(
         private router: Router,
@@ -43,7 +46,16 @@ export class HomeComponent implements OnInit {
         private signalRService: SignalRService
     ) {
         this.authenticationService.userInfoObservable
-            .subscribe(user => this.userInfo = user)
+            .subscribe(user => {
+                this.userInfo = user;
+                if(this.userInfo != undefined){
+                    this.isViewFriend = true;
+                }
+                else{
+                    this.isViewFriend = false;
+                    this.onActivate();
+                }
+            })
 
         this.signalRService.onlineCountObservable
             .subscribe(onlineCount => this.onlineCount = onlineCount)
@@ -373,11 +385,11 @@ export class HomeComponent implements OnInit {
         this.getSimilarUSer(this.isFilter);
     }
 
-    onActivate(event) {
+    onActivate() {
         let scrollToTop = window.setInterval(() => {
             let pos = window.pageYOffset;
             if (pos > 0) {
-                window.scrollTo(0, pos - 30); // how far to scroll on each step
+                window.scrollTo(0, pos - 20);
             } else {
                 window.clearInterval(scrollToTop);
             }
