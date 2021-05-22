@@ -67,7 +67,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
         }
 
         this.nameReceiver = this.messageService.friendList[0].user.fullName;
-        this.hasAvatar = this.messageService.friendList[0].user.hasAvatar;
         this.avatarPath = this.messageService.friendList[0].user.avatarPath;
         this.ReceiverId = this.messageService.friendList[0].user.id;
       })
@@ -157,7 +156,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.nameReceiver = nameUser;
     this.ReceiverId = this.messageService.friendList[userIndex].user.id;
     this.avatarPath = this.messageService.friendList[userIndex].user.avatarPath;
-    this.hasAvatar = this.messageService.friendList[userIndex].user.hasAvatar;
     this.setScroll()
   }
 

@@ -117,7 +117,7 @@ export class SharedStoryComponent implements OnInit {
         this.isLoadingMore = false;
 
         if(data.length == 0){
-          this.alertService.warn("Bạn đã đến cuối trang");
+          this.alertService.warn("Bạn đã đến trang cuối cùng");
           this.isFinalPage = true;
           return;
         }

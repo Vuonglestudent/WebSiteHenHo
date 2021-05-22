@@ -1,5 +1,5 @@
 import { UrlMainService } from './url-main.service';
-import { FeatureVM, ImageUser, IUserInfo, ProfileData, User } from '../../models/models';
+import { FeatureVM, IFindAround, ImageUser, IUserInfo, ProfileData, User } from '../../models/models';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthenticationService } from "./authentication.service";
@@ -210,11 +210,19 @@ export class UsersService {
     return this.http.post<any>(path, data, { headers: header });
   }
 
-  public SavePosition(userId:string, latitude:number, longitude:number){
+  public SavePosition(userId: string, latitude: number, longitude: number) {
     let header = this.authenticationService.GetHeader();
     var path = this.mainUrl + '/position';
 
-    return this.http.put<any>(path, {userId, latitude, longitude}, {headers:header});
+    return this.http.put<any>(path, { userId, latitude, longitude }, { headers: header });
+
+  }
+
+  public FindAround(findAround: IFindAround) {
+    let header = this.authenticationService.GetHeader();
+    var path = this.mainUrl + '/around';
+
+    return this.http.post<any>(path, findAround, { headers: header });
 
   }
 }

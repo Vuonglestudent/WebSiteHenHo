@@ -1,16 +1,60 @@
+<div id="alert-custom">
+    <alert></alert>
+</div>
+
 <div class="space">
 </div>
-<h3 class="text-primary text-center font-weight-600">Đang tìm quanh đây...</h3>
-<div class="loading-content">
-    <div class="lds-ripple">
-        <div></div>
-        <div></div>
+<div [ngClass]="isSearch ? 'show' :  'hide'">
+    <h3 class="text-primary text-center font-weight-600">Đang tìm quanh đây...</h3>
+    <div class="loading-content">
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div #openSearchModal type="button" rel="tooltip" data-toggle="modal" data-target="#searchModal">
     </div>
 </div>
 
-<div #openSearchModal type="button" rel="tooltip" data-toggle="modal" data-target="#searchModal">
+<div [ngClass]="isSearch ? 'hide' :  'show'" class="container">
+    <div class="user-group d-flex justify-content-between">
 
+        <div *ngFor="let user of users" class="user">
+            <div class='d-flex justify-content-center'>
+                <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder" src="{{user.avatarPath}}">
+            </div>
+
+            <p class="title">
+                {{user.fullName}}
+            </p>
+            <div class='d-flex justify-content-center'>
+                <p class="distance">
+                    {{user.distance.toFixed(2)}} km
+                </p>
+                <p class="age">
+                    {{user.dob | agePipe}}
+                </p>
+            </div>
+
+            <p class='content'>
+                {{user.summary}}
+            </p>
+        </div>
+
+    </div>
+
+    <div *ngIf="!isFinalPage" class="center-button view-more">
+
+        <button *ngIf="!isLoadingMore" (click)="onMore()" class="btn btn-primary">Xem thêm</button>
+
+        <button *ngIf="isLoadingMore" class="btn btn-primary">
+            <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+            Đang tải...
+        </button>
+    </div>
 </div>
+
 
 <!-- Confirm relationship modal -->
 <div class="modal fade bd-example-modal-sm" id="searchModal" tabindex="2" role="dialog" aria-labelledby="searchModal"
@@ -59,10 +103,9 @@
                 </div>
 
 
-
                 <div class="form-group">
                     <label for="example-number-input" class="form-control-label">Bán kính (km):</label>
-                    <input (change)="onChangeNumber($event)" class="form-control" type="number" value="5"
+                    <input (change)="onChangeNumber($event)" class="form-control" type="number" value="20"
                         id="example-number-input">
                 </div>
 

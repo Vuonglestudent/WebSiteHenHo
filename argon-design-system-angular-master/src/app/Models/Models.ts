@@ -13,10 +13,9 @@ export class SocialUser {
 export class UserDisplay {
     id: string;
     fullName: string;
-    dob: string;
+    dob: Date;
     createdAt: Date;
     avatarPath: string;
-    hasAvatar: boolean;
     summary: string;
     numberOfFollowers: number;
     followed: boolean;
@@ -25,6 +24,7 @@ export class UserDisplay {
     numberOfImages: number;
     point: number;
     status: string;
+    distance: number;
 }
 
 export class Message {
@@ -269,4 +269,13 @@ export interface IFeedback {
     vote: number;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface IFindAround {
+    pageIndex: number;
+    pageSize: number;
+    userId: string;
+    distance: number;
+    gender: number;
+    ageGroup: number;
 }

@@ -1,30 +1,35 @@
-import { IUserInfo } from './../../models/models';
+import { AlertService } from 'src/app/shared/_alert';
+import { IFindAround, IUserInfo, UserDisplay } from './../../models/models';
 import { AuthenticationService } from './../../shared/service/authentication.service';
 import { UsersService } from './../../shared/service/users.service';
 import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { GeolocationService } from '@ng-web-apis/geolocation';
-
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 @Component({
   selector: 'app-scan-around',
   templateUrl: './scan-around.component.html',
-  styleUrls: ['./scan-around.component.css']
+  styleUrls: ['./scan-around.component.scss']
 })
 export class ScanAroundComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly geolocationService: GeolocationService,
     private usersService: UsersService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private alertService: AlertService
   ) {
     this.authService.userInfoObservable
       .subscribe(data => {
         if (data != undefined) {
           this.userInfo = data;
+          this.findAround.userId = this.userInfo.id;
           this.getPosition();
         }
 
       })
   }
+  faSpinner = faSpinner;
   ngAfterViewInit(): void {
     this.modal.nativeElement.click();
   }
@@ -61,43 +66,65 @@ export class ScanAroundComponent implements OnInit, AfterViewInit {
       })
   }
 
-
-  oldGroup = 0;
-  gender = 0;
-  radius = 5;
-
   onChangeSelect(event: any) {
-    console.log(event.target.value);
-    this.oldGroup = event.target.value;
+    this.findAround.ageGroup = event.target.value;
   }
 
   onChangeRadioButton(event: any) {
-    console.log(event.target.value);
-    this.gender = event.target.value;
+    this.findAround.gender = event.target.value;
   }
 
   onChangeNumber(event: any) {
-    console.log(event.target.value);
-    let numb = event.target.value;
+    this.findAround.distance = event.target.value;
   }
 
   isSearch = false;
 
-  pageIndex = 1;
-  pageSize = 6;
+  findAround: IFindAround = {
+    pageIndex: 1,
+    pageSize: 6,
+    gender: 0,
+    ageGroup: -1,
+    distance: 20,
+  } as IFindAround;
+
+
+  users: UserDisplay[] = new Array();
+  isLoadingMore = false;
+  isFinalPage = false;
+
   onSearch() {
     this.isSearch = true;
+    this.isLoadingMore = true;
+
+    this.usersService.FindAround(this.findAround)
+      .subscribe(data => {
+
+        setTimeout(() => {
+          this.isLoadingMore = false;
+          this.isSearch = false;
+          if (data.length == 0) {
+            this.isFinalPage = true;
+            this.alertService.warn("Bạn đã đến trang cuối cùng");
+            return;
+          }
+          this.users = this.users.concat(data);
+        }, 2000)
+
+      }, err => {
+        this.isLoadingMore = false;
+        this.isSearch = false;
+        alert(err);
+      })
+
+
+
 
   }
-}
 
-export interface IFindAround {
-  pageIndex: number;
-  pageSize: number;
-  userId: string;
-  distance: number;
-  latitude: number;
-  longitude: number;
-  gender: number;
-  ageGroup: number;
+  onMore() {
+    this.findAround.pageIndex += 1;
+    this.onSearch();
+  }
+
 }

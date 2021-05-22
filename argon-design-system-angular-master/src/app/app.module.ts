@@ -1,3 +1,4 @@
+import { AgePipe } from './shared/pipe/age-pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -55,6 +56,7 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
 @NgModule({
   declarations: [
     StringEnumPipe,
+    AgePipe,
     AppComponent,
     SignupComponent,
     ProfileComponent,
@@ -131,7 +133,8 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
     }
   ],
   exports:[
-    StringEnumPipe
+    StringEnumPipe,
+    AgePipe
   ],
   bootstrap: [AppComponent]
 })
