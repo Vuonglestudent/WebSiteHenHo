@@ -20,27 +20,27 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 export class FilterFriendsComponent implements OnInit {
 
   filterSet = [
-    { feature: "ageGroup", title: "Độ tuổi", value: [] },
-    { feature: "gender", title: "Giới tính", value: [] },
-    { feature: "location", title: "Địa chỉ", value: [] },
-    { feature: "job", title: "Công việc", value: [] },
+    { featureId: -1, featureName: "Độ tuổi", value: [] },
+    { featureId: -2, featureName: "Giới tính", value: [] },
+    // { featureId: -3, featureName: "Địa chỉ", value: [] },
+    // { featureId: -4, featureName: "Công việc", value: [] },
   ]
 
   extend = false;
   faSpinner = faSpinner;
 
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
     private router: Router,
     private imageService: ImageService
-  ) { 
+  ) {
     this.authenticationService.userInfoObservable
-	    .subscribe(user => this.userInfo = user)
+      .subscribe(user => this.userInfo = user)
   }
 
-  items = [];
+  items: IHashTag[] = new Array();
 
   Loading = false;
   heightBody: number;
@@ -68,12 +68,24 @@ export class FilterFriendsComponent implements OnInit {
   private mappingProfileData(data: ProfileData) {
 
     var n = 0;
-    this.filterSet[n++].value = data.ageGroup;
-    this.filterSet[n++].value = ['Nam', "Nữ"];
+    var ageGroups = [];
+    var j = 0;
+    data.ageGroup.forEach(element => {
+      ageGroups.push({ valueId: j++, valueName: element.replace(/_/g, " ") });
+    });
+
+    this.filterSet[n++].value = ageGroups;
+    this.filterSet[n++].value = [{ valueId: 1, valueName: 'Nam', }, { valueId: 0, valueName: "Nữ" }];
 
     data.features.forEach(item => {
-      this.filterSet.push({feature:item.id.toString(), title: item.name, value: item.featureDetails});
+      let details = [];
+      item.featureDetails.forEach(element => {
+        details.push({ valueId: element.id, valueName: element.content });
+      });
+      this.filterSet.push({ featureId: item.id, featureName: item.name, value: details });
     });
+
+    console.log(this.filterSet);
     // this.filterSet[2].value = data.location;
     // this.filterSet[3].value = data.job;
   }
@@ -84,43 +96,54 @@ export class FilterFriendsComponent implements OnInit {
     tagInputRemove.setAttribute('disable', 'true');
   }
 
-  setStatusValue = (e, feature, title, value) => {
+  setStatusValue = (e, featureId, featureName, valueId, valueName) => {
+    console.log(e)
+    console.log(featureId)
+    console.log(featureName);
+
+    console.log(valueId)
+    console.log(valueName);
+
     var target = e.target
     if (target.className != 'btn fa active-btn') {
       target.className = 'btn fa active-btn';
+
       var newHashTag = {
-        feature: feature,
-        display: value,
-        title: title,
-        // readonly: true
-      }
+        feature: featureName,
+        display: valueName,
+        title: featureName,
+        valueId: valueId,
+        valueName: valueName,
+        featureId: featureId,
+        featureName: featureName
+
+      } as IHashTag;
+
       this.items.push(newHashTag)
+      console.log(this.items);
     } else {
       target.className = 'btn fa';
       this.items.forEach((element, index) => {
-        if (element.title == title && element.display == value) {
+        if (element.feature == featureName && element.display == valueName) {
           this.items.splice(index, 1)
         }
       });
     }
-    console.log(this.items)
+    //console.log(this.items)
     setTimeout(() => this.changeHeight(), 10)
   }
 
   deleteHashTag = (e) => {
-    var itemRemove = <HTMLElement>document.getElementById(`${e.title}_${e.display}`)
+    var itemRemove = <HTMLElement>document.getElementById(`${e.featureId}_${e.valueId}`)
     itemRemove.className = 'btn fa';
     setTimeout(() => this.changeHeight(), 10)
   }
 
   changeHeight = () => {
     var heightFilter = <HTMLElement>document.getElementsByClassName('col-8 col-xl-8 col-md-8 filterblock')[0]
-    //console.log(heightFilter.clientHeight)
     this.heightBody = 250 + heightFilter.clientHeight - 100;
     var heightContentUsers = <HTMLElement>document.getElementById('contentUsers');
-    //console.log(this.heightBody)
     heightContentUsers.style.top = String(`${this.heightBody}px`)
-    //console.log(heightContentUsers.style.top)
   }
   changeExtend = () => {
     this.extend = !this.extend
@@ -158,7 +181,6 @@ export class FilterFriendsComponent implements OnInit {
   }
   updatePagingNumber(page: number) {
 
-    //console.log(this.UserPage.total)
     this.UserPage.index = page;
     if (page == 1) {
       this.UserPage.position = 1;
@@ -236,6 +258,7 @@ export class FilterFriendsComponent implements OnInit {
   onFilter() {
     this.updatePagingNumber(1);
     this.Loading = true;
+
     this.usersService.FilterFeatures(this.items, this.UserPage.index, this.UserPage.size)
       .then(response => {
         this.Users = response.data;
@@ -245,4 +268,14 @@ export class FilterFriendsComponent implements OnInit {
       })
       .catch(error => console.log(error))
   }
+}
+
+export interface IHashTag {
+  feature: number,
+  display: number,
+  title: string,
+  valueId: number,
+  valueName: string,
+  featureId: number,
+  featureName: string
 }

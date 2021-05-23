@@ -7,13 +7,6 @@
                 <span class="span-150"></span>
                 <span class="span-50"></span>
                 <span class="span-50"></span>
-                <!-- <span class="span-75"></span>
-                <span class="span-100"></span>
-                <span class="span-75"></span>
-                <span class="span-50"></span>
-                <span class="span-100"></span>
-                <span class="span-50"></span>
-                <span class="span-100"></span> -->
             </div>
         </section>
     </div>
@@ -23,24 +16,29 @@
                 <div class="labelBlack"></div>
                 <div class="d-flex flex-row filter align-items-center">
                     <h4>Bộ lọc</h4>
-                    <tag-input [(ngModel)]='items' class="ml-5" (onRemove)="deleteHashTag($event)" theme='dark'></tag-input>
+                    <tag-input [(ngModel)]='items' class="ml-5" (onRemove)="deleteHashTag($event)" theme='dark'>
+                    </tag-input>
                 </div>
             </div>
             <div class="d-flex flex-row col-12" style="padding: 0%;">
                 <div class="filter">
                     <div *ngFor="let item of filterSet; let i=index" class="d-flex flex-row align-items-center pl-2">
-                        <p *ngIf="i < 4" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">{{item.title}}
+                        <p *ngIf="i < 4" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%; min-width: 130px;">{{item.featureName}}
                         </p>
                         <ul *ngIf="i < 4" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue.content == null ? itemValue : itemValue.content}}</div>
+                                <div id="{{item.featureId}}_{{itemValue.valueId}}" class="btn fa"
+                                    (click)="setStatusValue($event , item.featureId, item.featureName ,itemValue.valueId, itemValue.valueName)">
+                                    {{itemValue.valueName}}</div>
                             </li>
                         </ul>
-                        <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%;">
-                            {{item.title}}</p>
+                        <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%; min-width: 130px;">
+                            {{item.featureName}}</p>
                         <ul *ngIf="i >= 4 && extend" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
-                                <div id="{{item.title}}_{{itemValue}}" class="btn fa" (click)="setStatusValue($event , item.feature, item.title , itemValue)">{{itemValue.content}}</div>
+                                <div id="{{item.featureId}}_{{itemValue.valueId}}" class="btn fa"
+                                    (click)="setStatusValue($event , item.featureId, item.featureName ,itemValue.valueId, itemValue.valueName)">
+                                    {{itemValue.valueName}}</div>
                             </li>
                         </ul>
                     </div>
@@ -53,20 +51,19 @@
             </div>
         </div>
     </div>
-    <div id="contentUsers" class="col-lg-12 col-xl-12 col-md-12 col-12 pl-5 pr-5"
-        style="position: absolute;">
+    <div id="contentUsers" class="col-lg-12 col-xl-12 col-md-12 col-12 pl-5 pr-5" style="position: absolute;">
         <div *ngIf="Loading" style="text-align: center">
-                    
-            <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon> 
+
+            <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon>
             <p>Đang tìm bạn bè...</p>
-          </div>
+        </div>
         <div *ngIf="!Loading" class="card-deck">
             <div *ngFor="let item of Users; let i = index" class="col-xl-2 col-lg-3 col-md-4 col-6 animate-bottom"
                 style="flex: none; margin-left: 25px; margin-right: 15px; margin-bottom: 15px; padding: 0;">
                 <div class="card">
                     <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
 
-                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img 
+                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img
                                 class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
                     </div>
                     <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
@@ -123,7 +120,7 @@
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a (click)="previousPage()" class="page-link"  tabindex="-1">
+                        <a (click)="previousPage()" class="page-link" tabindex="-1">
                             <i class="fa fa-angle-left"></i>
                             <span class="sr-only">Previous</span>
                         </a>

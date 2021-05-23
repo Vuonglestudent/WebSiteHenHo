@@ -116,10 +116,6 @@ export class ScanAroundComponent implements OnInit, AfterViewInit {
         this.isSearch = false;
         alert(err);
       })
-
-
-
-
   }
 
   onMore() {
