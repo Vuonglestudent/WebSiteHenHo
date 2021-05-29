@@ -32,9 +32,21 @@ export class UsersService {
     position: 1
   };
   public IsGetSimilarityUsers = false;
-  public imageUsers: ImageUser[] = new Array();
+  //public imageUsers: ImageUser[] = new Array();
 
+  public SearchFriendByName(name: string) {
+    let headers = this.authenticationService.GetHeader();
+    var path = `/friends?name=${name}`;
 
+    return this.http.get<any>(this.mainUrl + path, { headers: headers });
+  }
+
+  public GetDisplayUserById(userId: string) {
+    let headers = this.authenticationService.GetHeader();
+    var path = `/display/${userId}`;
+
+    return this.http.get<any>(this.mainUrl + path, { headers: headers }).toPromise();
+  }
 
   public GetPagingUsers = (pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
@@ -108,12 +120,6 @@ export class UsersService {
     return this.http.get<any>(this.mainUrl + path, { headers: headers }).toPromise();
   }
 
-  public GetDisplayUser = (userId: string) => {
-    let headers = this.authenticationService.GetHeader();
-    var path = `/display/${userId}`;
-
-    return this.http.get<any>(this.mainUrl + path, { headers: headers }).toPromise();
-  }
 
   public ProfileData: ProfileData = new ProfileData();
   public GetProfileData = () => {

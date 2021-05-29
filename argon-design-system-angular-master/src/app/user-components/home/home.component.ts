@@ -1,13 +1,13 @@
 import { SignalRService } from 'src/app/shared/service/signal-r.service';
 import { ImageService } from '../../shared/service/image.service';
-import { ImageUser, User, News, IUserInfo } from '../../models/models';
+import { ImageUser, User, News, IUserInfo, IUser, Image } from '../../models/models';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../shared/service/users.service';
 import { AlertService } from '../../shared/_alert';
 import { AuthenticationService } from '../../shared/service/authentication.service';
 import { fadeInAnimation } from '../../shared/_animates/animates';
-import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -20,20 +20,27 @@ import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-
 
 export class HomeComponent implements OnInit {
 
+    pageIndex = 1;
     @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
 
         var element = document.getElementById('fixed-content-id');
-        if(element){
-            if(window.pageYOffset > 1000){
+        if (element) {
+            if (window.pageYOffset > 1000) {
                 element.classList.add('fixed-content');
             }
-            else{
+            else {
                 element.classList.remove('fixed-content');
             }
+
+
+            if (window.pageYOffset > (1400 * this.pageIndex)) {
+                if (!this.isViewImage) {
+                    this.nextPage();
+                }
+            }
         }
-
     }
-
+    numbers = Array(100).fill(0);
     userInfo: IUserInfo;
     isViewFriend = false;
     onlineCount: number = 0;
@@ -48,10 +55,10 @@ export class HomeComponent implements OnInit {
         this.authenticationService.userInfoObservable
             .subscribe(user => {
                 this.userInfo = user;
-                if(this.userInfo != undefined){
+                if (this.userInfo != undefined) {
                     this.isViewFriend = true;
                 }
-                else{
+                else {
                     this.isViewFriend = false;
                     this.onActivate();
                 }
@@ -62,11 +69,19 @@ export class HomeComponent implements OnInit {
     }
 
     faSpinner = faSpinner;
+    faSyncAlt = faSyncAlt;
+
 
     options = {
         autoClose: false,
         keepAfterRouteChange: false
     };
+
+    options2 = {
+        autoClose: true,
+        keepAfterRouteChange: false
+    };
+
 
     files: File[] = [];
 
@@ -77,18 +92,14 @@ export class HomeComponent implements OnInit {
     // LoadImageUser
 
     PageIndexImage = 1;
-    PageSizeImage = 10;
+    PageSizeImage = 5;
     //
-    clickSeenImageUser
     Loading = false;
     clickSeenImage = 0;
     ngOnInit() {
-        this.updatePagingNumber(this.usersService.FavoritePage.index);
+        //this.updatePagingNumber(this.usersService.FavoritePage.index);
 
         if (this.userInfo != null) {
-            console.log('user info khác null')
-            console.log(this.usersService.IsGetSimilarityUsers);
-            console.log(this.usersService.Favoritors.length)
             if (this.usersService.Favoritors.length == 0 || !this.usersService.IsGetSimilarityUsers) {
                 this.getSimilarUSer(false);
                 this.usersService.IsGetSimilarityUsers = true;
@@ -110,10 +121,33 @@ export class HomeComponent implements OnInit {
                 })
         }
         this.LoadFilterData();
+
+    }
+
+    reload() {
+        this.isFilter = false;
+        this.noMore = false;
+        this.noMoreImage = false;
+        this.usersService.Favoritors = new Array();
+        this.usersService.FavoritePage.index = 1;
+        this.pageIndex = 1;
+
         if (this.userInfo != null) {
+            this.getSimilarUSer(false);
+            this.usersService.IsGetSimilarityUsers = true;
+        }
+        else {
+            this.getFavoritors();
+        }
+    }
+
+    loadNewImages(){
+        if (this.userInfo != null) {
+            this.isViewImage = true;
             this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
         }
     }
+
 
     onSeeMoreImage = () => {
         this.PageIndexImage += 1;
@@ -127,28 +161,21 @@ export class HomeComponent implements OnInit {
         gender: '',
 
     }
+
+    noMore = false;
     getSimilarUSer = (filter: boolean) => {
         this.Loading = true;
         this.usersService.GetSimilarUSer(this.userInfo.id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
             .then(response => {
                 this.Loading = false;
-                this.usersService.Favoritors = response.data;
+                this.usersService.Favoritors = this.usersService.Favoritors.concat(response.data);
                 this.usersService.FavoritePage.total = response.pageTotal;
 
-                this.usersService.imageUsers = new Array();
-                this.usersService.Favoritors.forEach(element => {
-                    this.imageService.getImageByUserId(element.id)
-                        .then(data => {
-                            const imageUser = {} as ImageUser
-                            imageUser.id = element.id;
-                            imageUser.images = data;
-                            this.usersService.imageUsers.push(imageUser)
-                        })
-                        .catch(error => {
-                            this.alertService.clear();
-                            this.alertService.error("Có lỗi khi tải hình ảnh!");
-                        })
-                });
+                if (response.data.length === 0) {
+                    this.noMore = true;
+                    this.alertService.warn("Bạn đã đến trang cuối...", this.options2);
+                    return;
+                }
             })
             .catch(error => console.log(error))
 
@@ -162,16 +189,10 @@ export class HomeComponent implements OnInit {
                 this.usersService.Favoritors = response.data;
                 this.usersService.FavoritePage.total = response.pageTotal;
 
-                console.log("Người yêu thích nhiều")
-                console.log(this.usersService.Favoritors);
-
                 this.usersService.Favoritors.forEach(element => {
                     this.imageService.getImageByUserId(element.id)
                         .then(data => {
-                            const imageUser = {} as ImageUser
-                            imageUser.id = element.id;
-                            imageUser.images = data;
-                            this.usersService.imageUsers.push(imageUser)
+                            this.usersService.Favoritors.filter(x => x.id == element.id)[0].images = data;
                         })
                         .catch(error => {
                             this.alertService.clear();
@@ -280,8 +301,71 @@ export class HomeComponent implements OnInit {
         image.click();
     }
 
-    debug = (id, index) => {
-        this.clickSeenImageUser = index
+    images: Image[] = new Array();
+
+
+
+    slideIndex = 1;
+
+
+
+    showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        var captionText = document.getElementById("caption");
+
+        if (n > slides.length) { this.slideIndex = 1 }
+
+        if (n < 1) { this.slideIndex = slides.length }
+
+        for (i = 0; i < slides.length; i++) {
+            slides[i].setAttribute("style", "display: none");
+        }
+
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+
+        console.log('slides');
+        console.log(slides);
+        console.log('dots');
+        console.log(dots);
+        console.log('slideIndex');
+        console.log(this.slideIndex);
+
+        console.log(slides[0]);
+
+        slides[this.slideIndex - 1].setAttribute("style", "display:block");
+        dots[this.slideIndex - 1].className += " active";
+        captionText.innerHTML = dots[this.slideIndex - 1].getAttribute("alt");
+    }
+
+    onViewImage = (user: User) => {
+        this.images = [];
+        this.imageService.getImageByUserId(user.id)
+            .then(data => {
+                //this.usersService.Favoritors.filter(x => x.id == user.id)[0].images = data;
+                this.images = data;
+                this.openModal();
+                setTimeout(() => {
+                    this.showSlides(1);
+                }, 5);
+            })
+            .catch(error => {
+                this.alertService.clear();
+                this.alertService.error("Có lỗi khi tải hình ảnh!");
+            })
+
+        console.log(user);
+
+    }
+    plusSlides(n) {
+        this.showSlides(this.slideIndex += n);
+    }
+
+    currentSlide(n) {
+        this.showSlides(this.slideIndex = n);
     }
 
     clickProfileUser = (id) => {
@@ -291,37 +375,17 @@ export class HomeComponent implements OnInit {
         }
         this.router.navigate(['/profile', id]);
     }
-
-    updateStateImage = () => {
-        var imageCurrent = <HTMLElement>document.getElementById(`clickFavoriteImage`).children[1]
-        var stateImageCurrent = <HTMLElement>document.getElementById(`img_${imageCurrent.id.split("_")[1]}`).children[Number(imageCurrent.id.split("_")[0])]
-
-        var liked = stateImageCurrent.id.split("_")[2]
-        if (liked === "true") {
-            this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = true;
-            this.imageService.likeImage(this.userInfo.id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
-                .then(data => {
-                    console.log(data);
-
-                })
-                .catch(error => {
-                    console.log('Khong like duoc hinh!');
-                })
-
-
-        } else {
-            this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].liked = false;
-            this.imageService.likeImage(this.userInfo.id, this.usersService.imageUsers[this.clickSeenImageUser].images[Number(imageCurrent.id.split("_")[0]) - 1].id)
-                .then(data => {
-                    console.log(data);
-
-                })
-                .catch(error => {
-                    console.log('Khong like duoc hinh!');
-                })
-        }
-        //console.log(this.usersService.imageUsers[this.clickSeenImageUser].images)
+    isShowImage = true;
+    openModal() {
+        document.getElementById("myModal").style.display = "block";
+        this.isShowImage = false;
     }
+
+    closeModal() {
+        document.getElementById("myModal").style.display = "none";
+        this.isShowImage = true;
+    }
+
 
     isFilter = false;
     paging(index: number) {
@@ -340,12 +404,15 @@ export class HomeComponent implements OnInit {
 
     }
     nextPage() {
-        if (this.usersService.FavoritePage.index == this.usersService.FavoritePage.total) {
-            return;
-        }
+        console.log('next page')
+        // if (this.usersService.FavoritePage.index == this.usersService.FavoritePage.total) {
+        //     console.log('return')
+        //     return;
+        // }
+
         this.updatePagingNumber(this.usersService.FavoritePage.index + 1);
         this.userInfo == undefined ? this.getFavoritors() : this.getSimilarUSer(this.isFilter);
-
+        this.pageIndex += 1;
     }
 
     filterData = {
@@ -381,7 +448,15 @@ export class HomeComponent implements OnInit {
             this.LoginRequired();
             return;
         }
+
+        if (!this.isFilter) {
+            this.usersService.Favoritors = new Array();
+            this.usersService.FavoritePage.index = 1;
+            this.pageIndex = 1;
+        }
+
         this.isFilter = true;
+        this.pageIndex = 1;
         this.getSimilarUSer(this.isFilter);
     }
 
@@ -389,7 +464,7 @@ export class HomeComponent implements OnInit {
         let scrollToTop = window.setInterval(() => {
             let pos = window.pageYOffset;
             if (pos > 0) {
-                window.scrollTo(0, pos - 20);
+                window.scrollTo(0, pos - 50);
             } else {
                 window.clearInterval(scrollToTop);
             }
@@ -408,13 +483,27 @@ export class HomeComponent implements OnInit {
     }
 
     NewImages: News[] = new Array();
+    noMoreImage = false;
     GetNewImages = (pageIndex: number, pageSize: number) => {
-        console.log(pageIndex)
+        if(this.noMoreImage){
+            return;
+        }
+
+        this.Loading = true;
         this.imageService.GetNewImages(pageIndex, pageSize)
             .then(response => {
+                this.Loading = false;
+
+                if (response.length == 0) {
+                    this.noMoreImage = true;
+                    this.alertService.warn("Bạn đã đến trang cuối...", this.options2);
+                }
                 this.NewImages = this.NewImages.concat(response);
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                this.Loading = false;
+                console.log(err);
+            })
     }
 
     onLikeImage = (imageId, index) => {
@@ -453,6 +542,8 @@ export class HomeComponent implements OnInit {
         this.blockUserId = userId;
         console.log(this.blockName + this.blockUserId)
     }
+
+    isViewImage = false;
 
     ImageTitle = "";
     uploading = false;

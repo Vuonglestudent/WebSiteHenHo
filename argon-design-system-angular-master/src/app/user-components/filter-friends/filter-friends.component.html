@@ -10,7 +10,7 @@
             </div>
         </section>
     </div>
-    <div class="container">
+    <div class="max-width">
         <div class="col-8 col-xl-8 col-md-8 filterblock">
             <div class="d-flex flex-row col-12" style="padding: 0%;">
                 <div class="labelBlack"></div>
@@ -23,7 +23,8 @@
             <div class="d-flex flex-row col-12" style="padding: 0%;">
                 <div class="filter">
                     <div *ngFor="let item of filterSet; let i=index" class="d-flex flex-row align-items-center pl-2">
-                        <p *ngIf="i < 4" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%; min-width: 130px;">{{item.featureName}}
+                        <p *ngIf="i < 4" class="col-xl-1 col-lg-1 col-md-2 col-3"
+                            style="padding: 0%; min-width: 130px;">{{item.featureName}}
                         </p>
                         <ul *ngIf="i < 4" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
@@ -32,7 +33,8 @@
                                     {{itemValue.valueName}}</div>
                             </li>
                         </ul>
-                        <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3" style="padding: 0%; min-width: 130px;">
+                        <p *ngIf="i >= 4 && extend" class="col-xl-1 col-lg-1 col-md-2 col-3"
+                            style="padding: 0%; min-width: 130px;">
                             {{item.featureName}}</p>
                         <ul *ngIf="i >= 4 && extend" class="col-xl-11 col-lg-11 col-md-10 col-9 nav align-items-center">
                             <li *ngFor="let itemValue of filterSet[i].value" class="nav-item">
@@ -52,102 +54,48 @@
         </div>
     </div>
     <div id="contentUsers" class="col-lg-12 col-xl-12 col-md-12 col-12 pl-5 pr-5" style="position: absolute;">
+
+
+        <div class='d-flex justify-content-center'>
+            <div class="friend-container">
+                <div *ngIf="Users.length == 0" style="width: 100%;">
+                    <h4 class="text-warning text-center">Không tìm thấy người dùng phù hợp</h4>
+                </div>
+                <div *ngFor="let item of Users; let i = index" class="card-container animate-bottom">
+                    <div class="card person-card">
+                        <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
+                            <a class="image-container" (click)="clickProfileUser(item.id)"><img
+                                    class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="summary" (click)="clickProfileUser(item.id)">
+                                <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
+                                    <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
+                                        {{item.fullName}}
+                                    </h6>
+                                </a>
+                                <p class="card-text limit-text"
+                                    style="line-height: 100%; cursor: pointer; margin-bottom: 0;"><small
+                                        class="text-muted">{{item.summary}}</small></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div *ngIf="Loading" style="text-align: center">
 
             <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon>
             <p>Đang tìm bạn bè...</p>
         </div>
-        <div *ngIf="!Loading" class="card-deck">
-            <div *ngFor="let item of Users; let i = index" class="col-xl-2 col-lg-3 col-md-4 col-6 animate-bottom"
-                style="flex: none; margin-left: 25px; margin-right: 15px; margin-bottom: 15px; padding: 0;">
-                <div class="card">
-                    <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
 
-                        <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img
-                                class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
-                    </div>
-                    <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                        <div style="height: 90px;" (click)="clickProfileUser(item.id)">
-                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
-                                <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
-                                    {{item.fullName}}
-                                </h6>
-                            </a>
-                            <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
-                                    class="text-muted">{{item.summary}}</small></p>
-                        </div>
-                        <div class="d-flex">
-                            <div>
-                                <button class="btn-icon-card icon-hover">
-                                    <a *ngIf="item.favorited == true" style="cursor: pointer"
-                                        (click)="Favorite(item.id, $event)"><i
-                                            class="ni ni-favourite-28 text-danger"><span><small class="text-dark"
-                                                    style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
-                                    <a *ngIf="item.favorited == false" style="cursor: pointer"
-                                        (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28"><span><small
-                                                    style="font-size: 60%;">{{item.numberOfFavoritors}}</small></span></i></a>
-                                </button>
-                            </div>
-                            <div class="flex-grow-1 ml-2">
-                                <button class="btn-icon-card icon-hover">
-                                    <i class="ni ni-chat-round " style="cursor: pointer;"><span><small class="text-dark"
-                                                style="font-size: 60%; margin-left: 1px; "></small></span></i>
-                                </button>
-                            </div>
-                            <div *ngFor="let itemImage of imageUsers; let z = index">
-                                <button *ngIf="item.id == itemImage.id" class="btn-icon-card icon-hover"
-                                    id="img_{{itemImage.id}}" onclick="selectImage(id)">
-                                    <i class="ni ni-camera-compact" style="cursor: pointer">
-                                        <span><small class="text-dark"
-                                                style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
-                                        </span>
-                                    </i>
-                                    <img *ngFor="let image of imageUsers[z].images; let j = index"
-                                        id="img_{{j + 1}}_{{image.liked}}_{{imageUsers[z].images.length}}_{{item.id}}"
-                                        display="true" hidden="true" src="" alt="{{image.imagePath}}">
-                                    <!-- <img *ngFor="let item of imageUsers; let i = index" display="true" hidden="true"
-                          id="img_{{i + 1}}" src="" alt="{{item.imagePath}}"> -->
-                                    <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="!Loading" class="d-flex justify-content-end pl-5 pr-5"
-            style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a (click)="previousPage()" class="page-link" tabindex="-1">
-                            <i class="fa fa-angle-left"></i>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li *ngIf="UserPage.position==1" (click)="paging(UserPage.current - 1)" class="page-item active"><a
-                            class="page-link" href="javascript:;">{{UserPage.current - 1}}</a></li>
-                    <li *ngIf="UserPage.position!=1" (click)="paging(UserPage.current - 1)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{UserPage.current - 1}}</a></li>
+        <div *ngIf="!Loading" class="d-flex justify-content-center see-more">
+            <button (click)="nextPage()" class="btn btn-primary">Xem thêm</button>
 
-                    <li *ngIf="UserPage.position==2" (click)="paging(UserPage.current)" class="page-item active"><a
-                            class="page-link" href="javascript:;">{{UserPage.current}}</a>
-                    </li>
-                    <li *ngIf="UserPage.position!=2" (click)="paging(UserPage.current)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{UserPage.current}}</a></li>
-
-                    <li *ngIf="UserPage.position==3" (click)="paging(UserPage.current + 1)" class="page-item active"><a
-                            class="page-link" href="javascript:;">{{UserPage.current + 1}}</a></li>
-                    <li *ngIf="UserPage.position!=3" (click)="paging(UserPage.current + 1)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{UserPage.current + 1}}</a></li>
-                    <li class="page-item">
-                        <a (click)="nextPage()" class="page-link">
-                            <i class="fa fa-angle-right"></i>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
+
 </main>

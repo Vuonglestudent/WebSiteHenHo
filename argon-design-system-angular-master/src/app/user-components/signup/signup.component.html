@@ -43,14 +43,14 @@
               </div>
 
 
-              <form role="form" #SignUp="ngForm">
+              <form role="form">
 
                 <div class="form-group" >
                   <div class="input-group input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input matInput name="Email" class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
+                    <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
                   </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input matInput name="FullName" class="form-control" placeholder="Full Name" type="text" (focus)="focus=true" (blur)="focus=false">
+                    <input [(ngModel)]="fullName" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Full Name" type="text" (focus)="focus=true" (blur)="focus=false">
                   </div>
                 </div>
 
@@ -69,7 +69,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="Password" class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
+                    <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
                   </div>
                 </div>
 
@@ -78,7 +78,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input matInput name="ConfirmPassword" class="form-control" placeholder="Confirm Password" type="password" >
+                    <input [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Confirm Password" type="password" >
                   </div>
                 </div>
                 <div class="text-muted font-italic">
@@ -99,12 +99,12 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <button *ngIf="Loading" (click)="onSubmit(SignUp)" type="button" class="btn btn-primary mt-4">
+                  <button *ngIf="Loading" type="button" class="btn btn-primary mt-4">
                     <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                     Loading...
                     </button>
 
-                    <button *ngIf="!Loading" (click)="onSubmit(SignUp)" type="button" class="btn btn-primary mt-4">
+                    <button *ngIf="!Loading" (click)="onSubmit()" type="button" class="btn btn-primary mt-4">
                       <fa-icon size="1x" [icon]="faCheck"></fa-icon>
                       Create account
                       </button>

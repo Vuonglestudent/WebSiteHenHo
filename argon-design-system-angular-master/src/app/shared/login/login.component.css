@@ -1,15 +1,22 @@
-.name{
+.name {
     margin-top: 10%;
     margin-left: 2%;
 }
-.avatar{
+
+.avatar {
     width: 100px;
     height: 100px;
 }
+
 .animate-bottom {
     position: relative;
     -webkit-animation-name: animatebottom;
     -webkit-animation-duration: 1s;
     animation-name: animatebottom;
     animation-duration: 1s
-  }
+}
+
+section{
+    padding-top: 10%;
+    padding-bottom: 10%;
+}

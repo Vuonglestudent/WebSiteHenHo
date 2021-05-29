@@ -102,11 +102,22 @@ export class NavbarComponent implements OnInit {
     }
     loadingNotification = false;
 
+    isNoMore = false;
+    options = {
+        autoClose: true,
+        keepAfterRouteChange: false
+    };
     onMoreNotifications() {
         this.loadingNotification = true;
         this.notificationUserService.pageIndex += 1;
         this.notificationUserService.GetNotification(this.userInfo.id, this.notificationUserService.pageIndex, this.notificationUserService.pageSize)
             .then(data => {
+                if (data.length == 0) {
+                    this.alertService.warn("Không còn thông báo nào", this.options);
+                    this.isNoMore = true;
+                    return;
+                }
+
                 this.loadingNotification = false;
                 this.notificationUserService.Notification = this.notificationUserService.Notification.concat(data);
                 this.notificationUserService.Notification.forEach(element => {

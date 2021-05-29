@@ -1,3 +1,4 @@
+import { AlertService } from './../../shared/_alert/alert.service';
 import { IUserInfo } from './../../models/models';
 import { ImageService } from '../../shared/service/image.service';
 import { Router } from '@angular/router';
@@ -26,6 +27,11 @@ export class FilterFriendsComponent implements OnInit {
     // { featureId: -4, featureName: "Công việc", value: [] },
   ]
 
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+  };
+
   extend = false;
   faSpinner = faSpinner;
 
@@ -34,7 +40,7 @@ export class FilterFriendsComponent implements OnInit {
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private imageService: ImageService
+    private alertService: AlertService
   ) {
     this.authenticationService.userInfoObservable
       .subscribe(user => this.userInfo = user)
@@ -47,7 +53,7 @@ export class FilterFriendsComponent implements OnInit {
   Users: User[] = new Array();
   UserPage: any = {
     index: 1,
-    size: 15,
+    size: 16,
     total: 0,
     current: 1,
     position: 1
@@ -85,9 +91,6 @@ export class FilterFriendsComponent implements OnInit {
       this.filterSet.push({ featureId: item.id, featureName: item.name, value: details });
     });
 
-    console.log(this.filterSet);
-    // this.filterSet[2].value = data.location;
-    // this.filterSet[3].value = data.job;
   }
 
   ngAfterViewInit(): void {
@@ -97,12 +100,6 @@ export class FilterFriendsComponent implements OnInit {
   }
 
   setStatusValue = (e, featureId, featureName, valueId, valueName) => {
-    console.log(e)
-    console.log(featureId)
-    console.log(featureName);
-
-    console.log(valueId)
-    console.log(valueName);
 
     var target = e.target
     if (target.className != 'btn fa active-btn') {
@@ -120,7 +117,6 @@ export class FilterFriendsComponent implements OnInit {
       } as IHashTag;
 
       this.items.push(newHashTag)
-      console.log(this.items);
     } else {
       target.className = 'btn fa';
       this.items.forEach((element, index) => {
@@ -129,7 +125,6 @@ export class FilterFriendsComponent implements OnInit {
         }
       });
     }
-    //console.log(this.items)
     setTimeout(() => this.changeHeight(), 10)
   }
 
@@ -155,27 +150,14 @@ export class FilterFriendsComponent implements OnInit {
     this.usersService.FilterFeatures(this.items, this.UserPage.index, this.UserPage.size)
       .then(response => {
         this.Loading = false;
-        this.Users = response.data;
+        this.Users = this.Users.concat(response.data);
         this.UserPage.total = response.pageTotal;
 
-        this.Users.forEach(element => {
-          this.imageService.getImageByUserId(element.id)
-            .then(data => {
-              const imageUser = {} as ImageUser
-              imageUser.id = element.id;
-              imageUser.images = data;
-              this.imageUsers.push(imageUser)
-            })
-            .catch(error => {
-              // this.alertService.clear();
-              // this.alertService.error("Có lỗi khi tải hình ảnh!");
-            })
-        });
       })
       .catch(error => {
-        //this.Loading = false;
-        // this.alertService.clear();
-        // this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
+        this.Loading = false;
+        this.alertService.clear();
+        this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
       })
 
   }

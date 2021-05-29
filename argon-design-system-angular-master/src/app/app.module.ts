@@ -11,7 +11,7 @@ import { SignupComponent } from './user-components/signup/signup.component';
 import { ProfileComponent } from './user-components/profile/profile.component';
 import { HomeComponent } from './user-components/home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
-import { FooterComponent } from './shared/footer/footer.component';
+import { FooterComponent } from './shared/login/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 //import { HomeModule } from './home/home.module';
 import { LoginComponent } from './shared/login/login.component';
@@ -112,12 +112,12 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
       useValue: {
         autoLogin: false,
         providers: [
-          // {
-          //   id: GoogleLoginProvider.PROVIDER_ID,
-          //   provider: new GoogleLoginProvider(
-          //     '353461452701978'
-          //   ),
-          // },
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '69021656425-3238qs2ns69t2q5510279m7nj72drf08.apps.googleusercontent.com'
+            ),
+          },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider('353461452701978'),

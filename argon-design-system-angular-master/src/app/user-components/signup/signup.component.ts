@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {AuthenticationService} from '../../shared/service/authentication.service';
-import { faSpinner, faCheck} from '@fortawesome/free-solid-svg-icons';
-import {Router} from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { AuthenticationService } from '../../shared/service/authentication.service';
+import { faSpinner, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 import { AlertService } from '../../shared/_alert';
 import { slideInOutAnimation } from '../../shared/_animates/animates';
 @Component({
@@ -10,14 +10,14 @@ import { slideInOutAnimation } from '../../shared/_animates/animates';
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.scss'],
     animations: [slideInOutAnimation],
-    
+
     // attach the slide in/out animation to the host (root) element of this component
     host: { '[@slideInOutAnimation]': '' },
 })
 export class SignupComponent implements OnInit {
     constructor(
-        private authenticationService : AuthenticationService,
-        private router:Router,
+        private authenticationService: AuthenticationService,
+        private router: Router,
         protected alertService: AlertService
     ) { }
 
@@ -26,7 +26,7 @@ export class SignupComponent implements OnInit {
         keepAfterRouteChange: false
     };
 
-    test : Date = new Date();
+    test: Date = new Date();
     focus;
     focus1;
     focus2;
@@ -35,30 +35,36 @@ export class SignupComponent implements OnInit {
     faSpinner = faSpinner;
     faCheck = faCheck;
     //
-    
+
 
     Loading = false;
 
-    ngOnInit() {}
+    ngOnInit() { }
 
-    onSubmit(f: NgForm){
-        if(f.value.FullName == "" || f.value.Email == "" || f.value.Password == "" || f.value.ConfirmPassword == "" || f.value.UserName == ""){
-          this.alertService.warn("Vui lòng nhập đầy đủ thông tin!", this.options);
-          return;
+    email: string = '';
+    fullName: string = '';
+    password: string = '';
+    confirmPassword: string = '';
+
+    onSubmit() {
+        console.log(this.email + this.fullName + this.password + this.confirmPassword);
+        if (this.fullName == "" || this.email == "" || this.password == "" || this.confirmPassword == "") {
+            this.alertService.warn("Vui lòng nhập đầy đủ thông tin!", this.options);
+            return;
         }
 
-        if(!this.validateEmail(f.value.Email)){
+        if (!this.validateEmail(this.email)) {
             this.alertService.warn("Email không hợp lệ, vui lòng nhập lại!", this.options);
             return;
         }
 
-        if(f.value.Password != f.value.ConfirmPassword){
+        if (this.password != this.confirmPassword) {
             this.alertService.warn("Xác nhận mật khẩu không chính xác!", this.options);
             return;
         }
         this.Loading = true;
-        this.authenticationService.SignUp(f.value.FullName, f.value.UserName, f.value.Email, f.value.Password)
-            .then(response =>{
+        this.authenticationService.SignUp(this.fullName, this.email, this.email, this.password)
+            .then(response => {
                 console.log(response);
                 this.Loading = false;
                 this.alertService.clear();
@@ -69,14 +75,17 @@ export class SignupComponent implements OnInit {
 
                 }, 5000);
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log(error);
                 this.alertService.error(error.error.message, this.options);
                 this.Loading = false;
             })
-      }
+    }
     validateEmail(email) {
+        console.log(email);
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+        var mail = re.test(String(email).toLowerCase());
+        console.log(mail);
+        return mail;
     }
 }

@@ -37,7 +37,7 @@ function getArrayImageAndState(id) {
   }
 }
 
-function getNumberLikeImage(id){
+function getNumberLikeImage(id) {
   lengthArrayImage = document.getElementById(id).children[1].id.split("_")[3];
   var i;
   for (i = 1; i <= Number(lengthArrayImage); i++) {
@@ -58,24 +58,11 @@ function popImage(img) {
   checkPath = imgContent.split(".")[imgContent.split(".").length - 1];
   document.getElementById("imagePopId").style.display = "block";
   document.getElementsByTagName("body")[0].style.overflowY = "hidden";
-  if (
-    checkPath == "jpg" ||
-    checkPath == "JPG" ||
-    checkPath == "png" ||
-    checkPath == "PNG"
-  ) {
-    document.getElementById(
-      "imageContainId"
-    ).style.background = `url(${imgContent})`;
-  } else {
-    document.getElementById(
-      "imageContainId"
-    ).style.background = `url(data:image/png;base64,${imgContent.replace(
-      "http://localhost:4200",
-      ""
-    )})`;
-  }
-  console.log(childId.id);
+
+  document.getElementById(
+    "imageContainId"
+  ).style.background = `url(${imgContent})`;
+
   childId.id = `${idImgCurrent}_${idUser}`;
   document.getElementById("clickFavoriteImage").append(childId);
   checkStateImage();
@@ -112,7 +99,7 @@ function imagePopNone() {
 }
 
 function checkStateImage() {
-  document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
+  //document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
   if (arrayFavoriteImageUser[Number(idImgCurrent) - 1].state == "true") {
     idFavorite.className = "ni ni-favourite-28 text-danger";
   } else {
@@ -148,14 +135,13 @@ function favoriteImage(event) {
 
   updateStateHTML = document.getElementById(`img_${idUser}`).children;
   // arrayFavoriteImageUser.forEach((element) => {
-    updateStateHTML[Number(idImgCurrent)].id = `img_${arrayFavoriteImageUser[Number(idImgCurrent)-1].img}_${
-      arrayFavoriteImageUser[Number(idImgCurrent)-1].state
+  updateStateHTML[Number(idImgCurrent)].id = `img_${arrayFavoriteImageUser[Number(idImgCurrent) - 1].img}_${arrayFavoriteImageUser[Number(idImgCurrent) - 1].state
     }_${Number(lengthArrayImage)}`;
   // });
 }
 
 function updateStateImage() {
-  document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
+  //document.getElementById('numberFavoriteImage').innerText = arrayNumberImageFavorite[Number(idImgCurrent) - 1].numberLike
   if (arrayFavoriteImageUser[Number(idImgCurrent) - 1].state === "true") {
     arrayFavoriteImageUser[Number(idImgCurrent) - 1].state = "false";
   } else {

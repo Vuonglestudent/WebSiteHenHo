@@ -19,6 +19,7 @@ import { ChangePasswordComponent } from './user-components/change-password/chang
 import {FeatureManagerComponent} from './admin-components/feature-manager/feature-manager.component';
 import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
 import { VideoCallComponent } from './user-components/video-call/video-call.component';
+import { TestComponent } from './user-components/test/test.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'facebooklogin', component: FacebookLoginComponent },
   { path: 'friendlist', component: FriendListComponent },
   { path: 'changepassword', component: ChangePasswordComponent },
-  //{ path: 'test', component: SeenImageComponent },
+  { path: 'test', component: TestComponent },
   { path: 'filterfriends' , component: FilterFriendsComponent},
   { path: 'statistic' , component: StatisticComponent},
   { path: 'manager-user' , component: ManagerUserComponent},

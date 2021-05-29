@@ -101,18 +101,24 @@ export class AuthenticationService {
     return this.http.post<any>(this.mainUrl + path, data).toPromise();
   }
 
-  public FacebookLogin = (facebookAccount: SocialUser) => {
-    var path = '/facebook';
-    var str = facebookAccount.photoUrl;
-
-    var re = /normal/gi;
-
-    // Use of String replace() Method 
-    var newstr = str.replace(re, "large");
+  public FacebookLogin = (account: SocialUser) => {
+    var path = '/social';
     var data = new FormData();
-    data.append("Email", facebookAccount.email);
-    data.append("FullName", facebookAccount.name);
-    data.append("Avatar", newstr);
+    var str = account.photoUrl;
+
+    if(account.provider == "FACEBOOK"){
+      var re = /normal/gi;
+      var newStr = str.replace(re, "large");
+      data.append("Avatar", newStr);
+    }
+    else{
+      data.append("Avatar", str);
+    }
+    
+    data.append("Email", account.email);
+    data.append("FullName", account.name);
+    data.append("Provider", account.provider);
+    
 
     return this.http.post<any>(this.mainUrl + path, data).toPromise();
   }

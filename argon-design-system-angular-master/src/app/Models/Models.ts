@@ -48,6 +48,7 @@ export class ChatFriend {
     user: UserDisplay;
     messages: Message[];
     pageIndex: number;
+    isClicked: boolean;
 }
 
 export class FeatureDetail {
@@ -135,6 +136,7 @@ export class User {
     searchFeatures: FeatureVM[];
 
     relationship: IRelationship;
+    images: Image[];
 }
 
 export class ImageScore {

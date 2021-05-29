@@ -218,6 +218,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.updating = true;
         var updateProfile = this.UserProfile;
         this.reReplaceCharacter(updateProfile);
+        console.log(updateProfile);
         this.usersService.UpdateProfile(updateProfile, this.Features, this.SearchFeatures)
             .then(data => {
                 this.updating = false;
@@ -367,7 +368,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.findAgeGroup = userProfile.findAgeGroup.replace(/ /g, "_");
     }
 
-
+    numbers = Array(100).fill(0);
     popMessage = false
     popTextAreaMessage = () => {
         this.popMessage = true;

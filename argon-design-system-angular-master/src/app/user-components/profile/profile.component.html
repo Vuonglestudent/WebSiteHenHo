@@ -1,3 +1,8 @@
+<div class="animation">
+  <div *ngFor="let i of numbers" class="circle-container">
+    <div class="circle"></div>
+  </div>
+</div>
 <main class="profile-page">
   <section class="section-profile-cover section-shaped my-0">
     <!-- Circles background -->
@@ -36,7 +41,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
+            <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center on-front">
               <div class="card-profile-actions py-4 mt-lg-0">
                 <button *ngIf="!checkUser && !UserProfile.followed" (click)="clickFollow()" class="btn btn-sm btn-info">
                   <i class="fa fa-users"></i>
@@ -154,7 +159,8 @@
                   </div>
 
                   <div class="have-relationship text-center">
-                    <h5 class="text-primary"><b>{{RelationshipType[relationship.relationshipType] | stringEnum}}</b></h5>
+                    <h5 class="text-primary"><b>{{RelationshipType[relationship.relationshipType] | stringEnum}}</b>
+                    </h5>
                     <h6 class="text-center font-weight-600"><i>với</i></h6>
                   </div>
 
@@ -316,33 +322,40 @@
                               <!--end-->
 
                               <div *ngIf="!editing" class="feature-item-edit">
-                                <div *ngFor="let item of Features" class="feature-item">
-                                  <input *ngIf="item.isSearchFeature" type="text" value="{{item.name}}"
-                                    class="form-control form-title text-center" readonly>
-                                  <input *ngIf="item.isSearchFeature" type="text" value="{{item.content}}"
-                                    class="form-control form-value" readonly>
+                                <div *ngFor="let item of Features">
+                                  <div *ngIf="item.isSearchFeature" class="feature-item-dynamic">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
+                                    <input type="text" value="{{item.content}}" class="form-control form-value"
+                                      readonly>
+                                  </div>
                                 </div>
+
 
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
-                                <div *ngFor="let item of Features; let i = index" class="feature-item">
-                                  <input *ngIf="item.isSearchFeature" type="text" value="{{item.name}}"
-                                    class="form-control form-title text-center" readonly>
 
+                                <div *ngFor="let item of Features; let i = index">
+                                  <div *ngIf="item.isSearchFeature" class="feature-item-dynamic-edit">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
 
-                                  <select (change)='onOptionsFeatureSelected($event, i)' *ngIf="item.isSearchFeature"
-                                    type="text" value="{{item.featureDetailId}}"
-                                    [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
-                                    class="form-control form-value" list="likeTechnologys">
+                                    <select (change)='onOptionsFeatureSelected($event, i)' type="text"
+                                      value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
+                                      list="likeTechnologys">
 
-                                    <option value="{{item.featureDetailId}}">{{item.content}}
-                                    </option>
-                                    <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                      {{value.content}}
-                                    </option>
-                                  </select>
+                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                      </option>
+                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
+                                        {{value.content}}
+                                      </option>
+                                    </select>
+                                  </div>
                                 </div>
+
+
                               </div>
 
                             </div>
@@ -357,32 +370,39 @@
 
                             <div class='content-tab'>
                               <div *ngIf="!editing" class="feature-item-edit">
-                                <div *ngFor="let item of Features" class="feature-item">
-                                  <input *ngIf="!item.isSearchFeature" type="text" value="{{item.name}}"
-                                    class="form-control form-title text-center" readonly>
-                                  <input *ngIf="!item.isSearchFeature" type="text" value="{{item.content}}"
-                                    class="form-control form-value" readonly>
+
+                                <div *ngFor="let item of Features">
+                                  <div *ngIf="!item.isSearchFeature" class="feature-item-dynamic">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
+                                    <input type="text" value="{{item.content}}" class="form-control form-value"
+                                      readonly>
+                                  </div>
                                 </div>
 
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
-                                <div *ngFor="let item of Features; let i = index" class="feature-item">
-                                  <input *ngIf="!item.isSearchFeature" type="text" value="{{item.name}}"
-                                    class="form-control form-title text-center" readonly>
 
-                                  <select (change)='onOptionsFeatureSelected($event, i)' *ngIf="!item.isSearchFeature"
-                                    type="text" value="{{item.featureDetailId}}"
-                                    [(ngModel)]="Features[i].featureDetailId" [ngModelOptions]="{standalone: true}"
-                                    class="form-control form-value" list="likeTechnologys">
+                                <div *ngFor="let item of Features; let i = index">
+                                  <div *ngIf="!item.isSearchFeature" class="feature-item-dynamic-edit">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
 
-                                    <option value="{{item.featureDetailId}}">{{item.content}}
-                                    </option>
-                                    <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                      {{value.content}}
-                                    </option>
-                                  </select>
+                                    <select (change)='onOptionsFeatureSelected($event, i)' type="text"
+                                      value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
+                                      list="likeTechnologys">
+
+                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                      </option>
+                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
+                                        {{value.content}}
+                                      </option>
+                                    </select>
+                                  </div>
                                 </div>
+
                               </div>
                             </div>
 
@@ -433,34 +453,44 @@
                               <!--end-->
 
                               <div *ngIf="!editing" class="feature-item-edit">
-                                <div *ngFor="let item of SearchFeatures" class="feature-item">
-                                  <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                    readonly>
-                                  <input type="text" value="{{item.content}}" class="form-control form-value" readonly>
+
+                                <div *ngFor="let item of SearchFeatures">
+                                  <div class="feature-item-dynamic">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
+                                    <input type="text" value="{{item.content}}" class="form-control form-value"
+                                      readonly>
+                                  </div>
+                                </div>
+
+
+
+                              </div>
+
+                              <div *ngIf="editing" class="feature-item-edit">
+
+                                <div *ngFor="let item of SearchFeatures; let i = index">
+                                  <div class="feature-item-dynamic-edit">
+                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
+                                      readonly>
+
+                                    <select (change)='onOptionsSearchFeatureSelected($event, i)' type="text"
+                                      value="{{item.featureDetailId}}" [(ngModel)]="SearchFeatures[i].featureDetailId"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
+                                      list="likeTechnologys">
+
+                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                      </option>
+                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
+                                        {{value.content}}
+                                      </option>
+                                    </select>
+                                  </div>
                                 </div>
 
                               </div>
+
                             </div>
-
-
-                            <div *ngIf="editing">
-                              <div *ngFor="let item of SearchFeatures; let i = index" class="d-flex flex-row">
-                                <input type="text" value="{{item.name}}"
-                                  class="form-control form-title text-center col-3" readonly>
-
-                                <select (change)='onOptionsSearchFeatureSelected($event, i)' type="text"
-                                  value="{{item.featureDetailId}}" [(ngModel)]="SearchFeatures[i].featureDetailId"
-                                  [ngModelOptions]="{standalone: true}" class="form-control" list="likeTechnologys">
-
-                                  <option value="{{item.featureDetailId}}">{{item.content}}
-                                  </option>
-                                  <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                    {{value.content}}
-                                  </option>
-                                </select>
-                              </div>
-                            </div>
-
 
                           </div>
 
@@ -546,7 +576,8 @@
             <div *ngIf="imagesResponse.length == 0" class="h5 font-weight-300 animate-bottom">
               <b>Chưa có hình ảnh nào!</b>
               <br>
-              <button (click)="uploadImages()" class='btn btn-primary suggest-action'>Đăng hình ngay</button>
+              <button *ngIf="isYourself" (click)="uploadImages()" class='btn btn-primary suggest-action'>Đăng hình
+                ngay</button>
             </div>
 
             <div class="col-lg-12 col-md-12 row pl-3 shadow" style="margin-left: 0%; margin-right: 0%;">
@@ -620,6 +651,10 @@
       </div>
     </div>
   </section>
+
+
+
+
 </main>
 <section class="imagePop" id="imagePopId">
   <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>

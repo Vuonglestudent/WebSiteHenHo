@@ -1,3 +1,103 @@
+.max-width {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.friend-container {
+  justify-content: center;
+}
+
+.card-container {
+  width: 25%;
+  padding: 1%;
+}
+
+
+.person-card:hover {
+  background-color: #f0e1f7;
+  transition: 0.5s;
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition: box-shadow 0.2s ease-in;
+
+  .btn-icon-card {
+    background-color: #f0e1f7;
+  }
+}
+
+.image-container {
+  img {
+    object-fit: cover;
+  }
+}
+
+.card-body {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 1% 2% 1% 2%;
+
+  .summary {
+    height: 85px;
+  }
+
+  .icons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-icon-card {
+    margin: 0px 10px 0px 10px;
+  }
+
+  .icon-custom {
+    cursor: pointer;
+    color: #3c4d69;
+  }
+}
+
+.limit-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.limit-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.icon-hover {
+  padding-bottom: 15%;
+  margin-bottom: 8%;
+}
+
+.btn-icon-card:hover {
+  font-size: 128%;
+  padding-bottom: 4%;
+
+}
+
+.friend-container {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+
+
 .filterblock {
   background-color: white;
   width: 100%;
@@ -5,7 +105,7 @@
   position: absolute;
   top: 15vh;
   box-shadow: 8px 10px 5px rgba(0, 0, 0, 0.6);
-  background-image: linear-gradient(to bottom  right, #FFFFFF , #f4f5f7);
+  background-image: linear-gradient(to bottom right, #FFFFFF, #f4f5f7);
   border-radius: 15px
 }
 
@@ -51,6 +151,10 @@
   margin-top: 0.25rem;
 }
 
+.see-more {
+  padding: 2%;
+}
+
 .active-btn {
   border: 1px #5E72E4 solid;
 }
@@ -64,7 +168,7 @@
 //   right: 0;
 // }
 
-.active-btn:before{
+.active-btn:before {
   content: '';
   position: absolute;
   top: 0;
@@ -115,6 +219,7 @@ button:focus {
   0% {
     -webkit-transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
   }
@@ -124,6 +229,7 @@ button:focus {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -138,11 +244,13 @@ button:focus {
   font-size: 150%;
   padding-bottom: 0%;
 }
+
 .card:hover {
   background-color: #f0e1f7;
   transition: 0.5s;
   box-shadow: 1px 8px 20px grey;
   -webkit-transition: box-shadow 0.2s ease-in;
+
   .btn-icon-card {
     background-color: #f0e1f7;
   }
@@ -150,6 +258,7 @@ button:focus {
 
 .dropbtn:hover {
   background-color: beige;
+
   option {
     background-color: white;
   }
@@ -166,7 +275,8 @@ button:focus {
   }
 }
 
-a.btn-icon-card, a.icon-hover {
+a.btn-icon-card,
+a.icon-hover {
   color: black;
 }
 
@@ -179,13 +289,27 @@ a.btn-icon-card, a.icon-hover {
 }
 
 @-webkit-keyframes animatebottom {
-  from { bottom:-100px; opacity:0 } 
-  to { bottom:0px; opacity:1 }
+  from {
+    bottom: -100px;
+    opacity: 0
+  }
+
+  to {
+    bottom: 0px;
+    opacity: 1
+  }
 }
 
-@keyframes animatebottom { 
-  from{ bottom:-100px; opacity:0 } 
-  to{ bottom:0; opacity:1 }
+@keyframes animatebottom {
+  from {
+    bottom: -100px;
+    opacity: 0
+  }
+
+  to {
+    bottom: 0;
+    opacity: 1
+  }
 }
 
 .card-deck {
@@ -197,7 +321,8 @@ a.btn-icon-card, a.icon-hover {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-line-clamp: 1;
+  /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 
@@ -205,6 +330,7 @@ a.btn-icon-card, a.icon-hover {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-line-clamp: 2;
+  /* number of lines to show */
   -webkit-box-orient: vertical;
 }

@@ -141,10 +141,6 @@ export class LoginComponent implements OnInit {
   }
 
   confirmCode(f: NgForm) {
-    console.log(f.value.Code);
-    console.log(f.value.NewPassword);
-    console.log(f.value.ConfirmPassword);
-
     if (this.Loading) {
       return;
     }
@@ -197,62 +193,47 @@ export class LoginComponent implements OnInit {
     return re.test(String(email).toLowerCase());
   }
 
-  onFacebookLogin = () => {
-    var call = 0;
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      call++;
-      if (call >= 2) {
-        return;
-      }
 
-      this.authenticationService.FacebookLogin(this.user)
-        .then(response => {
-          this.loggedIn = true;
-          this.userInfo = response;
-          this.authenticationService.setUserInfo(this.userInfo);
-          // Put the object into storage
-          if (!this.userInfo.isInfoUpdated) {
-            this.router.navigate(['/profile', this.userInfo.id]);
-          }
-          if (this.userInfo.role == "User") {
-            this.router.navigateByUrl('/home');
-          }
-          else if (this.userInfo.role == "Admin") {
-            this.router.navigateByUrl("/statistic");
-          }
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          this.alertService.clear();
-          this.alertService.error(error.error.message, this.options);
-        })
-    })
-
-
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-
-  }
-
-  onGoogleLogin = () => {
-
+  saveInfo() {
+    this.authenticationService.FacebookLogin(this.user)
+      .then(response => {
+        this.loggedIn = true;
+        this.userInfo = response;
+        this.authenticationService.setUserInfo(this.userInfo);
+        // Put the object into storage
+        if (!this.userInfo.isInfoUpdated) {
+          this.router.navigate(['/profile', this.userInfo.id]);
+        }
+        if (this.userInfo.role == "User") {
+          this.router.navigateByUrl('/home');
+        }
+        else if (this.userInfo.role == "Admin") {
+          this.router.navigateByUrl("/statistic");
+        }
+      })
+      .catch(error => {
+        this.loggedIn = false;
+        this.alertService.clear();
+        this.alertService.error(error.error.message, this.options);
+      })
   }
 
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(data => {
+        this.user = data;
+        this.saveInfo();
+      })
+
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then(response => {
-        console.log(response);
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
 
-        // this.signalRService.SaveHubId()
-        // .then(response => console.log(response))
-        // .catch(error => console.log("Can not save connectionId"))
-      })
-      .catch(error => console.log(error))
-    console.log(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.saveInfo();
+    })
   }
 
   signOut(): void {

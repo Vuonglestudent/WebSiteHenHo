@@ -6,7 +6,7 @@ import { DOCUMENT } from '@angular/common';
 import { AuthenticationService } from './shared/service/authentication.service';
 import { SignalRService } from './shared/service/signal-r.service';
 import { MessageService } from './shared/service/message.service';
-import { IUser, IUserInfo, Message } from './models/models';
+import { IUser, IUserInfo, Message, ChatFriend, UserDisplay } from './models/models';
 import { NotificationsService } from 'angular2-notifications';
 import { NotificationUserService } from './shared/service/notification-user.service';
 import { GeolocationService } from '@ng-web-apis/geolocation';
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
   public caller: IUser;
+  friendList: ChatFriend[] = new Array();
 
   userInfo: IUserInfo;
   connected: boolean;
@@ -50,6 +51,8 @@ export class AppComponent implements OnInit {
                   .then(data => {
                   })
                   .catch(err => console.log(err))
+
+                this.loadFriendList();
               }
             })
         }
@@ -75,7 +78,36 @@ export class AppComponent implements OnInit {
           this.showNotification(notification);
         }
       })
+
+
+    this.messageService.friendListObservable
+      .subscribe(data => {
+        if (data != undefined) {
+          this.friendList = data;
+        }
+      })
+
   }
+
+  loadFriendList() {
+    this.messageService.GetFriendList(this.userInfo.id)
+      .then(response => {
+        this.friendList = response;
+
+        this.friendList.forEach(item => {
+          item.pageIndex = 1;
+          item.isClicked = false;
+        });
+
+        this.messageService.setFriendList(this.friendList);
+      })
+      .catch(error => {
+        console.log('this is error');
+        console.log(error);
+      });
+
+  }
+
   getLastName(fullName: string) {
     var n = fullName.split(" ");
     return n[n.length - 1];
@@ -97,23 +129,26 @@ export class AppComponent implements OnInit {
             var userIndex = this.getUserIndex(message.receiverId);
             //Chưa có trong danh sách bạn.
             if (userIndex == -1) {
-              // var newUser = new UserDisplay();
-              // this.usersService.GetDisplayUser(message.receiverId)
-              //   .then(response => {
-              //     newUser = response;
-              //     var friend = new ChatFriend();
-              //     friend.user = new UserDisplay();
-              //     friend.messages = new Array<Message>();
-              //     friend.messages.push(message);
-
-              //   })
-              //   .catch(error => {
-              //     alert("Can not get display user");
-              //   })
+              this.usersService.GetDisplayUserById(message.receiverId)
+                .then(response => {
+                  console.log(response);
+                  var friend = new ChatFriend();
+                  friend.pageIndex = 1;
+                  friend.user = response;
+                  friend.messages = new Array<Message>();
+                  friend.messages.push(message);
+                  friend.isClicked = true;
+                  this.friendList.unshift(friend);
+                  this.messageService.setFriendList(this.friendList);
+                })
+                .catch(error => {
+                  alert("Can not get display user");
+                })
             }
             else {
               try {
-                this.messageService.friendList[userIndex].messages.push(message);
+                this.friendList[userIndex].messages.push(message);
+                this.messageService.setFriendList(this.friendList);
               }
               catch { }
             }
@@ -133,24 +168,28 @@ export class AppComponent implements OnInit {
 
             var userIndex = this.getUserIndex(message.senderId);
 
-            if (userIndex == -1) {
-              // var newUser = new UserDisplay();
-              // this.usersService.GetDisplayUser(message.receiverId)
-              //   .then(response => {
-              //     newUser = response;
-              //     var friend = new ChatFriend();
-              //     friend.user = new UserDisplay();
-              //     friend.messages = new Array<Message>();
-              //     friend.messages.push(message);
+            if (userIndex === -1) {
+              this.usersService.GetDisplayUserById(message.senderId)
+                .then(response => {
+                  var friend = new ChatFriend();
+                  friend.pageIndex = 1;
+                  friend.user = response;
+                  friend.messages = new Array<Message>();
+                  friend.messages.push(message);
+                  friend.isClicked = true;
 
-              //   })
-              //   .catch(error => {
-              //     alert("Can not get display user");
-              //   })
+                  this.friendList.unshift(friend);
+                  console.log(friend);
+                  this.messageService.setFriendList(this.friendList);
+                })
+                .catch(error => {
+                  alert("Can not get display user");
+                })
             }
             else {
               try {
-                this.messageService.friendList[userIndex].messages.push(message);
+                this.friendList[userIndex].messages.push(message);
+                this.messageService.setFriendList(this.friendList);
               }
               catch { }
             }
@@ -174,11 +213,12 @@ export class AppComponent implements OnInit {
 
   getUserIndex = (userId: string) => {
     var index = -1;
-    for (let i = 0; i < this.messageService.friendList.length; i++) {
-      if (this.messageService.friendList[i].user.id == userId) {
+    for (let i = 0; i < this.friendList.length; i++) {
+      if (this.friendList[i].user.id == userId) {
         return i;
       }
     }
+    return index;
   }
 
   showNotification(message) {
@@ -214,7 +254,6 @@ export class AppComponent implements OnInit {
     this.geolocationService.subscribe(position => {
 
       if (!this.isSubscribe) {
-        console.log(position);
         this.savePosition(position.coords.latitude, position.coords.longitude);
       }
       this.isSubscribe = true;
@@ -226,7 +265,6 @@ export class AppComponent implements OnInit {
   savePosition(latitude: number, longitude: number) {
     this.usersService.SavePosition(this.userInfo.id, latitude, longitude)
       .subscribe(data => {
-        console.log('saved successful');
       }, err => {
         console.log(err.error.message);
       })

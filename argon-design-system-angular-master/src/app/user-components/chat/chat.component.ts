@@ -1,10 +1,14 @@
-import { Message, ChatFriend, IUserInfo } from '../../models/models';
+import { UserDisplay } from './../../models/models';
+import { fromEvent, Subject } from 'rxjs';
+import { UsersService } from './../../shared/service/users.service';
+import { Message, ChatFriend, IUserInfo, User } from '../../models/models';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SignalRService } from '../../shared/service/signal-r.service';
 import { AuthenticationService } from '../../shared/service/authentication.service';
 import { MessageService } from '../../shared/service/message.service';
 import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/shared/_alert';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -12,28 +16,47 @@ import { AlertService } from 'src/app/shared/_alert';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, AfterViewInit {
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
   public CurrentUserId = ""
   public DestUserId = "";
-  
+
+  @ViewChild('searchBox', { static: true }) searchBox: ElementRef | undefined;
+  @ViewChild('searchButton', { static: true }) searchButton: ElementRef | undefined;
+
+  friendList: ChatFriend[] = new Array();
+
   constructor(
     public signalRService: SignalRService,
     private authenticationService: AuthenticationService,
     public messageService: MessageService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private usersService: UsersService
   ) {
     this.authenticationService.userInfoObservable
       .subscribe(user => {
         this.userInfo = user;
-        this.CurrentUserId = this.userInfo.id;
+        if (this.userInfo != undefined) {
+          this.CurrentUserId = this.userInfo.id;
+        }
+      })
+
+    this.messageService.friendListObservable
+      .subscribe(data => {
+        if (data != undefined) {
+          this.friendList = data;
+          if (this.friendList.length != 0) {
+            this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
+            this.nameReceiver = this.friendList[0].user.fullName;
+            this.avatarPath = this.friendList[0].user.avatarPath;
+            this.ReceiverId = this.friendList[0].user.id;
+          }
+        }
       })
   }
+
   faEllipsisV = faEllipsisV;
   faVideo = faVideo;
   faPhoneAlt = faPhoneAlt;
-
-  IsStarted = false;
-  setScrollInterval
 
   public PageSize = 20;
   public From: string;
@@ -45,41 +68,26 @@ export class ChatComponent implements OnInit, AfterViewInit {
   txtMessage: string = '';
 
   nameReceiver = '';
-  hasAvatar: boolean;
-  avatarPath: string;
-  timer;
+  avatarPath: string = '';
 
   ngOnInit(): void {
-    this.CurrentUserId = this.userInfo.id;
-    this.messageService.friendList = new Array<ChatFriend>();
-    this.messageService.GetFriendList(this.CurrentUserId)
-      .then(response => {
-        this.messageService.friendList = response;
 
-        this.messageService.friendList.forEach(item => {
-          item.pageIndex = 1;
-        });
-
-        try {
-          this.MoreMessages(this.messageService.friendList[0].user.id, this.UserIndex);
-        } catch (error) {
-          
-        }
-
-        this.nameReceiver = this.messageService.friendList[0].user.fullName;
-        this.avatarPath = this.messageService.friendList[0].user.avatarPath;
-        this.ReceiverId = this.messageService.friendList[0].user.id;
-      })
-      .catch(error => {
-        console.log('this is error');
-        console.log(error);
-      });
-
+    fromEvent(this.searchBox?.nativeElement, "keyup").pipe(
+      map((event: any) => { return event.target.value; })
+      , debounceTime(500)
+      , distinctUntilChanged()
+    ).subscribe((text: string) => {
+      this.onSearch(text);
+    })
   }
-  time = 0
+
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.clickSendUser(this.messageService.friendList[0].user.id, this.messageService.friendList[0].user.fullName);
+      if (this.friendList.length == 0) {
+        return;
+      }
+
+      this.clickSendUser(this.friendList[0].user.id, this.friendList[0].user.fullName);
     }, 500);
   }
 
@@ -100,7 +108,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
           console.log(error)
         });
       this.txtMessage = '';
-      
+
     }
   }
 
@@ -112,18 +120,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
 
   IsExist = (messageId: number, messages: Array<Message>) => {
-    var message = messages.filter(x=>x.id === messageId);
+    var message = messages.filter(x => x.id === messageId);
     return message.length == 0 ? false : true;
   }
 
   MoreMessages = (userId: string, userIndex: number) => {
-    this.messageService.moreMessages(this.messageService.friendList[userIndex].pageIndex, this.PageSize, this.CurrentUserId, userId)
+    this.messageService.moreMessages(this.friendList[userIndex].pageIndex, this.PageSize, this.CurrentUserId, userId)
       .then(data => {
-        this.messageService.friendList[userIndex].pageIndex += 1;
+        this.friendList[userIndex].pageIndex += 1;
         data.forEach(element => {
-          if (!this.IsExist(element.id, this.messageService.friendList[userIndex].messages)) {
+          if (!this.IsExist(element.id, this.friendList[userIndex].messages)) {
             //
-            this.messageService.friendList[userIndex].messages.splice(0, 0, element);
+            this.friendList[userIndex].messages.splice(0, 0, element);
           }
         });
       })
@@ -134,7 +142,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   clickSendUser = (idUser, nameUser) => {
     var destUserIdOld = <HTMLElement>document.getElementById(`DestUserId_${localStorage.getItem('DestUserId')}`);
     if (destUserIdOld != null) {
-      //console.log(destUserIdOld)
       destUserIdOld.setAttribute('class', 'd-flex bd-highlight')
       this.setScroll();
     }
@@ -144,18 +151,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
     var userIndex = this.getUserIndex(idUser);
     if (userIndex != -1) {
       this.UserIndex = userIndex;
-      this.messageService.friendList[userIndex].pageIndex = 1;
+      this.friendList[userIndex].pageIndex = 1;
 
-      if (this.messageService.friendList[userIndex].messages.length <= 1) {
-        this.messageService.friendList[userIndex].messages = new Array<Message>();
+      if (this.friendList[userIndex].messages.length <= 1 && !this.friendList[userIndex].isClicked) {
+        this.friendList[userIndex].messages = new Array<Message>();
         this.MoreMessages(idUser, this.UserIndex);
+        this.friendList[userIndex].isClicked = true;
       }
     }
     destUserId.setAttribute('class', 'd-flex bd-highlight active')
     localStorage.setItem('DestUserId', idUser)
     this.nameReceiver = nameUser;
-    this.ReceiverId = this.messageService.friendList[userIndex].user.id;
-    this.avatarPath = this.messageService.friendList[userIndex].user.avatarPath;
+    this.ReceiverId = this.friendList[userIndex].user.id;
+    this.avatarPath = this.friendList[userIndex].user.avatarPath;
     this.setScroll()
   }
 
@@ -167,15 +175,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   getUserIndex = (userId: string) => {
     var index = -1;
-    for (let i = 0; i < this.messageService.friendList.length; i++) {
-      if (this.messageService.friendList[i].user.id == userId) {
+    for (let i = 0; i < this.friendList.length; i++) {
+      if (this.friendList[i].user.id == userId) {
         return i;
       }
     }
   }
 
   isUserExist(userId: string) {
-    this.messageService.friendList.forEach(element => {
+    this.friendList.forEach(element => {
       if (element.user.id == userId) {
         return true;
       }
@@ -185,18 +193,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
 
-  onVideoCall(){
+  onVideoCall() {
     console.log(this.ReceiverId);
     this.onCheckTarget();
   }
-  openCallVideoTab(receiverId: string) {  
+  openCallVideoTab(receiverId: string) {
     window.open('/#/video-call/false/' + receiverId, '_blank');
   }
 
   onCheckTarget() {
     this.signalRService.getTargetInfo(this.ReceiverId)
-      .then(data =>{
-        if(data == null){
+      .then(data => {
+        if (data == null) {
           this.alertService.clear();
           this.alertService.error("Target is not online");
           return;
@@ -209,5 +217,35 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.alertService.clear();
         this.alertService.error("Target is not online");
       })
+  }
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+  };
+  users: User[] = new Array();
+  onSearch(name: string) {
+    this.usersService.SearchFriendByName(name)
+      .subscribe(data => {
+        this.users = data;
+      }, err => {
+        this.alertService.warn("Không tìm thấy người dùng nào", this.options);
+      })
+  }
+
+  onChatToNewUser(user: UserDisplay) {
+    var u = this.friendList.filter(x => x.user.id == user.id);
+    if (u.length === 0) {
+      var friend = new ChatFriend();
+      friend.pageIndex = 1;
+      friend.user = user;
+      friend.messages = new Array();
+      friend.isClicked = true;
+
+      this.friendList.unshift(friend);
+    }
+    setTimeout(() => {
+      this.clickSendUser(user.id, user.fullName);
+    }, 5);
+
   }
 }

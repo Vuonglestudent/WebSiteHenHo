@@ -7,7 +7,7 @@ import { ImageService } from 'src/app/shared/service/image.service';
 @Component({
   selector: 'app-image-score',
   templateUrl: './image-score.component.html',
-  styleUrls: ['./image-score.component.css']
+  styleUrls: ['./image-score.component.scss']
 })
 export class ImageScoreComponent implements OnInit {
 
@@ -85,6 +85,8 @@ export class ImageScoreComponent implements OnInit {
     for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
     }
+
+
     slides[this.slideIndex - 1].setAttribute("style", "display:block");
     dots[this.slideIndex - 1].className += " active";
     captionText.innerHTML = dots[this.slideIndex - 1].getAttribute("alt");

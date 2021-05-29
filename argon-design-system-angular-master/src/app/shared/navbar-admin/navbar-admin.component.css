@@ -48,3 +48,7 @@
 .logoAdmin{
     width: 100%;
 }
+
+#image-filter{
+    z-index: 1;
+}
