@@ -1,5 +1,5 @@
 <app-navbar
-    *ngIf="router.url != '/statistic' && router.url != '/manager-user' && router.url != '/feature-manager' && router.url != '/image-score' && !router.url.includes('video-call')">
+    *ngIf="router.url != '/statistic' && router.url != '/manager-user' && router.url != '/feature-manager' && router.url != '/image-score' && !router.url.includes('call')">
 </app-navbar>
 
 <router-outlet></router-outlet>
@@ -19,19 +19,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                
                 <div *ngIf="caller!=undefined" class='row caller-info'>
                     <a class="avatar">
-                        <img src="{{caller.avatarPath}}"
-                            class="rounded-circle avatar-custom" alt="Image placeholder" />
+                        <img src="{{caller.avatarPath}}" class="rounded-circle avatar-custom" alt="Image placeholder" />
                     </a>
-                    <p class="caller-name">{{caller.userName}} đang gọi bạn</p>
+                    <p class="caller-name"><b class='font-weight-600'>{{getLastName(caller.userName)}}</b> đang
+                        gọi{{caller.callType == CallType.VideoCall ? ' video' : ' thoại'}} đến bạn</p>
                 </div>
                 <br>
-                <button (click)="onAccept()" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Chấp nhận</button>
-                <button (click)="onDecline()" type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Từ chối</button>
+                <button (click)="onAccept()" type="button" class="btn btn-primary" data-dismiss="modal"
+                    aria-label="Close">Chấp nhận</button>
+                <button (click)="onDecline()" type="button" class="btn btn-secondary" data-dismiss="modal"
+                    aria-label="Close">Từ chối</button>
             </div>
         </div>
     </div>
 </div>
-

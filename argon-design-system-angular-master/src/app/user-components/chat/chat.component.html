@@ -72,7 +72,7 @@
           <div id="action_menu_btn" class="dropleft">
 
             <div class="custom-icon">
-              <fa-icon style="color:#5E72E4" size="1x" [icon]="faPhoneAlt"></fa-icon>
+              <fa-icon (click)="onVoiceCall()" style="color:#5E72E4" size="1x" [icon]="faPhoneAlt"></fa-icon>
             </div>
 
             <div class="custom-icon">
@@ -85,7 +85,8 @@
               <fa-icon style="color:#5E72E4" size="1x" [icon]="faEllipsisV"></fa-icon>
             </span>
             <div class="dropdown-menu dropdown-custom">
-              <a href="#/profile/{{DestUserId}}" class="dropdown-item"><i class="fa fa-user-circle"></i> Trang cá nhân</a>
+              <a href="#/profile/{{DestUserId}}" class="dropdown-item"><i class="fa fa-user-circle"></i> Trang cá
+                nhân</a>
               <a href="#" class="dropdown-item"><i class="fa fa-ban"></i> Chặn người dùng</a>
             </div>
           </div>

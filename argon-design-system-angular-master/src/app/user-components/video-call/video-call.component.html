@@ -1,38 +1,83 @@
 <div class="video-container">
 
-  <div *ngIf="partnerConnection != undefined" class="your-friend-video">
-    <app-video-member [className]="'friend-video'" [user]="partnerConnection">
-    </app-video-member>
+  <div *ngIf="callType == CallType.VideoCall">
+    <div *ngIf="partnerConnection != undefined" class="your-friend-video">
+      <app-video-member [className]="'friend-video'" [user]="partnerConnection">
+      </app-video-member>
+    </div>
+
+    <div *ngIf="localConnection != undefined ">
+      <app-video-member [className]="'my-video'" [user]="localConnection">
+      </app-video-member>
+    </div>
   </div>
 
-  <div *ngIf="localConnection != undefined ">
-    <app-video-member [className]="'my-video'" [user]="localConnection">
-    </app-video-member>
+  <div *ngIf='callType == CallType.VoiceCall'>
+
+    <div class="container-custom">
+      <div class='d-flex justify-content-center'>
+        <div class="user d-flex justify-content-center">
+          <img class="rounded-circle avatar-custom limit-width" src="https://hieuit.tech:5201/user-content/tam.jpg">
+          <h4 class='text-white text-center'>
+            Nguyễn Thành Tâm
+          </h4>
+
+          <small>
+            Thời gian: {{time}}
+          </small>
+        </div>
+      </div>
+    </div>
+
+
+    <div style="display: none;">
+      <div *ngIf="partnerConnection != undefined" class="your-friend-video">
+        <app-video-member [className]="'friend-video'" [user]="partnerConnection">
+        </app-video-member>
+      </div>
+
+      <div *ngIf="localConnection != undefined ">
+        <app-video-member [className]="'my-video'" [user]="localConnection">
+        </app-video-member>
+      </div>
+    </div>
   </div>
 
-  <div class="actions">
-    <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
-      <li (click)="toggleVideo()" class="nav-item hover-item">
-        <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="home" aria-selected="true">
-          <span class="nav-link-icon d-block">
-            <fa-icon style="color:white" size="5x" [icon]="faVideo" [spin]="false"></fa-icon>
-          </span>
-        </a>
-      </li>
-      <li (click)="toggleAudio()" class="nav-item hover-item">
-        <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="profile" aria-selected="false">
-          <span class="nav-link-icon d-block">
-            <fa-icon style="color:white" size="5x" [icon]="faMicrophone" [spin]="false"></fa-icon>
-          </span>
-        </a>
-      </li>
-      <li (click)="hangUp()" class="nav-item hover-item">
-        <a class="nav-link" style="background-color: red;" role="tab" aria-controls="contact" aria-selected="false">
-          <span class="nav-link-icon d-block">
-            <fa-icon style="color:white" size="5x" [icon]="faPhoneAlt" [spin]="false"></fa-icon>
-          </span>
-        </a>
-      </li>
-    </ul>
+  <div class='d-flex justify-content-center'>
+    <div class="actions">
+      <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
+        <li (click)="toggleVideo()" class="nav-item hover-item">
+          <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="home" aria-selected="true">
+            <span class="nav-link-icon d-block">
+              <fa-icon style="color:white" size="5x" [icon]="faVideo" [spin]="false"></fa-icon>
+            </span>
+          </a>
+        </li>
+        <li (click)="toggleAudio()" class="nav-item hover-item">
+          <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="profile"
+            aria-selected="false">
+            <span class="nav-link-icon d-block">
+              <fa-icon style="color:white" size="5x" [icon]="faMicrophone" [spin]="false"></fa-icon>
+            </span>
+          </a>
+        </li>
+        <li (click)="hangUp()" class="nav-item hover-item">
+          <a class="nav-link" style="background-color: red;" role="tab" aria-controls="contact" aria-selected="false">
+            <span class="nav-link-icon d-block">
+              <fa-icon style="color:white" size="5x" [icon]="faPhoneAlt" [spin]="false"></fa-icon>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class='background-loading'>
+  <div class="loading-content">
+    <div class="lds-ripple">
+      <div></div>
+      <div></div>
+    </div>
   </div>
 </div>

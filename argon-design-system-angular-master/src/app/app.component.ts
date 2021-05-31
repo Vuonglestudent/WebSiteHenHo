@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { AuthenticationService } from './shared/service/authentication.service';
-import { SignalRService } from './shared/service/signal-r.service';
+import { CallType, SignalRService } from './shared/service/signal-r.service';
 import { MessageService } from './shared/service/message.service';
 import { IUser, IUserInfo, Message, ChatFriend, UserDisplay } from './models/models';
 import { NotificationsService } from 'angular2-notifications';
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   @ViewChild('openModal') modal: ElementRef<HTMLElement>;
   public caller: IUser;
   friendList: ChatFriend[] = new Array();
-
+  CallType = CallType;
   userInfo: IUserInfo;
   connected: boolean;
   constructor(
@@ -73,7 +73,6 @@ export class AppComponent implements OnInit {
     this.signalRService.notificationObservable
       .subscribe(notification => {
         if (notification != undefined) {
-          //notification.fullName = this.getLastName(notification.fullName);
           this.notificationUserService.Notification.splice(0, 0, notification);
           this.showNotification(notification);
         }
@@ -241,7 +240,8 @@ export class AppComponent implements OnInit {
   }
 
   onAccept() {
-    window.open('/#/video-call/true/' + this.caller.userId, '_blank');
+    this.caller.callType == CallType.VideoCall ? window.open('/#/call/0/true/' + this.caller.userId, '_blank') : window.open('/#/call/1/true/' + this.caller.userId, '_blank');
+    
   }
 
   onDecline() {

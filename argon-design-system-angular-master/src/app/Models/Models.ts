@@ -1,4 +1,5 @@
 import { BehaviorSubject, Observable } from "rxjs";
+import { CallType } from "../shared/service/signal-r.service";
 
 export class SocialUser {
     provider: string;
@@ -169,9 +170,11 @@ export class News {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export interface IUser {
-    userId: string,
+    userId: string;
     connectionId: string;
     userName: string;
+    callType: CallType;
+    avatarPath: string;
 }
 
 export class UserConnection {
@@ -180,15 +183,17 @@ export class UserConnection {
     rtcConnection: RTCPeerConnection;
     streamSub: BehaviorSubject<MediaStream>;
     streamObservable: Observable<MediaStream>;
+    callType: CallType;
     creatingOffer = false;
     creatingAnswer = false;
 
-    constructor(user: IUser, isCurrentUser: boolean, rtcConnection: RTCPeerConnection) {
+    constructor(user: IUser, isCurrentUser: boolean, rtcConnection: RTCPeerConnection, callType: CallType) {
         this.user = user;
         this.isCurrentUser = isCurrentUser;
         this.rtcConnection = rtcConnection;
         this.streamSub = new BehaviorSubject<MediaStream>(undefined);
         this.streamObservable = this.streamSub.asObservable();
+        this.callType = callType;
     }
 
     setStream(stream: MediaStream) {

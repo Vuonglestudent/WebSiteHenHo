@@ -3,7 +3,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { UsersService } from './../../shared/service/users.service';
 import { Message, ChatFriend, IUserInfo, User } from '../../models/models';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { SignalRService } from '../../shared/service/signal-r.service';
+import { CallType, SignalRService } from '../../shared/service/signal-r.service';
 import { AuthenticationService } from '../../shared/service/authentication.service';
 import { MessageService } from '../../shared/service/message.service';
 import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
@@ -195,14 +195,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   onVideoCall() {
     console.log(this.ReceiverId);
-    this.onCheckTarget();
-  }
-  openCallVideoTab(receiverId: string) {
-    window.open('/#/video-call/false/' + receiverId, '_blank');
+    this.onCheckTarget(CallType.VideoCall);
   }
 
-  onCheckTarget() {
-    this.signalRService.getTargetInfo(this.ReceiverId)
+  onVoiceCall() {
+    this.onCheckTarget(CallType.VoiceCall);
+  }
+
+  openCallVideoTab(receiverId: string, callType: CallType) {
+    window.open('/#/call/' + callType + '/false/' + receiverId, '_blank');
+  }
+
+  onCheckTarget(callType: CallType) {
+    this.signalRService.getTargetInfo(this.ReceiverId, callType)
       .then(data => {
         if (data == null) {
           this.alertService.clear();
@@ -210,7 +215,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
           return;
         }
         // target is online
-        this.openCallVideoTab(this.ReceiverId);
+        this.openCallVideoTab(this.ReceiverId, callType);
       })
       .catch(err => {
         console.log(err);

@@ -10,14 +10,14 @@ import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-
 @Component({
   selector: 'app-video-call',
   templateUrl: './video-call.component.html',
-  styleUrls: ['./video-call.component.css']
+  styleUrls: ['./video-call.component.scss']
 })
 export class VideoCallComponent implements OnInit {
 
   userId = '';
   isAccept;
-  // users: UserConnection[];
 
+  CallType = CallType;
   localConnection: UserConnection;
   partnerConnection: UserConnection;
 
@@ -32,7 +32,7 @@ export class VideoCallComponent implements OnInit {
   userInfo: IUserInfo = undefined;
 
   public currentMediaStream: MediaStream;
-  callType: CallType = CallType.VideoCall;
+  callType: CallType = CallType.VoiceCall;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -43,6 +43,7 @@ export class VideoCallComponent implements OnInit {
 
     this.userId = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
     this.isAccept = this.route.snapshot.paramMap.get('isAccept');
+    this.callType = Number(this.route.snapshot.paramMap.get('callType'));
 
     this.authenticationService.userInfoObservable
       .subscribe(user => {
@@ -67,16 +68,6 @@ export class VideoCallComponent implements OnInit {
         }
       })
 
-    // signalRService.usersObservable
-    //   .subscribe(users => {
-    //     if (users != undefined) {
-    //       this.users = users;
-    //       console.log('this is users:')
-    //       console.log(this.users)
-    //     }
-    //     //this.onCheckTarget();
-    //   });
-
     signalRService.localConnectionObservable
       .subscribe(data => {
         console.log('Nhan duoc local connection:');
@@ -97,7 +88,7 @@ export class VideoCallComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.timeCount();
   }
 
   hangUp() {
@@ -105,7 +96,7 @@ export class VideoCallComponent implements OnInit {
   }
 
   onStartACall() {
-    this.signalRService.join(this.userInfo.id, this.userInfo.fullName, true);
+    this.signalRService.join(this.userInfo.id, this.userInfo.fullName, this.userInfo.avatarPath, true, this.callType);
     this.joined = true;
   }
 
@@ -113,7 +104,7 @@ export class VideoCallComponent implements OnInit {
     this.signalRService.getUserById(this.userId)
       .then(user => {
         this.signalRService.callerInfo = user;
-        this.signalRService.join(this.userInfo.id, this.userInfo.fullName, false);
+        this.signalRService.join(this.userInfo.id, this.userInfo.fullName, this.userInfo.avatarPath, false, this.callType);
         this.joined = true;
       })
   }
@@ -126,9 +117,40 @@ export class VideoCallComponent implements OnInit {
     console.log('click toggleAudio');
   }
 
-
   toggleVideo() {
     console.log('click toggleVideo');
-    //this.signalRService.currentMediaStream.getVideoTracks()[0].stop();
+  }
+
+
+
+
+  totalTime = 0;
+  time: string;
+  interval;
+
+  timeCount() {
+    var h = 0;
+    var m = 0;
+    var s = 0;
+
+    var hour = '0';
+    var minute = '0';
+    var second = '0';
+
+    this.interval = setInterval(() => {
+      this.totalTime++;
+
+      var tmp = this.totalTime % 3600;
+      h = (this.totalTime - tmp) / 3600;
+      tmp = (this.totalTime - h * 3600) % 60;
+      m = (this.totalTime - h * 3600 - tmp) / 60;
+      s = this.totalTime - (h * 3600 + m * 60);
+
+      hour = h < 10 ? '0' + h : h.toString();
+      minute = m < 10 ? '0' + m : m.toString();
+      second = s < 10 ? '0' + s : s.toString();
+
+      this.time = hour + ' : ' + minute + ' : ' + second;
+    }, 1000)
   }
 }

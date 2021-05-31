@@ -35,7 +35,7 @@ const routes: Routes = [
   { path: 'manager-user' , component: ManagerUserComponent},
   {path: 'feature-manager', component: FeatureManagerComponent},
   {path: 'image-score', component: ImageScoreComponent},
-  {path: 'video-call/:isAccept/:id', component: VideoCallComponent},
+  {path: 'call/:callType/:isAccept/:id', component: VideoCallComponent},
   {path: 'shared-stories', component: SharedStoryComponent},
   {path: 'scan-around', component: ScanAroundComponent}
 ];
