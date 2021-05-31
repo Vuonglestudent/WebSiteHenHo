@@ -11,7 +11,6 @@ import { BehaviorSubject } from 'rxjs';
 export class SignalRService {
 
   private _hubConnection: signalR.HubConnection;
-  private _connections: { [index: string]: UserConnection } = {};
 
   private onlineCount: number = 0;
   private onlineCountSub = new BehaviorSubject<number>(0);
@@ -23,8 +22,14 @@ export class SignalRService {
 
   private connSub = new BehaviorSubject<boolean>(false);
   public connObservable = this.connSub.asObservable();
-  private usersSub = new BehaviorSubject<UserConnection[]>(undefined);
-  public usersObservable = this.usersSub.asObservable();
+
+  private localConnection: UserConnection;
+  private localConnectionSub = new BehaviorSubject<UserConnection>(undefined);
+  public localConnectionObservable = this.localConnectionSub.asObservable();
+
+  private partnerConnection: UserConnection;
+  private partnerConnectionSub = new BehaviorSubject<UserConnection>(undefined);
+  public partnerConnectionObservable = this.partnerConnectionSub.asObservable();
 
   public currentConnectionId: string;
   public currentRoomName: string;
@@ -46,8 +51,6 @@ export class SignalRService {
   public myInfoObservable = this.myInfoSub.asObservable();
 
   //////////////////////////////////////////////////
-
-  //messageReceived = new EventEmitter<Message>();
 
   private message = new Message();
   private messageSub = new BehaviorSubject<Message>(undefined);
@@ -84,8 +87,7 @@ export class SignalRService {
       .on('callToUserList', async (roomName: string, users: IUser[]) => {
         if (this.currentRoomName === roomName) {
           users.forEach(user => {
-            if (this._connections[user.connectionId] === undefined
-              && user.connectionId !== this.currentConnectionId) {
+            if (user.connectionId !== this.currentConnectionId) {
               this.initiateOffer(user);
             }
           });
@@ -97,12 +99,6 @@ export class SignalRService {
     this._hubConnection
       .on('updateUserList', async (roomName: string, users: IUser[]) => {
         if (this.currentRoomName === roomName) {
-          Object.keys(this._connections)
-            .forEach(key => {
-              if (!users.find(user => user.connectionId === key)) {
-                this.closeVideoCall(key);
-              }
-            });
           await this.updateUserList(users);
         }
       });
@@ -112,28 +108,28 @@ export class SignalRService {
         await this.newSignal(user, signal);
       });
 
-      //Nhận thông tin người gọi
+    //Nhận thông tin người gọi
     this._hubConnection
       .on("callerInfo", async (user: IUser) => {
         this.callerInfo = user;
         this.callerSub.next(user);
       })
 
-      //Nhận số lượng online
+    //Nhận số lượng online
     this._hubConnection
       .on('onlineCount', async (onlineCount: number) => {
         this.onlineCount = onlineCount;
         this.onlineCountSub.next(this.onlineCount);
       })
 
-      //Nhận thông báo
+    //Nhận thông báo
     this._hubConnection
       .on('notification', async (notification: INotification) => {
         this.notification = notification;
         this.notificationCountSub.next(this.notification);
       })
 
-      //Nhận tin nhắn
+    //Nhận tin nhắn
     this._hubConnection
       .on('messageResponse', async (message: Message) => {
         this.message = message;
@@ -156,7 +152,6 @@ export class SignalRService {
   ) {
     this._hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${this.url.urlHost}/chatHub`)
-      //.withUrl(`https://hieuit.tech:5201/chatHub`)
       .build();
 
     this.authenticationService.userInfoObservable
@@ -168,7 +163,8 @@ export class SignalRService {
     this.connected = false;
     this.connectedSub.next(false);
     this.connSub.next(false);
-    this.usersSub.next(undefined);
+    this.localConnectionSub.next(undefined);
+    this.partnerConnectionSub.next(undefined);
   }
 
   public async getMyInfo() {
@@ -180,17 +176,25 @@ export class SignalRService {
   public async getTargetInfo(userId: string) {
     return await this._hubConnection.invoke("getTargetInfo", userId);
   }
-  
+
 
   private async updateUserList(users: IUser[]): Promise<void> {
     const iceServers = await this.getIceServers();
     users.forEach(async user => {
-      const connection = await this.getConnection(user.connectionId, iceServers, false);
+      var connection = {} as UserConnection;
+      //  
+      if (user.connectionId == this.currentConnectionId) {
+        connection = await this.getLocalConnection(user.connectionId, iceServers, false);
+      }
+      else {
+        connection = await this.getPartnerConnection(user.connectionId, iceServers, false);
+      }
+
       if (connection.user.userName !== user.userName) {
         connection.user.userName = user.userName;
       }
       if (connection.isCurrentUser && connection.streamSub.getValue() === undefined) {
-        const stream = await this.getUserMediaInternal();
+        const stream = await this.getUserMediaInternal(true, true);
 
         if (connection.streamSub.getValue() === undefined) {
           connection.streamSub.next(stream);
@@ -198,7 +202,9 @@ export class SignalRService {
       }
     });
 
-    this.usersSub.next(Object.values(this._connections));
+    // this.usersSub.next(Object.values(this._connections));
+    this.localConnectionSub.next(this.localConnection);
+    this.partnerConnectionSub.next(this.partnerConnection);
   }
 
   public join(userId: string, userName: string, isCaller: boolean) {
@@ -210,7 +216,7 @@ export class SignalRService {
 
     this.closeAllVideoCalls();
 
-    this._connections[this.currentConnectionId] =
+    this.localConnection =
       new UserConnection({ userId: userId, connectionId: this.currentConnectionId, userName: userName }, true, undefined);
 
     if (isCaller) {
@@ -221,7 +227,7 @@ export class SignalRService {
     }
 
     this._hubConnection
-    //Khi chạy trên mobile thì truyền vào true.
+      //Khi chạy trên mobile thì truyền vào true.
       .invoke('Join', userId, this.currentConnectionId, userName, this.currentRoomName, false);
   }
 
@@ -234,15 +240,15 @@ export class SignalRService {
 
 
   //Yêu cầu quyền truy cập
-  private async getUserMediaInternal(): Promise<MediaStream> {
+  private async getUserMediaInternal(audio: boolean, video: boolean): Promise<MediaStream> {
     if (this.currentMediaStream) {
       return this.currentMediaStream;
     }
 
     try {
       return await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
+        video: video,
+        audio: audio
       });
     } catch (error) {
       console.error('Failed to get hardware access', error);
@@ -268,14 +274,14 @@ export class SignalRService {
 
     console.log('Initiate offer to ' + acceptingUser.userName);
 
-    if (this._connections[partnerClientId]) {
+    if (this.partnerConnection) {
       console.log('Cannot initiate an offer with existing partner.');
       return;
     }
 
     const iceServers = await this.getIceServers();
 
-    await this.getConnection(partnerClientId, iceServers, true);
+    await this.getPartnerConnection(partnerClientId, iceServers, true);
   }
 
   private async sendSignal(message: ISignal, partnerClientId: string) {
@@ -302,7 +308,7 @@ export class SignalRService {
 
     try {
       const iceServers = await this.getIceServers();
-      const connection = await this.getConnection(partnerClientId, iceServers, false);
+      const connection = await this.getPartnerConnection(partnerClientId, iceServers, false);
       await connection.rtcConnection.addIceCandidate(candidate);
     } catch (error) {
       console.error('Error adding ICE candidate:', error);
@@ -315,7 +321,7 @@ export class SignalRService {
 
     const desc = new RTCSessionDescription(sdp);
     const iceServers = await this.getIceServers();
-    const connection = await this.getConnection(partnerClientId, iceServers, false);
+    const connection = await this.getPartnerConnection(partnerClientId, iceServers, false);
 
     if (connection.creatingAnswer) {
       console.warn('Second answer not created.');
@@ -331,7 +337,7 @@ export class SignalRService {
       const senders = connection.rtcConnection.getSenders();
       if (!senders || senders.length === 0) {
         console.log('AddSenders needed');
-        const localStream = await this.getUserMediaInternal();
+        const localStream = await this.getUserMediaInternal(true, true);
         localStream.getTracks().forEach(track => connection.rtcConnection.addTrack(track, localStream));
       }
       const answer = await connection.rtcConnection.createAnswer();
@@ -353,7 +359,7 @@ export class SignalRService {
 
     try {
       const iceServers = await this.getIceServers();
-      const connection = await this.getConnection(partnerClientId, iceServers, false);
+      const connection = await this.getPartnerConnection(partnerClientId, iceServers, false);
 
       await connection.rtcConnection.setRemoteDescription(sdp);
     } catch (error) {
@@ -361,28 +367,30 @@ export class SignalRService {
     }
   }
 
-  private async getConnection(partnerClientId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
-    const connection = this._connections[partnerClientId]
-      || (await this.createConnection(partnerClientId, iceServers, createOffer));
+  private async getLocalConnection(connectionId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
+    const connection = this.localConnection
+      || (await this.createConnection(true, connectionId, iceServers, createOffer));
     return connection;
+
   }
 
-  private async createConnection(partnerClientId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
-    console.log('WebRTC: creating connection...');
+  private async getPartnerConnection(connectionId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
+    const connection = this.partnerConnection
+      || (await this.createConnection(false, connectionId, iceServers, createOffer));
+    return connection;
 
-    if (this._connections[partnerClientId]) {
-      this.closeVideoCall(partnerClientId);
-    }
+  }
+
+  private async createConnection(isLocal:boolean, partnerClientId: string, iceServers: RTCIceServer[], createOffer: boolean): Promise<UserConnection> {
+    console.log('WebRTC: creating connection...');
 
     const connection = new RTCPeerConnection({ iceServers: iceServers });
     const userConnection = new UserConnection({ userId: '', connectionId: partnerClientId, userName: '' },
       false, connection);
 
-    this._connections[partnerClientId] = userConnection;
+    isLocal ? this.localConnection = userConnection : this.partnerConnection = userConnection;
 
-
-
-    const localStream = await this.getUserMediaInternal();
+    const localStream = await this.getUserMediaInternal(true, true);
     localStream.getTracks().forEach(track => connection.addTrack(track, localStream));
 
     connection.oniceconnectionstatechange = () => {
@@ -450,25 +458,36 @@ export class SignalRService {
   }
 
   private closeAllVideoCalls() {
-    this.closeVideoCall(this.currentConnectionId);
-    Object.keys(this._connections)
-      .forEach(key => {
-        this.closeVideoCall(key);
-      });
-    this._connections = {};
+    this.closeLocalVideoCall();
+    this.closePartnerVideoCall();
   }
 
-  private closeVideoCall(partnerClientId: string) {
-    const connection = this._connections[partnerClientId];
+  private closeLocalVideoCall() {
+    const connection = this.localConnection;
     if (connection) {
       connection.end();
-      this._connections[partnerClientId] = undefined;
+      this.localConnection = undefined;
 
-      delete this._connections[partnerClientId];
+      delete this.localConnection;
+    }
+  }
+
+  private closePartnerVideoCall() {
+    const connection = this.partnerConnection;
+    if (connection) {
+      connection.end();
+      this.partnerConnection = undefined;
+
+      delete this.partnerConnection;
     }
   }
 
   public getUserById(userId: string) {
     return this._hubConnection.invoke('GetUserById', userId);
   }
+}
+
+export enum CallType{
+  VideoCall,
+  VoiceCall
 }

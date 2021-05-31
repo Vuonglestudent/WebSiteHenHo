@@ -11,9 +11,9 @@ import { IUserInfo, UserConnection } from 'src/app/models/models';
 export class VideoMemberComponent implements OnInit {
   @Input()
   user: UserConnection;
-  
+
   @Input()
-  className:string = '';
+  className: string = '';
 
   theVideo: HTMLVideoElement;
   @ViewChild('theVideo')
@@ -23,12 +23,12 @@ export class VideoMemberComponent implements OnInit {
   }
 
   isYou = false;
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
   constructor(
-    private authenticationService:AuthenticationService
-  ) { 
+    private authenticationService: AuthenticationService
+  ) {
     this.authenticationService.userInfoObservable
-	    .subscribe(user => {
+      .subscribe(user => {
         this.userInfo = user;
       })
   }

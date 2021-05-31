@@ -24,12 +24,15 @@ export class HomeComponent implements OnInit {
     @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
 
         var element = document.getElementById('fixed-content-id');
+        var space = document.getElementById('right-space');
         if (element) {
             if (window.pageYOffset > 1000) {
                 element.classList.add('fixed-content');
+                space.classList.remove('hide-right-space');
             }
             else {
                 element.classList.remove('fixed-content');
+                space.classList.add('hide-right-space');
             }
 
 

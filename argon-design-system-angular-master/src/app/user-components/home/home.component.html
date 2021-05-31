@@ -33,7 +33,8 @@
         </svg>
       </div>
     </section>
-    <div class="container">
+
+    <div class="container-custom">
       <div class="onlineCount">
         <i class="fa fa-globe"></i>
         Online: {{onlineCount}}
@@ -45,12 +46,13 @@
         </button>
       </div>
 
-      <app-introduce *ngIf="userInfo == undefined"></app-introduce>
-      <div *ngIf="isViewFriend" class="row">
+      <div *ngIf="userInfo == undefined" class="container">
+        <app-introduce></app-introduce>
+      </div>
+      <div id="container" *ngIf="isViewFriend" class="row justify-content-center">
         <div class='left-content'>
 
           <!--  -->
-
           <div class="col-md-12 ">
             <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
               <li class="nav-item">
@@ -68,7 +70,9 @@
 
             </ul>
             <div id="card-border-none" class="card card-plain">
+
               <div class="tab-content tab-space tab-custom">
+
                 <div class="tab-pane fade active show" id="link22">
 
                   <div class="animate-bottom">
@@ -86,8 +90,6 @@
                       </div>
                     </div>
                   </div>
-
-
 
                   <div class="friend-container">
                     <div *ngFor="let item of usersService.Favoritors; let i = index"
@@ -151,14 +153,14 @@
 
                   <div *ngIf="!Loading" class="d-flex justify-content-center"
                     style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
-
                     <button *ngIf="!noMore" (click)="nextPage()" class="btn btn-primary">Xem thêm</button>
-
-
                   </div>
+
                 </div>
+
                 <div class="tab-pane fade tab-custom" id="link23">
                   <!-- Đăng tin -->
+
                   <div class="alert alert-default news-title" role="alert">
                     <div class="d-flex justify-content-between">
                       <h4 class="text-white"><span> Bảng tin!</span>
@@ -282,9 +284,7 @@
               </div>
             </div>
           </div>
-
           <!--  -->
-
         </div>
 
         <div id="fixed-content-id" class="right-content">
@@ -319,14 +319,12 @@
                   id="ThanhPho">
                   <option *ngFor="let item of filterData.location;" value="{{item}}">{{item | stringEnum}}</option>
                 </select>
-                <!-- <button (click)="onSearch()" class="btn btn-primary">
-                  Tìm kiếm
-                </button> -->
+
                 <button (click)="onSearch()" class="btn btn-1 btn-outline-primary" type="button">Tìm kiếm</button>
               </form>
             </div>
           </div>
-          <div class="col">
+          <div class="col" style="padding: 0;">
             <div class="alert text-center" style="margin-bottom: 0px;" role="alert">
             </div>
             <table class="table">
@@ -339,8 +337,6 @@
                     <div>
                       <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img class="img-thumbnail"
                           src="{{item.avatarPath}}" alt="Avatar"></a>
-                      <!-- <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img *ngIf="!item.hasAvatar"
-                          class="img-thumbnail" src="{{item.avatarPath}}" alt="Avatar"></a> -->
                     </div>
                   </td>
                   <td style="padding-left: 5px;">
@@ -357,33 +353,18 @@
           </div>
         </div>
 
+        <div id='right-space' class="hide-right-space">
+
+        </div>
+
       </div>
 
-      <!-- <div class="row">
-        <div class="pl-5" style="width: 30%;">
-        </div>
-      </div> -->
+
     </div>
   </div>
-  <!-- <app-sections></app-sections> -->
 </main>
 
-<!-- <section class="imagePop" id="imagePopId">
-  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
-  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
-  </div>
-  <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)"><i
-      class="ni ni-favourite-28 text-white"></i></div>
-  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
-  <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()"></section>
-</section> -->
 
-<section class="imagePop" id="imagePopAvatar">
-  <!-- <div class="favorite" id="clickFavoriteImage"><i class="ni ni-favourite-28 text-white"></i></div> -->
-  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
-  <section class="imagePopUnder" onclick="imagePopNone()"></section>
-</section>
 
 <div id="alert-custom">
   <alert></alert>

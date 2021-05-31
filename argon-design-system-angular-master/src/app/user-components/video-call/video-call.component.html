@@ -1,31 +1,32 @@
 <div class="video-container">
-  <div *ngIf="users != undefined && users.length > 1" class="your-friend-video">
-    <app-video-member [className]="'friend-video'" [user]="users[1]">
+
+  <div *ngIf="partnerConnection != undefined" class="your-friend-video">
+    <app-video-member [className]="'friend-video'" [user]="partnerConnection">
     </app-video-member>
   </div>
 
-  <div *ngIf="users != undefined ">
-    <app-video-member [className]="'my-video'" [user]="users[0]">
+  <div *ngIf="localConnection != undefined ">
+    <app-video-member [className]="'my-video'" [user]="localConnection">
     </app-video-member>
   </div>
 
   <div class="actions">
     <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
-      <li class="nav-item hover-item">
+      <li (click)="toggleVideo()" class="nav-item hover-item">
         <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="home" aria-selected="true">
           <span class="nav-link-icon d-block">
             <fa-icon style="color:white" size="5x" [icon]="faVideo" [spin]="false"></fa-icon>
           </span>
         </a>
       </li>
-      <li class="nav-item hover-item">
+      <li (click)="toggleAudio()" class="nav-item hover-item">
         <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="profile" aria-selected="false">
           <span class="nav-link-icon d-block">
             <fa-icon style="color:white" size="5x" [icon]="faMicrophone" [spin]="false"></fa-icon>
           </span>
         </a>
       </li>
-      <li class="nav-item hover-item">
+      <li (click)="hangUp()" class="nav-item hover-item">
         <a class="nav-link" style="background-color: red;" role="tab" aria-controls="contact" aria-selected="false">
           <span class="nav-link-icon d-block">
             <fa-icon style="color:white" size="5x" [icon]="faPhoneAlt" [spin]="false"></fa-icon>

@@ -17,7 +17,8 @@ import { INotification, IUserInfo } from 'src/app/models/models';
 export class NavbarComponent implements OnInit {
 
     @ViewChild('openConfirmModal') modal: ElementRef<HTMLElement>;
-
+    @ViewChild('toggleNotification') toggleNotification: ElementRef<HTMLElement>;
+    
     public isCollapsed = true;
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
@@ -68,7 +69,6 @@ export class NavbarComponent implements OnInit {
             this.lastPoppedUrl = ev.url;
         });
 
-        //setTimeout(() => this.modal.nativeElement.click(), 500);
     }
 
     isHome() {
@@ -155,6 +155,7 @@ export class NavbarComponent implements OnInit {
 
     currentNotification: INotification = {} as INotification;
     onClick(item: INotification) {
+        this.toggleNotification.nativeElement.click();
         this.currentNotification = item;
 
         if (item.type === "follow" || item.type === "like" || item.type == "likeImage") {

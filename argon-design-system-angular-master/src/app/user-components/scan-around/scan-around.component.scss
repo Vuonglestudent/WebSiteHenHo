@@ -1,5 +1,16 @@
 .space {
-  margin: 10%
+  margin: 8%
+}
+
+.search-option {
+  padding: 2% 0%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  h3 {
+    width: 100%;
+  }
 }
 
 .user-group {
@@ -7,11 +18,11 @@
   flex-wrap: wrap;
 }
 
-.hide{
-  display:none;
+.hide {
+  display: none;
 }
 
-.show{
+.show {
   display: block;
 }
 
@@ -20,6 +31,7 @@
   padding: 3%;
   margin-bottom: 1%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
 
   .title {
     margin: 2% 0% 2% 0%;
@@ -58,6 +70,11 @@
   }
 }
 
+.user:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  cursor: pointer;
+}
+
 .limit-width {
   width: 200px;
   height: 200px;
@@ -70,6 +87,7 @@
 }
 
 .center-button {
+  padding: 2%;
   display: flex;
   justify-content: center;
 }

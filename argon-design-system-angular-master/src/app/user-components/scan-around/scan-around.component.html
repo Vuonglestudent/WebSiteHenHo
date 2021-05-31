@@ -18,6 +18,16 @@
 </div>
 
 <div [ngClass]="isSearch ? 'hide' :  'show'" class="container">
+
+    <div class="search-option">
+        <h3 class="text-primary text-center">
+            Tìm kiếm những người xung quanh bạn...
+        </h3>
+        <button (click)="modal.nativeElement.click();" class="btn btn-primary">
+            tùy chọn tìm kiếm
+        </button>
+    </div>
+
     <div class="user-group d-flex justify-content-between">
 
         <div *ngFor="let user of users" class="user">
@@ -117,3 +127,7 @@
         </div>
     </div>
 </div>
+
+<div class="space">
+</div>
+<app-footer></app-footer>
