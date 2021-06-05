@@ -300,7 +300,7 @@
               </div>
               <form class="form-search" action="">
 
-                <input [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control"
+                <input (keydown.enter)="onSearch()" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control"
                   placeholder="Tìm theo tên">
                 <select [(ngModel)]="gender" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
                   id="GioiTinh">

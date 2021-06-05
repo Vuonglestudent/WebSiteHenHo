@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
 
     @ViewChild('openConfirmModal') modal: ElementRef<HTMLElement>;
     @ViewChild('toggleNotification') toggleNotification: ElementRef<HTMLElement>;
-    
+
     public isCollapsed = true;
     private lastPoppedUrl: string;
     private yScrollStack: number[] = [];
@@ -98,8 +98,15 @@ export class NavbarComponent implements OnInit {
     }
 
     clickMyProfile = () => {
+        var url = this.router.url.split("/")[1];
         this.router.navigate(['/profile', this.userInfo.id]);
+        if (url === 'profile') {
+            setTimeout(() => {
+                window.location.reload();
+            }, 5);
+        }
     }
+
     loadingNotification = false;
 
     isNoMore = false;

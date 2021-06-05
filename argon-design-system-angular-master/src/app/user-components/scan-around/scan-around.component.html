@@ -30,7 +30,7 @@
 
     <div class="user-group d-flex justify-content-between">
 
-        <div *ngFor="let user of users" class="user">
+        <div *ngFor="let user of users" class="user" (click)="onCLickUser(user.id)">
             <div class='d-flex justify-content-center'>
                 <img class="rounded-circle avatar-custom limit-width" alt="Image placeholder" src="{{user.avatarPath}}">
             </div>

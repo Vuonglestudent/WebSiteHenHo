@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    loadNewImages(){
+    loadNewImages() {
         if (this.userInfo != null) {
             this.isViewImage = true;
             this.GetNewImages(this.PageIndexImage, this.PageSizeImage);
@@ -171,7 +171,16 @@ export class HomeComponent implements OnInit {
         this.usersService.GetSimilarUSer(this.userInfo.id, this.usersService.FavoritePage.index, this.usersService.FavoritePage.size, filter, this.location, this.name, this.fromAge, this.toAge, this.gender)
             .then(response => {
                 this.Loading = false;
-                this.usersService.Favoritors = this.usersService.Favoritors.concat(response.data);
+                if (this.isFilter) {
+                    this.usersService.Favoritors = response.data;
+                    if (response.data.length == 0) {
+                        this.alertService.warn("Không tìm thấy người dùng phù hợp", this.options2);
+                        return;
+                    }
+                }
+                else {
+                    this.usersService.Favoritors = this.usersService.Favoritors.concat(response.data);
+                }
                 this.usersService.FavoritePage.total = response.pageTotal;
 
                 if (response.data.length === 0) {
@@ -185,29 +194,29 @@ export class HomeComponent implements OnInit {
     }
 
     getFavoritors() {
-        this.Loading = true;
-        this.usersService.GetFavoritest(this.usersService.FavoritePage.index, this.usersService.FavoritePage.size)
-            .then(response => {
-                this.Loading = false;
-                this.usersService.Favoritors = response.data;
-                this.usersService.FavoritePage.total = response.pageTotal;
+        //this.Loading = true;
+        // this.usersService.GetFavoritest(this.usersService.FavoritePage.index, this.usersService.FavoritePage.size)
+        //     .then(response => {
+        //         this.Loading = false;
+        //         this.usersService.Favoritors = response.data;
+        //         this.usersService.FavoritePage.total = response.pageTotal;
 
-                this.usersService.Favoritors.forEach(element => {
-                    this.imageService.getImageByUserId(element.id)
-                        .then(data => {
-                            this.usersService.Favoritors.filter(x => x.id == element.id)[0].images = data;
-                        })
-                        .catch(error => {
-                            this.alertService.clear();
-                            this.alertService.error("Có lỗi khi tải hình ảnh!");
-                        })
-                });
-            })
-            .catch(error => {
-                //this.Loading = false;
-                this.alertService.clear();
-                this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
-            })
+        //         this.usersService.Favoritors.forEach(element => {
+        //             this.imageService.getImageByUserId(element.id, 1, this.pageSizeImage)
+        //                 .then(data => {
+        //                     this.usersService.Favoritors.filter(x => x.id == element.id)[0].images = data;
+        //                 })
+        //                 .catch(error => {
+        //                     this.alertService.clear();
+        //                     this.alertService.error("Có lỗi khi tải hình ảnh!");
+        //                 })
+        //         });
+        //     })
+        //     .catch(error => {
+        //         //this.Loading = false;
+        //         this.alertService.clear();
+        //         this.alertService.error("Lỗi server, vui lòng thử lại sau!", this.options);
+        //     })
 
     }
 
@@ -344,9 +353,10 @@ export class HomeComponent implements OnInit {
         captionText.innerHTML = dots[this.slideIndex - 1].getAttribute("alt");
     }
 
+    pageSizeImage = 100;
     onViewImage = (user: User) => {
         this.images = [];
-        this.imageService.getImageByUserId(user.id)
+        this.imageService.getImageByUserId(user.id, 1, this.pageSizeImage)
             .then(data => {
                 //this.usersService.Favoritors.filter(x => x.id == user.id)[0].images = data;
                 this.images = data;
@@ -488,7 +498,7 @@ export class HomeComponent implements OnInit {
     NewImages: News[] = new Array();
     noMoreImage = false;
     GetNewImages = (pageIndex: number, pageSize: number) => {
-        if(this.noMoreImage){
+        if (this.noMoreImage) {
             return;
         }
 

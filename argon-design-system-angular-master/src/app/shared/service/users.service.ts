@@ -92,9 +92,9 @@ export class UsersService {
     return this.http.get<any>(this.mainUrl + path, { headers: headers }).toPromise();
   }
 
-  public GetFollowers = (userId: string) => {
+  public GetFollowers = (userId: string, pageIndex: number, pageSize: number) => {
     let headers = this.authenticationService.GetHeader();
-    var path = `/follow/${userId}`;
+    var path = `/follow/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}`;
 
     return this.http.get<any>(this.mainUrl + path, { headers }).toPromise();
   }

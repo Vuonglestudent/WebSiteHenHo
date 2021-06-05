@@ -6,6 +6,7 @@ import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angula
 import { GeolocationService } from '@ng-web-apis/geolocation';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-scan-around',
   templateUrl: './scan-around.component.html',
@@ -17,7 +18,8 @@ export class ScanAroundComponent implements OnInit, AfterViewInit {
     private readonly geolocationService: GeolocationService,
     private usersService: UsersService,
     private authService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     this.authService.userInfoObservable
       .subscribe(data => {
@@ -43,7 +45,9 @@ export class ScanAroundComponent implements OnInit, AfterViewInit {
   }
 
   isSubscribe = false;
-
+  onCLickUser(userId: string) {
+    this.router.navigate(['/profile', userId]);
+  }
   getPosition() {
     this.geolocationService.subscribe(position => {
 

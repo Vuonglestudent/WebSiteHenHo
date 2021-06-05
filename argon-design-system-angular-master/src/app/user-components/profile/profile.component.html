@@ -582,17 +582,7 @@
 
             <div class="col-lg-12 col-md-12 row pl-3 shadow" style="margin-left: 0%; margin-right: 0%;">
               <div *ngFor="let item of imagesResponse; let i = index" class="col-md-3 col-xl-3 animate-bottom">
-                <div *ngIf="i < 8" style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
-                  <div class="card card2">
-                    <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
-                      onclick="selectImage(id)">
-                      <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
-                          src="{{item.imagePath}}" alt="Avatar"></a>
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="i >= 8 && isSeenMoreImage"
-                  style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+                <div style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
                   <div class="card card2">
                     <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
                       onclick="selectImage(id)">
@@ -602,10 +592,14 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!isSeenMoreImage && imagesResponse.length >= 8"
-                class="alert alert-default btn active-viewImage" style="width: 100%; margin: 0 15px 1% 0px;"
-                (click)="clickSeenMoreImage()">
-                <h6 class="text-white" style="margin:-1%;padding:-2%;">Xem Thêm</h6>
+
+              <div *ngIf="!isNoMoreImage" class='d-flex justify-content-center center-button'>
+                <button *ngIf="!isLoadingImage" (click)="onViewImage()" class='btn btn-outline-default'>Xem
+                  thêm</button>
+                <button *ngIf="isLoadingImage" class="btn btn-outline-default">
+                  <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  Đang tải...
+                </button>
               </div>
             </div>
 
@@ -642,6 +636,15 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <br>
+              <div *ngIf="!isNoMoreFriend" class='d-flex justify-content-center center-button'>
+                <button *ngIf="!isLoadingFriendList" (click)="getFriendList()" class='btn btn-outline-default'>Xem
+                  thêm</button>
+                <button *ngIf="isLoadingFriendList" class="btn btn-outline-default">
+                  <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  Đang tải...
+                </button>
               </div>
             </div>
 
@@ -694,40 +697,40 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="block-table">
 
-        <table class="table table-hover">
+          <div class="blockItem" *ngFor="let item of BlockList; let i = index">
+            <div class="block-stt">
+              #{{i + 1}}
+            </div>
+            <div class=" block-avatar avatar-custom">
+              <img class="avatar" width="50px" height="50px" src="{{item.avatarPath}}">
+            </div>
+            <div class='block-name'>
+              {{item.fullName}}
+            </div>
 
-          <tbody *ngFor="let item of BlockList; let i = index">
-            <ul class="row ul">
-              <li class="li">#{{i}}</li>
-              <li class="avatar avatar-block"><img width="50px" height="50px" src="{{item.avatarPath}}"></li>
-              <li class="li">{{item.fullName}}</li>
-              <li class="li end">
-                <button *ngIf="item.blocked" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                  class="btn btn-success btn-icon btn-sm ">
-                  <i class="fa fa-cog" aria-hidden="true"></i>
-                  Bỏ chặn
-                </button>
+            <div class="block-action">
+              <button *ngIf="item.blocked" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                class="btn btn-success btn-icon btn-sm ">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+                Bỏ chặn
+              </button>
 
-                <button *ngIf="!item.blocked && blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                  class="btn btn-success btn-icon btn-sm ">
-                  <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
-                  Bỏ chặn
-                </button>
+              <button *ngIf="!item.blocked && blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                class="btn btn-success btn-icon btn-sm ">
+                <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                Bỏ chặn
+              </button>
 
-                <button *ngIf="!item.blocked && !blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                  class="btn btn-primary btn-icon btn-sm ">
-                  <i class="fa fa-cog" aria-hidden="true"></i>
-                  Hoàn tác
-                </button>
-
-
-              </li>
-
-
-            </ul>
-          </tbody>
-        </table>
+              <button *ngIf="!item.blocked && !blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
+                class="btn btn-primary btn-icon btn-sm ">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+                Hoàn tác
+              </button>
+            </div>
+          </div>
+        </div>
 
       </div>
       <div class="modal-footer">

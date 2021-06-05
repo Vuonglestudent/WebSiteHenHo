@@ -40,6 +40,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     isViewLikes = false;
     isViewActions = false;
 
+    pageIndex = 1;
+    pageSize = 8;
+
     profileData: ProfileData = new ProfileData();
     public UserProfile: User = new User();
     isViewImageList = false;
@@ -345,12 +348,26 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             })
     }
 
+    pageIndexImage = 1;
+    pageSizeImage = 8;
+
+    isLoadingImage = false;
+    isNoMoreImage = false;
+
     onViewImage = () => {
-        this.imageService.getImageByUserId(this.route.snapshot.paramMap.get('id'))
+        this.isLoadingImage = true;
+        this.imageService.getImageByUserId(this.route.snapshot.paramMap.get('id'), this.pageIndexImage, this.pageSizeImage)
             .then(data => {
-                this.imagesResponse = data;
+                if (data.length == 0) {
+                    this.isNoMoreImage = true;
+                    return;
+                }
+                this.pageIndexImage += 1;
+                this.isLoadingImage = false;
+                this.imagesResponse = this.imagesResponse.concat(data);
             })
             .catch(error => {
+                this.isLoadingImage = false;
                 this.alertService.clear();
                 this.alertService.error("Có lỗi khi tải hình ảnh!");
             })
@@ -368,7 +385,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         userProfile.findAgeGroup = userProfile.findAgeGroup.replace(/ /g, "_");
     }
 
-    numbers = Array(100).fill(0);
+    numbers = Array(200).fill(0);
     popMessage = false
     popTextAreaMessage = () => {
         this.popMessage = true;
@@ -457,23 +474,44 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.editing = false;
         this.uploadImage = false;
         this.isSeenMoreImage = false;
-        //if (this.checkExistObject(this.FriendList) == false) {
-        this.usersService.GetFollowers(this.currentUserId)
+
+        this.getFriendList();
+    }
+
+    isLoadingFriendList = false;
+    isNoMoreFriend = false;
+
+    getFriendList() {
+        this.isLoadingFriendList = true;
+        this.usersService.GetFollowers(this.currentUserId, this.pageIndex, this.pageSize)
             .then(data => {
-                this.FriendList = data;
+                if (data.length == 0) {
+                    this.isNoMoreFriend = true;
+                    return;
+                }
+                this.isLoadingFriendList = false;
+                this.pageIndex += 1;
+                this.FriendList = this.FriendList.concat(data);
             })
             .catch(error => {
+                this.isLoadingFriendList = false;
                 this.alertService.clear();
                 this.alertService.error('Có lỗi trong khi lấy danh sách bạn bè!');
             })
-        //}
     }
+
     clickProfileUser = (id) => {
         this.isViewFriendList = false;
         this.uploadImage = false;
         this.editing = false;
-        this.router.navigate(['/profile', id]);
 
+        var url = this.router.url.split("/")[1];
+        this.router.navigate(['/profile', id]);
+        if (url === 'profile') {
+            setTimeout(() => {
+                window.location.reload();
+            }, 5);
+        }
     }
 
     //seenAvatar = false;

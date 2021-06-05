@@ -7,6 +7,38 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.blockItem {
+  display: flex;
+  width: 100%;
+  padding: 2%;
+  align-items: center;
+
+  .block-stt {
+    width: 10%;
+  }
+
+  .block-avatar {
+    width: 20%;
+  }
+
+  .block-name {
+    width: 50%;
+  }
+
+  .block-action {
+    width: 20%;
+  }
+}
+
+.center-button {
+  width: 100%;
+  padding: 2% 1%;
+
+  button {
+    width: 100%;
+  }
+}
+
 .have-relationship {
   display: flex;
   justify-content: center;
@@ -69,10 +101,12 @@
     display: flex;
     flex-wrap: wrap;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    .form-title{
+
+    .form-title {
       width: 45%;
     }
-    .form-value{
+
+    .form-value {
       width: 235px;
     }
   }
@@ -521,10 +555,6 @@ option:hover {
 
 .end {
   padding-right: 5%;
-}
-
-.avatar-block {
-  margin-top: 1%;
 }
 
 
