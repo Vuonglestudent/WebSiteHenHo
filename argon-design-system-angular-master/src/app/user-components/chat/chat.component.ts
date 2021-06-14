@@ -44,15 +44,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         if (data != undefined) {
           this.friendList = data;
-          if (this.friendList.length != 0) {
+          if (this.friendList.length != 0 && !this.isLoaded) {
             this.MoreMessages(this.friendList[0].user.id, this.UserIndex);
             this.nameReceiver = this.friendList[0].user.fullName;
             this.avatarPath = this.friendList[0].user.avatarPath;
             this.ReceiverId = this.friendList[0].user.id;
+            
+            this.isLoaded = true;
           }
         }
       })
   }
+  isLoaded = false;
 
   faEllipsisV = faEllipsisV;
   faVideo = faVideo;
@@ -63,7 +66,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public To: string;
   public UserIndex = 0;
 
-  SenderId: string;
   ReceiverId: string;
   txtMessage: string = '';
 
@@ -97,8 +99,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       alert("Điền đầy đủ thông tin người nhận người gửi!");
       return;
     }
-
-    if (this.txtMessage != '') {
+    this.txtMessage = this.txtMessage.substring(0, this.txtMessage.length - 1);
+    console.log(this.txtMessage.length);
+    if (this.txtMessage.length > 0) {
 
       this.messageService.SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
         .then(data => {
@@ -167,19 +170,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.setScroll()
   }
 
-  breakRow = (e) => {
-    var message = e.target
-    this.txtMessage = this.txtMessage + "\n"
-    message.setAttribute('value', `${this.txtMessage}`)
-  }
-
   getUserIndex = (userId: string) => {
-    var index = -1;
     for (let i = 0; i < this.friendList.length; i++) {
       if (this.friendList[i].user.id == userId) {
         return i;
       }
     }
+    return -1;
   }
 
   isUserExist(userId: string) {

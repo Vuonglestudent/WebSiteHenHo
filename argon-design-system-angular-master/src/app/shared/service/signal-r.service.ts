@@ -62,8 +62,7 @@ export class SignalRService {
     (async () => {
       try {
         await this._hubConnection.start();
-        const connectionId = await this._hubConnection.invoke('GetConnectionId');
-        this.currentConnectionId = connectionId;
+        this.currentConnectionId = await this._hubConnection.invoke('GetConnectionId');
         this.connected = true;
         this.connectedSub.next(true);
 
@@ -98,6 +97,7 @@ export class SignalRService {
 
     this._hubConnection
       .on('updateUserList', async (roomName: string, users: IUser[], callType: CallType) => {
+        console.log('update user list');
         if (this.currentRoomName === roomName) {
           await this.updateUserList(users, callType);
         }
@@ -178,8 +178,8 @@ export class SignalRService {
     return await this._hubConnection.invoke("getTargetInfo", userId, callType);
   }
 
-
   private async updateUserList(users: IUser[], callType: CallType): Promise<void> {
+    console.log('updateUserList function');
     const iceServers = await this.getIceServers();
     users.forEach(async user => {
       var connection = {} as UserConnection;
@@ -203,8 +203,14 @@ export class SignalRService {
       }
     });
 
-    this.localConnectionSub.next(this.localConnection);
-    this.partnerConnectionSub.next(this.partnerConnection);
+    if (this.localConnectionSub.value == undefined) {
+      this.localConnectionSub.next(this.localConnection);
+
+    }
+
+    if (this.partnerConnectionSub.value == undefined) {
+      this.partnerConnectionSub.next(this.partnerConnection);
+    }
   }
 
   public join(userId: string, userName: string, avatarPath: string, isCaller: boolean, callType: CallType) {
@@ -227,7 +233,7 @@ export class SignalRService {
     }
 
     //Khi chạy trên mobile thì truyền vào true.
-    this._hubConnection  
+    this._hubConnection
       .invoke('Join', userId, this.currentConnectionId, userName, avatarPath, this.currentRoomName, false, callType);
   }
 
@@ -294,13 +300,28 @@ export class SignalRService {
 
     console.log('WebRTC: received signal');
 
-    if (signal.type === SignalType.newIceCandidate) {
-      await this.receivedNewIceCandidate(partnerClientId, signal.candidate, callType);
-    } else if (signal.type === SignalType.videoOffer) {
-      await this.receivedVideoOffer(partnerClientId, signal.sdp, callType);
-    } else if (signal.type === SignalType.videoAnswer) {
-      await this.receivedVideoAnswer(partnerClientId, signal.sdp, callType);
+    switch (signal.type) {
+      case SignalType.newIceCandidate:
+        await this.receivedNewIceCandidate(partnerClientId, signal.candidate, callType);
+        break;
+      case SignalType.videoOffer:
+        await this.receivedVideoOffer(partnerClientId, signal.sdp, callType);
+        break;
+      case SignalType.videoAnswer:
+        await this.receivedVideoAnswer(partnerClientId, signal.sdp, callType);
+        break;
+      default:
+        break;
     }
+
+
+    // if (signal.type === SignalType.newIceCandidate) {
+    //   await this.receivedNewIceCandidate(partnerClientId, signal.candidate, callType);
+    // } else if (signal.type === SignalType.videoOffer) {
+    //   await this.receivedVideoOffer(partnerClientId, signal.sdp, callType);
+    // } else if (signal.type === SignalType.videoAnswer) {
+    //   await this.receivedVideoAnswer(partnerClientId, signal.sdp, callType);
+    // }
   }
 
   private async receivedNewIceCandidate(partnerClientId: string, candidate: RTCIceCandidate, callType: CallType) {
@@ -393,26 +414,29 @@ export class SignalRService {
     const localStream = await this.getUserMediaInternal(userConnection.callType);
     localStream.getTracks().forEach(track => connection.addTrack(track, localStream));
 
-    connection.oniceconnectionstatechange = () => {
-      switch (connection.iceConnectionState) {
-        case 'closed':
-        case 'failed':
-        case 'disconnected':
-          this.closeAllVideoCalls();
-          break;
-      }
-    };
-    connection.onicegatheringstatechange = () => {
-      console.log('*** ICE gathering state changed to: ' + connection.iceGatheringState);
-    };
-    connection.onsignalingstatechange = (event) => {
-      console.log('*** WebRTC signaling state changed to: ' + connection.signalingState);
-      switch (connection.signalingState) {
-        case 'closed':
-          this.closeAllVideoCalls();
-          break;
-      }
-    };
+    // connection.oniceconnectionstatechange = () => {
+    //   switch (connection.iceConnectionState) {
+    //     case 'closed':
+    //     case 'failed':
+    //     case 'disconnected':
+    //       this.closeAllVideoCalls();
+    //       break;
+    //   }
+    // };
+
+    // connection.onicegatheringstatechange = () => {
+    //   console.log('*** ICE gathering state changed to: ' + connection.iceGatheringState.toString());
+    // };
+
+    // connection.onsignalingstatechange = (event) => {
+    //   console.log('*** WebRTC signaling state changed to: ' + connection.signalingState.toString());
+    //   switch (connection.signalingState) {
+    //     case 'closed':
+    //       this.closeAllVideoCalls();
+    //       break;
+    //   }
+    // };
+
     connection.onicecandidate = async (event) => {
       if (event.candidate) {
         console.log('WebRTC: new ICE candidate');
@@ -424,16 +448,16 @@ export class SignalRService {
         console.log('WebRTC: ICE candidate gathering complete');
       }
     };
-    connection.onconnectionstatechange = (state) => {
-      const states = {
-        'iceConnectionState': connection.iceConnectionState,
-        'iceGatheringState': connection.iceGatheringState,
-        'connectionState': connection.connectionState,
-        'signalingState': connection.signalingState
-      };
+    // connection.onconnectionstatechange = (state) => {
+    //   const states = {
+    //     'iceConnectionState': connection.iceConnectionState,
+    //     'iceGatheringState': connection.iceGatheringState,
+    //     'connectionState': connection.connectionState,
+    //     'signalingState': connection.signalingState
+    //   };
 
-      console.log(JSON.stringify(states), state);
-    };
+    //   console.log(JSON.stringify(states), state);
+    // };
 
     connection.ontrack = (event) => {
       console.log('Track received from ' + partnerClientId);

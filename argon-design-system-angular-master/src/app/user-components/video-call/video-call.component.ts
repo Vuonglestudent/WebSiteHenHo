@@ -70,8 +70,9 @@ export class VideoCallComponent implements OnInit {
 
     signalRService.localConnectionObservable
       .subscribe(data => {
-        console.log('Nhan duoc local connection:');
+        
         if (data != undefined) {
+          console.log('Nhan duoc local connection:')
           console.log(data);
           this.localConnection = data;
         }
@@ -79,8 +80,8 @@ export class VideoCallComponent implements OnInit {
 
     signalRService.partnerConnectionObservable
       .subscribe(data => {
-        console.log('Nhan duoc partner connection:');
         if (data != undefined) {
+          console.log('Nhan duoc partner connection:');
           console.log(data);
           this.partnerConnection = data;
         }
