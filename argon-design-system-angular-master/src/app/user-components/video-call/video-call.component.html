@@ -1,70 +1,102 @@
-<div class="video-container">
+<div id="alert-custom">
+  <alert></alert>
+</div>
 
-  <div *ngIf="callType == CallType.VideoCall">
-    <div *ngIf="partnerConnection != undefined" class="your-friend-video">
-      <app-video-member [className]="'friend-video'" [user]="partnerConnection">
-      </app-video-member>
+<div class="video-container">
+  <div [ngClass]="callType == CallType.VideoCall ? '' : 'hide-video'">
+    <div class="your-friend-video">
+      <video
+        #remote_video
+        [autoplay]="true"
+        [muted]="false"
+        class="friend-video"
+      ></video>
     </div>
 
-    <div *ngIf="localConnection != undefined ">
-      <app-video-member [className]="'my-video'" [user]="localConnection">
-      </app-video-member>
+    <div>
+      <video
+        #local_video
+        [autoplay]="true"
+        [muted]="true"
+        class="my-video"
+      ></video>
     </div>
   </div>
 
-  <div *ngIf='callType == CallType.VoiceCall'>
-
+  <div *ngIf="callType == CallType.VoiceCall">
     <div class="container-custom">
-      <div class='d-flex justify-content-center'>
-        <div class="user d-flex justify-content-center">
-          <img class="rounded-circle avatar-custom limit-width" src="https://hieuit.tech:5201/user-content/tam.jpg">
-          <h4 class='text-white text-center'>
-            Nguyễn Thành Tâm
-          </h4>
+      <div class="d-flex justify-content-center">
+        <div
+          *ngIf="partner != undefined"
+          class="user d-flex justify-content-center"
+        >
+          <img
+            class="rounded-circle avatar-custom limit-width"
+            src="{{ partner.avatarPath }}"
+          />
+          <h4 class="text-white text-center">{{ partner.userName }}</h4>
 
-          <small>
-            Thời gian: {{time}}
-          </small>
+          <small> Thời gian: {{ time }} </small>
         </div>
       </div>
     </div>
-
-
-    <div style="display: none;">
-      <div *ngIf="partnerConnection != undefined" class="your-friend-video">
-        <app-video-member [className]="'friend-video'" [user]="partnerConnection">
-        </app-video-member>
-      </div>
-
-      <div *ngIf="localConnection != undefined ">
-        <app-video-member [className]="'my-video'" [user]="localConnection">
-        </app-video-member>
-      </div>
-    </div>
   </div>
 
-  <div class='d-flex justify-content-center'>
+  <div class="d-flex justify-content-center">
     <div class="actions">
       <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
         <li (click)="toggleVideo()" class="nav-item hover-item">
-          <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="home" aria-selected="true">
+          <a
+            class="nav-link"
+            style="background-color: #5e72e4"
+            role="tab"
+            aria-controls="home"
+            aria-selected="true"
+          >
             <span class="nav-link-icon d-block">
-              <fa-icon style="color:white" size="5x" [icon]="faVideo" [spin]="false"></fa-icon>
+              <fa-icon
+                style="color: white"
+                size="5x"
+                [icon]="faVideo"
+                [spin]="false"
+              ></fa-icon>
             </span>
           </a>
         </li>
         <li (click)="toggleAudio()" class="nav-item hover-item">
-          <a class="nav-link" style="background-color: #5e72e4;" role="tab" aria-controls="profile"
-            aria-selected="false">
+          <a
+            class="nav-link"
+            style="background-color: #5e72e4"
+            role="tab"
+            aria-controls="profile"
+            aria-selected="false"
+          >
             <span class="nav-link-icon d-block">
-              <fa-icon style="color:white" size="5x" [icon]="faMicrophone" [spin]="false"></fa-icon>
+              <fa-icon
+                style="color: white"
+                size="5x"
+                [icon]="faMicrophone"
+                [spin]="false"
+              ></fa-icon>
             </span>
           </a>
         </li>
-        <li (click)="hangUp()" class="nav-item hover-item">
-          <a class="nav-link" style="background-color: red;" role="tab" aria-controls="contact" aria-selected="false">
+
+        <li (click)="onCloseWindow()" class="nav-item hover-item">
+          <a
+            class="nav-link"
+            style="background-color: red"
+            role="tab"
+            aria-controls="contact"
+            aria-selected="false"
+          >
             <span class="nav-link-icon d-block">
-              <fa-icon style="color:white" size="5x" [icon]="faPhoneAlt" [spin]="false"></fa-icon>
+              <fa-icon
+                style="color: white"
+                size="5x"
+                [icon]="faPhoneAlt"
+                [spin]="false"
+              ></fa-icon>
             </span>
           </a>
         </li>
@@ -73,7 +105,10 @@
   </div>
 </div>
 
-<div class='background-loading'>
+<div
+  *ngIf="callType == CallType.VoiceCall || isLoading"
+  class="background-loading"
+>
   <div class="loading-content">
     <div class="lds-ripple">
       <div></div>
@@ -81,3 +116,31 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade bd-example-modal-sm" id="confirmModel" tabindex="2" role="dialog"
+  aria-labelledby="relationshipConfirmModel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div *ngIf="partner != undefined" class="modal-content" role="document">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">{{partner.userName}} đã từ chối cuộc gọi</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class='text-primary'>
+          Gọi lại cho {{partner.userName}}?
+        </h6>
+        <hr>
+        <div class="text-right">
+          <button type="button" (click)="onCloseWindow()" class="btn btn-secondary btn-sm" data-dismiss="modal"
+            aria-label="Close">Hủy</button>
+          <button type="button" (click)="onStartACall()" class="btn btn-primary btn-sm" data-dismiss="modal"
+            aria-label="Close">Gọi lại</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div #openConfirmModal type="button" rel="tooltip" data-toggle="modal" data-target="#confirmModel"></div>

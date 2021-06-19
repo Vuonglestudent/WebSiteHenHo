@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             this.nameReceiver = this.friendList[0].user.fullName;
             this.avatarPath = this.friendList[0].user.avatarPath;
             this.ReceiverId = this.friendList[0].user.id;
-            
+
             this.isLoaded = true;
           }
         }
@@ -191,7 +191,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
 
   onVideoCall() {
-    console.log(this.ReceiverId);
     this.onCheckTarget(CallType.VideoCall);
   }
 
@@ -203,21 +202,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
     window.open('/#/call/' + callType + '/false/' + receiverId, '_blank');
   }
 
-  onCheckTarget(callType: CallType) {
-    this.signalRService.getTargetInfo(this.ReceiverId, callType)
+  onCheckTarget(callType) {
+    this.signalRService.getUserById(this.ReceiverId)
       .then(data => {
         if (data == null) {
           this.alertService.clear();
-          this.alertService.error("Target is not online");
+          this.alertService.warn("Người dùng không online, hãy gọi lại sau");
           return;
         }
         // target is online
-        this.openCallVideoTab(this.ReceiverId, callType);
+        this.openCallVideoTab(data.userId, callType);
       })
       .catch(err => {
         console.log(err);
         this.alertService.clear();
-        this.alertService.error("Target is not online");
+        this.alertService.warn("Người dùng không online, hãy gọi lại sau");
       })
   }
   options = {

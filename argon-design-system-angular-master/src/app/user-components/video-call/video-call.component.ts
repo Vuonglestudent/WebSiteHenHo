@@ -1,29 +1,39 @@
-import { CallService } from './call.service';
-import { IUserInfo } from './../../models/models';
-import { Component, OnInit } from '@angular/core';
+import { IUserInfo, SignalType } from './../../models/models';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IUser, UserConnection } from 'src/app/models/models';
-import { CallType, SignalRService } from 'src/app/shared/service/signal-r.service';
+import { IUser } from 'src/app/models/models';
+import { CallStatus, CallType, Signal, SignalRService } from 'src/app/shared/service/signal-r.service';
 import { AlertService } from 'src/app/shared/_alert';
 import { AuthenticationService } from '../../shared/service/authentication.service';
-import { faSpinner, faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faPhoneAlt, faMicrophone, faVideo } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-video-call',
   templateUrl: './video-call.component.html',
   styleUrls: ['./video-call.component.scss']
 })
 export class VideoCallComponent implements OnInit {
+  mediaConstraints = {
+    audio: true,
+    // video: { width: 300, height: 300 }
+    // video: {width: 1280, height: 720} // 16:9
+    // video: {width: 960, height: 540}  // 16:9
+    video: { width: 640, height: 480 }  //  4:3
+    // video: {width: 160, height: 120}  //  4:3
+  };
 
-  userId = '';
+  offerOptions = {
+    offerToReceiveAudio: true,
+    offerToReceiveVideo: true
+  };
+  isLoading = false;
   isAccept;
 
+  partnerId = '';
   CallType = CallType;
-  localConnection: UserConnection;
-  partnerConnection: UserConnection;
 
-  joined = false;
-  callerInfo: IUser;
-  targetInfo: IUser;
+  localStream: MediaStream;
+
+  partner: IUser;
 
   faPhoneAlt = faPhoneAlt;
   faMicrophone = faMicrophone;
@@ -34,6 +44,24 @@ export class VideoCallComponent implements OnInit {
   public currentMediaStream: MediaStream;
   callType: CallType = CallType.VoiceCall;
 
+  private rtcConnection: RTCPeerConnection;
+
+  @ViewChild('local_video') localVideo: ElementRef;
+  @ViewChild('remote_video') remoteVideo: ElementRef;
+  @ViewChild('openConfirmModal') confirmModal: ElementRef;
+
+  startPromise: Promise<any>;
+
+  options1 = {
+    autoClose: false,
+    keepAfterRouteChange: false
+  };
+
+  options2 = {
+    autoClose: true,
+    keepAfterRouteChange: false
+  };
+
   constructor(
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
@@ -41,9 +69,10 @@ export class VideoCallComponent implements OnInit {
     public signalRService: SignalRService,
   ) {
 
-    this.userId = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
+    this.partnerId = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
     this.isAccept = this.route.snapshot.paramMap.get('isAccept');
     this.callType = Number(this.route.snapshot.paramMap.get('callType'));
+    this.offerOptions.offerToReceiveVideo = this.callType == CallType.VideoCall ? true : false;
 
     this.authenticationService.userInfoObservable
       .subscribe(user => {
@@ -63,51 +92,63 @@ export class VideoCallComponent implements OnInit {
           }
           else {
             this.onStartACall();
-            console.log('start a call')
+            console.log('start a call');
+
           }
         }
       })
 
-    signalRService.localConnectionObservable
-      .subscribe(data => {
-        
-        if (data != undefined) {
-          console.log('Nhan duoc local connection:')
-          console.log(data);
-          this.localConnection = data;
+
+
+    signalRService.signalObservable
+      .subscribe(signal => {
+        if (signal != undefined) {
+          this.newSignal(signal);
         }
       })
 
-    signalRService.partnerConnectionObservable
-      .subscribe(data => {
-        if (data != undefined) {
-          console.log('Nhan duoc partner connection:');
-          console.log(data);
-          this.partnerConnection = data;
+    signalRService.callStatusObservable
+      .subscribe(res => {
+        if (res != undefined) {
+          if (res === CallStatus.Accepted) {
+            this.alertService.success("Đang kết nối đến " + this.partner.userName, this.options2);
+            this.timeCount();
+          }
+          else {
+            this.hangUp();
+            this.confirmModal.nativeElement.click();
+          }
         }
       })
   }
 
   ngOnInit() {
-    this.timeCount();
+
+
   }
 
-  hangUp() {
-    window.close();
+  async onStartACall() {
+    this.createPeerConnection();
+    await this.requestMediaDevices();
+    this.startLocalVideo();
+    this.partner = await this.signalRService.getUserById(this.partnerId);
+
+    if (!this.partner) {
+      alert('Người dùng hiện không online!');
+      return;
+    }
+
+    this.signalRService.callRequest(this.partner.userId, this.callType);
   }
 
-  onStartACall() {
-    this.signalRService.join(this.userInfo.id, this.userInfo.fullName, this.userInfo.avatarPath, true, this.callType);
-    this.joined = true;
-  }
-
-  onAcceptACall() {
-    this.signalRService.getUserById(this.userId)
-      .then(user => {
-        this.signalRService.callerInfo = user;
-        this.signalRService.join(this.userInfo.id, this.userInfo.fullName, this.userInfo.avatarPath, false, this.callType);
-        this.joined = true;
-      })
+  async onAcceptACall() {
+    this.partner = await this.signalRService.getUserById(this.partnerId);
+    if (this.partner == null) {
+      this.alertService.warn("Người dùng không còn online", this.options1);
+      this.hangUp();
+    }
+    await this.signalRService.callAccept(this.partnerId);
+    this.call();
   }
 
   trackByFn(user: IUser) {
@@ -121,9 +162,6 @@ export class VideoCallComponent implements OnInit {
   toggleVideo() {
     console.log('click toggleVideo');
   }
-
-
-
 
   totalTime = 0;
   time: string;
@@ -153,5 +191,230 @@ export class VideoCallComponent implements OnInit {
 
       this.time = hour + ' : ' + minute + ' : ' + second;
     }, 1000)
+  }
+
+  async call(): Promise<void> {
+    this.createPeerConnection();
+    await this.requestMediaDevices();
+    this.startLocalVideo();
+    // Add the tracks from the local stream to the RTCPeerConnection
+    this.localStream.getTracks().forEach(
+      track => this.rtcConnection.addTrack(track, this.localStream)
+    );
+
+    try {
+      const offer: RTCSessionDescriptionInit = await this.rtcConnection.createOffer(this.offerOptions);
+      // Establish the offer as the local peer's current description.
+      await this.rtcConnection.setLocalDescription(offer);
+      this.timeCount();
+      // this.dataService.sendMessage({ type: 'offer', data: offer });
+      this.sendSignal({ type: SignalType.Offer, data: offer });
+    } catch (err) {
+      this.handleGetUserMediaError(err);
+    }
+  }
+
+
+
+  hangUp(): void {
+    // this.dataService.sendMessage({ type: 'hangup', data: '' });
+    this.sendSignal({ type: SignalType.HangUp, data: '' });
+    this.closeVideoCall();
+  }
+
+  private async newSignal(data: string) {
+    const signal = JSON.parse(data);
+
+    console.log(signal.type);
+    switch (signal.type) {
+      case SignalType.Offer:
+        this.handleOfferMessage(signal.data);
+        break;
+
+      case SignalType.Answer:
+        this.handleAnswerMessage(signal.data);
+        break;
+
+      case SignalType.iceCandidate:
+        this.handleICECandidateMessage(signal.data);
+        break;
+
+      case SignalType.HangUp:
+        this.handleHangupMessage(signal);
+        break;
+
+      default:
+        console.log('unknown message of type ' + signal.type);
+        break;
+    }
+  }
+  /* ########################  MESSAGE HANDLER  ################################## */
+
+  private handleOfferMessage(msg: RTCSessionDescriptionInit): void {
+    if (!this.rtcConnection) {
+      this.createPeerConnection();
+    }
+
+    if (!this.localStream) {
+      this.startLocalVideo();
+    }
+    console.log(this.rtcConnection.signalingState.toString());
+    this.rtcConnection.setRemoteDescription(new RTCSessionDescription(msg))
+      .then(() => {
+        // add media stream to local video
+        this.localVideo.nativeElement.srcObject = this.localStream;
+
+        // add media tracks to remote connection
+        this.localStream.getTracks().forEach(
+          track => this.rtcConnection.addTrack(track, this.localStream)
+        );
+        console.log(this.rtcConnection.signalingState.toString());
+      })
+      .then(() => {
+        // Build SDP for answer message
+        console.log('create answer');
+        console.log(this.rtcConnection.signalingState.toString());
+        return this.rtcConnection.createAnswer();
+
+      }).then((answer) => {
+        // Set local SDP
+        console.log(this.rtcConnection.signalingState.toString());
+        return this.rtcConnection.setLocalDescription(answer);
+
+      }).then(() => {
+        console.log(this.rtcConnection.signalingState.toString());
+        // Send local SDP to remote party
+        // this.dataService.sendMessage({ type: 'answer', data: this.rtcConnection.localDescription });
+        this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
+
+      }).catch(this.handleGetUserMediaError);
+  }
+
+  private handleAnswerMessage(msg: RTCSessionDescriptionInit): void {
+    this.rtcConnection.setRemoteDescription(msg);
+  }
+
+  private handleHangupMessage(msg: Signal): void {
+    this.closeVideoCall();
+  }
+
+  private handleICECandidateMessage(msg: RTCIceCandidate): void {
+    const candidate = new RTCIceCandidate(msg);
+    this.rtcConnection.addIceCandidate(candidate).catch(this.reportError);
+  }
+
+  private async requestMediaDevices(): Promise<void> {
+    try {
+      this.localStream = await navigator.mediaDevices.getUserMedia(this.mediaConstraints);
+      // pause all tracks
+      this.pauseLocalVideo();
+    } catch (e) {
+      console.error(e);
+      alert(`getUserMedia() error: ${e.name}`);
+    }
+  }
+
+  startLocalVideo(): void {
+    this.localStream.getTracks().forEach(track => {
+      track.enabled = true;
+    });
+    this.localVideo.nativeElement.srcObject = this.localStream;
+  }
+
+  pauseLocalVideo(): void {
+    this.localStream.getTracks().forEach(track => {
+      track.enabled = false;
+    });
+    this.localVideo.nativeElement.srcObject = undefined;
+  }
+
+  private createPeerConnection(): void {
+    this.rtcConnection = new RTCPeerConnection(this.signalRService.RTCPeerConfiguration);
+
+    this.rtcConnection.onicecandidate = this.handleICECandidateEvent;
+    this.rtcConnection.oniceconnectionstatechange = this.handleICEConnectionStateChangeEvent;
+    this.rtcConnection.onsignalingstatechange = this.handleSignalingStateChangeEvent;
+    this.rtcConnection.ontrack = this.handleTrackEvent;
+  }
+
+  private closeVideoCall(): void {
+
+    if (this.rtcConnection) {
+
+      this.rtcConnection.ontrack = null;
+      this.rtcConnection.onicecandidate = null;
+      this.rtcConnection.oniceconnectionstatechange = null;
+      this.rtcConnection.onsignalingstatechange = null;
+
+      // Stop all transceivers on the connection
+      this.rtcConnection.getTransceivers().forEach(transceiver => {
+        transceiver.stop();
+      });
+
+      // Close the peer connection
+      this.rtcConnection.close();
+      this.rtcConnection = null;
+    }
+  }
+
+  /* ########################  ERROR HANDLER  ################################## */
+  private handleGetUserMediaError(e: Error): void {
+    switch (e.name) {
+      case 'NotFoundError':
+        alert('Unable to open your call because no camera and/or microphone were found.');
+        break;
+      case 'SecurityError':
+      case 'PermissionDeniedError':
+        // Do nothing; this is the same as the user canceling the call.
+        break;
+      default:
+        console.log(e);
+        alert('Error opening your camera and/or microphone: ' + e.message);
+        break;
+    }
+
+    this.closeVideoCall();
+  }
+
+  private reportError = (e: Error) => {
+    console.log('got Error: ' + e.name);
+    console.log(e);
+  }
+
+  /* ########################  EVENT HANDLER  ################################## */
+  private handleICECandidateEvent = (event: RTCPeerConnectionIceEvent) => {
+    if (event.candidate) {
+      this.sendSignal({ type: SignalType.iceCandidate, data: event.candidate });
+    }
+  }
+
+  private handleICEConnectionStateChangeEvent = (event: Event) => {
+    switch (this.rtcConnection.iceConnectionState) {
+      case 'closed':
+      case 'failed':
+      case 'disconnected':
+        this.closeVideoCall();
+        break;
+    }
+  }
+
+  private handleSignalingStateChangeEvent = (event: Event) => {
+    switch (this.rtcConnection.signalingState) {
+      case 'closed':
+        this.closeVideoCall();
+        break;
+    }
+  }
+
+  private handleTrackEvent = (event: RTCTrackEvent) => {
+    this.remoteVideo.nativeElement.srcObject = event.streams[0];
+  }
+
+  private sendSignal(signal: Signal) {
+    return this.signalRService.sendSignal(signal, this.partner.userId);
+  }
+
+  onCloseWindow() {
+    window.close();
   }
 }

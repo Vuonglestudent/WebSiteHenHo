@@ -47,10 +47,7 @@ export class AppComponent implements OnInit {
 
                 this.getPosition();
 
-                this.signalRService.getMyInfo()
-                  .then(data => {
-                  })
-                  .catch(err => console.log(err))
+                this.signalRService.saveMyInfo();
 
                 this.loadFriendList();
               }
@@ -246,6 +243,7 @@ export class AppComponent implements OnInit {
 
   onDecline() {
     console.log('Decline a call');
+    this.signalRService.callReject(this.caller.connectionId);
   }
 
   isSubscribe = false;

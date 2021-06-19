@@ -45,7 +45,6 @@ import { FeatureManagerComponent } from './admin-components/feature-manager/feat
 import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
 import { CarouselComponent } from './user-components/carousel/carousel.component';
 import { VideoCallComponent } from './user-components/video-call/video-call.component';
-import { VideoMemberComponent } from './user-components/video-member/video-member.component';
 //import { RtcSignalRService } from './service/rtc-signal-r.service';
 import { SignalRService } from './shared/service/signal-r.service';
 import { IntroduceComponent } from './user-components/introduce/introduce.component';
@@ -78,7 +77,6 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
     ImageScoreComponent,
     CarouselComponent,
     VideoCallComponent,
-    VideoMemberComponent,
     IntroduceComponent,
     SharedStoryComponent,
     TestComponent,
