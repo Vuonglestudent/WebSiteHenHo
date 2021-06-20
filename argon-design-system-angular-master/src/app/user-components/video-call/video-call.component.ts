@@ -305,7 +305,23 @@ export class VideoCallComponent implements OnInit {
 
   private async requestMediaDevices(): Promise<void> {
     try {
-      this.localStream = await navigator.mediaDevices.getUserMedia(this.mediaConstraints);
+      var media;
+      if (this.callType == CallType.VoiceCall) {
+        media = {
+          audio: true,
+          video: false
+          // video: { width: 300, height: 300 }
+          // video: {width: 1280, height: 720} // 16:9
+          // video: {width: 960, height: 540}  // 16:9
+          // video: { width: 640, height: 480 }  //  4:3
+          // video: {width: 160, height: 120}  //  4:3
+        };
+        this.localStream = await navigator.mediaDevices.getUserMedia(media);
+      }
+      else{
+        this.localStream = await navigator.mediaDevices.getUserMedia(this.mediaConstraints);
+      }
+      
       // pause all tracks
       this.pauseLocalVideo();
     } catch (e) {
