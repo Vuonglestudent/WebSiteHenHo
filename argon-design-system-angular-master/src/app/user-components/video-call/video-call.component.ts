@@ -369,7 +369,15 @@ export class VideoCallComponent implements OnInit {
 
   private createPeerConnection(): void {
     console.log('create peer connection');
-    this.rtcConnection = new RTCPeerConnection(this.signalRService.RTCPeerConfiguration);
+    this.rtcConnection = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: 'stun:stun.l.google.com:19302',
+          username: '',
+          credential: ''
+        }
+      ]
+    });
 
     this.rtcConnection.onicecandidate = this.handleICECandidateEvent;
     this.rtcConnection.oniceconnectionstatechange = this.handleICEConnectionStateChangeEvent;

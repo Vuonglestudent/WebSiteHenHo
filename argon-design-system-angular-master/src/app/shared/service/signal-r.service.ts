@@ -64,7 +64,7 @@ export class SignalRService {
   RTCPeerConfiguration: {
     iceServers: [
       {
-        urls: 'stun3.l.google.com:19302',
+        urls: 'turn:turn02.hubl.in?transport=tcp',
         userName: '',
         credential: ''
       }
