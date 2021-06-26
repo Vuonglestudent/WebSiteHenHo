@@ -104,6 +104,9 @@ export class VideoCallComponent implements OnInit {
       .subscribe(signal => {
         if (signal != undefined) {
           this.newSignal(signal);
+          // (async () => {
+          //   await 
+          // })
         }
       })
 
@@ -203,11 +206,14 @@ export class VideoCallComponent implements OnInit {
     );
 
     try {
+      console.log('+ create offer');
       const offer: RTCSessionDescriptionInit = await this.rtcConnection.createOffer(this.offerOptions);
       // Establish the offer as the local peer's current description.
+      console.log('+ setLocalDescription');
       await this.rtcConnection.setLocalDescription(offer);
       this.timeCount();
-      // this.dataService.sendMessage({ type: 'offer', data: offer });
+
+      console.log('+ send offer');
       this.sendSignal({ type: SignalType.Offer, data: offer });
     } catch (err) {
       this.handleGetUserMediaError(err);
@@ -217,7 +223,7 @@ export class VideoCallComponent implements OnInit {
 
 
   hangUp(): void {
-    // this.dataService.sendMessage({ type: 'hangup', data: '' });
+    console.log('+ send hangup');
     this.sendSignal({ type: SignalType.HangUp, data: '' });
     this.closeVideoCall();
   }
@@ -228,15 +234,15 @@ export class VideoCallComponent implements OnInit {
     console.log(signal.type);
     switch (signal.type) {
       case SignalType.Offer:
-        this.handleOfferMessage(signal.data);
+        await this.handleOfferMessage(signal.data);
         break;
 
       case SignalType.Answer:
-        this.handleAnswerMessage(signal.data);
+        await this.handleAnswerMessage(signal.data);
         break;
 
       case SignalType.iceCandidate:
-        this.handleICECandidateMessage(signal.data);
+        await this.handleICECandidateMessage(signal.data);
         break;
 
       case SignalType.HangUp:
@@ -250,7 +256,7 @@ export class VideoCallComponent implements OnInit {
   }
   /* ########################  MESSAGE HANDLER  ################################## */
 
-  private handleOfferMessage(msg: RTCSessionDescriptionInit): void {
+  private async handleOfferMessage(msg: RTCSessionDescriptionInit) {
     if (!this.rtcConnection) {
       this.createPeerConnection();
     }
@@ -258,49 +264,66 @@ export class VideoCallComponent implements OnInit {
     if (!this.localStream) {
       this.startLocalVideo();
     }
-    console.log(this.rtcConnection.signalingState.toString());
-    this.rtcConnection.setRemoteDescription(new RTCSessionDescription(msg))
-      .then(() => {
-        // add media stream to local video
-        this.localVideo.nativeElement.srcObject = this.localStream;
+    console.log('+ setRemoteDescription');
+    await this.rtcConnection.setRemoteDescription(new RTCSessionDescription(msg));
+    // add media stream to local video
+    this.localVideo.nativeElement.srcObject = this.localStream;
 
-        // add media tracks to remote connection
-        this.localStream.getTracks().forEach(
-          track => this.rtcConnection.addTrack(track, this.localStream)
-        );
-        console.log(this.rtcConnection.signalingState.toString());
-      })
-      .then(() => {
-        // Build SDP for answer message
-        console.log('create answer');
-        console.log(this.rtcConnection.signalingState.toString());
-        return this.rtcConnection.createAnswer();
+    // add media tracks to remote connection
+    console.log('+ add stream to connection');
+    this.localStream.getTracks().forEach(
+      track => this.rtcConnection.addTrack(track, this.localStream)
+    );
 
-      }).then((answer) => {
-        // Set local SDP
-        console.log(this.rtcConnection.signalingState.toString());
-        return this.rtcConnection.setLocalDescription(answer);
+    console.log('+ create answer');
+    const answer = await this.rtcConnection.createAnswer();
+    console.log('setLocalDescription');
+    await this.rtcConnection.setLocalDescription(answer);
 
-      }).then(() => {
-        console.log(this.rtcConnection.signalingState.toString());
-        // Send local SDP to remote party
-        // this.dataService.sendMessage({ type: 'answer', data: this.rtcConnection.localDescription });
-        this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
+    console.log('+ send answer');
+    this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
 
-      }).catch(this.handleGetUserMediaError);
+    //   .then(() => {
+    //   // add media stream to local video
+    //   this.localVideo.nativeElement.srcObject = this.localStream;
+
+    //   // add media tracks to remote connection
+    //   console.log('+ add stream to connection');
+    //   this.localStream.getTracks().forEach(
+    //     track => this.rtcConnection.addTrack(track, this.localStream)
+    //   );
+    // })
+    //   .then(() => {
+    //     // Build SDP for answer message
+    //     console.log('+ create answer');
+    //     return this.rtcConnection.createAnswer();
+
+    //   }).then((answer) => {
+    //     // Set local SDP
+    //     console.log('setLocalDescription');
+    //     return this.rtcConnection.setLocalDescription(answer);
+
+    //   }).then(() => {
+    //     // Send local SDP to remote party
+    //     console.log('+ send answer');
+    //     this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
+
+    //   }).catch(this.handleGetUserMediaError);
   }
 
-  private handleAnswerMessage(msg: RTCSessionDescriptionInit): void {
-    this.rtcConnection.setRemoteDescription(msg);
+  private async handleAnswerMessage(msg: RTCSessionDescriptionInit) {
+    console.log('+ setRemoteDescription');
+    await this.rtcConnection.setRemoteDescription(msg);
   }
 
   private handleHangupMessage(msg: Signal): void {
     this.closeVideoCall();
   }
 
-  private handleICECandidateMessage(msg: RTCIceCandidate): void {
+  private async handleICECandidateMessage(msg: RTCIceCandidate) {
     const candidate = new RTCIceCandidate(msg);
-    this.rtcConnection.addIceCandidate(candidate).catch(this.reportError);
+    console.log('+ addIceCandidate');
+    await this.rtcConnection.addIceCandidate(candidate).catch(this.reportError);
   }
 
   private async requestMediaDevices(): Promise<void> {
@@ -318,10 +341,10 @@ export class VideoCallComponent implements OnInit {
         };
         this.localStream = await navigator.mediaDevices.getUserMedia(media);
       }
-      else{
+      else {
         this.localStream = await navigator.mediaDevices.getUserMedia(this.mediaConstraints);
       }
-      
+
       // pause all tracks
       this.pauseLocalVideo();
     } catch (e) {
@@ -345,6 +368,7 @@ export class VideoCallComponent implements OnInit {
   }
 
   private createPeerConnection(): void {
+    console.log('create peer connection');
     this.rtcConnection = new RTCPeerConnection(this.signalRService.RTCPeerConfiguration);
 
     this.rtcConnection.onicecandidate = this.handleICECandidateEvent;
@@ -377,7 +401,7 @@ export class VideoCallComponent implements OnInit {
   private handleGetUserMediaError(e: Error): void {
     switch (e.name) {
       case 'NotFoundError':
-        alert('Unable to open your call because no camera and/or microphone were found.');
+        // alert('Unable to open your call because no camera and/or microphone were found.');
         break;
       case 'SecurityError':
       case 'PermissionDeniedError':
@@ -385,7 +409,7 @@ export class VideoCallComponent implements OnInit {
         break;
       default:
         console.log(e);
-        alert('Error opening your camera and/or microphone: ' + e.message);
+        // alert('Error opening your camera and/or microphone: ' + e.message);
         break;
     }
 
@@ -400,6 +424,7 @@ export class VideoCallComponent implements OnInit {
   /* ########################  EVENT HANDLER  ################################## */
   private handleICECandidateEvent = (event: RTCPeerConnectionIceEvent) => {
     if (event.candidate) {
+      console.log('+ send iceCandidate');
       this.sendSignal({ type: SignalType.iceCandidate, data: event.candidate });
     }
   }
