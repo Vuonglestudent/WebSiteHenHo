@@ -1,17 +1,32 @@
 <div id="alert-custom">
   <alert></alert>
 </div>
+
+<div class="space"></div>
 <div class="container-fluid">
   <div class="row justify-content-start">
-    <div class="col-md-5 col-xl-3 chat" style="padding-left: 0px; padding-right: 0px;">
+    <div
+      class="col-md-5 col-xl-3 chat"
+      style="padding-left: 0px; padding-right: 0px"
+    >
       <div class="card mb-sm-3 mb-md-0 contacts_card">
         <div class="card-header">
           <div class="input-group">
-            <div class="input-group-prepend " id="multiDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              <span class="input-group-text search_btn"><i class="fa fa-search"></i></span>
+            <div
+              class="input-group-prepend"
+              id="multiDropdownMenu"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span class="input-group-text search_btn"
+                ><i class="fa fa-search"></i
+              ></span>
               <div class="ripple-container"></div>
-              <div class="dropdown-menu drop-custom" aria-labelledby="multiDropdownMenu">
+              <div
+                class="dropdown-menu drop-custom"
+                aria-labelledby="multiDropdownMenu"
+              >
                 <a *ngIf="users.length == 0" class="dropdown-item">
                   <div class="d-flex align-items-center">
                     <p class="text-warning text-center">
@@ -19,31 +34,56 @@
                     </p>
                   </div>
                 </a>
-                <a *ngFor="let item of users" class="dropdown-item" href="javascript:" (click)="onChatToNewUser(item)">
+                <a
+                  *ngFor="let item of users"
+                  class="dropdown-item"
+                  href="javascript:"
+                  (click)="onChatToNewUser(item)"
+                >
                   <div class="d-flex align-items-center">
-                    <img src="{{item.avatarPath}}" class="rounded-circle user_img align-self-center">
-                    <p class="search-name">{{item.fullName}}</p>
+                    <img
+                      src="{{ item.avatarPath }}"
+                      class="rounded-circle user_img align-self-center"
+                    />
+                    <p class="search-name">{{ item.fullName }}</p>
                   </div>
                 </a>
               </div>
             </div>
-            <input #searchBox type="text" placeholder="Search..." name="" class="form-control search"
-              style="color: whitesmoke; height: auto;">
+            <input
+              #searchBox
+              type="text"
+              placeholder="Search..."
+              name=""
+              class="form-control search"
+              style="color: whitesmoke; height: auto"
+            />
           </div>
         </div>
         <div class="contacts_body">
           <ul class="contacts">
-            <li *ngFor="let friend of friendList" class="friend-content"
-              (click)="clickSendUser(friend.user.id, friend.user.fullName)" style="cursor: pointer;">
-              <div id="DestUserId_{{friend.user.id}}" class="d-flex bd-highlight hover-custom">
-                <div class="d-flex img_cont" style="padding-left: 15px;">
-                  <img src="{{friend.user.avatarPath}}" class="rounded-circle user_img align-self-center">
+            <li
+              *ngFor="let friend of friendList"
+              class="friend-content"
+              (click)="clickSendUser(friend.user.id, friend.user.fullName)"
+              style="cursor: pointer"
+            >
+              <div
+                id="DestUserId_{{ friend.user.id }}"
+                class="d-flex bd-highlight hover-custom"
+              >
+                <div class="d-flex img_cont" style="padding-left: 15px">
+                  <img
+                    src="{{ friend.user.avatarPath }}"
+                    class="rounded-circle user_img align-self-center"
+                  />
                   <!-- <span class="online_icon"></span> -->
                 </div>
                 <div class="user_info">
-                  <span>{{friend.user.fullName}}</span>
+                  <span>{{ friend.user.fullName }}</span>
                   <p *ngIf="friend.messages.length > 0" class="limit-title">
-                    {{friend.messages[friend.messages.length - 1].content}}</p>
+                    {{ friend.messages[friend.messages.length - 1].content }}
+                  </p>
                 </div>
               </div>
             </li>
@@ -51,18 +91,18 @@
         </div>
       </div>
     </div>
-    <div class="col-md-7 col-xl-9 chat" style="padding-right: 0px; padding-left: 0px;">
+    <div
+      class="col-md-7 col-xl-9 chat"
+      style="padding-right: 0px; padding-left: 0px"
+    >
       <div class="card">
-
         <div *ngIf="friendList.length != 0" class="card-header msg_head">
-          <div class="d-flex bd-highlight" style="height: 40px;">
+          <div class="d-flex bd-highlight" style="height: 40px">
             <div class="img_cont">
-              <img src="{{avatarPath}}" class="rounded-circle user_img">
-              <!-- <span class="online_icon"></span> -->
+              <img src="{{ avatarPath }}" class="rounded-circle user_img" />
             </div>
             <div class="user_info">
-              <span>{{nameReceiver}}</span>
-              <!-- <p>1767 Messages</p> -->
+              <span>{{ nameReceiver }}</span>
             </div>
             <div class="video_cam">
               <span><i class="fa fa-video"></i></span>
@@ -70,79 +110,143 @@
             </div>
           </div>
           <div id="action_menu_btn" class="dropleft">
-
             <div class="custom-icon">
-              <fa-icon (click)="onVoiceCall()" style="color:#5E72E4" size="1x" [icon]="faPhoneAlt"></fa-icon>
+              <fa-icon
+                (click)="onVoiceCall()"
+                style="color: #5e72e4"
+                size="1x"
+                [icon]="faPhoneAlt"
+              ></fa-icon>
             </div>
 
             <div class="custom-icon">
-              <fa-icon (click)="onVideoCall()" style="color:#5E72E4" size="1x" [icon]="faVideo"></fa-icon>
+              <fa-icon
+                (click)="onVideoCall()"
+                style="color: #5e72e4"
+                size="1x"
+                [icon]="faVideo"
+              ></fa-icon>
             </div>
 
-            <span role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="
-            margin-top: 15px;
-            margin-left: 10px;">
-              <fa-icon style="color:#5E72E4" size="1x" [icon]="faEllipsisV"></fa-icon>
+            <span
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              style="margin-top: 15px; margin-left: 10px"
+            >
+              <fa-icon
+                style="color: #5e72e4"
+                size="1x"
+                [icon]="faEllipsisV"
+              ></fa-icon>
             </span>
             <div class="dropdown-menu dropdown-custom">
-              <a href="#/profile/{{DestUserId}}" class="dropdown-item"><i class="fa fa-user-circle"></i> Trang cá
-                nhân</a>
-              <a href="#" class="dropdown-item"><i class="fa fa-ban"></i> Chặn người dùng</a>
+              <a href="#/profile/{{ DestUserId }}" class="dropdown-item"
+                ><i class="fa fa-user-circle"></i> Trang cá nhân</a
+              >
+              <a href="#" class="dropdown-item"
+                ><i class="fa fa-ban"></i> Chặn người dùng</a
+              >
             </div>
           </div>
         </div>
         <div id="contentMessage" class="card-body msg_card_body">
-
           <div *ngIf="friendList.length == 0">
             <h3 class="text-primary text-center">Chưa có tin nhắn nào</h3>
-            <h4 class="text-primary text-center">Hãy gửi lời chào đến những người bạn đang quan tâm!
+            <h4 class="text-primary text-center">
+              Hãy gửi lời chào đến những người bạn đang quan tâm!
             </h4>
-            <div class='text-center'>
-              <img style="text-align: center;" src="../../../assets/img/theme/no-message.png" alt="">
+            <div class="text-center">
+              <img
+                style="text-align: center"
+                src="../../../assets/img/theme/no-message.png"
+                alt=""
+              />
             </div>
           </div>
 
           <div *ngIf="friendList[UserIndex] != undefined">
-            <div class="text-primary text-center" *ngIf="friendList[UserIndex].messages.length == 0">
-              Hãy gửi lời chào hỏi đến {{friendList[UserIndex].user.fullName}}
+            <div
+              class="text-primary text-center"
+              *ngIf="friendList[UserIndex].messages.length == 0"
+            >
+              Hãy gửi lời chào hỏi đến {{ friendList[UserIndex].user.fullName }}
             </div>
 
             <div *ngFor="let msg of friendList[UserIndex].messages">
-              <div *ngIf="msg.type == 'received'" class="d-flex justify-content-start mb-4 row"
-                style="margin-right: 48%;">
-                <div class="d-flex img_cont_msg align-self-end" style="min-width: 40px;">
-                  <img src="{{avatarPath}}" class="rounded-circle user_img_msg ">
+              <div
+                *ngIf="msg.type == 'received'"
+                class="d-flex justify-content-start mb-4 row"
+                style="margin-right: 48%"
+              >
+                <div
+                  class="d-flex img_cont_msg align-self-end"
+                  style="min-width: 40px"
+                >
+                  <img
+                    src="{{ avatarPath }}"
+                    class="rounded-circle user_img_msg"
+                  />
                 </div>
-                <div style="min-width: 130px;max-width: 90%;" class="msg_cotainer">
-                  {{msg.content}}
-                  <span class="msg_time text-dark"> {{msg.sentAt | date:'medium'}} </span>
+                <div
+                  style="min-width: 130px; max-width: 90%"
+                  class="msg_cotainer"
+                >
+                  {{ msg.content }}
+                  <span class="msg_time text-dark">
+                    {{ msg.sentAt | date: "medium" }}
+                  </span>
                 </div>
               </div>
-              <div *ngIf="msg.type == 'sent'" class="d-flex justify-content-end mb-4">
-                <div style="margin-left: 48%; min-width: 130px;" class="msg_cotainer_send">
-                  {{msg.content}}
-                  <span style="width: 100%;" class="d-flex justify-content-end msg_time text-dark">
-                    {{msg.sentAt | date:'medium'}}</span>
+              <div
+                *ngIf="msg.type == 'sent'"
+                class="d-flex justify-content-end mb-4"
+              >
+                <div
+                  style="margin-left: 48%; min-width: 130px"
+                  class="msg_cotainer_send"
+                >
+                  {{ msg.content }}
+                  <span
+                    style="width: 100%"
+                    class="d-flex justify-content-end msg_time text-dark"
+                  >
+                    {{ msg.sentAt | date: "medium" }}</span
+                  >
                 </div>
               </div>
-
             </div>
           </div>
-
         </div>
-        <div *ngIf="friendList.length != 0" class="card-footer" style="padding-top: 0%; padding-bottom: 0;">
+        <div
+          *ngIf="friendList.length != 0"
+          class="card-footer"
+          style="padding-top: 0%; padding-bottom: 0"
+        >
           <div class="input-group">
             <div class="input-group-append">
-              <span class="input-group-text attach_btn"><i class="fa fa-paperclip"></i></span>
+              <span class="input-group-text attach_btn"
+                ><i class="fa fa-paperclip"></i
+              ></span>
             </div>
             <div class="input-group-append">
-              <span class="input-group-text attach_btn"><i class="ni ni-camera-compact"></i></span>
+              <span class="input-group-text attach_btn"
+                ><i class="ni ni-camera-compact"></i
+              ></span>
             </div>
-            <textarea name="" class="form-control type_msg" [value]="txtMessage"
-              (input)="txtMessage=$event.target.value" (keyup.enter)="sendMessage()"
-               placeholder="Type a message"></textarea>
+            <textarea
+              name=""
+              class="form-control type_msg"
+              [value]="txtMessage"
+              (input)="txtMessage = $event.target.value"
+              (keyup.enter)="sendMessage()"
+              placeholder="Type a message"
+            ></textarea>
             <div class="input-group-append">
-              <span class="input-group-text send_btn"><i class="ni ni-favourite-28 text-danger"></i></span>
+              <span class="input-group-text send_btn"
+                ><i class="ni ni-favourite-28 text-danger"></i
+              ></span>
             </div>
           </div>
         </div>

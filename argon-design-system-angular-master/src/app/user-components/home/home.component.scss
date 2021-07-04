@@ -4,6 +4,16 @@
   justify-content: center;
 }
 
+.like-animation {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  margin: 0 auto;
+  button {
+    position: absolute;
+  }
+}
+
 .container-custom {
   width: 100%;
   display: flex;
@@ -182,13 +192,7 @@ h6,
   margin-bottom: 8%;
 }
 
-.btn-icon-card:hover {
-  font-size: 128%;
-  padding-bottom: 4%;
-
-}
-
-#container{
+#container {
   width: 100%;
 }
 
@@ -203,12 +207,18 @@ h6,
   width: 33%;
 }
 
+.person-card {
+  height: 322px;
+}
+
 .person-card:hover {
   background-color: #f0e1f7;
   transition: 0.5s;
   box-shadow: 1px 8px 20px grey;
   -webkit-transition: box-shadow 0.2s ease-in;
-
+  z-index: 1;
+  animation: pulse;
+  animation-duration: 2s;
   .btn-icon-card {
     background-color: #f0e1f7;
   }
@@ -256,24 +266,24 @@ a.icon-hover {
 @-webkit-keyframes animatebottom {
   from {
     bottom: -100px;
-    opacity: 0
+    opacity: 0;
   }
 
   to {
     bottom: 0px;
-    opacity: 1
+    opacity: 1;
   }
 }
 
 @keyframes animatebottom {
   from {
     bottom: -100px;
-    opacity: 0
+    opacity: 0;
   }
 
   to {
     bottom: 0;
-    opacity: 1
+    opacity: 1;
   }
 }
 
@@ -314,8 +324,6 @@ a.icon-hover {
   }
 }
 
-
-
 .onlineCount {
   position: fixed;
   left: 5%;
@@ -334,8 +342,8 @@ a.icon-hover {
   position: fixed;
   bottom: 40px;
   right: 30px;
-  width: 3.5%;
-  height: 7%;
+  width: 50px;
+  height: 50px;
   z-index: 1000;
   /* button được ưu tiên hiển thị đè lên các phần khác*/
   border: none;
@@ -349,8 +357,8 @@ a.icon-hover {
 }
 
 #myBtn:hover {
-  width: 3.8%;
-  height: 7.5%;
+  width: 55px;
+  height: 55px;
 }
 
 ngx-dropzone,
@@ -386,29 +394,28 @@ ngx-dropzone,
 }
 
 .func-button:hover {
-  background-color: #F4F5F7;
+  background-color: #f4f5f7;
   border-color: #f4f5f7;
   box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
 }
 
 .func-button {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-width: 0;
   box-shadow: none;
 }
 
 .func-button-true {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-width: 0;
   box-shadow: none;
-  color: #5E72E4;
+  color: #5e72e4;
 }
 
 .news-content {
   width: 80%;
   margin: auto;
 }
-
 
 .tab-custom {
   border: none;
@@ -437,12 +444,30 @@ ngx-dropzone,
   }
 
   .btn-icon-card {
-    margin: 0px 10px 0px 10px;
+    margin: 0px 0px 0px 10px;
+    padding: 0;
+    a {
+      cursor: pointer;
+    }
   }
 
   .icon-custom {
     cursor: pointer;
     color: #3c4d69;
+  }
+
+  .icon-container {
+    width: 46px;
+    height: 25px;
+    i {
+      font-size: 20px;
+    }
+  }
+  .icon-container:hover {
+    i {
+      animation: bounceIn;
+      animation-duration: 2s;
+    }
   }
 }
 
@@ -452,7 +477,7 @@ ngx-dropzone,
   }
 }
 
-.hide-right-space{
+.hide-right-space {
   display: none;
 }
 
@@ -465,7 +490,7 @@ ngx-dropzone,
   padding: 0;
 }
 
-#right-space{
+#right-space {
   width: 20%;
 }
 
@@ -534,22 +559,16 @@ ngx-dropzone,
   }
 }
 
-
-@media(max-width: 1024.01px) {
+@media (max-width: 1024.01px) {
   .p-carousel {
     padding: 0 5% 0% 5%;
   }
 }
 
-
-
-
-@media(max-width: 769.01px) {
+@media (max-width: 769.01px) {
   .thumb-table {
-
     min-height: 250px;
     max-height: 250px;
-
   }
 
   #myBtn {
@@ -580,8 +599,7 @@ ngx-dropzone,
   }
 }
 
-@media(max-width: 426.01px) {
-
+@media (max-width: 426.01px) {
   .image-title {
     font-size: 14px;
   }
@@ -606,10 +624,8 @@ ngx-dropzone,
   }
 
   .thumb-table {
-
     min-height: 250px;
     max-height: 250px;
-
   }
 
   #myBtn {
@@ -661,26 +677,21 @@ ngx-dropzone,
   }
 }
 
-@media(max-width: 376.01px) {
+@media (max-width: 376.01px) {
   .image-content {
     width: 320px;
     height: 400px;
   }
 }
 
-@media(max-width: 321.01px) {
+@media (max-width: 321.01px) {
   .image-content {
     width: 270px;
     height: 320px;
   }
-
-
 }
 
-
 /////
-
-
 
 /* The Modal (background) */
 .modal-image {
@@ -699,7 +710,7 @@ ngx-dropzone,
 /* Modal Content */
 .modal-image-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: black;
   margin: auto;
   padding: 0;
   width: 100%;
@@ -715,7 +726,6 @@ ngx-dropzone,
   font-weight: bold;
 }
 
-
 .close:hover,
 .close:focus {
   color: #999;
@@ -728,6 +738,42 @@ ngx-dropzone,
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.like-icon {
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  font-size: 40px;
+  padding: 15px;
+}
+
+.like-animate {
+  animation: backOutUp;
+  color: #f5365c;
+  animation-duration: 1s;
+}
+
+.unlike-animate {
+  animation: flipInX;
+  color: white;
+  animation-duration: 1s;
+}
+
+.image-mode-icon {
+  bottom: 20px;
+  left: -30px;
+}
+.like-icon-active {
+  animation: heartBeat;
+  color: #f5365c;
+  animation-duration: 1s;
+}
+
+.like-icon-inactive {
+  animation: flip;
+  color: white;
+  animation-duration: 1s;
 }
 
 .cursor {
@@ -819,7 +865,6 @@ img.hover-shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
 .custom-radio {
   margin-left: 5%;
 }
@@ -837,8 +882,8 @@ img.hover-shadow {
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
 }
 
 .slider:hover {
@@ -851,7 +896,7 @@ img.hover-shadow {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #5E72E4;
+  background: #5e72e4;
   cursor: pointer;
 }
 
@@ -859,7 +904,7 @@ img.hover-shadow {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #5E72E4;
+  background: #5e72e4;
   cursor: pointer;
 }
 
@@ -877,8 +922,6 @@ img.hover-shadow {
   z-index: 102;
 }
 
-
-
 ///////////
 
 .animation {
@@ -892,7 +935,6 @@ img.hover-shadow {
 }
 
 .circle-container {
-
   $particleNum: 200;
   $particleColor: hsl(180, 100%, 80%);
 
@@ -906,9 +948,11 @@ img.hover-shadow {
     height: 100%;
     border-radius: 50%;
     mix-blend-mode: screen;
-    background-image: radial-gradient(hsl(180, 100%, 80%),
-        hsl(180, 100%, 80%) 10%,
-        hsla(180, 100%, 80%, 0) 56%);
+    background-image: radial-gradient(
+      hsl(180, 100%, 80%),
+      hsl(180, 100%, 80%) 10%,
+      hsla(180, 100%, 80%, 0) 56%
+    );
 
     animation: fadein-frames 200ms infinite, scale-frames 2s infinite;
 
@@ -943,7 +987,6 @@ img.hover-shadow {
 
   $particleBaseSize: 8;
 
-
   @for $i from 1 through $particleNum {
     &:nth-child(#{$i}) {
       $circleSize: random($particleBaseSize);
@@ -951,7 +994,7 @@ img.hover-shadow {
       height: $circleSize + px;
 
       $startPositionY: random(10) + 100;
-      $framesName: "move-frames-"+ $i;
+      $framesName: "move-frames-" + $i;
       $moveDuration: 28000 + random(9000) + ms;
 
       animation-name: #{$framesName};
@@ -960,15 +1003,19 @@ img.hover-shadow {
 
       @keyframes #{$framesName} {
         from {
-          transform: translate3d(#{random(100) + vw},
+          transform: translate3d(
+            #{random(100) + vw},
             #{$startPositionY + vh},
-            0);
+            0
+          );
         }
 
         to {
-          transform: translate3d(#{random(100) + vw},
+          transform: translate3d(
+            #{random(100) + vw},
             #{- $startPositionY - random(30) + vh},
-            0);
+            0
+          );
         }
       }
 

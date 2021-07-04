@@ -9,11 +9,14 @@ import { MessageService } from '../../shared/service/message.service';
 import { faVideo, faEllipsisV, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/shared/_alert';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { slideInOutAnimation } from 'src/app/shared/_animates/animates';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.css'],
+  animations: [slideInOutAnimation],
+
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   userInfo: IUserInfo;

@@ -522,7 +522,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         var body = <HTMLElement>document.getElementsByTagName("body")[0]
         body.style.overflowY = "hidden";
         var mainUser = <HTMLElement>document.getElementById('changeAvatar')
-        mainUser.className = 'dropdown-menu'
+        if (mainUser)
+            mainUser.className = 'dropdown-menu';
     }
 
     checkUserClickAvatar = () => {

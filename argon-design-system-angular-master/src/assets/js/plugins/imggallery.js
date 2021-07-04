@@ -93,9 +93,9 @@ function imagePopNone() {
   document.getElementById("imagePopId").style.display = "none";
   document.getElementById("imagePopAvatar").style.display = "none";
   document.getElementsByTagName("body")[0].style.overflowY = "scroll";
-  document
-    .getElementById("clickFavoriteImage")
-    .removeChild(document.getElementById("clickFavoriteImage").childNodes[1]);
+  // document
+  //   .getElementById("clickFavoriteImage")
+  //   .removeChild(document.getElementById("clickFavoriteImage").childNodes[1]);
 }
 
 function checkStateImage() {

@@ -282,33 +282,6 @@ export class VideoCallComponent implements OnInit {
 
     console.log('+ send answer');
     this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
-
-    //   .then(() => {
-    //   // add media stream to local video
-    //   this.localVideo.nativeElement.srcObject = this.localStream;
-
-    //   // add media tracks to remote connection
-    //   console.log('+ add stream to connection');
-    //   this.localStream.getTracks().forEach(
-    //     track => this.rtcConnection.addTrack(track, this.localStream)
-    //   );
-    // })
-    //   .then(() => {
-    //     // Build SDP for answer message
-    //     console.log('+ create answer');
-    //     return this.rtcConnection.createAnswer();
-
-    //   }).then((answer) => {
-    //     // Set local SDP
-    //     console.log('setLocalDescription');
-    //     return this.rtcConnection.setLocalDescription(answer);
-
-    //   }).then(() => {
-    //     // Send local SDP to remote party
-    //     console.log('+ send answer');
-    //     this.sendSignal({ type: SignalType.Answer, data: this.rtcConnection.localDescription });
-
-    //   }).catch(this.handleGetUserMediaError);
   }
 
   private async handleAnswerMessage(msg: RTCSessionDescriptionInit) {

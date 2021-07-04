@@ -6,128 +6,264 @@
 <main class="profile-page">
   <section class="section-profile-cover section-shaped my-0">
     <!-- Circles background -->
-    <div class="shape shape-style-1 shape-primary alpha-4">
-    </div>
+    <div class="shape shape-style-1 shape-primary alpha-4"></div>
     <!-- SVG separator -->
     <div class="separator separator-bottom separator-skew">
-      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
-        xmlns="http://www.w3.org/2000/svg">
+      <svg
+        x="0"
+        y="0"
+        viewBox="0 0 2560 100"
+        preserveAspectRatio="none"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
       </svg>
     </div>
   </section>
-  <section class="section" style="padding: 0%;">
+  <section class="section" style="padding: 0%">
     <div class="container">
       <div class="card card-profile shadow mt--300">
         <div class="px-4">
           <div class="row justify-content-center">
             <div class="col-lg-3 order-lg-2">
-              <div class="card-profile-image dropdown" style="display: block;">
-                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img src="{{UserProfile.avatarPath}}" class="rounded-circle avatar-custom"
-                    (click)="checkUserClickAvatar()">
+              <div class="card-profile-image dropdown" style="display: block">
+                <a
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <img
+                    src="{{ UserProfile.avatarPath }}"
+                    class="rounded-circle avatar-custom"
+                    (click)="checkUserClickAvatar()"
+                  />
                 </a>
-                <div *ngIf="checkUser && userInfo.id == currentUserId" id="changeAvatar" class="dropdown-menu"
-                  style="margin-top: 130px; margin-left: 6%;">
-                  <a href="javascript:;" class="dropdown-item" (click)="seenImageAvatar()">
+                <div
+                  *ngIf="checkUser && userInfo.id == currentUserId"
+                  id="changeAvatar"
+                  class="dropdown-menu"
+                  style="margin-top: 130px; margin-left: 6%"
+                >
+                  <a
+                    href="javascript:;"
+                    class="dropdown-item"
+                    (click)="seenImageAvatar()"
+                  >
                     <i class="ni ni-circle-08"></i>
                     <span>Xem ảnh đại diện</span>
                   </a>
-                  <a id="updateAvatar" href="javascript:;" class="dropdown-item" (click)="updateAvatar()">
+                  <a
+                    id="updateAvatar"
+                    href="javascript:;"
+                    class="dropdown-item"
+                    (click)="updateAvatar()"
+                  >
                     <i class="ni ni-image"></i>
                     <span>Cập nhật ảnh đại diện</span>
                   </a>
-                  <input (change)="onUpdateAvatar($event)" type="file" id="fileAvata" hidden="true">
+                  <input
+                    (change)="onUpdateAvatar($event)"
+                    type="file"
+                    id="fileAvata"
+                    hidden="true"
+                  />
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center on-front">
+            <div
+              class="
+                col-lg-4
+                order-lg-3
+                text-lg-right
+                align-self-lg-center
+                on-front
+              "
+            >
               <div class="card-profile-actions py-4 mt-lg-0">
-                <button *ngIf="!checkUser && !UserProfile.followed" (click)="clickFollow()" class="btn btn-sm btn-info">
+                <button
+                  *ngIf="!checkUser && !UserProfile.followed"
+                  (click)="clickFollow()"
+                  class="btn btn-sm btn-info"
+                >
                   <i class="fa fa-users"></i>
                   Theo dõi
                 </button>
 
-                <button *ngIf="!checkUser && UserProfile.followed" (click)="clickFollow()"
-                  class="btn btn-sm btn-danger">
+                <button
+                  *ngIf="!checkUser && UserProfile.followed"
+                  (click)="clickFollow()"
+                  class="btn btn-sm btn-danger"
+                >
                   <i class="fa fa-users"></i>
                   Hủy theo dõi
                 </button>
 
-                <button *ngIf="!checkUser" type="button" class="btn btn-sm btn-primary" (click)="popTextAreaMessage()">
-                  <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-chat-round"></i></span>
+                <button
+                  *ngIf="!checkUser"
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  (click)="popTextAreaMessage()"
+                >
+                  <span class="btn-inner--icon"
+                    ><i style="margin-right: 5%" class="ni ni-chat-round"></i
+                  ></span>
                   <span class="btn-inner--text">Nhắn tin</span>
                 </button>
 
-
-                <button *ngIf="checkUser" type="button" (click)="clickEdit()" class="btn btn-sm btn-default">
+                <button
+                  *ngIf="checkUser"
+                  type="button"
+                  (click)="clickEdit()"
+                  class="btn btn-sm btn-default"
+                >
                   <i class="fa fa-edit"></i>
                   Chỉnh sửa
                 </button>
-                <button *ngIf="checkUser" type="button" class="btn btn-sm btn-primary" (click)="uploadImages()">
-                  <span class="btn-inner--icon"><i style="margin-right:5%;" class="ni ni-camera-compact"></i></span>
+                <button
+                  *ngIf="checkUser"
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  (click)="uploadImages()"
+                >
+                  <span class="btn-inner--icon"
+                    ><i
+                      style="margin-right: 5%"
+                      class="ni ni-camera-compact"
+                    ></i
+                  ></span>
                   <span class="btn-inner--text">Đăng hình</span>
                 </button>
-
               </div>
             </div>
             <div class="col-lg-4 order-lg-1">
               <div class="card-profile-stats d-flex justify-content-center">
                 <div>
-                  <span style="cursor: pointer" role="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"><i class="fa fa-ellipsis-v text-dark"
-                      style="font-size: 25px; margin-top: 15px;"></i></span>
-                  <div class="dropdown-menu dropdown-menu-custom" style="top: 179px;left: -184px;">
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i
-                        class="fa fa-assistive-listening-systems"></i> Theo dõi</a>
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"><i class="fa fa-heartbeat"></i> Yêu thích</a>
-                    <a *ngIf="!isYourself && UserProfile.blocked"
-                      (click)="clickBlockUser(UserProfile.id, UserProfile.fullName)" style="cursor:pointer;"
-                      class="dropdown-item"><i class="fa fa-ban"></i>Bỏ chặn</a>
-                    <a *ngIf="!isYourself && !UserProfile.blocked"
-                      (click)="clickBlockUser(UserProfile.id, UserProfile.fullName)" style="cursor:pointer;"
-                      class="dropdown-item"><i class="fa fa-ban"></i>Không muốn gặp
-                      lại</a>
-                    <a *ngIf="isYourself" (click)="onViewBlockList()" style="cursor:pointer;" class="dropdown-item"
-                      data-toggle="modal" data-target="#exampleModal"><i class="fa fa-users"></i>Xem danh sách đen</a>
+                  <span
+                    style="cursor: pointer"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    ><i
+                      class="fa fa-ellipsis-v text-dark"
+                      style="font-size: 25px; margin-top: 15px"
+                    ></i
+                  ></span>
+                  <div
+                    class="dropdown-menu dropdown-menu-custom"
+                    style="top: 179px; left: -184px"
+                  >
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"
+                      ><i class="fa fa-assistive-listening-systems"></i> Theo
+                      dõi</a
+                    >
+                    <a *ngIf="!isYourself" href="#" class="dropdown-item"
+                      ><i class="fa fa-heartbeat"></i> Yêu thích</a
+                    >
+                    <a
+                      *ngIf="!isYourself && UserProfile.blocked"
+                      (click)="
+                        clickBlockUser(UserProfile.id, UserProfile.fullName)
+                      "
+                      style="cursor: pointer"
+                      class="dropdown-item"
+                      ><i class="fa fa-ban"></i>Bỏ chặn</a
+                    >
+                    <a
+                      *ngIf="!isYourself && !UserProfile.blocked"
+                      (click)="
+                        clickBlockUser(UserProfile.id, UserProfile.fullName)
+                      "
+                      style="cursor: pointer"
+                      class="dropdown-item"
+                      ><i class="fa fa-ban"></i>Không muốn gặp lại</a
+                    >
+                    <a
+                      *ngIf="isYourself"
+                      (click)="onViewBlockList()"
+                      style="cursor: pointer"
+                      class="dropdown-item"
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      ><i class="fa fa-users"></i>Xem danh sách đen</a
+                    >
 
-                    <a *ngIf="isYourself && relationship.id != 0" style="cursor:pointer;" class="dropdown-item"
-                      data-toggle="modal" data-target="#relationshipModal"><i class="fa fa-heart"></i>Hủy mối quan
-                      hệ</a>
+                    <a
+                      *ngIf="isYourself && relationship.id != 0"
+                      style="cursor: pointer"
+                      class="dropdown-item"
+                      data-toggle="modal"
+                      data-target="#relationshipModal"
+                      ><i class="fa fa-heart"></i>Hủy mối quan hệ</a
+                    >
 
-                    <a *ngIf="!isYourself" style="cursor:pointer;" class="dropdown-item" data-toggle="modal"
-                      data-target="#relationshipModal"><i class="fa fa-heart"></i>Tạo mối quan hệ</a>
+                    <a
+                      *ngIf="!isYourself"
+                      style="cursor: pointer"
+                      class="dropdown-item"
+                      data-toggle="modal"
+                      data-target="#relationshipModal"
+                      ><i class="fa fa-heart"></i>Tạo mối quan hệ</a
+                    >
                   </div>
                 </div>
 
                 <div *ngIf="checkUser">
-                  <span class="heading">{{UserProfile.numberOfFollowers}}</span>
+                  <span class="heading">{{
+                    UserProfile.numberOfFollowers
+                  }}</span>
                   <button class="btn-icon-card" (click)="onViewFriendList()">
-                    <span class="description"><i class="fa fa-user text-info"></i></span>
+                    <span class="description"
+                      ><i class="fa fa-user text-info"></i
+                    ></span>
                   </button>
                   <!--Xem danh sách bạn bè-->
                 </div>
 
                 <div>
-                  <span class="heading">{{UserProfile.numberOfImages}}</span>
-                  <button class="btn-icon-card" id="img_{{UserProfile.id}}" (click)="viewImageList()">
+                  <span class="heading">{{ UserProfile.numberOfImages }}</span>
+                  <button
+                    class="btn-icon-card"
+                    id="img_{{ UserProfile.id }}"
+                    (click)="viewImageList()"
+                  >
                     <span class="description">
                       <i class="fa fa-camera text-dark"></i>
                     </span>
-                    <img *ngFor="let item of imagesResponse; let i = index" display="true" class="avatar-custom"
+                    <img
+                      *ngFor="let item of imagesResponse; let i = index"
+                      display="true"
+                      class="avatar-custom"
                       hidden="true"
-                      id="img_{{i + 1}}_{{item.liked}}_{{imagesResponse.length}}_{{item.id}}_{{item.numberOfLikes}}"
-                      src="" alt="{{item.imagePath}}">
+                      id="img_{{ i + 1 }}_{{ item.liked }}_{{
+                        imagesResponse.length
+                      }}_{{ item.id }}_{{ item.numberOfLikes }}"
+                      src=""
+                      alt="{{ item.imagePath }}"
+                    />
                     <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
                   </button>
                 </div>
                 <div>
-                  <span class="heading">{{UserProfile.numberOfFavoritors}}</span>
+                  <span class="heading">{{
+                    UserProfile.numberOfFavoritors
+                  }}</span>
                   <button class="btn-icon-card">
-                    <span *ngIf="UserProfile.favorited" style="cursor: pointer;" (click)="clickFavourite()"
-                      class="description"><i class="ni ni-favourite-28 text-danger"></i></span>
-                    <span *ngIf="!UserProfile.favorited" style="cursor: pointer;" (click)="clickFavourite()"
-                      class="description"><i class="ni ni-favourite-28"></i></span>
+                    <span
+                      *ngIf="UserProfile.favorited"
+                      style="cursor: pointer"
+                      (click)="clickFavourite()"
+                      class="description"
+                      ><i class="ni ni-favourite-28 text-danger"></i
+                    ></span>
+                    <span
+                      *ngIf="!UserProfile.favorited"
+                      style="cursor: pointer"
+                      (click)="clickFavourite()"
+                      class="description"
+                      ><i class="ni ni-favourite-28"></i
+                    ></span>
                     <!--Lượt yêu thích từ mọi người chưa yêu thích-->
                   </button>
                 </div>
@@ -135,76 +271,140 @@
             </div>
           </div>
           <div class="text-center mt-5">
-            <h4 class="text-primary font-weight-600">{{UserProfile.fullName}}</h4>
+            <h4 class="text-primary font-weight-600">
+              {{ UserProfile.fullName }}
+            </h4>
             <div class="d-flex row justify-content-center">
-              <span class="font-weight-light">{{UserProfile.age}} Tuổi</span>
-              <div class="h6 font-weight-300"><i class="ni ni-pin-3 mr-1 ml-2"></i>{{UserProfile.location | stringEnum}}
+              <span class="font-weight-light">{{ UserProfile.age }} Tuổi</span>
+              <div class="h6 font-weight-300">
+                <i class="ni ni-pin-3 mr-1 ml-2"></i
+                >{{ UserProfile.location | stringEnum }}
               </div>
             </div>
-            <div class="h6 font-weight-300"><i class="fa fa-info-circle"></i> - {{UserProfile.summary}}
+            <div class="h6 font-weight-300">
+              <i class="fa fa-info-circle"></i> - {{ UserProfile.summary }}
             </div>
-
           </div>
 
           <div class="text-center">
-
             <div>
-              <div *ngIf="!uploadImage" style="display:block;" class="animate-bottom">
-
-                <div *ngIf="relationship.id != 0" class="relationship text-center">
-                  <div class=" user-info">
-                    <img class="imgAvatar" src="{{relationship.fromAvatar}}">
-                    <br>
-                    <p class="user-name text-primary">{{relationship.fromName}}</p>
+              <div
+                *ngIf="!uploadImage"
+                style="display: block"
+                class="animate-bottom"
+              >
+                <div
+                  *ngIf="relationship.id != 0"
+                  class="relationship text-center"
+                >
+                  <div class="user-info">
+                    <img
+                      class="imgAvatar"
+                      src="{{ relationship.fromAvatar }}"
+                    />
+                    <br />
+                    <p class="user-name text-primary">
+                      {{ relationship.fromName }}
+                    </p>
                   </div>
 
                   <div class="have-relationship text-center">
-                    <h5 class="text-primary"><b>{{RelationshipType[relationship.relationshipType] | stringEnum}}</b>
+                    <h5 class="text-primary">
+                      <b>{{
+                        RelationshipType[relationship.relationshipType]
+                          | stringEnum
+                      }}</b>
                     </h5>
                     <h6 class="text-center font-weight-600"><i>với</i></h6>
                   </div>
 
-                  <div class=" user-info">
-                    <img class="imgAvatar" src="{{relationship.toAvatar}}">
-                    <p class="user-name text-primary">{{relationship.toName}}</p>
+                  <div class="user-info">
+                    <img class="imgAvatar" src="{{ relationship.toAvatar }}" />
+                    <p class="user-name text-primary">
+                      {{ relationship.toName }}
+                    </p>
                   </div>
                 </div>
 
                 <p>
-                  <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button"
-                    aria-expanded="false" aria-controls="collapseExample">
-                    Xem hồ sơ của {{UserProfile.fullName}}
+                  <a
+                    class="btn btn-secondary"
+                    data-toggle="collapse"
+                    href="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                  >
+                    Xem hồ sơ của {{ UserProfile.fullName }}
                   </a>
                 </p>
                 <div class="collapse" id="collapseExample">
                   <div class="card card-body">
-
-
-                    <div *ngIf="!editing" class="h5 font-weight-300"><b>{{UserProfile.title}}</b>
+                    <div *ngIf="!editing" class="h5 font-weight-300">
+                      <b>{{ UserProfile.title }}</b>
                     </div>
-                    <div *ngIf="editing" class="h4 font-weight-300 d-flex justify-content-center">
-                      <input type="text" placeholder="Tiêu đề hồ sơ"
-                        class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5" name="" id=""
-                        value="{{UserProfile.title}}" [(ngModel)]="UserProfile.title"
-                        [ngModelOptions]="{standalone: true}">
+                    <div
+                      *ngIf="editing"
+                      class="h4 font-weight-300 d-flex justify-content-center"
+                    >
+                      <input
+                        type="text"
+                        placeholder="Tiêu đề hồ sơ"
+                        class="
+                          text-center
+                          form-control
+                          col-5 col-xl-5 col-md-5 col-lg-5
+                        "
+                        name=""
+                        id=""
+                        value="{{ UserProfile.title }}"
+                        [(ngModel)]="UserProfile.title"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
                     </div>
 
                     <div class="nav-wrapper">
-                      <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                      <ul
+                        class="nav nav-pills nav-fill flex-column flex-md-row"
+                        id="tabs-icons-text"
+                        role="tablist"
+                      >
                         <li class="nav-item">
-                          <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
-                            href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
-                            aria-selected="true"><i class="ni ni-circle-08 mr-2"></i>Thông tin cá nhân</a>
+                          <a
+                            class="nav-link mb-sm-3 mb-md-0 active"
+                            id="tabs-icons-text-1-tab"
+                            data-toggle="tab"
+                            href="#tabs-icons-text-1"
+                            role="tab"
+                            aria-controls="tabs-icons-text-1"
+                            aria-selected="true"
+                            ><i class="ni ni-circle-08 mr-2"></i>Thông tin cá
+                            nhân</a
+                          >
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
-                            href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
-                            aria-selected="false"><i class="ni ni-favourite-28 mr-2"></i>Sở thích</a>
+                          <a
+                            class="nav-link mb-sm-3 mb-md-0"
+                            id="tabs-icons-text-2-tab"
+                            data-toggle="tab"
+                            href="#tabs-icons-text-2"
+                            role="tab"
+                            aria-controls="tabs-icons-text-2"
+                            aria-selected="false"
+                            ><i class="ni ni-favourite-28 mr-2"></i>Sở thích</a
+                          >
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab"
-                            href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3"
-                            aria-selected="false"><i class="ni ni-zoom-split-in mr-2"></i>Tìm kiếm</a>
+                          <a
+                            class="nav-link mb-sm-3 mb-md-0"
+                            id="tabs-icons-text-3-tab"
+                            data-toggle="tab"
+                            href="#tabs-icons-text-3"
+                            role="tab"
+                            aria-controls="tabs-icons-text-3"
+                            aria-selected="false"
+                            ><i class="ni ni-zoom-split-in mr-2"></i>Tìm kiếm</a
+                          >
                         </li>
                       </ul>
                     </div>
@@ -212,25 +412,49 @@
                     <div class="card shadow">
                       <div class="card-body">
                         <div class="tab-content" id="myTabContent">
-
                           <!-- Tab 01 - Thông tin cơ bản -->
-                          <div class="tab-pane fade show active animate-bottom" id="tabs-icons-text-1" role="tabpanel"
-                            aria-labelledby="tabs-icons-text-1-tab">
-
-                            <div class='content-tab'>
+                          <div
+                            class="tab-pane fade show active animate-bottom"
+                            id="tabs-icons-text-1"
+                            role="tabpanel"
+                            aria-labelledby="tabs-icons-text-1-tab"
+                          >
+                            <div class="content-tab">
                               <!--Giới tính-->
                               <div class="feature-item">
-                                <input type="text" value="Giới tính" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.gender}}"
-                                  [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="text" value="{{UserProfile.gender}}"
-                                  [(ngModel)]="UserProfile.gender" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="gender">
+                                <input
+                                  type="text"
+                                  value="Giới tính"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.gender }}"
+                                  [(ngModel)]="UserProfile.gender"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="text"
+                                  value="{{ UserProfile.gender }}"
+                                  [(ngModel)]="UserProfile.gender"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="gender"
+                                />
                                 <datalist id="gender">
-                                  <option value="{{UserProfile.gender}}" disabled selected hidden>
-                                    {{UserProfile.gender}}</option>
+                                  <option
+                                    value="{{ UserProfile.gender }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.gender }}
+                                  </option>
                                   <option value="Nam">Nam</option>
                                   <option value="Nữ">Nữ</option>
                                 </datalist>
@@ -238,277 +462,621 @@
 
                               <!--Nơi ở-->
                               <div class="feature-item">
-                                <input type="text" value="Nơi ở" class="form-control form-title text-center" readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.location | stringEnum}}"
-                                  [(ngModel)]="UserProfile.location" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="text" value="{{UserProfile.location | stringEnum}}"
-                                  [(ngModel)]="UserProfile.location" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="locations">
+                                <input
+                                  type="text"
+                                  value="Nơi ở"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{
+                                    UserProfile.location | stringEnum
+                                  }}"
+                                  [(ngModel)]="UserProfile.location"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="text"
+                                  value="{{
+                                    UserProfile.location | stringEnum
+                                  }}"
+                                  [(ngModel)]="UserProfile.location"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="locations"
+                                />
                                 <datalist id="locations">
-                                  <option value="{{UserProfile.location | stringEnum}}" disabled selected hidden>
-                                    {{UserProfile.location | stringEnum}}</option>
-                                  <option *ngFor="let item of profileData.location" value="{{item | stringEnum}}">
-                                    {{item | stringEnum}}</option>
+                                  <option
+                                    value="{{
+                                      UserProfile.location | stringEnum
+                                    }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.location | stringEnum }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of profileData.location"
+                                    value="{{ item | stringEnum }}"
+                                  >
+                                    {{ item | stringEnum }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <!--Ngày sinh-->
                               <div class="feature-item">
-                                <input type="text" value="Ngày sinh" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" value="{{UserProfile.dob | date: 'dd/MM/yyyy'}}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" [(ngModel)]="UserProfile.dob"
-                                  [ngModelOptions]="{standalone: true}" type="date" id="dobUser"
-                                  class="form-control dobUser form-value" name="dob">
+                                <input
+                                  type="text"
+                                  value="Ngày sinh"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  value="{{
+                                    UserProfile.dob | date: 'dd/MM/yyyy'
+                                  }}"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  [(ngModel)]="UserProfile.dob"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  type="date"
+                                  id="dobUser"
+                                  class="form-control dobUser form-value"
+                                  name="dob"
+                                />
                               </div>
                               <!--end-->
 
                               <!--Chiều cao-->
                               <div class="feature-item">
-                                <input type="text" value="Chiều cao (cm)" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.height}}"
-                                  [(ngModel)]="UserProfile.height" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="number" value="{{UserProfile.height}}"
-                                  [(ngModel)]="UserProfile.height" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="heights">
+                                <input
+                                  type="text"
+                                  value="Chiều cao (cm)"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.height }}"
+                                  [(ngModel)]="UserProfile.height"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="number"
+                                  value="{{ UserProfile.height }}"
+                                  [(ngModel)]="UserProfile.height"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="heights"
+                                />
                                 <datalist id="heights">
-                                  <option value="{{UserProfile.height}}" disabled selected hidden>
-                                    {{UserProfile.height}}</option>
-                                  <option *ngFor="let item of arrayNumbers(100, 120)" value="{{item}}">{{item}}</option>
+                                  <option
+                                    value="{{ UserProfile.height }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.height }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of arrayNumbers(100, 120)"
+                                    value="{{ item }}"
+                                  >
+                                    {{ item }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <!--Cân nặng-->
                               <div class="feature-item">
-                                <input type="text" value="Cân nặng (kg)" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.weight}}"
-                                  [(ngModel)]="UserProfile.weight" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="number" value="{{UserProfile.weight}}"
-                                  [(ngModel)]="UserProfile.weight" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="weights">
+                                <input
+                                  type="text"
+                                  value="Cân nặng (kg)"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.weight }}"
+                                  [(ngModel)]="UserProfile.weight"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="number"
+                                  value="{{ UserProfile.weight }}"
+                                  [(ngModel)]="UserProfile.weight"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="weights"
+                                />
                                 <datalist id="weights">
-                                  <option value="{{UserProfile.weight}}" disabled selected hidden>
-                                    {{UserProfile.weight}}</option>
-                                  <option *ngFor="let item of arrayNumbers(100, 30)" value="{{item}}">{{item}}</option>
+                                  <option
+                                    value="{{ UserProfile.weight }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.weight }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of arrayNumbers(100, 30)"
+                                    value="{{ item }}"
+                                  >
+                                    {{ item }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <!--Công việc-->
                               <div class="feature-item">
-                                <input type="text" value="Công việc" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.job | stringEnum}}"
-                                  [(ngModel)]="UserProfile.job" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="text" value="{{UserProfile.job | stringEnum}}"
-                                  [(ngModel)]="UserProfile.job" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="jobs">
+                                <input
+                                  type="text"
+                                  value="Công việc"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.job | stringEnum }}"
+                                  [(ngModel)]="UserProfile.job"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="text"
+                                  value="{{ UserProfile.job | stringEnum }}"
+                                  [(ngModel)]="UserProfile.job"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="jobs"
+                                />
                                 <datalist id="jobs">
-                                  <option value="{{UserProfile.job | stringEnum}}" disabled selected hidden>
-                                    {{UserProfile.job | stringEnum}}</option>
-                                  <option *ngFor="let item of profileData.job" value="{{item | stringEnum}}">
-                                    {{item | stringEnum}}</option>
+                                  <option
+                                    value="{{ UserProfile.job | stringEnum }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.job | stringEnum }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of profileData.job"
+                                    value="{{ item | stringEnum }}"
+                                  >
+                                    {{ item | stringEnum }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <div *ngIf="!editing" class="feature-item-edit">
                                 <div *ngFor="let item of Features">
-                                  <div *ngIf="item.isSearchFeature" class="feature-item-dynamic">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
-                                    <input type="text" value="{{item.content}}" class="form-control form-value"
-                                      readonly>
+                                  <div
+                                    *ngIf="item.isSearchFeature"
+                                    class="feature-item-dynamic"
+                                  >
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{ item.content }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
                                   </div>
                                 </div>
-
-
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
+                                <div
+                                  *ngFor="let item of Features; let i = index"
+                                >
+                                  <div
+                                    *ngIf="item.isSearchFeature"
+                                    class="feature-item-dynamic-edit"
+                                  >
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
 
-                                <div *ngFor="let item of Features; let i = index">
-                                  <div *ngIf="item.isSearchFeature" class="feature-item-dynamic-edit">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
-
-                                    <select (change)='onOptionsFeatureSelected($event, i)' type="text"
-                                      value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
-                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
-                                      list="likeTechnologys">
-
-                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                    <select
+                                      (change)="
+                                        onOptionsFeatureSelected($event, i)
+                                      "
+                                      type="text"
+                                      value="{{ item.featureDetailId }}"
+                                      [(ngModel)]="Features[i].featureDetailId"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                      list="likeTechnologys"
+                                    >
+                                      <option
+                                        value="{{ item.featureDetailId }}"
+                                      >
+                                        {{ item.content }}
                                       </option>
-                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                        {{value.content}}
+                                      <option
+                                        *ngFor="
+                                          let value of item.featureDetails
+                                        "
+                                        value="{{ value.id }}"
+                                      >
+                                        {{ value.content }}
                                       </option>
                                     </select>
                                   </div>
                                 </div>
-
-
                               </div>
-
                             </div>
-
-
-
                           </div>
 
                           <!-- Tab 02 - Sở thích -->
-                          <div class="tab-pane fade animate-bottom" id="tabs-icons-text-2" role="tabpanel"
-                            aria-labelledby="tabs-icons-text-2-tab">
-
-                            <div class='content-tab'>
+                          <div
+                            class="tab-pane fade animate-bottom"
+                            id="tabs-icons-text-2"
+                            role="tabpanel"
+                            aria-labelledby="tabs-icons-text-2-tab"
+                          >
+                            <div class="content-tab">
                               <div *ngIf="!editing" class="feature-item-edit">
-
                                 <div *ngFor="let item of Features">
-                                  <div *ngIf="!item.isSearchFeature" class="feature-item-dynamic">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
-                                    <input type="text" value="{{item.content}}" class="form-control form-value"
-                                      readonly>
+                                  <div
+                                    *ngIf="!item.isSearchFeature"
+                                    class="feature-item-dynamic"
+                                  >
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{ item.content }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
                                   </div>
                                 </div>
-
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
+                                <div
+                                  *ngFor="let item of Features; let i = index"
+                                >
+                                  <div
+                                    *ngIf="!item.isSearchFeature"
+                                    class="feature-item-dynamic-edit"
+                                  >
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
 
-                                <div *ngFor="let item of Features; let i = index">
-                                  <div *ngIf="!item.isSearchFeature" class="feature-item-dynamic-edit">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
-
-                                    <select (change)='onOptionsFeatureSelected($event, i)' type="text"
-                                      value="{{item.featureDetailId}}" [(ngModel)]="Features[i].featureDetailId"
-                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
-                                      list="likeTechnologys">
-
-                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                    <select
+                                      (change)="
+                                        onOptionsFeatureSelected($event, i)
+                                      "
+                                      type="text"
+                                      value="{{ item.featureDetailId }}"
+                                      [(ngModel)]="Features[i].featureDetailId"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                      list="likeTechnologys"
+                                    >
+                                      <option
+                                        value="{{ item.featureDetailId }}"
+                                      >
+                                        {{ item.content }}
                                       </option>
-                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                        {{value.content}}
+                                      <option
+                                        *ngFor="
+                                          let value of item.featureDetails
+                                        "
+                                        value="{{ value.id }}"
+                                      >
+                                        {{ value.content }}
                                       </option>
                                     </select>
                                   </div>
                                 </div>
-
                               </div>
                             </div>
-
-
-
                           </div>
 
                           <!-- Tab 03 - Các Search features -->
-                          <div class="tab-pane fade animate-bottom" id="tabs-icons-text-3" role="tabpanel"
-                            aria-labelledby="tabs-icons-text-3-tab">
-
-                            <div class='content-tab'>
+                          <div
+                            class="tab-pane fade animate-bottom"
+                            id="tabs-icons-text-3"
+                            role="tabpanel"
+                            aria-labelledby="tabs-icons-text-3-tab"
+                          >
+                            <div class="content-tab">
                               <!--Giới tính gợi ý-->
                               <div class="feature-item">
-                                <input type="text" value="Giới tính gợi ý" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.findPeople}}"
-                                  [(ngModel)]="UserProfile.findPeople" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="text" value="{{UserProfile.findPeople}}"
-                                  [(ngModel)]="UserProfile.findPeople" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="genders">
+                                <input
+                                  type="text"
+                                  value="Giới tính gợi ý"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.findPeople }}"
+                                  [(ngModel)]="UserProfile.findPeople"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="text"
+                                  value="{{ UserProfile.findPeople }}"
+                                  [(ngModel)]="UserProfile.findPeople"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="genders"
+                                />
 
                                 <datalist id="genders">
-                                  <option value="{{UserProfile.findPeople}}" disabled selected hidden>
-                                    {{UserProfile.findPeople}}</option>
-                                  <option *ngFor="let item of profileData.gender" value="{{item}}">{{item}}</option>
+                                  <option
+                                    value="{{ UserProfile.findPeople }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.findPeople }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of profileData.gender"
+                                    value="{{ item }}"
+                                  >
+                                    {{ item }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <!--Độ tuổi gợi ý-->
                               <div class="feature-item">
-                                <input type="text" value="Độ tuổi gợi ý" class="form-control form-title text-center"
-                                  readonly>
-                                <input *ngIf="!editing" type="text" value="{{UserProfile.findAgeGroup}}"
-                                  [(ngModel)]="UserProfile.findAgeGroup" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" readonly>
-                                <input *ngIf="editing" type="text" value="{{UserProfile.findAgeGroup}}"
-                                  [(ngModel)]="UserProfile.findAgeGroup" [ngModelOptions]="{standalone: true}"
-                                  class="form-control form-value" list="ageGroup">
+                                <input
+                                  type="text"
+                                  value="Độ tuổi gợi ý"
+                                  class="form-control form-title text-center"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="!editing"
+                                  type="text"
+                                  value="{{ UserProfile.findAgeGroup }}"
+                                  [(ngModel)]="UserProfile.findAgeGroup"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  readonly
+                                />
+                                <input
+                                  *ngIf="editing"
+                                  type="text"
+                                  value="{{ UserProfile.findAgeGroup }}"
+                                  [(ngModel)]="UserProfile.findAgeGroup"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  class="form-control form-value"
+                                  list="ageGroup"
+                                />
                                 <datalist id="ageGroup">
-                                  <option value="{{UserProfile.findAgeGroup}}" disabled selected hidden>
-                                    {{UserProfile.findAgeGroup}}</option>
-                                  <option *ngFor="let item of profileData.ageGroup" value="{{item}}">{{item}}</option>
+                                  <option
+                                    value="{{ UserProfile.findAgeGroup }}"
+                                    disabled
+                                    selected
+                                    hidden
+                                  >
+                                    {{ UserProfile.findAgeGroup }}
+                                  </option>
+                                  <option
+                                    *ngFor="let item of profileData.ageGroup"
+                                    value="{{ item }}"
+                                  >
+                                    {{ item }}
+                                  </option>
                                 </datalist>
                               </div>
                               <!--end-->
 
                               <div *ngIf="!editing" class="feature-item-edit">
-
-                                <div *ngFor="let item of SearchFeatures">
+                                <!--  -->
+                                <!-- <div>
                                   <div class="feature-item-dynamic">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
-                                    <input type="text" value="{{item.content}}" class="form-control form-value"
-                                      readonly>
+                                    <input
+                                      type="text"
+                                      value="Giới tính gợi ý"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{ UserProfile.findPeople }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
                                   </div>
                                 </div>
 
+                                <div>
+                                  <div class="feature-item-dynamic">
+                                    <input
+                                      type="text"
+                                      value="Giới tính gợi ý"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{ UserProfile.findPeople }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
+                                  </div>
+                                </div> -->
 
-
+                                <!--  -->
+                                <div *ngFor="let item of SearchFeatures">
+                                  <div class="feature-item-dynamic">
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{ item.content }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
+                                  </div>
+                                </div>
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
-
-                                <div *ngFor="let item of SearchFeatures; let i = index">
+                                <div
+                                  *ngFor="
+                                    let item of SearchFeatures;
+                                    let i = index
+                                  "
+                                >
                                   <div class="feature-item-dynamic-edit">
-                                    <input type="text" value="{{item.name}}" class="form-control form-title text-center"
-                                      readonly>
+                                    <input
+                                      type="text"
+                                      value="{{ item.name }}"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
 
-                                    <select (change)='onOptionsSearchFeatureSelected($event, i)' type="text"
-                                      value="{{item.featureDetailId}}" [(ngModel)]="SearchFeatures[i].featureDetailId"
-                                      [ngModelOptions]="{standalone: true}" class="form-control form-value"
-                                      list="likeTechnologys">
-
-                                      <option value="{{item.featureDetailId}}">{{item.content}}
+                                    <select
+                                      (change)="
+                                        onOptionsSearchFeatureSelected(
+                                          $event,
+                                          i
+                                        )
+                                      "
+                                      type="text"
+                                      value="{{ item.featureDetailId }}"
+                                      [(ngModel)]="
+                                        SearchFeatures[i].featureDetailId
+                                      "
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                      list="likeTechnologys"
+                                    >
+                                      <option
+                                        value="{{ item.featureDetailId }}"
+                                      >
+                                        {{ item.content }}
                                       </option>
-                                      <option *ngFor="let value of item.featureDetails" value="{{value.id}}">
-                                        {{value.content}}
+                                      <option
+                                        *ngFor="
+                                          let value of item.featureDetails
+                                        "
+                                        value="{{ value.id }}"
+                                      >
+                                        {{ value.content }}
                                       </option>
                                     </select>
                                   </div>
                                 </div>
-
                               </div>
-
                             </div>
-
                           </div>
-
                         </div>
                       </div>
                     </div>
 
-                    <div *ngIf="!uploadImage" style="display:block;" class=" animate-bottom">
-
+                    <div
+                      *ngIf="!uploadImage"
+                      style="display: block"
+                      class="animate-bottom"
+                    >
                       <form role="form" #Info="ngForm">
-                        <button *ngIf="editing && !updating" style="width:100%" (click)="onUpdateInfo(Info)"
-                          class="btn btn-primary float-right mt-2 mb-2">
+                        <button
+                          *ngIf="editing && !updating"
+                          style="width: 100%"
+                          (click)="onUpdateInfo(Info)"
+                          class="btn btn-primary float-right mt-2 mb-2"
+                        >
                           <i class="fa fa-edit"></i>
                           Cập nhật
                         </button>
 
-                        <button *ngIf="updating" style="width:100%" type="button" class="btn btn-primary float-right">
-                          <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                        <button
+                          *ngIf="updating"
+                          style="width: 100%"
+                          type="button"
+                          class="btn btn-primary float-right"
+                        >
+                          <fa-icon
+                            size="1x"
+                            [icon]="faSpinner"
+                            [spin]="true"
+                          ></fa-icon>
                           Updating...
                         </button>
                       </form>
@@ -516,86 +1084,151 @@
                   </div>
                 </div>
 
-
                 <!--end-->
               </div>
             </div>
 
-
-
             <div class="row justify-content-center">
-              <div *ngIf="!isViewFriendList && !isViewImageList" class="col-lg-9">
-
+              <div
+                *ngIf="!isViewFriendList && !isViewImageList"
+                class="col-lg-9"
+              >
                 <!-- Upload Images -->
                 <div *ngIf="uploadImage">
-                  <div *ngIf="uploadStatus=='none'" style="display:block;" #myDiv class="animate-bottom">
+                  <div
+                    *ngIf="uploadStatus == 'none'"
+                    style="display: block"
+                    #myDiv
+                    class="animate-bottom"
+                  >
                     <p>Đăng hình có thể giúp bạn dễ dàng kết bạn hơn!</p>
 
-                    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                    <div
+                      class="custom-dropzone"
+                      ngx-dropzone
+                      [accept]="'image/*'"
+                      (change)="onSelect($event)"
+                    >
                       <ngx-dropzone-label>
                         <div>
-                          <h2 style="color: white;">Kéo hình vào đây ...</h2>
+                          <h2 style="color: white">Kéo hình vào đây ...</h2>
                         </div>
                       </ngx-dropzone-label>
-                      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
-                        [removable]="true" (removed)="onRemove(f)">
-                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      <ngx-dropzone-image-preview
+                        ngProjectAs="ngx-dropzone-preview"
+                        *ngFor="let f of files"
+                        [file]="f"
+                        [removable]="true"
+                        (removed)="onRemove(f)"
+                      >
+                        <ngx-dropzone-label
+                          >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+                        >
                       </ngx-dropzone-image-preview>
                     </div>
 
                     <div>
-                      <textarea *ngIf="files.length>0" class="form-control" style="color: #525f7f;"
-                        [(ngModel)]="imageTitle" type="text" placeholder="Description..."></textarea>
-                      <br>
-                      <button *ngIf="files.length>0" type="button" style="width:100%" (click)="onUpload()"
-                        class="btn btn-sm btn-primary">
+                      <textarea
+                        *ngIf="files.length > 0"
+                        class="form-control"
+                        style="color: #525f7f"
+                        [(ngModel)]="imageTitle"
+                        type="text"
+                        placeholder="Description..."
+                      ></textarea>
+                      <br />
+                      <button
+                        *ngIf="files.length > 0"
+                        type="button"
+                        style="width: 100%"
+                        (click)="onUpload()"
+                        class="btn btn-sm btn-primary"
+                      >
                         <i class="fa fa-upload"></i>
                         Upload
                       </button>
                     </div>
-                    <hr>
+                    <hr />
                   </div>
 
-                  <div style="margin-bottom:15%" *ngIf="uploadStatus=='loading'">
+                  <div
+                    style="margin-bottom: 15%"
+                    *ngIf="uploadStatus == 'loading'"
+                  >
                     <div id="loader"></div>
                   </div>
-
-
                 </div>
-
-
               </div>
             </div>
 
-
-            <hr>
+            <hr />
             <!-- Xem hình -->
-            <div *ngIf="imagesResponse.length > 0" class="h5 font-weight-300 animate-bottom"><b>Hình ảnh
-              </b> </div>
-
-            <div *ngIf="imagesResponse.length == 0" class="h5 font-weight-300 animate-bottom">
-              <b>Chưa có hình ảnh nào!</b>
-              <br>
-              <button *ngIf="isYourself" (click)="uploadImages()" class='btn btn-primary suggest-action'>Đăng hình
-                ngay</button>
+            <div
+              *ngIf="imagesResponse.length > 0"
+              class="h5 font-weight-300 animate-bottom"
+            >
+              <b>Hình ảnh </b>
             </div>
 
-            <div class="col-lg-12 col-md-12 row pl-3 shadow" style="margin-left: 0%; margin-right: 0%;">
-              <div *ngFor="let item of imagesResponse; let i = index" class="col-md-3 col-xl-3 animate-bottom">
-                <div style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+            <div
+              *ngIf="imagesResponse.length == 0"
+              class="h5 font-weight-300 animate-bottom"
+            >
+              <b>Chưa có hình ảnh nào!</b>
+              <br />
+              <button
+                *ngIf="isYourself"
+                (click)="uploadImages()"
+                class="btn btn-primary suggest-action"
+              >
+                Đăng hình ngay
+              </button>
+            </div>
+
+            <div
+              class="col-lg-12 col-md-12 row pl-3 shadow"
+              style="margin-left: 0%; margin-right: 0%"
+            >
+              <div
+                *ngFor="let item of imagesResponse; let i = index"
+                class="col-md-3 col-xl-3 animate-bottom"
+              >
+                <div
+                  style="
+                    flex: none;
+                    margin-left: 0%;
+                    margin-right: 0%;
+                    margin-bottom: 15px;
+                  "
+                >
                   <div class="card card2">
-                    <div class="d-flex justify-content-center" id="img_{{UserProfile.id}}_{{i}}"
-                      onclick="selectImage(id)">
-                      <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
-                          src="{{item.imagePath}}" alt="Avatar"></a>
+                    <div
+                      class="d-flex justify-content-center"
+                      id="img_{{ UserProfile.id }}_{{ i }}"
+                      onclick="selectImage(id)"
+                    >
+                      <a style="cursor: pointer"
+                        ><img
+                          class="card-img-top thumb-table avatar-custom"
+                          src="{{ item.imagePath }}"
+                          alt="Avatar"
+                      /></a>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div *ngIf="!isNoMoreImage" class='d-flex justify-content-center center-button'>
-                <button *ngIf="!isLoadingImage" (click)="onViewImage()" class='btn btn-outline-default'>Xem
-                  thêm</button>
+              <div
+                *ngIf="!isNoMoreImage"
+                class="d-flex justify-content-center center-button"
+              >
+                <button
+                  *ngIf="!isLoadingImage"
+                  (click)="onViewImage()"
+                  class="btn btn-outline-default"
+                >
+                  Xem thêm
+                </button>
                 <button *ngIf="isLoadingImage" class="btn btn-outline-default">
                   <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                   Đang tải...
@@ -603,196 +1236,357 @@
               </div>
             </div>
 
-            <hr>
-            <br>
+            <hr />
+            <br />
 
             <!-- Danh sách bạn bè -->
-            <div *ngIf="isYourself && FriendList.length > 0" class="h5 font-weight-300 animate-bottom"><b>Bạn bè</b>
+            <div
+              *ngIf="isYourself && FriendList.length > 0"
+              class="h5 font-weight-300 animate-bottom"
+            >
+              <b>Bạn bè</b>
             </div>
-            <div *ngIf="isYourself && FriendList.length == 0" class="h5 font-weight-300 animate-bottom">
+            <div
+              *ngIf="isYourself && FriendList.length == 0"
+              class="h5 font-weight-300 animate-bottom"
+            >
               <b>Chưa có bạn bè</b>
-              <br>
-              <a routerLink='/' class='btn btn-primary suggest-action'>Kết bạn ngay</a>
+              <br />
+              <a routerLink="/" class="btn btn-primary suggest-action"
+                >Kết bạn ngay</a
+              >
             </div>
-            <div *ngIf="isYourself" class="col-lg-12 col-md-12 row pl-3 shadow"
-              style="margin-left: 0%; margin-right: 0%;">
-
-              <div *ngFor="let item of FriendList; let i = index" class="col-md-3 col-xl-3 animate-bottom"
-                style="flex: none; margin-left: 0%; margin-right: 0%; margin-bottom: 15px;">
+            <div
+              *ngIf="isYourself"
+              class="col-lg-12 col-md-12 row pl-3 shadow"
+              style="margin-left: 0%; margin-right: 0%"
+            >
+              <div
+                *ngFor="let item of FriendList; let i = index"
+                class="col-md-3 col-xl-3 animate-bottom"
+                style="
+                  flex: none;
+                  margin-left: 0%;
+                  margin-right: 0%;
+                  margin-bottom: 15px;
+                "
+              >
                 <div class="card card2">
-                  <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                    <a style="cursor: pointer"><img class="card-img-top thumb-table avatar-custom"
-                        src="{{item.avatarPath}}" alt="Avatar"></a>
+                  <div
+                    class="d-flex justify-content-center"
+                    (click)="clickProfileUser(item.id)"
+                  >
+                    <a style="cursor: pointer"
+                      ><img
+                        class="card-img-top thumb-table avatar-custom"
+                        src="{{ item.avatarPath }}"
+                        alt="Avatar"
+                    /></a>
                   </div>
-                  <div class="card-body" style="padding-top: 5px; padding-bottom: 5px;">
-                    <div style="height: 90px;" (click)="clickProfileUser(item.id)">
+                  <div
+                    class="card-body"
+                    style="padding-top: 5px; padding-bottom: 5px"
+                  >
+                    <div
+                      style="height: 90px"
+                      (click)="clickProfileUser(item.id)"
+                    >
                       <a style="cursor: pointer">
-                        <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
-                          {{item.fullName}}
+                        <h6
+                          class="card-title limit-title"
+                          style="margin-bottom: 2px; font-size: 90%"
+                        >
+                          {{ item.fullName }}
                         </h6>
                       </a>
-                      <p class="card-text limit-text" style="line-height: 100%; cursor: pointer"><small
-                          class="text-muted">{{item.summary}}</small></p>
+                      <p
+                        class="card-text limit-text"
+                        style="line-height: 100%; cursor: pointer"
+                      >
+                        <small class="text-muted">{{ item.summary }}</small>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <br>
-              <div *ngIf="!isNoMoreFriend" class='d-flex justify-content-center center-button'>
-                <button *ngIf="!isLoadingFriendList" (click)="getFriendList()" class='btn btn-outline-default'>Xem
-                  thêm</button>
-                <button *ngIf="isLoadingFriendList" class="btn btn-outline-default">
+              <br />
+              <div
+                *ngIf="!isNoMoreFriend"
+                class="d-flex justify-content-center center-button"
+              >
+                <button
+                  *ngIf="!isLoadingFriendList"
+                  (click)="getFriendList()"
+                  class="btn btn-outline-default"
+                >
+                  Xem thêm
+                </button>
+                <button
+                  *ngIf="isLoadingFriendList"
+                  class="btn btn-outline-default"
+                >
                   <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                   Đang tải...
                 </button>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
     </div>
   </section>
-
-
-
-
 </main>
 <section class="imagePop" id="imagePopId">
-  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()"><i class="fa fa-arrow-circle-left"></i></div>
-  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()"><i class="fa fa-arrow-circle-right"></i>
+  <div class="clickLeft" id="clickButtonLeft" onclick="imageMoveLeft()">
+    <i class="fa fa-arrow-circle-left"></i>
   </div>
-  <div class="favorite" id="clickFavoriteImage" onclick="favoriteImage(event)" (click)="updateStateImage()"><i
-      class="ni ni-favourite-28 text-white"></i></div>
-  <div class="numberFavoriteImage text-danger" style="font-weight: 600;" id="numberFavoriteImage"></div>
-  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <div class="clickRight" id="clickButtonRight" onclick="imageMoveRight()">
+    <i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <div
+    class="favorite"
+    id="clickFavoriteImage"
+    onclick="favoriteImage(event)"
+    (click)="updateStateImage()"
+  >
+    <i class="ni ni-favourite-28 text-white"></i>
+  </div>
+  <div
+    class="numberFavoriteImage text-danger"
+    style="font-weight: 600"
+    id="numberFavoriteImage"
+  ></div>
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()">
+    <i class="fa fa-times"></i>
+  </div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId" onclick="imageMoveRight()" value=""></section>
+  <section
+    class="imageContain"
+    id="imageContainId"
+    onclick="imageMoveRight()"
+    value=""
+  ></section>
 </section>
 <section *ngIf="popMessage" class="messagePop" id="messagePopId">
-  <textarea class="textareaMessage" name="" id="" cols="" rows="" (keyup.enter)="sendMessage(UserProfile.id)"
-    [value]="txtMessage" (input)="txtMessage=$event.target.value"></textarea>
+  <textarea
+    class="textareaMessage"
+    name=""
+    id=""
+    cols=""
+    rows=""
+    (keyup.enter)="sendMessage(UserProfile.id)"
+    [value]="txtMessage"
+    (input)="txtMessage = $event.target.value"
+  ></textarea>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
-  <button class="btnSendMessage btn btn-primary" style="border-radius: 0px 0px 5px 5px;"
-    (click)="sendMessage(UserProfile.id)">Gửi</button>
+  <button
+    class="btnSendMessage btn btn-primary"
+    style="border-radius: 0px 0px 5px 5px"
+    (click)="sendMessage(UserProfile.id)"
+  >
+    Gửi
+  </button>
 </section>
 
 <section class="imagePop" id="imagePopAvatar">
-  <div class="close" id="clickButtonClose" onclick="imagePopNone()"><i class="fa fa-times"></i></div>
+  <div class="close" id="clickButtonClose" onclick="imagePopNone()">
+    <i class="fa fa-times"></i>
+  </div>
   <section class="imagePopUnder" onclick="imagePopNone()"></section>
-  <section class="imageContain" id="imageContainId" style="background: url({{UserProfile.avatarPath}});" value="">
-  </section>
+  <section
+    class="imageContain"
+    id="imageContainId"
+    style="background: url({{ UserProfile.avatarPath }})"
+    value=""
+  ></section>
 </section>
 
 <!-- BACK LIST -->
-<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Danh sách đen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="block-table">
-
           <div class="blockItem" *ngFor="let item of BlockList; let i = index">
-            <div class="block-stt">
-              #{{i + 1}}
+            <div class="block-stt">#{{ i + 1 }}</div>
+            <div class="block-avatar avatar-custom">
+              <img
+                class="avatar"
+                width="50px"
+                height="50px"
+                src="{{ item.avatarPath }}"
+              />
             </div>
-            <div class=" block-avatar avatar-custom">
-              <img class="avatar" width="50px" height="50px" src="{{item.avatarPath}}">
-            </div>
-            <div class='block-name'>
-              {{item.fullName}}
+            <div class="block-name">
+              {{ item.fullName }}
             </div>
 
             <div class="block-action">
-              <button *ngIf="item.blocked" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                class="btn btn-success btn-icon btn-sm ">
+              <button
+                *ngIf="item.blocked"
+                (click)="onBlockUser(item)"
+                type="button"
+                rel="tooltip"
+                class="btn btn-success btn-icon btn-sm"
+              >
                 <i class="fa fa-cog" aria-hidden="true"></i>
                 Bỏ chặn
               </button>
 
-              <button *ngIf="!item.blocked && blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                class="btn btn-success btn-icon btn-sm ">
+              <button
+                *ngIf="!item.blocked && blocking"
+                (click)="onBlockUser(item)"
+                type="button"
+                rel="tooltip"
+                class="btn btn-success btn-icon btn-sm"
+              >
                 <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
                 Bỏ chặn
               </button>
 
-              <button *ngIf="!item.blocked && !blocking" (click)="onBlockUser(item)" type="button" rel="tooltip"
-                class="btn btn-primary btn-icon btn-sm ">
+              <button
+                *ngIf="!item.blocked && !blocking"
+                (click)="onBlockUser(item)"
+                type="button"
+                rel="tooltip"
+                class="btn btn-primary btn-icon btn-sm"
+              >
                 <i class="fa fa-cog" aria-hidden="true"></i>
                 Hoàn tác
               </button>
             </div>
           </div>
         </div>
-
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-
-<div class="modal fade bd-example-modal-sm" id="relationshipModal" tabindex="2" role="dialog"
-  aria-labelledby="relationshipModal" aria-hidden="true">
+<div
+  class="modal fade bd-example-modal-sm"
+  id="relationshipModal"
+  tabindex="2"
+  role="dialog"
+  aria-labelledby="relationshipModal"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-sm">
     <div class="modal-content" role="document">
       <div class="modal-header">
-        <h6 class="modal-title" id="exampleModalLabel">Tạo mối quan hệ với {{UserProfile.fullName}}</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h6 class="modal-title" id="exampleModalLabel">
+          Tạo mối quan hệ với {{ UserProfile.fullName }}
+        </h6>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-
         <div class="custom-control custom-radio mb-3">
-          <input name="relationship" class="custom-control-input" id="customRadio5" type="radio" value="0"
+          <input
+            name="relationship"
+            class="custom-control-input"
+            id="customRadio5"
+            type="radio"
+            value="0"
             [checked]="relationship.relationshipType === 0"
-            (change)='relationship.relationshipType=$event.target.value'>
-          <label class="custom-control-label" for="customRadio5">Không có gì</label>
+            (change)="relationship.relationshipType = $event.target.value"
+          />
+          <label class="custom-control-label" for="customRadio5"
+            >Không có gì</label
+          >
         </div>
 
         <div class="custom-control custom-radio mb-3">
-          <input name="relationship" class="custom-control-input" id="customRadio2" type="radio" value="1"
+          <input
+            name="relationship"
+            class="custom-control-input"
+            id="customRadio2"
+            type="radio"
+            value="1"
             [checked]="relationship.relationshipType === 1"
-            (change)='relationship.relationshipType=$event.target.value'>
-          <label class="custom-control-label" for="customRadio2">Đang tìm hiểu </label>
+            (change)="relationship.relationshipType = $event.target.value"
+          />
+          <label class="custom-control-label" for="customRadio2"
+            >Đang tìm hiểu
+          </label>
         </div>
 
         <div class="custom-control custom-radio mb-3">
-          <input name="relationship" class="custom-control-input" id="customRadio3" type="radio" value="2"
+          <input
+            name="relationship"
+            class="custom-control-input"
+            id="customRadio3"
+            type="radio"
+            value="2"
             [checked]="relationship.relationshipType === 2"
-            (change)='relationship.relationshipType=$event.target.value'>
-          <label class="custom-control-label" for="customRadio3">Đang yêu</label>
+            (change)="relationship.relationshipType = $event.target.value"
+          />
+          <label class="custom-control-label" for="customRadio3"
+            >Đang yêu</label
+          >
         </div>
 
         <div class="custom-control custom-radio mb-3">
-          <input name="relationship" class="custom-control-input" id="customRadio4" type="radio" value="3"
+          <input
+            name="relationship"
+            class="custom-control-input"
+            id="customRadio4"
+            type="radio"
+            value="3"
             [checked]="relationship.relationshipType === 3"
-            (change)='relationship.relationshipType=$event.target.value'>
-          <label class="custom-control-label" for="customRadio4">Đã kết hôn</label>
+            (change)="relationship.relationshipType = $event.target.value"
+          />
+          <label class="custom-control-label" for="customRadio4"
+            >Đã kết hôn</label
+          >
         </div>
-
-
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
-        <button (click)="onSaveRelationship()" type="button" class="btn btn-primary" data-dismiss="modal">Lưu</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Thoát
+        </button>
+        <button
+          (click)="onSaveRelationship()"
+          type="button"
+          class="btn btn-primary"
+          data-dismiss="modal"
+        >
+          Lưu
+        </button>
       </div>
     </div>
   </div>
 </div>
-
 
 <div id="alert-custom">
   <alert></alert>

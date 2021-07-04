@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { slideInOutAnimation } from '../../shared/_animates/animates';
 @Component({
   selector: 'app-friend-list',
@@ -22,18 +21,4 @@ export class FriendListComponent implements OnInit {
 
 
   IsOk = false;
-  onSubmit(f: NgForm) {
-    if (f.value.From == "" || f.value.To == "") {
-      alert("Điền đầy đủ thông tin người nhận người gửi!");
-      return;
-    }
-
-    localStorage.setItem("CurrentUserId", f.value.From);
-    localStorage.setItem("DestUserId", f.value.To);
-    this.IsOk = true;
-    alert("Ok let start chat!");
-    //this.router.navigateByUrl('/chat');
-  }
-
-
 }

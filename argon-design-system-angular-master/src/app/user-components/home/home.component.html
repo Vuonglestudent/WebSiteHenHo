@@ -1,8 +1,3 @@
-<!-- <div class="animation">
-  <div *ngFor="let i of numbers" class="circle-container">
-    <div class="circle"></div>
-  </div>
-</div> -->
 <main>
   <div class="position-relative">
     <!-- Hero for FREE version -->
@@ -22,13 +17,18 @@
       </div>
 
       <div *ngIf="isShowImage" class="p-carousel">
-
         <app-carousel></app-carousel>
       </div>
       <!-- SVG separator -->
       <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
-          xmlns="http://www.w3.org/2000/svg">
+        <svg
+          x="0"
+          y="0"
+          viewBox="0 0 2560 100"
+          preserveAspectRatio="none"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
         </svg>
       </div>
@@ -37,7 +37,7 @@
     <div class="container-custom">
       <div class="onlineCount">
         <i class="fa fa-globe"></i>
-        Online: {{onlineCount}}
+        Online: {{ onlineCount }}
       </div>
 
       <div class="BackToTop">
@@ -49,92 +49,183 @@
       <div *ngIf="userInfo == undefined" class="container">
         <app-introduce></app-introduce>
       </div>
-      <div id="container" *ngIf="isViewFriend" class="row justify-content-center">
-        <div class='left-content'>
-
+      <div
+        id="container"
+        *ngIf="isViewFriend"
+        class="row justify-content-center"
+      >
+        <div class="left-content">
           <!--  -->
-          <div class="col-md-12 ">
-            <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
+          <div class="col-md-12">
+            <ul
+              class="nav nav-pills nav-pills-circle mb-3"
+              id="tabs_3"
+              role="tablist"
+            >
               <li class="nav-item">
-                <a class="nav-link rounded-circle active" id="first-tab" data-toggle="tab" (click)="isViewImage = false"
-                  href="#link22" role="tab" aria-selected="false">
-                  <span class="nav-link-icon d-block"><i class="ni ni-atom"></i></span>
+                <a
+                  class="nav-link rounded-circle active"
+                  id="first-tab"
+                  data-toggle="tab"
+                  (click)="isViewImage = false"
+                  href="#link22"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  <span class="nav-link-icon d-block"
+                    ><i class="ni ni-atom"></i
+                  ></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="second-tab" data-toggle="tab" (click)="loadNewImages()" href="#link23"
-                  role="tab" aria-selected="false">
-                  <span class="nav-link-icon d-block"><i class="ni ni ni-image"></i></span>
+                <a
+                  class="nav-link"
+                  id="second-tab"
+                  data-toggle="tab"
+                  (click)="loadNewImages()"
+                  href="#link23"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  <span class="nav-link-icon d-block"
+                    ><i class="ni ni ni-image"></i
+                  ></span>
                 </a>
               </li>
-
             </ul>
             <div id="card-border-none" class="card card-plain">
-
               <div class="tab-content tab-space tab-custom">
-
                 <div class="tab-pane fade active show" id="link22">
-
                   <div class="animate-bottom">
-                    <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-                      <h4 *ngIf="userInfo == undefined" class="text-white "><strong
-                          class="text-warning">Hot!</strong><span> Bạn được yêu thích nhiều!</span>
+                    <div
+                      class="alert alert-default"
+                      style="margin-bottom: 0px"
+                      role="alert"
+                    >
+                      <h4 *ngIf="userInfo == undefined" class="text-white">
+                        <strong class="text-warning">Hot!</strong
+                        ><span> Bạn được yêu thích nhiều!</span>
                       </h4>
                       <div class="d-flex justify-content-between">
-                        <h4 *ngIf="userInfo!=undefined" class="text-white "><strong
-                            class="text-warning">Hot!</strong><span> Gợi ý dành cho riêng bạn!</span>
+                        <h4 *ngIf="userInfo != undefined" class="text-white">
+                          <strong class="text-warning">Hot!</strong
+                          ><span> Gợi ý dành cho riêng bạn!</span>
                         </h4>
-                        <button (click)="reload()" class="btn btn-primary renew-btn">
-                          <fa-icon size="1x" [icon]="faSyncAlt" [spin]="Loading"></fa-icon>
+                        <button
+                          (click)="reload()"
+                          class="btn btn-primary renew-btn"
+                        >
+                          <fa-icon
+                            size="1x"
+                            [icon]="faSyncAlt"
+                            [spin]="Loading"
+                          ></fa-icon>
                         </button>
                       </div>
                     </div>
                   </div>
 
                   <div class="friend-container">
-                    <div *ngFor="let item of usersService.Favoritors; let i = index"
-                      class="card-container animate-bottom">
+                    <div
+                      *ngFor="
+                        let item of usersService.Favoritors;
+                        let i = index
+                      "
+                      class="card-container animate-bottom"
+                    >
                       <div class="card person-card">
-                        <div class="d-flex justify-content-center" (click)="clickProfileUser(item.id)">
-                          <a class="image-container" (click)="clickProfileUser(item.id)"><img
-                              class="card-img-top thumb-table" src="{{item.avatarPath}}" alt="Avatar"></a>
+                        <div
+                          class="d-flex justify-content-center"
+                          (click)="clickProfileUser(item.id)"
+                        >
+                          <a
+                            class="image-container"
+                            (click)="clickProfileUser(item.id)"
+                            ><img
+                              class="card-img-top thumb-table"
+                              src="{{ item.avatarPath }}"
+                              alt="Avatar"
+                          /></a>
                         </div>
                         <div class="card-body">
-                          <div class="summary" (click)="clickProfileUser(item.id)">
-                            <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
-                              <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">
-                                {{item.fullName}}
+                          <div
+                            class="summary"
+                            (click)="clickProfileUser(item.id)"
+                          >
+                            <a
+                              style="cursor: pointer"
+                              (click)="clickProfileUser(item.id)"
+                            >
+                              <h6
+                                class="card-title limit-title"
+                                style="margin-bottom: 2px; font-size: 90%"
+                              >
+                                {{ item.fullName }}
                               </h6>
                             </a>
-                            <p class="card-text limit-text"
-                              style="line-height: 100%; cursor: pointer; margin-bottom: 0;"><small
-                                class="text-muted">{{item.summary}}</small></p>
-                            <p *ngIf="item.point != 0" style="margin-bottom: 0;"><small>Point: {{item.point}}</small>
+                            <p
+                              class="card-text limit-text"
+                              style="
+                                line-height: 100%;
+                                cursor: pointer;
+                                margin-bottom: 0;
+                              "
+                            >
+                              <small class="text-muted">{{
+                                item.summary
+                              }}</small>
+                            </p>
+                            <p *ngIf="item.point != 0" style="margin-bottom: 0">
+                              <small>Point: {{ item.point }}</small>
                             </p>
                           </div>
                           <div class="icons">
-                            <div style="margin-right: 16px;">
-                              <button class="btn-icon-card icon-hover" style="margin-right: 0%; padding-right: 0%;">
-                                <a *ngIf="item.favorited == true" style="cursor: pointer"
-                                  (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 text-danger"></i></a>
-
-                                <a *ngIf="item.favorited == false" style="cursor: pointer"
-                                  (click)="Favorite(item.id, $event)"><i class="ni ni-favourite-28 icon-custom"></i></a>
-                              </button>
-                              <span id="numberFavorites_{{item.id}}"><small class="text-dark"
-                                  style="font-size: 55%;">{{item.numberOfFavoritors}}</small></span>
-                            </div>
-                            <div>
+                            <div class="icon-container">
                               <button class="btn-icon-card icon-hover">
-                                <i class="ni ni-chat-round icon-custom"><span><small class="text-dark"
-                                      style="font-size: 60%; margin-left: 1px; "></small></span></i>
+                                <a (click)="Favorite(item.id, $event)"
+                                  ><i
+                                    class="ni ni-favourite-28"
+                                    [ngClass]="
+                                      item.favorited
+                                        ? 'text-danger'
+                                        : 'icon-custom'
+                                    "
+                                  ></i
+                                ></a>
+                              </button>
+                              <!-- <span id="numberFavorites_{{ item.id }}"
+                                ><small
+                                  class="text-dark"
+                                  style="font-size: 55%"
+                                  >{{ item.numberOfFavoritors }}</small
+                                ></span
+                              > -->
+                            </div>
+
+                            <div class="icon-container">
+                              <button class="btn-icon-card icon-hover">
+                                <i class="ni ni-chat-round icon-custom"
+                                  ><span
+                                    ><small
+                                      class="text-dark"
+                                      style="font-size: 60%; margin-left: 1px"
+                                    ></small></span
+                                ></i>
                               </button>
                             </div>
-                            <div>
-                              <button class="btn-icon-card icon-hover" (click)="onViewImage(item)">
+
+                            <div class="icon-container">
+                              <button
+                                class="btn-icon-card icon-hover"
+                                (click)="onViewImage(item)"
+                              >
                                 <i class="ni ni-camera-compact icon-custom">
-                                  <span><small class="text-dark"
-                                      style="font-size: 60%; margin-left: 1px;">{{item.numberOfImages}}</small>
+                                  <span
+                                    ><small
+                                      class="text-dark"
+                                      style="font-size: 60%; margin-left: 1px"
+                                      >{{ item.numberOfImages }}</small
+                                    >
                                   </span>
                                 </i>
                               </button>
@@ -146,16 +237,32 @@
                   </div>
 
                   <div *ngIf="Loading" style="text-align: center">
-
-                    <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                    <fa-icon
+                      style="color: #5e72e4"
+                      size="5x"
+                      [icon]="faSpinner"
+                      [spin]="true"
+                    ></fa-icon>
                     <p>Đang tìm bạn bè...</p>
                   </div>
 
-                  <div *ngIf="!Loading" class="d-flex justify-content-center"
-                    style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
-                    <button *ngIf="!noMore" (click)="nextPage()" class="btn btn-primary">Xem thêm</button>
+                  <div
+                    *ngIf="!Loading"
+                    class="d-flex justify-content-center"
+                    style="
+                      padding-bottom: 15px;
+                      padding-top: 15px;
+                      padding-left: 30px;
+                    "
+                  >
+                    <button
+                      *ngIf="!noMore"
+                      (click)="nextPage()"
+                      class="btn btn-primary"
+                    >
+                      Xem thêm
+                    </button>
                   </div>
-
                 </div>
 
                 <div class="tab-pane fade tab-custom" id="link23">
@@ -163,124 +270,213 @@
 
                   <div class="alert alert-default news-title" role="alert">
                     <div class="d-flex justify-content-between">
-                      <h4 class="text-white"><span> Bảng tin!</span>
-                      </h4>
+                      <h4 class="text-white"><span> Bảng tin!</span></h4>
                       <p>
-                        <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button"
-                          aria-expanded="false" aria-controls="collapseExample">
+                        <a
+                          class="btn btn-secondary"
+                          data-toggle="collapse"
+                          href="#collapseExample"
+                          role="button"
+                          aria-expanded="false"
+                          aria-controls="collapseExample"
+                        >
                           Đăng hình ngay
                         </a>
                       </p>
                     </div>
                   </div>
                   <div class="news-content">
-
                     <div class="collapse" id="collapseExample">
                       <div>
-                        <textarea *ngIf="!uploading" [(ngModel)]="ImageTitle" class="form-control news"
-                          placeholder="Nói gì đó về hình ảnh này..."></textarea>
+                        <textarea
+                          *ngIf="!uploading"
+                          [(ngModel)]="ImageTitle"
+                          class="form-control news"
+                          placeholder="Nói gì đó về hình ảnh này..."
+                        ></textarea>
                       </div>
 
-                      <div *ngIf="!uploading" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
-                        (change)="onSelect($event)">
+                      <div
+                        *ngIf="!uploading"
+                        class="custom-dropzone"
+                        ngx-dropzone
+                        [accept]="'image/*'"
+                        (change)="onSelect($event)"
+                      >
                         <ngx-dropzone-label>
                           <div>
-                            <h5 style="color: white;">Thêm hình ảnh ...</h5>
+                            <h5 style="color: white">Thêm hình ảnh ...</h5>
                           </div>
                         </ngx-dropzone-label>
-                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                          [file]="f" [removable]="true" (removed)="onRemove(f)">
-                          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        <ngx-dropzone-image-preview
+                          ngProjectAs="ngx-dropzone-preview"
+                          *ngFor="let f of files"
+                          [file]="f"
+                          [removable]="true"
+                          (removed)="onRemove(f)"
+                        >
+                          <ngx-dropzone-label
+                            >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+                          >
                         </ngx-dropzone-image-preview>
                       </div>
 
-                      <div style="text-align: center;">
-                        <button (click)='onUpload()' *ngIf="!uploading" class="btn btn-primary">Cập nhật</button>
-                        <div *ngIf="uploading" style='margin-top: 20px'>
-                          <fa-icon style="color:#5E72E4" size="4x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                      <div style="text-align: center">
+                        <button
+                          (click)="onUpload()"
+                          *ngIf="!uploading"
+                          class="btn btn-primary"
+                        >
+                          Cập nhật
+                        </button>
+                        <div *ngIf="uploading" style="margin-top: 20px">
+                          <fa-icon
+                            style="color: #5e72e4"
+                            size="4x"
+                            [icon]="faSpinner"
+                            [spin]="true"
+                          ></fa-icon>
                         </div>
                       </div>
-
                     </div>
 
-
-
-                    <hr>
+                    <hr />
                     <!-- Bản tin -->
                     <div class="news-body">
-                      <div *ngFor="let item of NewImages; let i = index" class="new-content">
-
+                      <div
+                        *ngFor="let item of NewImages; let i = index"
+                        class="new-content"
+                      >
                         <div class="news-header">
                           <div class="header-image">
-                            <img src="{{item.avatarPath}}" alt="Raised circle image"
-                              class="avatar rounded-circle avatar-custom">
+                            <img
+                              src="{{ item.avatarPath }}"
+                              alt="Raised circle image"
+                              class="avatar rounded-circle avatar-custom"
+                            />
                           </div>
                           <div class="header-title">
-                            <p>{{item.fullName}}</p>
-                            <div class='row'>
-                              <small style="margin-left: 13px;"
-                                class="d-block mb-4">{{item.createdAt | date:'short'}}</small>
+                            <p>{{ item.fullName }}</p>
+                            <div class="row">
+                              <small
+                                style="margin-left: 13px"
+                                class="d-block mb-4"
+                                >{{ item.createdAt | date: "short" }}</small
+                              >
                               <i class="ni ni ni-world ni-time-custom"></i>
                             </div>
                           </div>
                         </div>
 
                         <!-- Hình ảnh -->
-                        <div style="text-align:center">
-                          <p class="image-title">{{item.title}}</p>
-                          <img class="image-content" src="{{item.imagePath}}">
+                        <div style="text-align: center">
+                          <p class="image-title">{{ item.title }}</p>
+                          <img
+                            class="image-content"
+                            src="{{ item.imagePath }}"
+                          />
+                        </div>
+                        <div class="like-animation">
+                          <button
+                            (click)="onLikeImage(item.id, i)"
+                            [ngClass]="
+                              item.liked ? 'like-animate' : 'unlike-animate'
+                            "
+                            class="btn btn-primary like-icon image-mode-icon"
+                          >
+                            <i class="ni ni-favourite-28"></i>
+                          </button>
                         </div>
                         <div class="actions-group">
-                          <button (click)="onLikeImage(item.id, i)" *ngIf="!item.liked" type="button"
-                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-gratipay"
-                              aria-hidden="true"></i>
+                          <button
+                            (click)="onLikeImage(item.id, i)"
+                            *ngIf="!item.liked"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button"
+                          >
+                            <i class="fa fa-gratipay" aria-hidden="true"></i>
                             <label>Thích</label>
                           </button>
-                          <button (click)="onLikeImage(item.id, i)" *ngIf="item.liked" type="button"
-                            class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-gratipay"
-                              aria-hidden="true"></i>
+                          <button
+                            (click)="onLikeImage(item.id, i)"
+                            *ngIf="item.liked"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button-true"
+                          >
+                            <i class="fa fa-gratipay" aria-hidden="true"></i>
                             <label>Thích</label>
                           </button>
-                          <button (click)="onFollowed(item.userId, i)" *ngIf="!item.followed" type="button"
-                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-rss" aria-hidden="true"></i>
+                          <button
+                            (click)="onFollowed(item.userId, i)"
+                            *ngIf="!item.followed"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button"
+                          >
+                            <i class="fa fa-rss" aria-hidden="true"></i>
                             <label>Theo dõi</label>
                           </button>
-                          <button (click)="onFollowed(item.userId, i)" *ngIf="item.followed" type="button"
-                            class="btn btn-secondary btn-lg func-button-true"><i class="fa fa-rss"
-                              aria-hidden="true"></i>
+                          <button
+                            (click)="onFollowed(item.userId, i)"
+                            *ngIf="item.followed"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button-true"
+                          >
+                            <i class="fa fa-rss" aria-hidden="true"></i>
                             <label>Theo dõi</label>
                           </button>
 
-                          <button (click)="clickProfileUser(item.userId)" type="button"
-                            class="btn btn-secondary btn-lg func-button"><i class="fa fa-address-card"
-                              aria-hidden="true"></i> <label>Thông tin</label></button>
-                          <button (click)="clickBlock(item.userId, item.fullName)" type="button"
-                            class="btn btn-secondary btn-lg func-button" data-toggle="modal"
-                            data-target="#mySmallModalLabel"><i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                          <button
+                            (click)="clickProfileUser(item.userId)"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button"
+                          >
+                            <i
+                              class="fa fa-address-card"
+                              aria-hidden="true"
+                            ></i>
+                            <label>Thông tin</label>
+                          </button>
+                          <button
+                            (click)="clickBlock(item.userId, item.fullName)"
+                            type="button"
+                            class="btn btn-secondary btn-lg func-button"
+                            data-toggle="modal"
+                            data-target="#mySmallModalLabel"
+                          >
+                            <i
+                              class="fa fa-times-circle-o"
+                              aria-hidden="true"
+                            ></i>
                             <label>Chặn</label>
                           </button>
                           <!--  -->
-
                         </div>
 
-                        <hr>
+                        <hr />
                       </div>
 
                       <div *ngIf="Loading" style="text-align: center">
-
-                        <fa-icon style="color:#5E72E4" size="5x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                        <fa-icon
+                          style="color: #5e72e4"
+                          size="5x"
+                          [icon]="faSpinner"
+                          [spin]="true"
+                        ></fa-icon>
                         <p>Đang tải hình ảnh...</p>
                       </div>
 
                       <div *ngIf="!Loading" style="text-align: center">
-                        <button *ngIf="!noMoreImage" (click)="onSeeMoreImage()" class="btn btn-primary">Xem
-                          thêm</button>
+                        <button
+                          *ngIf="!noMoreImage"
+                          (click)="onSeeMoreImage()"
+                          class="btn btn-primary"
+                        >
+                          Xem thêm
+                        </button>
                       </div>
                     </div>
                   </div>
-
                 </div>
-
               </div>
             </div>
           </div>
@@ -291,7 +487,10 @@
           <div class="d-flex justify-content-start">
             <div class="col">
               <div class="text-box">
-                <h6 class="d-flex justify-content-center" style="padding-top: 10px;">
+                <h6
+                  class="d-flex justify-content-center"
+                  style="padding-top: 10px"
+                >
                   <span>
                     <i class="fa fa-search mr-2 text-white"></i>
                   </span>
@@ -299,53 +498,120 @@
                 </h6>
               </div>
               <form class="form-search" action="">
+                <input
+                  (keydown.enter)="onSearch()"
+                  [(ngModel)]="name"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  placeholder="Tìm theo tên"
+                />
+                <select
+                  [(ngModel)]="gender"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control dropbtn"
+                  id="GioiTinh"
+                >
+                  <option *ngFor="let item of filterData.gender">
+                    Tìm {{ item }}
+                  </option>
+                </select>
+                <select
+                  [(ngModel)]="fromAge"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control dropbtn"
+                  id="TuoiBatDau"
+                >
+                  <option *ngFor="let item of filterData.fromAge">
+                    Từ tuổi {{ item }}
+                  </option>
+                </select>
 
-                <input (keydown.enter)="onSearch()" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" class="form-control"
-                  placeholder="Tìm theo tên">
-                <select [(ngModel)]="gender" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
-                  id="GioiTinh">
-                  <option *ngFor="let item of filterData.gender;">Tìm {{item}}</option>
+                <select
+                  [(ngModel)]="toAge"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control dropbtn"
+                  id="TuoiKetThuc"
+                >
+                  <option *ngFor="let item of filterData.toAge">
+                    Đến tuổi {{ item }}
+                  </option>
                 </select>
-                <select [(ngModel)]="fromAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
-                  id="TuoiBatDau">
-                  <option *ngFor="let item of filterData.fromAge;">Từ tuổi {{item}}</option>
+                <select
+                  [(ngModel)]="location"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control dropbtn"
+                  id="ThanhPho"
+                >
+                  <option
+                    *ngFor="let item of filterData.location"
+                    value="{{ item }}"
+                  >
+                    {{ item | stringEnum }}
+                  </option>
                 </select>
 
-                <select [(ngModel)]="toAge" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
-                  id="TuoiKetThuc">
-                  <option *ngFor="let item of filterData.toAge;">Đến tuổi {{item}}</option>
-                </select>
-                <select [(ngModel)]="location" [ngModelOptions]="{standalone: true}" class="form-control dropbtn"
-                  id="ThanhPho">
-                  <option *ngFor="let item of filterData.location;" value="{{item}}">{{item | stringEnum}}</option>
-                </select>
-
-                <button (click)="onSearch()" class="btn btn-1 btn-outline-primary" type="button">Tìm kiếm</button>
+                <button
+                  (click)="onSearch()"
+                  class="btn btn-1 btn-outline-primary"
+                  type="button"
+                >
+                  Tìm kiếm
+                </button>
               </form>
             </div>
           </div>
-          <div class="col" style="padding: 0;">
-            <div class="alert text-center" style="margin-bottom: 0px;" role="alert">
-            </div>
+          <div class="col" style="padding: 0">
+            <div
+              class="alert text-center"
+              style="margin-bottom: 0px"
+              role="alert"
+            ></div>
             <table class="table">
-              <div class="alert alert-default" style="margin-bottom: 0px;" role="alert">
-                <h6 class="text-white"><strong class="text-warning">New!</strong><span> Mới tham gia!</span></h6>
+              <div
+                class="alert alert-default"
+                style="margin-bottom: 0px"
+                role="alert"
+              >
+                <h6 class="text-white">
+                  <strong class="text-warning">New!</strong
+                  ><span> Mới tham gia!</span>
+                </h6>
               </div>
-              <div *ngFor="let item of usersService.NewUsers;" style="margin-bottom: 10px;">
+              <div
+                *ngFor="let item of usersService.NewUsers"
+                style="margin-bottom: 10px"
+              >
                 <tr>
                   <td>
                     <div>
-                      <a style="cursor: pointer" (click)="clickProfileUser(item.id)"><img class="img-thumbnail"
-                          src="{{item.avatarPath}}" alt="Avatar"></a>
+                      <a
+                        style="cursor: pointer"
+                        (click)="clickProfileUser(item.id)"
+                        ><img
+                          class="img-thumbnail"
+                          src="{{ item.avatarPath }}"
+                          alt="Avatar"
+                      /></a>
                     </div>
                   </td>
-                  <td style="padding-left: 5px;">
-                    <a style="cursor: pointer" (click)="clickProfileUser(item.id)">
-                      <h6 class="card-title limit-title" style="margin-bottom: 2px; font-size: 90%;">{{item.fullName}}
+                  <td style="padding-left: 5px">
+                    <a
+                      style="cursor: pointer"
+                      (click)="clickProfileUser(item.id)"
+                    >
+                      <h6
+                        class="card-title limit-title"
+                        style="margin-bottom: 2px; font-size: 90%"
+                      >
+                        {{ item.fullName }}
                       </h6>
                     </a>
-                    <p class="limit-text" style=" -webkit-line-clamp: 1; line-height: 90%;">
-                      <small>{{item.summary}}</small></p>
+                    <p
+                      class="limit-text"
+                      style="-webkit-line-clamp: 1; line-height: 90%"
+                    >
+                      <small>{{ item.summary }}</small>
+                    </p>
                   </td>
                 </tr>
               </div>
@@ -353,18 +619,11 @@
           </div>
         </div>
 
-        <div id='right-space' class="hide-right-space">
-
-        </div>
-
+        <div id="right-space" class="hide-right-space"></div>
       </div>
-
-
     </div>
   </div>
 </main>
-
-
 
 <div id="alert-custom">
   <alert></alert>
@@ -372,21 +631,48 @@
 
 <app-footer></app-footer>
 
-<div class="modal fade bd-example-modal-sm" id="mySmallModalLabel" tabindex="2" role="dialog"
-  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div
+  class="modal fade bd-example-modal-sm"
+  id="mySmallModalLabel"
+  tabindex="2"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-sm">
     <div class="modal-content" role="document">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Chặn {{blockName}}?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Chặn {{ blockName }}?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="">Bạn sẽ không còn nhận được tin của {{blockName}} nữa!</p>
-        <button (click)="onBlockUser()" type="button" class="btn btn-primary" data-dismiss="modal"
-          aria-label="Close">Yes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">No</button>
+        <p class="">Bạn sẽ không còn nhận được tin của {{ blockName }} nữa!</p>
+        <button
+          (click)="onBlockUser()"
+          type="button"
+          class="btn btn-primary"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>
@@ -395,12 +681,17 @@
 <div id="myModal" class="modal-image">
   <span class="close cursor" (click)="closeModal()">&times;</span>
   <div class="modal-image-content">
-
     <div *ngFor="let item of images; let i = index" class="mySlides">
-      <div class="numbertext">{{i + 1}} / {{images.length + 1}}</div>
-      <img class="full-screen" src="{{item.imagePath}}">
-      <!-- <button (click)="onApprove(item.id)" style="margin-left: 1%;" class="btn btn-primary">Approve</button>
-      <button (click)="onReject(item.id)" class="btn btn-danger">Reject</button> -->
+      <div class="numbertext">{{ i + 1 }} / {{ images.length + 1 }}</div>
+      <img class="full-screen" src="{{ item.imagePath }}" />
+      <button
+        (click)="onLikeUserImage(item.id, i)"
+        style="margin-left: 1%"
+        [ngClass]="item.liked ? 'like-icon-active' : 'like-icon-inactive'"
+        class="btn btn-primary like-icon"
+      >
+        <i class="ni ni-favourite-28"></i>
+      </button>
     </div>
 
     <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
@@ -410,9 +701,17 @@
       <p id="caption"></p>
     </div>
 
-    <div *ngFor="let item of images; let i = index" class="mySlides" class="column">
-      <img class="demo cursor" src="{{item.imagePath}}" (click)="currentSlide(i + 1)" alt="{{item.title}}">
+    <div
+      *ngFor="let item of images; let i = index"
+      class="mySlides"
+      class="column"
+    >
+      <img
+        class="demo cursor"
+        src="{{ item.imagePath }}"
+        (click)="currentSlide(i + 1)"
+        alt="{{ item.title }}"
+      />
     </div>
-
   </div>
 </div>

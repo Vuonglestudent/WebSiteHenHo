@@ -13,12 +13,10 @@ import { HomeComponent } from './user-components/home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/login/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
-//import { HomeModule } from './home/home.module';
 import { LoginComponent } from './shared/login/login.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from './shared/_alert';
 import { ConfirmEmailComponent } from './user-components/confirm-email/confirm-email.component';
-import { FacebookLoginComponent } from './user-components/facebook-login/facebook-login.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { ChatComponent } from './user-components/chat/chat.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
@@ -31,7 +29,6 @@ import {
 import { FriendListComponent } from './user-components/friend-list/friend-list.component';
 import { ChangePasswordComponent } from './user-components/change-password/change-password.component';
 import { CommonModule } from '@angular/common';
-import { SeenImageComponent } from './user-components/seen-image/seen-image.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FilterFriendsComponent } from './user-components/filter-friends/filter-friends.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
@@ -45,12 +42,10 @@ import { FeatureManagerComponent } from './admin-components/feature-manager/feat
 import { ImageScoreComponent } from './admin-components/image-score/image-score.component';
 import { CarouselComponent } from './user-components/carousel/carousel.component';
 import { VideoCallComponent } from './user-components/video-call/video-call.component';
-//import { RtcSignalRService } from './service/rtc-signal-r.service';
 import { SignalRService } from './shared/service/signal-r.service';
 import { IntroduceComponent } from './user-components/introduce/introduce.component';
 import { SharedStoryComponent } from './user-components/shared-story/shared-story.component';
 import { StringEnumPipe } from './shared/pipe/string-enum-pipe';
-import { TestComponent } from './user-components/test/test.component';
 import { ScanAroundComponent } from './user-components/scan-around/scan-around.component';
 @NgModule({
   declarations: [
@@ -63,12 +58,10 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
     FooterComponent,
     LoginComponent,
     ConfirmEmailComponent,
-    FacebookLoginComponent,
     FriendListComponent,
     ChatComponent,
     ChangePasswordComponent,
     HomeComponent,
-    SeenImageComponent,
     FilterFriendsComponent,
     StatisticComponent,
     ManagerUserComponent,
@@ -79,7 +72,6 @@ import { ScanAroundComponent } from './user-components/scan-around/scan-around.c
     VideoCallComponent,
     IntroduceComponent,
     SharedStoryComponent,
-    TestComponent,
     ScanAroundComponent,
   ],
   imports: [

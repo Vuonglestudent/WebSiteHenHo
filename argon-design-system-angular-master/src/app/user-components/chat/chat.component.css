@@ -3,19 +3,22 @@
   margin: auto;
 }
 
+.space {
+  margin: 70px;
+}
 .search-name {
   margin: 1% 5%;
 }
 
-.drop-custom{
-  width: 325px; 
+.drop-custom {
+  width: 325px;
 }
 
 .hover-custom:hover {
   background: #ededed;
   border-radius: 15px;
 }
-.friend-content{
+.friend-content {
   margin: 0 !important;
 }
 .chat_header {
@@ -128,7 +131,7 @@ img {
 }
 
 .inbox_chat {
-  height: 550px;
+  height: 1000px;
   overflow-y: scroll;
 }
 
@@ -223,25 +226,17 @@ img {
   padding: 0 0 50px 0;
 }
 
-.msg_history {
-  height: 516px;
-  overflow-y: auto;
-}
-
-/* test */
-
 .chat {
   margin-top: auto;
   margin-bottom: auto;
 }
 
 .card {
-  height: 653.5px;
+  height: 840px;
 }
 
 .contacts_body {
   padding: 0.75rem 0 !important;
-  /* margin-bottom: -11%; */
   overflow-y: auto;
   white-space: nowrap;
   border: none;
@@ -252,7 +247,7 @@ img {
 }
 
 .card-header {
-  border-bottom: 0.1250rem solid rgba(0, 0, 0, 0.05);
+  border-bottom: 0.125rem solid rgba(0, 0, 0, 0.05);
   background-color: #fff;
   min-height: 83px;
 }
@@ -262,8 +257,9 @@ img {
   background-color: #5e72e4;
   position: fixed;
   bottom: 0px;
-  right: 31px;
-  width: 72.5%;
+  right: 1px;
+  width: 75%;
+  border-radius: 10px;
 }
 
 .container {
@@ -274,7 +270,7 @@ img {
   border-radius: 0px 15px 15px 0px !important;
   border: 0 !important;
   color: black !important;
-  background-color: rgba(0, 0, 0, .04) !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
   padding-left: 15px;
 }
 
@@ -326,7 +322,7 @@ img {
 
 .search_btn {
   border-radius: 15px 0px 0px 15px !important;
-  background-color: rgba(0, 0, 0, .04) !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
   border: 0px !important;
   color: rgba(0, 0, 0, 0.4) !important;
   cursor: pointer;
@@ -537,4 +533,16 @@ textarea.textarea_chat {
 .custom-icon {
   cursor: pointer;
   padding: 30%;
+}
+
+@media (max-width: 1601px) {
+  .card {
+    height: 625px;
+  }
+}
+
+@media (max-width: 1025px) {
+  .card {
+    height: 743px;
+  }
 }

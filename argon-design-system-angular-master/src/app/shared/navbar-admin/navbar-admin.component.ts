@@ -69,7 +69,7 @@ export class NavbarAdminComponent implements OnInit {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
-    this.router.navigate(['/friendlist']);
+    this.router.navigate(['/chat']);
   }
 
   clickStatistic = () => {

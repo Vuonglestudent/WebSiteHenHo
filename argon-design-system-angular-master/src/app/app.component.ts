@@ -204,7 +204,7 @@ export class AppComponent implements OnInit {
 
   clickNotificationMes = (sendId) => {
     console.log("click", sendId)
-    this.router.navigateByUrl('/friendlist');
+    this.router.navigateByUrl('/chat');
   }
 
   getUserIndex = (userId: string) => {

@@ -44,12 +44,9 @@
   position: absolute;
 }
 
-
 button:focus {
   outline: 0;
 }
-
-
 
 #navbar-main {
   height: 70px;
@@ -60,11 +57,17 @@ button:focus {
   background-color: rgba(207, 212, 214, 0.589);
 }
 
+.avatar-notification {
+  width: 50px;
+  height: 50px;
+}
+
 .notification-popup {
   cursor: pointer;
 }
 
-.modal-content {}
+.modal-content {
+}
 
 .logo-image {
   height: 50px;
@@ -75,9 +78,20 @@ button:focus {
   margin-right: 5%;
 }
 
-@media(max-width: 768.01px) {
+.show-when-small {
+  display: none;
+}
+
+.logout {
+  font-weight: 500;
+  color: #fb6340;
+}
+@media (max-width: 768.01px) {
   .hide-when-small {
     display: none;
+  }
+  .show-when-small {
+    display: block;
   }
 
   .logo-image {
