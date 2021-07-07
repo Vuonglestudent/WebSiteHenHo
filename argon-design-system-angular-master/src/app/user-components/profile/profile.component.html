@@ -154,11 +154,11 @@
                     class="dropdown-menu dropdown-menu-custom"
                     style="top: 179px; left: -184px"
                   >
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"
+                    <a *ngIf="!isYourself" class="dropdown-item"
                       ><i class="fa fa-assistive-listening-systems"></i> Theo
                       dõi</a
                     >
-                    <a *ngIf="!isYourself" href="#" class="dropdown-item"
+                    <a *ngIf="!isYourself" class="dropdown-item"
                       ><i class="fa fa-heartbeat"></i> Yêu thích</a
                     >
                     <a
@@ -271,9 +271,20 @@
             </div>
           </div>
           <div class="text-center mt-5">
-            <h4 class="text-primary font-weight-600">
+            <h4 *ngIf="!editing" class="text-primary font-weight-600">
               {{ UserProfile.fullName }}
             </h4>
+
+            <input
+              style="margin: 0 auto"
+              *ngIf="editing"
+              type="text"
+              placeholder="Họ và tên"
+              class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5"
+              value="{{ UserProfile.fullName }}"
+              [(ngModel)]="UserProfile.fullName"
+              [ngModelOptions]="{ standalone: true }"
+            />
             <div class="d-flex row justify-content-center">
               <span class="font-weight-light">{{ UserProfile.age }} Tuổi</span>
               <div class="h6 font-weight-300">
@@ -281,8 +292,24 @@
                 >{{ UserProfile.location | stringEnum }}
               </div>
             </div>
-            <div class="h6 font-weight-300">
+            <div *ngIf="!editing" class="h6 font-weight-300">
               <i class="fa fa-info-circle"></i> - {{ UserProfile.summary }}
+            </div>
+
+            <div *ngIf="editing" class="h6 font-weight-300">
+              <textarea
+                style="margin: 0 auto"
+                type="text"
+                placeholder="Tóm tắt về bạn"
+                class="
+                  text-center
+                  form-control
+                  col-5 col-xl-5 col-md-5 col-lg-5
+                "
+                value="{{ UserProfile.summary }}"
+                [(ngModel)]="UserProfile.summary"
+                [ngModelOptions]="{ standalone: true }"
+              ></textarea>
             </div>
           </div>
 
@@ -420,46 +447,6 @@
                             aria-labelledby="tabs-icons-text-1-tab"
                           >
                             <div class="content-tab">
-                              <!--Giới tính-->
-                              <div class="feature-item">
-                                <input
-                                  type="text"
-                                  value="Giới tính"
-                                  class="form-control form-title text-center"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="!editing"
-                                  type="text"
-                                  value="{{ UserProfile.gender }}"
-                                  [(ngModel)]="UserProfile.gender"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="editing"
-                                  type="text"
-                                  value="{{ UserProfile.gender }}"
-                                  [(ngModel)]="UserProfile.gender"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  list="gender"
-                                />
-                                <datalist id="gender">
-                                  <option
-                                    value="{{ UserProfile.gender }}"
-                                    disabled
-                                    selected
-                                    hidden
-                                  >
-                                    {{ UserProfile.gender }}
-                                  </option>
-                                  <option value="Nam">Nam</option>
-                                  <option value="Nữ">Nữ</option>
-                                </datalist>
-                              </div>
-
                               <!--Nơi ở-->
                               <div class="feature-item">
                                 <input
@@ -630,7 +617,7 @@
                               <!--end-->
 
                               <!--Công việc-->
-                              <div class="feature-item">
+                              <!-- <div class="feature-item">
                                 <input
                                   type="text"
                                   value="Công việc"
@@ -671,10 +658,33 @@
                                     {{ item | stringEnum }}
                                   </option>
                                 </datalist>
-                              </div>
+                              </div> -->
                               <!--end-->
 
                               <div *ngIf="!editing" class="feature-item-edit">
+                                <!-- Giới tính -->
+                                <div>
+                                  <div class="feature-item-dynamic">
+                                    <input
+                                      type="text"
+                                      value="Giới tính"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{
+                                        UserProfile.gender | stringEnum
+                                      }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
+                                  </div>
+                                </div>
+                                <!--  -->
                                 <div *ngFor="let item of Features">
                                   <div
                                     *ngIf="item.isSearchFeature"
@@ -700,6 +710,38 @@
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
+                                <!--  -->
+                                <div>
+                                  <div class="feature-item-dynamic-edit">
+                                    <input
+                                      type="text"
+                                      value="Giới tính"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+
+                                    <select
+                                      (change)="
+                                        onOptionsSearchFeatureSelected(
+                                          $event,
+                                          i
+                                        )
+                                      "
+                                      type="text"
+                                      value="{{ UserProfile.gender }}"
+                                      [(ngModel)]="UserProfile.gender"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                    >
+                                      <option value="Nam">Nam</option>
+                                      <option value="Nữ">Nữ</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <!--  -->
                                 <div
                                   *ngFor="let item of Features; let i = index"
                                 >
@@ -728,11 +770,6 @@
                                       class="form-control form-value"
                                       list="likeTechnologys"
                                     >
-                                      <option
-                                        value="{{ item.featureDetailId }}"
-                                      >
-                                        {{ item.content }}
-                                      </option>
                                       <option
                                         *ngFor="
                                           let value of item.featureDetails
@@ -811,11 +848,6 @@
                                       list="likeTechnologys"
                                     >
                                       <option
-                                        value="{{ item.featureDetailId }}"
-                                      >
-                                        {{ item.content }}
-                                      </option>
-                                      <option
                                         *ngFor="
                                           let value of item.featureDetails
                                         "
@@ -838,119 +870,8 @@
                             aria-labelledby="tabs-icons-text-3-tab"
                           >
                             <div class="content-tab">
-                              <!--Giới tính gợi ý-->
-                              <div class="feature-item">
-                                <input
-                                  type="text"
-                                  value="Giới tính gợi ý"
-                                  class="form-control form-title text-center"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="!editing"
-                                  type="text"
-                                  value="{{ UserProfile.findPeople }}"
-                                  [(ngModel)]="UserProfile.findPeople"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="editing"
-                                  type="text"
-                                  value="{{ UserProfile.findPeople }}"
-                                  [(ngModel)]="UserProfile.findPeople"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  list="genders"
-                                />
-
-                                <datalist id="genders">
-                                  <option
-                                    value="{{ UserProfile.findPeople }}"
-                                    disabled
-                                    selected
-                                    hidden
-                                  >
-                                    {{ UserProfile.findPeople }}
-                                  </option>
-                                  <option
-                                    *ngFor="let item of profileData.gender"
-                                    value="{{ item }}"
-                                  >
-                                    {{ item }}
-                                  </option>
-                                </datalist>
-                              </div>
-                              <!--end-->
-
-                              <!--Độ tuổi gợi ý-->
-                              <div class="feature-item">
-                                <input
-                                  type="text"
-                                  value="Độ tuổi gợi ý"
-                                  class="form-control form-title text-center"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="!editing"
-                                  type="text"
-                                  value="{{ UserProfile.findAgeGroup }}"
-                                  [(ngModel)]="UserProfile.findAgeGroup"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  readonly
-                                />
-                                <input
-                                  *ngIf="editing"
-                                  type="text"
-                                  value="{{ UserProfile.findAgeGroup }}"
-                                  [(ngModel)]="UserProfile.findAgeGroup"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  class="form-control form-value"
-                                  list="ageGroup"
-                                />
-                                <datalist id="ageGroup">
-                                  <option
-                                    value="{{ UserProfile.findAgeGroup }}"
-                                    disabled
-                                    selected
-                                    hidden
-                                  >
-                                    {{ UserProfile.findAgeGroup }}
-                                  </option>
-                                  <option
-                                    *ngFor="let item of profileData.ageGroup"
-                                    value="{{ item }}"
-                                  >
-                                    {{ item }}
-                                  </option>
-                                </datalist>
-                              </div>
-                              <!--end-->
-
                               <div *ngIf="!editing" class="feature-item-edit">
                                 <!--  -->
-                                <!-- <div>
-                                  <div class="feature-item-dynamic">
-                                    <input
-                                      type="text"
-                                      value="Giới tính gợi ý"
-                                      class="
-                                        form-control form-title
-                                        text-center
-                                      "
-                                      readonly
-                                    />
-                                    <input
-                                      type="text"
-                                      value="{{ UserProfile.findPeople }}"
-                                      class="form-control form-value"
-                                      readonly
-                                    />
-                                  </div>
-                                </div>
-
                                 <div>
                                   <div class="feature-item-dynamic">
                                     <input
@@ -964,12 +885,36 @@
                                     />
                                     <input
                                       type="text"
-                                      value="{{ UserProfile.findPeople }}"
+                                      value="{{
+                                        UserProfile.findPeople | stringEnum
+                                      }}"
                                       class="form-control form-value"
                                       readonly
                                     />
                                   </div>
-                                </div> -->
+                                </div>
+
+                                <div>
+                                  <div class="feature-item-dynamic">
+                                    <input
+                                      type="text"
+                                      value="Độ tuổi gợi ý"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+                                    <input
+                                      type="text"
+                                      value="{{
+                                        UserProfile.findAgeGroup | stringEnum
+                                      }}"
+                                      class="form-control form-value"
+                                      readonly
+                                    />
+                                  </div>
+                                </div>
 
                                 <!--  -->
                                 <div *ngFor="let item of SearchFeatures">
@@ -994,6 +939,85 @@
                               </div>
 
                               <div *ngIf="editing" class="feature-item-edit">
+                                <!-- Giới tính gợi ý  -->
+                                <div>
+                                  <div class="feature-item-dynamic-edit">
+                                    <input
+                                      type="text"
+                                      value="Giới tính gợi ý"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+
+                                    <select
+                                      (change)="
+                                        onOptionsSearchFeatureSelected(
+                                          $event,
+                                          i
+                                        )
+                                      "
+                                      type="text"
+                                      value="{{ UserProfile.findPeople }}"
+                                      [(ngModel)]="UserProfile.findPeople"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                    >
+                                      <option value="Tất_Cả">Tất cả</option>
+                                      <option value="Nam">Nam</option>
+                                      <option value="Nữ">Nữ</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <!-- Độ tuổi gợi ý -->
+                                <div>
+                                  <div class="feature-item-dynamic-edit">
+                                    <input
+                                      type="text"
+                                      value="Độ tuổi gợi ý"
+                                      class="
+                                        form-control form-title
+                                        text-center
+                                      "
+                                      readonly
+                                    />
+
+                                    <select
+                                      (change)="
+                                        onOptionsSearchFeatureSelected(
+                                          $event,
+                                          i
+                                        )
+                                      "
+                                      type="text"
+                                      value="{{ UserProfile.findAgeGroup }}"
+                                      [(ngModel)]="UserProfile.findAgeGroup"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      class="form-control form-value"
+                                    >
+                                      <option value="Tất_cả">Tất cả</option>
+                                      <option value="Dưới_18_tuổi">
+                                        Dưới 18 tuổi
+                                      </option>
+                                      <option value="Từ_18_đến_25">
+                                        Từ 18 đến 25
+                                      </option>
+                                      <option value="Từ_25_đến_30">
+                                        Từ 25 đến 30
+                                      </option>
+                                      <option value="Từ_31_đến_40">
+                                        Từ 31 đế 40
+                                      </option>
+                                      <option value="Từ_41_đến_50">
+                                        Từ 41 đến 50
+                                      </option>
+                                      <option value="Trên_50">Trên 50</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <!--  -->
                                 <div
                                   *ngFor="
                                     let item of SearchFeatures;

@@ -85,14 +85,12 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 
-
   .feature-item-dynamic {
     width: 100%;
     justify-content: space-between;
     display: flex;
     flex-wrap: wrap;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
   }
 
   .feature-item-dynamic-edit {
@@ -130,7 +128,6 @@
 }
 
 .form-value:hover {
-
   width: 60%;
   background-color: #5e72e4 !important;
   color: white;
@@ -144,7 +141,6 @@
 .suggest-action {
   margin: 10%;
 }
-
 
 //////////////////////////
 .dropdown-menu::before {
@@ -192,25 +188,11 @@ label {
   color: black;
 }
 
-.placeSelect {
-  font-size: 1rem;
-  width: 100%;
-  border: 0px;
-  padding-left: 0.8rem;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  color: black;
-}
-
-.placeSelect:focus,
 .dobUser:focus,
 button:focus {
   outline: 0;
 }
 
-.placeSelect:hover,
-.placeSelect:focus,
-.radioProfile:hover,
 .dobUser:hover {
   background-color: beige;
 
@@ -395,12 +377,12 @@ ngx-dropzone,
 
 select option,
 select div {
-  font-family: "FontAwesome" !important;
+  font-family: inherit !important;
   font-size: 16px;
 }
 
 select {
-  font-family: "FontAwesome" !important;
+  font-family: inherit !important;
   font-size: 16px;
 }
 
@@ -423,7 +405,6 @@ select {
 .form-control[readonly] {
   background-color: white;
 }
-
 
 :root {
   --color: rebeccapurple;
@@ -464,13 +445,13 @@ select {
     width: 0;
     height: 0;
 
-    &:focus+.radio__control {
+    &:focus + .radio__control {
       box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
     }
   }
 }
 
-.radio-gradient input:checked+.radio__control {
+.radio-gradient input:checked + .radio__control {
   background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
 }
 
@@ -480,7 +461,7 @@ select {
     place-items: center;
   }
 
-  input+.radio__control::before {
+  input + .radio__control::before {
     content: "";
     width: 0.5em;
     height: 0.5em;
@@ -490,7 +471,7 @@ select {
     transform: scale(0);
   }
 
-  input:checked+.radio__control::before {
+  input:checked + .radio__control::before {
     transform: scale(1);
   }
 }
@@ -524,7 +505,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 option:hover {
-  background-color: #5E72E4
+  background-color: #5e72e4;
 }
 
 .modal-header {
@@ -550,13 +531,11 @@ option:hover {
 
 .li {
   padding-top: 3%;
-
 }
 
 .end {
   padding-right: 5%;
 }
-
 
 /////@at-root
 
@@ -588,9 +567,11 @@ option:hover {
     height: 100%;
     border-radius: 50%;
     mix-blend-mode: screen;
-    background-image: radial-gradient(hsl(180, 100%, 80%),
-        hsl(180, 100%, 80%) 10%,
-        hsla(180, 100%, 80%, 0) 56%);
+    background-image: radial-gradient(
+      hsl(180, 100%, 80%),
+      hsl(180, 100%, 80%) 10%,
+      hsla(180, 100%, 80%, 0) 56%
+    );
 
     animation: fadein-frames 200ms infinite, scale-frames 2s infinite;
 
@@ -625,7 +606,6 @@ option:hover {
 
   $particleBaseSize: 8;
 
-
   @for $i from 1 through $particleNum {
     &:nth-child(#{$i}) {
       $circleSize: random($particleBaseSize);
@@ -633,7 +613,7 @@ option:hover {
       height: $circleSize + px;
 
       $startPositionY: random(10) + 100;
-      $framesName: "move-frames-"+ $i;
+      $framesName: "move-frames-" + $i;
       $moveDuration: 28000 + random(9000) + ms;
 
       animation-name: #{$framesName};
@@ -642,15 +622,19 @@ option:hover {
 
       @keyframes #{$framesName} {
         from {
-          transform: translate3d(#{random(100) + vw},
+          transform: translate3d(
+            #{random(100) + vw},
             #{$startPositionY + vh},
-            0);
+            0
+          );
         }
 
         to {
-          transform: translate3d(#{random(100) + vw},
+          transform: translate3d(
+            #{random(100) + vw},
             #{- $startPositionY - random(30) + vh},
-            0);
+            0
+          );
         }
       }
 
