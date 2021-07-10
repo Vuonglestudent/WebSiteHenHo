@@ -297,19 +297,19 @@
             </div>
 
             <div *ngIf="editing" class="h6 font-weight-300">
-              <textarea
-                style="margin: 0 auto"
-                type="text"
-                placeholder="Tóm tắt về bạn"
-                class="
-                  text-center
-                  form-control
-                  col-5 col-xl-5 col-md-5 col-lg-5
-                "
-                value="{{ UserProfile.summary }}"
-                [(ngModel)]="UserProfile.summary"
-                [ngModelOptions]="{ standalone: true }"
-              ></textarea>
+              <div class="summary-container">
+                <textarea
+                  type="text"
+                  placeholder="Tóm tắt về bạn"
+                  class="text-center form-control"
+                  value="{{ UserProfile.summary }}"
+                  [(ngModel)]="UserProfile.summary"
+                  [ngModelOptions]="{ standalone: true }"
+                ></textarea>
+                <app-chat-icon
+                  (iconEvent)="iconSummaryEvent($event)"
+                ></app-chat-icon>
+              </div>
             </div>
           </div>
 
@@ -374,20 +374,21 @@
                       *ngIf="editing"
                       class="h4 font-weight-300 d-flex justify-content-center"
                     >
-                      <input
-                        type="text"
-                        placeholder="Tiêu đề hồ sơ"
-                        class="
-                          text-center
-                          form-control
-                          col-5 col-xl-5 col-md-5 col-lg-5
-                        "
-                        name=""
-                        id=""
-                        value="{{ UserProfile.title }}"
-                        [(ngModel)]="UserProfile.title"
-                        [ngModelOptions]="{ standalone: true }"
-                      />
+                      <div class="input-container">
+                        <textarea
+                          type="text"
+                          placeholder="Tiêu đề hồ sơ"
+                          class="text-center form-control"
+                          name=""
+                          id=""
+                          value="{{ UserProfile.title }}"
+                          [(ngModel)]="UserProfile.title"
+                          [ngModelOptions]="{ standalone: true }"
+                        ></textarea>
+                        <app-chat-icon
+                          (iconEvent)="iconTitleEvent($event)"
+                        ></app-chat-icon>
+                      </div>
                     </div>
 
                     <div class="nav-wrapper">
@@ -1392,16 +1393,18 @@
   ></section>
 </section>
 <section *ngIf="popMessage" class="messagePop" id="messagePopId">
-  <textarea
+  <div class='message-container'>
+    <textarea
     class="textareaMessage"
     name=""
     id=""
     cols=""
     rows=""
     (keyup.enter)="sendMessage(UserProfile.id)"
-    [value]="txtMessage"
-    (input)="txtMessage = $event.target.value"
+    [(ngModel)]="txtMessage"
   ></textarea>
+  <app-chat-icon (iconEvent)="iconMessageEvent($event)"></app-chat-icon>
+  </div>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
   <button
     class="btnSendMessage btn btn-primary"

@@ -260,6 +260,7 @@ img {
   right: 1px;
   width: 75%;
   border-radius: 10px;
+  padding: 5px;
 }
 
 .container {
@@ -280,6 +281,7 @@ img {
 }
 
 .type_msg {
+  width: 92%;
   border: 1 #66a3ff solid !important;
   color: black !important;
   height: 60px !important;
@@ -533,6 +535,16 @@ textarea.textarea_chat {
 .custom-icon {
   cursor: pointer;
   padding: 30%;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  app-chat-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
 }
 
 @media (max-width: 1601px) {

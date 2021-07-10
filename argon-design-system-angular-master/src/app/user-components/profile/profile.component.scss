@@ -7,6 +7,37 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.input-container {
+  position: relative;
+  width: 50%;
+  textarea {
+    border-width: 0.5px;
+    border-color: #3c2693;
+    border-style: dotted;
+  }
+  app-chat-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+.summary-container {
+  position: relative;
+  margin: 0 auto;
+  width: 50%;
+  textarea {
+    border-width: 0.5px;
+    border-color: #3c2693;
+    border-style: dotted;
+  }
+  app-chat-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
 .blockItem {
   display: flex;
   width: 100%;

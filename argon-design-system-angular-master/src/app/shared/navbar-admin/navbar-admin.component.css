@@ -1,54 +1,50 @@
 .navbar-admin {
-    /* position: fixed; */
-    height: 100%;
-    /* background-image: linear-gradient(to bottom  right, #3C2693 , #D782D9); */
-    background-color: #172b4d ;
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 250px;
-    /* left:0;
-    top: 0; */
+  min-height: 780px;
+  background-color: #172b4d;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 250px;
 }
 
 .list-group-item {
-    background-color: rgba(255, 255, 255, 0) !important;
-    color: white;
-    border-radius: 5px;
-    margin: 5px 0px 5px 0px;
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: white;
+  border-radius: 5px;
+  margin: 5px 0px 5px 0px;
 }
 
-.list-group-item a{
-    color: white;
+.list-group-item a {
+  color: white;
 }
 
 .list-group-item:hover {
-    background-image: linear-gradient(to bottom right,  #5E72E4 , #5E72E4);
-    cursor: pointer;
+  background-image: linear-gradient(to bottom right, #5e72e4, #5e72e4);
+  cursor: pointer;
 }
 
 .active {
-    background-image: linear-gradient(to bottom right, #5E72E4 , #5E72E4);
-    border-color: white;
+  background-image: linear-gradient(to bottom right, #5e72e4, #5e72e4);
+  border-color: white;
 }
 
 .active:hover {
-    background-image: linear-gradient(to bottom right, #5E72E4 , #5E72E4);
-    border-color: white;
+  background-image: linear-gradient(to bottom right, #5e72e4, #5e72e4);
+  border-color: white;
 }
 
-.card-profile-image img{
-    width: 50px;
-    height: 50px;
+.card-profile-image img {
+  width: 50px;
+  height: 50px;
 }
 
-.card-profile-image h6{
-    font-weight: 600 !important;
+.card-profile-image h6 {
+  font-weight: 600 !important;
 }
 
-.logoAdmin{
-    width: 100%;
+.logoAdmin {
+  width: 100%;
 }
 
-#image-filter{
-    z-index: 1;
+#image-filter {
+  z-index: 1;
 }

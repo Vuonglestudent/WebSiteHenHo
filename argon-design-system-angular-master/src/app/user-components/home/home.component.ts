@@ -100,6 +100,8 @@ export class HomeComponent implements OnInit {
         this.getSimilarUSer(false);
         this.usersService.IsGetSimilarityUsers = true;
       }
+
+      this.loadNewImages();
     }
 
     if (this.usersService.NewUsers.length == 0) {
@@ -446,6 +448,8 @@ export class HomeComponent implements OnInit {
       });
   }
   onSearch() {
+    const imageTab = document.getElementById("first-tab");
+    imageTab.click();
     if (this.userInfo == undefined) {
       this.LoginRequired();
       return;
@@ -578,5 +582,9 @@ export class HomeComponent implements OnInit {
         this.alertService.error("Có lỗi khi upload ảnh!", this.options);
         this.uploading = !this.uploading;
       });
+  }
+
+  iconEvent(event: any) {
+    this.ImageTitle += event;
   }
 }

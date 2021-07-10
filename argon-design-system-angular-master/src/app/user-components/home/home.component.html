@@ -64,7 +64,22 @@
             >
               <li class="nav-item">
                 <a
-                  class="nav-link rounded-circle active"
+                  class="nav-link active"
+                  id="second-tab"
+                  data-toggle="tab"
+                  href="#link23"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  <span class="nav-link-icon d-block"
+                    ><i class="ni ni ni-image"></i
+                  ></span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link rounded-circle"
                   id="first-tab"
                   data-toggle="tab"
                   (click)="isViewImage = false"
@@ -77,195 +92,10 @@
                   ></span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="second-tab"
-                  data-toggle="tab"
-                  (click)="loadNewImages()"
-                  href="#link23"
-                  role="tab"
-                  aria-selected="false"
-                >
-                  <span class="nav-link-icon d-block"
-                    ><i class="ni ni ni-image"></i
-                  ></span>
-                </a>
-              </li>
             </ul>
             <div id="card-border-none" class="card card-plain">
               <div class="tab-content tab-space tab-custom">
-                <div class="tab-pane fade active show" id="link22">
-                  <div class="animate-bottom">
-                    <div
-                      class="alert alert-default"
-                      style="margin-bottom: 0px"
-                      role="alert"
-                    >
-                      <h4 *ngIf="userInfo == undefined" class="text-white">
-                        <strong class="text-warning">Hot!</strong
-                        ><span> Bạn được yêu thích nhiều!</span>
-                      </h4>
-                      <div class="d-flex justify-content-between">
-                        <h4 *ngIf="userInfo != undefined" class="text-white">
-                          <strong class="text-warning">Hot!</strong
-                          ><span> Gợi ý dành cho riêng bạn!</span>
-                        </h4>
-                        <button
-                          (click)="reload()"
-                          class="btn btn-primary renew-btn"
-                        >
-                          <fa-icon
-                            size="1x"
-                            [icon]="faSyncAlt"
-                            [spin]="Loading"
-                          ></fa-icon>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="friend-container">
-                    <div
-                      *ngFor="
-                        let item of usersService.Favoritors;
-                        let i = index
-                      "
-                      class="card-container animate-bottom"
-                    >
-                      <div class="card person-card">
-                        <div
-                          class="d-flex justify-content-center"
-                          (click)="clickProfileUser(item.id)"
-                        >
-                          <a
-                            class="image-container"
-                            (click)="clickProfileUser(item.id)"
-                            ><img
-                              class="card-img-top thumb-table"
-                              src="{{ item.avatarPath }}"
-                              alt="Avatar"
-                          /></a>
-                        </div>
-                        <div class="card-body">
-                          <div
-                            class="summary"
-                            (click)="clickProfileUser(item.id)"
-                          >
-                            <a
-                              style="cursor: pointer"
-                              (click)="clickProfileUser(item.id)"
-                            >
-                              <h6
-                                class="card-title limit-title"
-                                style="margin-bottom: 2px; font-size: 90%"
-                              >
-                                {{ item.fullName }}
-                              </h6>
-                            </a>
-                            <p
-                              class="card-text limit-text"
-                              style="
-                                line-height: 100%;
-                                cursor: pointer;
-                                margin-bottom: 0;
-                              "
-                            >
-                              <small class="text-muted">{{
-                                item.summary
-                              }}</small>
-                            </p>
-                            <p *ngIf="item.point != 0" style="margin-bottom: 0">
-                              <small>Point: {{ item.point }}</small>
-                            </p>
-                          </div>
-                          <div class="icons">
-                            <div class="icon-container">
-                              <button class="btn-icon-card icon-hover">
-                                <a (click)="Favorite(item.id, $event)"
-                                  ><i
-                                    class="ni ni-favourite-28"
-                                    [ngClass]="
-                                      item.favorited
-                                        ? 'text-danger'
-                                        : 'icon-custom'
-                                    "
-                                  ></i
-                                ></a>
-                              </button>
-                              <!-- <span id="numberFavorites_{{ item.id }}"
-                                ><small
-                                  class="text-dark"
-                                  style="font-size: 55%"
-                                  >{{ item.numberOfFavoritors }}</small
-                                ></span
-                              > -->
-                            </div>
-
-                            <div class="icon-container">
-                              <button class="btn-icon-card icon-hover">
-                                <i class="ni ni-chat-round icon-custom"
-                                  ><span
-                                    ><small
-                                      class="text-dark"
-                                      style="font-size: 60%; margin-left: 1px"
-                                    ></small></span
-                                ></i>
-                              </button>
-                            </div>
-
-                            <div class="icon-container">
-                              <button
-                                class="btn-icon-card icon-hover"
-                                (click)="onViewImage(item)"
-                              >
-                                <i class="ni ni-camera-compact icon-custom">
-                                  <span
-                                    ><small
-                                      class="text-dark"
-                                      style="font-size: 60%; margin-left: 1px"
-                                      >{{ item.numberOfImages }}</small
-                                    >
-                                  </span>
-                                </i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div *ngIf="Loading" style="text-align: center">
-                    <fa-icon
-                      style="color: #5e72e4"
-                      size="5x"
-                      [icon]="faSpinner"
-                      [spin]="true"
-                    ></fa-icon>
-                    <p>Đang tìm bạn bè...</p>
-                  </div>
-
-                  <div
-                    *ngIf="!Loading"
-                    class="d-flex justify-content-center"
-                    style="
-                      padding-bottom: 15px;
-                      padding-top: 15px;
-                      padding-left: 30px;
-                    "
-                  >
-                    <button
-                      *ngIf="!noMore"
-                      (click)="nextPage()"
-                      class="btn btn-primary"
-                    >
-                      Xem thêm
-                    </button>
-                  </div>
-                </div>
-
-                <div class="tab-pane fade tab-custom" id="link23">
+                <div class="tab-pane fade active show tab-custom" id="link23">
                   <!-- Đăng tin -->
 
                   <div class="alert alert-default news-title" role="alert">
@@ -287,13 +117,16 @@
                   </div>
                   <div class="news-content">
                     <div class="collapse" id="collapseExample">
-                      <div>
+                      <div class="input-container">
                         <textarea
                           *ngIf="!uploading"
                           [(ngModel)]="ImageTitle"
                           class="form-control news"
                           placeholder="Nói gì đó về hình ảnh này..."
                         ></textarea>
+                        <app-chat-icon
+                          (iconEvent)="iconEvent($event)"
+                        ></app-chat-icon>
                       </div>
 
                       <div
@@ -475,6 +308,172 @@
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="link22">
+                  <div class="animate-bottom">
+                    <div
+                      class="alert alert-default"
+                      style="margin-bottom: 0px"
+                      role="alert"
+                    >
+                      <div class="d-flex justify-content-between">
+                        <h4 *ngIf="userInfo != undefined" class="text-white">
+                          <strong class="text-warning">Hot!</strong
+                          ><span> Gợi ý dành cho riêng bạn!</span>
+                        </h4>
+                        <button
+                          (click)="reload()"
+                          class="btn btn-primary renew-btn"
+                        >
+                          <fa-icon
+                            size="1x"
+                            [icon]="faSyncAlt"
+                            [spin]="Loading"
+                          ></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="friend-container">
+                    <div
+                      *ngFor="
+                        let item of usersService.Favoritors;
+                        let i = index
+                      "
+                      class="card-container animate-bottom"
+                    >
+                      <div class="card person-card">
+                        <div
+                          class="d-flex justify-content-center"
+                          (click)="clickProfileUser(item.id)"
+                        >
+                          <a
+                            class="image-container"
+                            (click)="clickProfileUser(item.id)"
+                            ><img
+                              class="card-img-top thumb-table"
+                              src="{{ item.avatarPath }}"
+                              alt="Avatar"
+                          /></a>
+                        </div>
+                        <div class="card-body">
+                          <div
+                            class="summary"
+                            (click)="clickProfileUser(item.id)"
+                          >
+                            <a
+                              style="cursor: pointer"
+                              (click)="clickProfileUser(item.id)"
+                            >
+                              <h6
+                                class="card-title limit-title"
+                                style="margin-bottom: 2px; font-size: 90%"
+                              >
+                                {{ item.fullName }}
+                              </h6>
+                            </a>
+                            <p
+                              class="card-text limit-text"
+                              style="
+                                line-height: 100%;
+                                cursor: pointer;
+                                margin-bottom: 0;
+                              "
+                            >
+                              <small class="text-muted">{{
+                                item.summary
+                              }}</small>
+                            </p>
+                            <p *ngIf="item.point != 0" style="margin-bottom: 0">
+                              <small>Point: {{ item.point }}</small>
+                            </p>
+                          </div>
+                          <div class="icons">
+                            <div class="icon-container">
+                              <button class="btn-icon-card icon-hover">
+                                <a (click)="Favorite(item.id, $event)"
+                                  ><i
+                                    class="ni ni-favourite-28"
+                                    [ngClass]="
+                                      item.favorited
+                                        ? 'text-danger'
+                                        : 'icon-custom'
+                                    "
+                                  ></i
+                                ></a>
+                              </button>
+                              <!-- <span id="numberFavorites_{{ item.id }}"
+                                ><small
+                                  class="text-dark"
+                                  style="font-size: 55%"
+                                  >{{ item.numberOfFavoritors }}</small
+                                ></span
+                              > -->
+                            </div>
+
+                            <div class="icon-container">
+                              <button class="btn-icon-card icon-hover">
+                                <i class="ni ni-chat-round icon-custom"
+                                  ><span
+                                    ><small
+                                      class="text-dark"
+                                      style="font-size: 60%; margin-left: 1px"
+                                    ></small></span
+                                ></i>
+                              </button>
+                            </div>
+
+                            <div class="icon-container">
+                              <button
+                                class="btn-icon-card icon-hover"
+                                (click)="onViewImage(item)"
+                              >
+                                <i class="ni ni-camera-compact icon-custom">
+                                  <span
+                                    ><small
+                                      class="text-dark"
+                                      style="font-size: 60%; margin-left: 1px"
+                                      >{{ item.numberOfImages }}</small
+                                    >
+                                  </span>
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="Loading" style="text-align: center">
+                    <fa-icon
+                      style="color: #5e72e4"
+                      size="5x"
+                      [icon]="faSpinner"
+                      [spin]="true"
+                    ></fa-icon>
+                    <p>Đang tìm bạn bè...</p>
+                  </div>
+
+                  <div
+                    *ngIf="!Loading"
+                    class="d-flex justify-content-center"
+                    style="
+                      padding-bottom: 15px;
+                      padding-top: 15px;
+                      padding-left: 30px;
+                    "
+                  >
+                    <button
+                      *ngIf="!noMore"
+                      (click)="nextPage()"
+                      class="btn btn-primary"
+                    >
+                      Xem thêm
+                    </button>
                   </div>
                 </div>
               </div>

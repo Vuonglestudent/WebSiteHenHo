@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://localhost:5100",
-  //baseUrl: "https://hieuit.tech:5201"
+  //baseUrl: "http://localhost:5100",
+  baseUrl: "https://hieuit.tech:5201",
 };
 
 /*

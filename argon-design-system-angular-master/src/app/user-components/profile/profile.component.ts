@@ -712,4 +712,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
+  iconSummaryEvent(event: any) {
+    this.UserProfile.summary += event;
+  }
+
+  iconTitleEvent(event: any) {
+    this.UserProfile.title += event;
+  }
 }

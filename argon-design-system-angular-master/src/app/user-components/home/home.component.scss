@@ -922,6 +922,16 @@ img.hover-shadow {
   z-index: 102;
 }
 
+.input-container {
+  position: relative;
+
+  app-chat-icon {
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+  }
+}
+
 ///////////
 
 .animation {

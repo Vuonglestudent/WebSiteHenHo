@@ -219,13 +219,9 @@
             </div>
           </div>
         </div>
-        <div
-          *ngIf="friendList.length != 0"
-          class="card-footer"
-          style="padding-top: 0%; padding-bottom: 0"
-        >
+        <div *ngIf="friendList.length != 0" class="card-footer">
           <div class="input-group">
-            <div class="input-group-append">
+            <!-- <div class="input-group-append">
               <span class="input-group-text attach_btn"
                 ><i class="fa fa-paperclip"></i
               ></span>
@@ -234,20 +230,25 @@
               <span class="input-group-text attach_btn"
                 ><i class="ni ni-camera-compact"></i
               ></span>
+            </div> -->
+            <div class="input-container">
+              <textarea
+                name=""
+                class="form-control type_msg"
+                [value]="txtMessage"
+                [(ngModel)]="txtMessage"
+                (keyup.enter)="sendMessage()"
+                placeholder="Type a message"
+              ></textarea>
+
+              <app-chat-icon (iconEvent)="iconEvent($event)"></app-chat-icon>
             </div>
-            <textarea
-              name=""
-              class="form-control type_msg"
-              [value]="txtMessage"
-              (input)="txtMessage = $event.target.value"
-              (keyup.enter)="sendMessage()"
-              placeholder="Type a message"
-            ></textarea>
-            <div class="input-group-append">
+
+            <!-- <div class="input-group-append">
               <span class="input-group-text send_btn"
                 ><i class="ni ni-favourite-28 text-danger"></i
               ></span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
