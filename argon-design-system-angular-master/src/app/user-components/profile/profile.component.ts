@@ -27,7 +27,7 @@ import { slideInOutAnimation } from "../../shared/_animates/animates";
 export class ProfileComponent implements OnInit, AfterViewInit {
   RelationshipType = RelationshipType;
   editing: boolean = false;
-  imageTitle: string;
+  imageTitle: string = "";
   checkUser = false;
   imagesResponse: Image[] = new Array();
   isViewFriendList: boolean = false;
@@ -265,7 +265,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     console.log(value);
     for (let i = 0; i < this.profileData.features.length; i++) {
       if (
-        this.profileData.features[i].id === this.SearchFeatures[index].featureId
+        this.profileData.features[i].id ===
+        this.SearchFeatures[index]?.featureId
       ) {
         for (
           let j = 0;
@@ -325,7 +326,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       .catch((error) => console.log("Can not follow"));
   };
 
+  viewProfile = false;
+  onViewProfile() {
+    this.viewProfile = !this.viewProfile;
+    console.log(this.viewProfile);
+  }
   clickEdit = () => {
+    if (!this.viewProfile) {
+      document.getElementById("viewProfileBtn").click();
+    }
     this.editing = !this.editing;
     this.uploadImage = false;
     this.isViewFriendList = false;
@@ -719,5 +728,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   iconTitleEvent(event: any) {
     this.UserProfile.title += event;
+  }
+
+  iconImageEvent(event: any) {
+    this.imageTitle += event;
   }
 }

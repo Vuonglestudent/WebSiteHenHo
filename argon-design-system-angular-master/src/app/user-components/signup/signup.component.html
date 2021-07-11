@@ -20,18 +20,21 @@
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-white pb-5">
               <div class="text-muted text-center mb-3">
-                <small>Sign up with</small>
+                <small>Đăng ký bằng</small>
               </div>
               <div class="text-center">
-                <a href="javascript:void(0)" class="btn btn-neutral btn-icon mr-4">
+                <a
+                  href="javascript:void(0)"
+                  class="btn btn-neutral btn-icon mr-4"
+                >
                   <span class="btn-inner--icon">
-                    <img src="./assets/img/icons/common/facebook.png">
+                    <img src="./assets/img/icons/common/facebook.png" />
                   </span>
                   <span class="btn-inner--text">Facebook</span>
                 </a>
                 <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
                   <span class="btn-inner--icon">
-                    <img src="./assets/img/icons/common/google.svg">
+                    <img src="./assets/img/icons/common/google.svg" />
                   </span>
                   <span class="btn-inner--text">Google</span>
                 </a>
@@ -39,46 +42,81 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                <small>Or sign up with credentials</small>
+                <small>Đăng ký tài khoản hệ thống</small>
               </div>
 
-
               <form role="form">
-
-                <div class="form-group" >
+                <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
                     </div>
-                    <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
+                    <input
+                      [(ngModel)]="email"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      placeholder="Email"
+                      type="email"
+                      (focus)="focus1 = true"
+                      (blur)="focus1 = false"
+                    />
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      <span class="input-group-text"
+                        ><i class="ni ni-hat-3"></i
+                      ></span>
                     </div>
-                    <input [(ngModel)]="fullName" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Full Name" type="text" (focus)="focus=true" (blur)="focus=false">
+                    <input
+                      [(ngModel)]="fullName"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      placeholder="Họ và tên"
+                      type="text"
+                      (focus)="focus = true"
+                      (blur)="focus = false"
+                    />
                   </div>
                 </div>
-
 
                 <div class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      <span class="input-group-text"
+                        ><i class="ni ni-lock-circle-open"></i
+                      ></span>
                     </div>
-                    <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
+                    <input
+                      [(ngModel)]="password"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      placeholder="Mật khẩu"
+                      type="password"
+                      (focus)="focus2 = true"
+                      (blur)="focus2 = false"
+                    />
                   </div>
                 </div>
 
-                <div class="form-group" >
+                <div class="form-group">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      <span class="input-group-text"
+                        ><i class="ni ni-lock-circle-open"></i
+                      ></span>
                     </div>
-                    <input [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Confirm Password" type="password" >
+                    <input
+                      [(ngModel)]="confirmPassword"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control"
+                      placeholder="Nhập lại mật khẩu"
+                      type="password"
+                    />
                   </div>
                 </div>
                 <div class="text-muted font-italic">
@@ -88,26 +126,53 @@
                 </div>
                 <div class="row my-4">
                   <div class="col-12">
-                    <div class="custom-control custom-control-alternative custom-checkbox">
-                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                      <label class="custom-control-label" for="customCheckRegister">
-                        <span>I agree with the
-                          <a href="javascript:void(0)">Privacy Policy</a>
+                    <div
+                      class="
+                        custom-control
+                        custom-control-alternative
+                        custom-checkbox
+                      "
+                    >
+                      <input
+                        class="custom-control-input"
+                        id="customCheckRegister"
+                        type="checkbox"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="customCheckRegister"
+                      >
+                        <span
+                          >Tôi đồng ý với
+                          <a href="javascript:void(0)">Chính sách bảo mật</a>
                         </span>
                       </label>
                     </div>
                   </div>
                 </div>
                 <div class="text-center">
-                  <button *ngIf="Loading" type="button" class="btn btn-primary mt-4">
-                    <fa-icon  size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
+                  <button
+                    *ngIf="Loading"
+                    type="button"
+                    class="btn btn-primary mt-4"
+                  >
+                    <fa-icon
+                      size="1x"
+                      [icon]="faSpinner"
+                      [spin]="true"
+                    ></fa-icon>
                     Loading...
-                    </button>
+                  </button>
 
-                    <button *ngIf="!Loading" (click)="onSubmit()" type="button" class="btn btn-primary mt-4">
-                      <fa-icon size="1x" [icon]="faCheck"></fa-icon>
-                      Create account
-                      </button>
+                  <button
+                    *ngIf="!Loading"
+                    (click)="onSubmit()"
+                    type="button"
+                    class="btn btn-primary mt-4"
+                  >
+                    <fa-icon size="1x" [icon]="faCheck"></fa-icon>
+                    Tạo tài khoản
+                  </button>
                 </div>
               </form>
             </div>

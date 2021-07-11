@@ -1,222 +1,360 @@
-<div style="display: flex; flex-direction: row;">
-    <app-navbar-admin class="nav-content"></app-navbar-admin>
+<div style="display: flex; flex-direction: row">
+  <app-navbar-admin class="nav-content"></app-navbar-admin>
 
-    <div class="col-md-10 menu">
-        <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="first-tab" data-toggle="tab" href="#link22" role="tab"
-                    aria-selected="false">
-                    <span class="nav-link-icon d-block"><i class="ni ni-settings"></i></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="second-tab" data-toggle="tab" href="#link23" role="tab" aria-selected="false">
-                    <span class="nav-link-icon d-block"><i class="ni ni-image"></i></span>
-                </a>
-            </li>
-
-        </ul>
-        <div class="card card-plain">
-            <div class="tab-content tab-space">
-                <div class="tab-pane fade active show object-center" id="link22">
-                    <div class='d-flex justify-content-center flex-wrap'>
-                        <div class="max-width">
-                            <h2 style="text-align:center">Thiết lập bộ lọc</h2>
-                        </div>
-                        <div class="row max-width">
-                            <label class="custom-control"
-                                style="font-size: large; font-weight: 600; margin-right: 4%;">Kích
-                                hoạt bộ lọc:</label>
-                            <div class="form-group">
-                                <label class="custom-toggle">
-                                    <input *ngIf="imageScore.active" type="checkbox" checked
-                                        [(ngModel)]="imageScore.active" [ngModelOptions]="{standalone: true}">
-                                    <input *ngIf="!imageScore.active" type="checkbox" [(ngModel)]="imageScore.active"
-                                        [ngModelOptions]="{standalone: true}">
-                                    <span class="custom-toggle-slider rounded-circle"></span>
-                                </label>
-                            </div>
-
-                        </div>
-                        <div class="max-width">
-                            <p style="margin-left: 3%;max-width: 70%;"><b> Ghi chú:</b> Khi tắt bộ lọc, các
-                                người dùng sẽ có thể
-                                đăng mọi tấm hình lên hệ thống mà không thông qua kiểm duyệt.</p>
-                        </div>
-
-                        <div *ngIf="imageScore.autoFilter" class="row max-width">
-                            <label class="custom-control" style="font-size: large; font-weight: 600;">Phương thức lọc
-                                hình
-                                ảnh:</label>
-                            <div class="custom-control custom-radio mb-3">
-                                <input name="custom-radio-1" (change)=onChangeRadioButton(true)
-                                    class="custom-control-input" id="customRadio1" type="radio" value="true" checked>
-                                <label class="custom-control-label" for="customRadio1">Tự động</label>
-                            </div>
-                            <div class="custom-control custom-radio mb-3">
-                                <input name="custom-radio-1" (change)=onChangeRadioButton(false)
-                                    class="custom-control-input" id="customRadio2" type="radio" value="false">
-                                <label class="custom-control-label" for="customRadio2">Bằng tay</label>
-                            </div>
-                        </div>
-
-                        <div *ngIf="!imageScore.autoFilter" class="row max-width">
-                            <label class="custom-control" style="font-size: large; font-weight: 600;">Phương thức lọc
-                                hình
-                                ảnh:</label>
-                            <div class="custom-control custom-radio mb-3">
-                                <input name="custom-radio-1" (change)=onChangeRadioButton(true)
-                                    class="custom-control-input" id="customRadio1" type="radio" value="true">
-                                <label class="custom-control-label" for="customRadio1">Tự động</label>
-                            </div>
-                            <div class="custom-control custom-radio mb-3">
-                                <input name="custom-radio-1" (change)=onChangeRadioButton(false)
-                                    class="custom-control-input" id="customRadio2" type="radio" value="false" checked>
-                                <label class="custom-control-label" for="customRadio2">Bằng tay</label>
-                            </div>
-                        </div>
-
-                        <div class="max-width">
-                            <p style="margin-left: 3%;max-width: 70%;"><b> Ghi chú:</b> Khi thiết lập lọc tự động, các
-                                hình
-                                ảnh
-                                có các điểm số đo ra cao hơn mức quy
-                                định thì sẽ tự động bị vô hiệu hóa. Khi thiết lập lọc bằng tay, những hình ảnh vượt quá
-                                mức
-                                sẽ
-                                tự động được liệt kê ra, cần approve của quản trị viên để public tấm ảnh.</p>
-                        </div>
-
-
-                        <div class="max-width">
-                            <h4 style="margin-left: 1%;">Điều chỉnh độ mạnh của bộ lọc</h4>
-                        </div>
-
-
-                        <div class="max-width" style="margin-left:5%">
-                            <div class="row">
-                                <label class="custom-control" style="font-size: large; font-weight: 600;">Tranh vẽ nhạy
-                                    cảm:
-                                    {{imageScore.hentai}}%</label>
-                                <div class="slidecontainer">
-                                    <input type="range" min="1" max="100" [(ngModel)]="imageScore.hentai"
-                                        [ngModelOptions]="{standalone: true}" value="{{imageScore.hentai}}"
-                                        class="slider" id="myRange">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="custom-control" style="font-size: large; font-weight: 600;">Ảnh sexy:
-                                    {{imageScore.sexy}}%</label>
-                                <div class="slidecontainer">
-                                    <input type="range" min="1" max="100" [(ngModel)]="imageScore.sexy"
-                                        [ngModelOptions]="{standalone: true}" value="{{imageScore.sexy}}" class="slider"
-                                        id="myRange">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="custom-control" style="font-size: large; font-weight: 600;">Ảnh nhạy cảm
-                                    (ảnh
-                                    xấu): {{imageScore.porn}}%</label>
-                                <div class="slidecontainer">
-                                    <input type="range" min="1" max="100" [(ngModel)]="imageScore.porn"
-                                        [ngModelOptions]="{standalone: true}" value="{{imageScore.porn}}" class="slider"
-                                        id="myRange">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="max-width">
-                            <p style="margin-left: 3%;max-width: 70%;"><b> Ghi chú:</b> Giá trị càng thấp, bộ lọc hoạt
-                                động
-                                càng
-                                mạnh. Khi giá trị về 0, bộ lọc gần như không cho phép đăng ảnh, khi giá trị về 100, bộ
-                                lọc
-                                gần
-                                như không hoạt động.</p>
-                        </div>
-
-                        <div class="max-width">
-                            <button data-toggle="modal" data-target="#mySmallModalLabel" style="margin:1%"
-                                class="btn btn-primary">Save change</button>
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="tab-pane fade" id="link23">
-
-                    <div class="images">
-
-                        <h2 style="text-align:center">Hình ảnh chờ phê duyệt</h2>
-
-                        <div>
-                            <div *ngFor="let item of WaitingImages; let i = index" class="column">
-                                <img src="{{item.imagePath}}" (click)="openModal();currentSlide(i+1)"
-                                    class="hover-shadow cursor slides">
-                            </div>
-
-                        </div>
-
-                        <div id="myModal" class="modal-image">
-                            <span class="close cursor" (click)="closeModal()">&times;</span>
-                            <div class="modal-image-content">
-
-                                <div *ngFor="let item of WaitingImages; let i = index" class="mySlides">
-                                    <div class="numbertext">{{i + 1}} / {{WaitingImages.length + 1}}</div>
-                                    <img class="full-screen" src="{{item.imagePath}}">
-                                    <button (click)="onApprove(item.id)" style="margin-left: 1%;"
-                                        class="btn btn-primary">Approve</button>
-                                    <button (click)="onReject(item.id)" class="btn btn-danger">Reject</button>
-                                </div>
-
-                                <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
-                                <a class="next" (click)="plusSlides(1)">&#10095;</a>
-
-                                <div class="caption-container">
-                                    <p id="caption"></p>
-                                </div>
-
-                                <div *ngFor="let item of WaitingImages; let i = index" class="mySlides" class="column">
-                                    <img class="demo cursor" src="{{item.imagePath}}" (click)="currentSlide(i + 1)"
-                                        alt="{{item.title}}">
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="d-flex justify-content-center" style="width: 100%; padding:2%">
-
-                        <button (click)="onSeeMore()" class="btn btn-primary">Xem thêm</button>
-                    </div>
-                </div>
-
+  <div class="col-md-10 menu">
+    <ul class="nav nav-pills nav-pills-circle mb-3" id="tabs_3" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="first-tab"
+          data-toggle="tab"
+          href="#link22"
+          role="tab"
+          aria-selected="false"
+        >
+          <span class="nav-link-icon d-block"
+            ><i class="ni ni-settings"></i
+          ></span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="second-tab"
+          data-toggle="tab"
+          href="#link23"
+          role="tab"
+          aria-selected="false"
+        >
+          <span class="nav-link-icon d-block"><i class="ni ni-image"></i></span>
+        </a>
+      </li>
+    </ul>
+    <div class="card card-plain">
+      <div class="tab-content tab-space">
+        <div class="tab-pane fade active show object-center" id="link22">
+          <div class="d-flex justify-content-center flex-wrap">
+            <div class="max-width">
+              <h2 style="text-align: center">Thiết lập bộ lọc</h2>
             </div>
-        </div>
-    </div>
-
-    <!-- Confirm Modal -->
-    <div class="modal fade bd-example-modal-sm" id="mySmallModalLabel" tabindex="2" role="dialog"
-        aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content" role="document">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Do you want to continue?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <button (click)="onSaveChange()" type="button" class="btn btn-primary" data-dismiss="modal"
-                        aria-label="Close">Yes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">No</button>
-                </div>
+            <div class="row max-width">
+              <label
+                class="custom-control"
+                style="font-size: large; font-weight: 600; margin-right: 4%"
+                >Kích hoạt bộ lọc:</label
+              >
+              <div class="form-group">
+                <label class="custom-toggle">
+                  <input
+                    *ngIf="imageScore.active"
+                    type="checkbox"
+                    checked
+                    [(ngModel)]="imageScore.active"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <input
+                    *ngIf="!imageScore.active"
+                    type="checkbox"
+                    [(ngModel)]="imageScore.active"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <span class="custom-toggle-slider rounded-circle"></span>
+                </label>
+              </div>
             </div>
-        </div>
-    </div>
+            <div class="max-width">
+              <p style="margin-left: 3%; max-width: 70%">
+                <b> Ghi chú:</b> Khi tắt bộ lọc, các người dùng sẽ có thể đăng
+                mọi tấm hình lên hệ thống mà không thông qua kiểm duyệt.
+              </p>
+            </div>
 
+            <div *ngIf="imageScore.autoFilter" class="row max-width">
+              <label
+                class="custom-control"
+                style="font-size: large; font-weight: 600"
+                >Phương thức lọc hình ảnh:</label
+              >
+              <div class="custom-control custom-radio mb-3">
+                <input
+                  name="custom-radio-1"
+                  (change)="onChangeRadioButton(true)"
+                  class="custom-control-input"
+                  id="customRadio1"
+                  type="radio"
+                  value="true"
+                  checked
+                />
+                <label class="custom-control-label" for="customRadio1"
+                  >Tự động</label
+                >
+              </div>
+              <div class="custom-control custom-radio mb-3">
+                <input
+                  name="custom-radio-1"
+                  (change)="onChangeRadioButton(false)"
+                  class="custom-control-input"
+                  id="customRadio2"
+                  type="radio"
+                  value="false"
+                />
+                <label class="custom-control-label" for="customRadio2"
+                  >Bằng tay</label
+                >
+              </div>
+            </div>
+
+            <div *ngIf="!imageScore.autoFilter" class="row max-width">
+              <label
+                class="custom-control"
+                style="font-size: large; font-weight: 600"
+                >Phương thức lọc hình ảnh:</label
+              >
+              <div class="custom-control custom-radio mb-3">
+                <input
+                  name="custom-radio-1"
+                  (change)="onChangeRadioButton(true)"
+                  class="custom-control-input"
+                  id="customRadio1"
+                  type="radio"
+                  value="true"
+                />
+                <label class="custom-control-label" for="customRadio1"
+                  >Tự động</label
+                >
+              </div>
+              <div class="custom-control custom-radio mb-3">
+                <input
+                  name="custom-radio-1"
+                  (change)="onChangeRadioButton(false)"
+                  class="custom-control-input"
+                  id="customRadio2"
+                  type="radio"
+                  value="false"
+                  checked
+                />
+                <label class="custom-control-label" for="customRadio2"
+                  >Bằng tay</label
+                >
+              </div>
+            </div>
+
+            <div class="max-width">
+              <p style="margin-left: 3%; max-width: 70%">
+                <b> Ghi chú:</b> Khi thiết lập lọc tự động, các hình ảnh có các
+                điểm số đo ra cao hơn mức quy định thì sẽ tự động bị vô hiệu
+                hóa. Khi thiết lập lọc bằng tay, những hình ảnh vượt quá mức sẽ
+                tự động được liệt kê ra, cần approve của quản trị viên để public
+                tấm ảnh.
+              </p>
+            </div>
+
+            <div class="max-width">
+              <h4 style="margin-left: 1%">Điều chỉnh độ mạnh của bộ lọc</h4>
+            </div>
+
+            <div class="max-width" style="margin-left: 5%">
+              <div class="row">
+                <label
+                  class="custom-control"
+                  style="font-size: large; font-weight: 600"
+                  >Tranh vẽ nhạy cảm: {{ imageScore.hentai }}%</label
+                >
+                <div class="slidecontainer">
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    [(ngModel)]="imageScore.hentai"
+                    [ngModelOptions]="{ standalone: true }"
+                    value="{{ imageScore.hentai }}"
+                    class="slider"
+                    id="myRange"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <label
+                  class="custom-control"
+                  style="font-size: large; font-weight: 600"
+                  >Ảnh sexy: {{ imageScore.sexy }}%</label
+                >
+                <div class="slidecontainer">
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    [(ngModel)]="imageScore.sexy"
+                    [ngModelOptions]="{ standalone: true }"
+                    value="{{ imageScore.sexy }}"
+                    class="slider"
+                    id="myRange"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <label
+                  class="custom-control"
+                  style="font-size: large; font-weight: 600"
+                  >Ảnh nhạy cảm (ảnh xấu): {{ imageScore.porn }}%</label
+                >
+                <div class="slidecontainer">
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    [(ngModel)]="imageScore.porn"
+                    [ngModelOptions]="{ standalone: true }"
+                    value="{{ imageScore.porn }}"
+                    class="slider"
+                    id="myRange"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="max-width">
+              <p style="margin-left: 3%; max-width: 70%">
+                <b> Ghi chú:</b> Giá trị càng thấp, bộ lọc hoạt động càng mạnh.
+                Khi giá trị về 0, bộ lọc gần như không cho phép đăng ảnh, khi
+                giá trị về 100, bộ lọc gần như không hoạt động.
+              </p>
+            </div>
+
+            <div class="max-width">
+              <button
+                data-toggle="modal"
+                data-target="#mySmallModalLabel"
+                style="margin: 1%"
+                class="btn btn-primary"
+              >
+                Lưu thay đổi
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="link23">
+          <div class="images">
+            <h2 style="text-align: center">Hình ảnh chờ phê duyệt</h2>
+
+            <div>
+              <div
+                *ngFor="let item of WaitingImages; let i = index"
+                class="column"
+              >
+                <img
+                  src="{{ item.imagePath }}"
+                  (click)="openModal(); currentSlide(i + 1)"
+                  class="hover-shadow cursor slides"
+                />
+              </div>
+            </div>
+
+            <div id="myModal" class="modal-image">
+              <span class="close cursor" (click)="closeModal()">&times;</span>
+              <div class="modal-image-content">
+                <div
+                  *ngFor="let item of WaitingImages; let i = index"
+                  class="mySlides"
+                >
+                  <div class="numbertext">
+                    {{ i + 1 }} / {{ WaitingImages.length + 1 }}
+                  </div>
+                  <img class="full-screen" src="{{ item.imagePath }}" />
+                  <button
+                    (click)="onApprove(item.id)"
+                    style="margin-left: 1%"
+                    class="btn btn-primary"
+                  >
+                    Approve
+                  </button>
+                  <button (click)="onReject(item.id)" class="btn btn-danger">
+                    Reject
+                  </button>
+                </div>
+
+                <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
+                <a class="next" (click)="plusSlides(1)">&#10095;</a>
+
+                <div class="caption-container">
+                  <p id="caption"></p>
+                </div>
+
+                <div
+                  *ngFor="let item of WaitingImages; let i = index"
+                  class="mySlides"
+                  class="column"
+                >
+                  <img
+                    class="demo cursor"
+                    src="{{ item.imagePath }}"
+                    (click)="currentSlide(i + 1)"
+                    alt="{{ item.title }}"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center"
+            style="width: 100%; padding: 2%"
+          >
+            <button (click)="onSeeMore()" class="btn btn-primary">
+              Xem thêm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div
+    class="modal fade bd-example-modal-sm"
+    id="mySmallModalLabel"
+    tabindex="2"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" role="document">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Do you want to continue?
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <button
+            (click)="onSaveChange()"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

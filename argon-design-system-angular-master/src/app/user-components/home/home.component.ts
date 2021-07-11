@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
   // LoadImageUser
 
   PageIndexImage = 1;
-  PageSizeImage = 5;
+  PageSizeImage = 10;
   //
   Loading = false;
   clickSeenImage = 0;
@@ -570,11 +570,13 @@ export class HomeComponent implements OnInit {
         this.alertService.clear();
         if (response.approved) {
           this.alertService.success(response.message, this.options);
+          this.PageSizeImage = 10;
+          this.PageIndexImage = 1;
+          this.loadNewImages();
         } else {
           this.alertService.warn(response.message, this.options);
         }
         this.files = [];
-        this.ngOnInit();
         this.uploading = !this.uploading;
       })
       .catch((error) => {

@@ -361,6 +361,8 @@
                     role="button"
                     aria-expanded="false"
                     aria-controls="collapseExample"
+                    id="viewProfileBtn"
+                    (click)="onViewProfile()"
                   >
                     Xem hồ sơ của {{ UserProfile.fullName }}
                   </a>
@@ -1153,14 +1155,22 @@
                     </div>
 
                     <div>
-                      <textarea
+                      <div
                         *ngIf="files.length > 0"
-                        class="form-control"
-                        style="color: #525f7f"
-                        [(ngModel)]="imageTitle"
-                        type="text"
-                        placeholder="Description..."
-                      ></textarea>
+                        class="image-title-container"
+                      >
+                        <textarea
+                          class="form-control"
+                          style="color: #525f7f"
+                          [(ngModel)]="imageTitle"
+                          type="text"
+                          placeholder="Description..."
+                        ></textarea>
+
+                        <app-chat-icon
+                          (iconEvent)="iconImageEvent($event)"
+                        ></app-chat-icon>
+                      </div>
                       <br />
                       <button
                         *ngIf="files.length > 0"
@@ -1393,17 +1403,17 @@
   ></section>
 </section>
 <section *ngIf="popMessage" class="messagePop" id="messagePopId">
-  <div class='message-container'>
+  <div class="message-container">
     <textarea
-    class="textareaMessage"
-    name=""
-    id=""
-    cols=""
-    rows=""
-    (keyup.enter)="sendMessage(UserProfile.id)"
-    [(ngModel)]="txtMessage"
-  ></textarea>
-  <app-chat-icon (iconEvent)="iconMessageEvent($event)"></app-chat-icon>
+      class="textareaMessage"
+      name=""
+      id=""
+      cols=""
+      rows=""
+      (keyup.enter)="sendMessage(UserProfile.id)"
+      [(ngModel)]="txtMessage"
+    ></textarea>
+    <app-chat-icon (iconEvent)="iconMessageEvent($event)"></app-chat-icon>
   </div>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
   <button

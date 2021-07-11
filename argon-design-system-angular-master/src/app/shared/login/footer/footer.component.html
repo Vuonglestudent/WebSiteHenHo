@@ -1,60 +1,125 @@
-<footer class="footer"
-  [ngClass]="{'has-cards': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'}">
+<footer
+  class="footer"
+  [ngClass]="{
+    'has-cards':
+      getPath() !== '/user-profile' &&
+      getPath() !== '/register' &&
+      getPath() !== '/login'
+  }"
+>
   <div class="container">
-    <div class="row row-grid align-items-center"
-      [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
+    <div
+      class="row row-grid align-items-center"
+      [ngClass]="{
+        'my-md':
+          getPath() !== '/user-profile' &&
+          getPath() !== '/register' &&
+          getPath() !== '/login',
+        'mb-5':
+          getPath() === '/user-profile' ||
+          getPath() === '/register' ||
+          getPath() === '/login'
+      }"
+    >
       <div class="col-lg-6">
-        <h3 class="text-primary font-weight-light mb-2">{{subscribeStatus}}</h3>
+        <h3 class="text-primary font-weight-light mb-2">
+          {{ subscribeStatus }}
+        </h3>
         <div class="d-flex flex-row">
-          <input *ngIf="!subscribed" [(ngModel)]="email" class="form-control col-lg-5 mr-2" type="email" placeholder="Email">
-          <input *ngIf="!subscribed" [(ngModel)]="name" class="form-control col-lg-5" type="text" placeholder="Tên">
+          <input
+            *ngIf="!subscribed"
+            [(ngModel)]="email"
+            class="form-control col-lg-5 mr-2"
+            type="email"
+            placeholder="Email"
+          />
+          <input
+            *ngIf="!subscribed"
+            [(ngModel)]="name"
+            class="form-control col-lg-5"
+            type="text"
+            placeholder="Tên"
+          />
         </div>
-        <button *ngIf="!loading && !subscribed" style="margin-top:1%" (click)="Subscribe()" class="btn btn-primary"><i
-            class="fa fa-bell"></i> Subscribe</button>
-        <button *ngIf="loading && !subscribed" type="button" class="btn btn-primary mt-4">
-
+        <button
+          *ngIf="!loading && !subscribed"
+          style="margin-top: 1%"
+          (click)="Subscribe()"
+          class="btn btn-primary"
+        >
+          <i class="fa fa-bell"></i> Subscribe
+        </button>
+        <button
+          *ngIf="loading && !subscribed"
+          type="button"
+          class="btn btn-primary mt-4"
+        >
           <fa-icon size="1x" [icon]="faSpinner" [spin]="true"></fa-icon>
           Loading...
         </button>
-        <button *ngIf="!loading && subscribed" type="button" class="btn btn-primary mt-4">
+        <button
+          *ngIf="!loading && subscribed"
+          type="button"
+          class="btn btn-primary mt-4"
+        >
           <fa-icon size="1x" [icon]="faCheck"></fa-icon>
-          Subscribed
+          Đăng ký
         </button>
       </div>
       <div class="col-lg-6 text-lg-center btn-wrapper">
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg"
-          ngbTooltip="Follow us">
+        <a
+          target="_blank"
+          href="javascript:;"
+          class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg"
+          ngbTooltip="Follow us"
+        >
           <i class="fa fa-twitter"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg"
-          ngbTooltip="Like us">
+        <a
+          target="_blank"
+          href="javascript:;"
+          class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg"
+          ngbTooltip="Like us"
+        >
           <i class="fa fa-facebook-square"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round"
-          ngbTooltip="Follow us">
+        <a
+          target="_blank"
+          href="javascript:;"
+          class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round"
+          ngbTooltip="Follow us"
+        >
           <i class="fa fa-dribbble"></i>
         </a>
-        <a target="_blank" href="javascript:;" class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg"
-          ngbTooltip="Star on Github">
+        <a
+          target="_blank"
+          href="javascript:;"
+          class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg"
+          ngbTooltip="Star on Github"
+        >
           <i class="fa fa-github"></i>
         </a>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row align-items-center justify-content-md-between">
       <div class="col-md-6">
         <div class="copyright">
-          &copy; {{test | date: 'yyyy'}}
+          &copy; {{ test | date: "yyyy" }}
           <a href="javascript:;" target="_blank">Web Hẹn Hò</a>.
         </div>
       </div>
       <div class="col-md-6">
         <ul class="nav nav-footer justify-content-end">
           <li class="nav-item">
-            <a href="javascript:;" class="nav-link" target="_blank">Web Hẹn Hò</a>
+            <a href="javascript:;" class="nav-link" target="_blank"
+              >Web Hẹn Hò</a
+            >
           </li>
           <li class="nav-item">
-            <a href="javascript:;" class="nav-link" target="_blank">Thông tin</a>
+            <a href="javascript:;" class="nav-link" target="_blank"
+              >Thông tin</a
+            >
           </li>
           <li class="nav-item">
             <a href="javascript:;" class="nav-link" target="_blank">Blog</a>
