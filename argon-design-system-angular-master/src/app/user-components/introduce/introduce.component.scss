@@ -1,135 +1,171 @@
 header {
-    font-size: 20px;
-    font-weight: 600;
-    color: #5e72e4;
+  font-size: 20px;
+  font-weight: 600;
+  color: #5e72e4;
 }
 
 .limit-width {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 b {
-    font-weight: 600;
-    color: #5e72e4;
+  font-weight: 600;
+  color: #5e72e4;
 }
 
 section {
-    margin: 0;
-    padding: 3% 0% 3% 0%;
+  margin: 0;
+  padding: 3% 0% 3% 0%;
 }
-
 
 .center-button {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 2%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2%;
 }
 
-
 .why-choose {
+  header {
+    padding-bottom: 5%;
+  }
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
-    header {
-        padding-bottom: 5%;
-    }
+  .part {
+    padding: 2% 2% 2% 2%;
+    width: 33.3%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
 
-    display: flex;
-    justify-content: space-between;
-
-    .part {
-        padding:2% 2% 2% 2%;
-        width: 33.3%;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    }
-
-    .part:hover {
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
+  .part:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
 }
 
 .found-love {
-    background-color: #f8f8f8;
+  background-color: #f8f8f8;
 
-    .header {
-        padding-bottom: 2%;
+  .header {
+    padding-bottom: 2%;
+  }
+
+  .user-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .user {
+      width: 35%;
+      padding: 5%;
+
+      img {
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+      }
     }
-
-    .user-group {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-
-        .user {
-            width: 35%;
-            padding: 5%;
-
-            img {
-                margin: 0 auto;
-                text-align: center;
-            }
-
-            p {
-                text-align: center;
-            }
-        }
-    }
-
-
+  }
 }
 
 .how-work {
-    .guide {
-        text-align: center;
-    }
+  .guide {
+    text-align: center;
+  }
 
-    .step-group {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
+  .step-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
-    .step {
-        width: 30%;
-        padding: 3%
-    }
+  .step {
+    width: 30%;
+    padding: 3%;
+  }
 }
 
 .mobile-support {
-    background-color: #f8f8f8;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
 
-    .summary-part {
-        width: 40%;
+  .summary-part {
+    width: 40%;
 
-        p {
-            padding: 5%;
-            text-align: center;
-        }
-
-        .download-group {
-            display: flex;
-            justify-content: center;
-
-            .download-button {
-                padding: 2%;
-                width: 150px;
-                height: auto;
-            }
-        }
+    p {
+      padding: 5%;
+      text-align: center;
     }
 
+    .download-group {
+      display: flex;
+      justify-content: center;
+
+      .download-button {
+        padding: 2%;
+        width: 150px;
+        height: auto;
+      }
+    }
+  }
+
+  .mobile-image-part {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+
+    .mobile-screen {
+      width: 200px;
+      height: auto;
+    }
+  }
+}
+@media (max-width: 500px) {
+  .why-choose {
+    .part {
+      margin: 10px 0;
+      padding: 2% 2% 2% 2%;
+      width: 100%;
+    }
+  }
+
+  .found-love {
+    .user-group {
+      .user {
+        width: 100%;
+      }
+    }
+  }
+
+  .how-work {
+    .step-group {
+      .step {
+        width: 100%;
+      }
+    }
+  }
+
+  .mobile-support {
+    flex-wrap: wrap-reverse;
+    .summary-part {
+      width: 100%;
+    }
 
     .mobile-image-part {
-        width: 60%;
-        display: flex;
-        justify-content: center;
-
-        .mobile-screen {
-            width: 200px;
-            height: auto;
-        }
+      flex-wrap: wrap;
+      width: 100%;
+      .mobile-screen {
+        margin: 10px 0;
+      }
     }
-
+  }
 }

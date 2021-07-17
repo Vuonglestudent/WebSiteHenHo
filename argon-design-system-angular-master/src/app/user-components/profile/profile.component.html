@@ -81,191 +81,204 @@
               "
             >
               <div class="card-profile-actions py-4 mt-lg-0">
-                <button
-                  *ngIf="!checkUser && !UserProfile.followed"
-                  (click)="clickFollow()"
-                  class="btn btn-sm btn-info"
-                >
-                  <i class="fa fa-users"></i>
-                  Theo dõi
-                </button>
+                <div>
+                  <button
+                    *ngIf="!checkUser && !UserProfile.followed"
+                    (click)="clickFollow()"
+                    class="btn btn-sm btn-info"
+                  >
+                    <i class="fa fa-users"></i>
+                    Theo dõi
+                  </button>
 
-                <button
-                  *ngIf="!checkUser && UserProfile.followed"
-                  (click)="clickFollow()"
-                  class="btn btn-sm btn-danger"
-                >
-                  <i class="fa fa-users"></i>
-                  Hủy theo dõi
-                </button>
+                  <button
+                    *ngIf="!checkUser && UserProfile.followed"
+                    (click)="clickFollow()"
+                    class="btn btn-sm btn-danger"
+                  >
+                    <i class="fa fa-users"></i>
+                    Hủy theo dõi
+                  </button>
 
-                <button
-                  *ngIf="!checkUser"
-                  type="button"
-                  class="btn btn-sm btn-primary"
-                  (click)="popTextAreaMessage()"
-                >
-                  <span class="btn-inner--icon"
-                    ><i style="margin-right: 5%" class="ni ni-chat-round"></i
-                  ></span>
-                  <span class="btn-inner--text">Nhắn tin</span>
-                </button>
+                  <button
+                    *ngIf="!checkUser"
+                    type="button"
+                    class="btn btn-sm btn-primary"
+                    (click)="popTextAreaMessage()"
+                  >
+                    <span class="btn-inner--icon"
+                      ><i style="margin-right: 5%" class="ni ni-chat-round"></i
+                    ></span>
+                    <span class="btn-inner--text">Nhắn tin</span>
+                  </button>
 
-                <button
-                  *ngIf="checkUser"
-                  type="button"
-                  (click)="clickEdit()"
-                  class="btn btn-sm btn-default"
-                >
-                  <i class="fa fa-edit"></i>
-                  Chỉnh sửa
-                </button>
-                <button
-                  *ngIf="checkUser"
-                  type="button"
-                  class="btn btn-sm btn-primary"
-                  (click)="uploadImages()"
-                >
-                  <span class="btn-inner--icon"
-                    ><i
-                      style="margin-right: 5%"
-                      class="ni ni-camera-compact"
-                    ></i
-                  ></span>
-                  <span class="btn-inner--text">Đăng hình</span>
-                </button>
+                  <button
+                    *ngIf="checkUser"
+                    type="button"
+                    (click)="clickEdit()"
+                    class="btn btn-sm btn-default"
+                  >
+                    <i class="fa fa-edit"></i>
+                    Chỉnh sửa
+                  </button>
+                  <button
+                    *ngIf="checkUser"
+                    type="button"
+                    class="btn btn-sm btn-primary"
+                    (click)="uploadImages()"
+                  >
+                    <span class="btn-inner--icon"
+                      ><i
+                        style="margin-right: 5%"
+                        class="ni ni-camera-compact"
+                      ></i
+                    ></span>
+                    <span class="btn-inner--text">Đăng hình</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-lg-4 order-lg-1">
-              <div class="card-profile-stats d-flex justify-content-center">
-                <div>
-                  <span
-                    style="cursor: pointer"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    ><i
-                      class="fa fa-ellipsis-v text-dark"
-                      style="font-size: 25px; margin-top: 15px"
-                    ></i
-                  ></span>
-                  <div
-                    class="dropdown-menu dropdown-menu-custom"
-                    style="top: 179px; left: -184px"
-                  >
-                    <a *ngIf="!isYourself" class="dropdown-item"
-                      ><i class="fa fa-assistive-listening-systems"></i> Theo
-                      dõi</a
-                    >
-                    <a *ngIf="!isYourself" class="dropdown-item"
-                      ><i class="fa fa-heartbeat"></i> Yêu thích</a
-                    >
-                    <a
-                      *ngIf="!isYourself && UserProfile.blocked"
-                      (click)="
-                        clickBlockUser(UserProfile.id, UserProfile.fullName)
-                      "
+              <div class="card-profile-stats-custom">
+                <div
+                  class="
+                    card-profile-stats
+                    d-flex
+                    justify-content-center
+                    card-profile-stats-custom
+                  "
+                >
+                  <div>
+                    <span
                       style="cursor: pointer"
-                      class="dropdown-item"
-                      ><i class="fa fa-ban"></i>Bỏ chặn</a
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      ><i
+                        class="fa fa-ellipsis-v text-dark"
+                        style="font-size: 25px; margin-top: 15px"
+                      ></i
+                    ></span>
+                    <div
+                      class="dropdown-menu dropdown-menu-custom"
+                      style="top: 179px; left: -184px"
                     >
-                    <a
-                      *ngIf="!isYourself && !UserProfile.blocked"
-                      (click)="
-                        clickBlockUser(UserProfile.id, UserProfile.fullName)
-                      "
-                      style="cursor: pointer"
-                      class="dropdown-item"
-                      ><i class="fa fa-ban"></i>Không muốn gặp lại</a
-                    >
-                    <a
-                      *ngIf="isYourself"
-                      (click)="onViewBlockList()"
-                      style="cursor: pointer"
-                      class="dropdown-item"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      ><i class="fa fa-users"></i>Xem danh sách đen</a
-                    >
+                      <a *ngIf="!isYourself" class="dropdown-item"
+                        ><i class="fa fa-assistive-listening-systems"></i> Theo
+                        dõi</a
+                      >
+                      <a *ngIf="!isYourself" class="dropdown-item"
+                        ><i class="fa fa-heartbeat"></i> Yêu thích</a
+                      >
+                      <a
+                        *ngIf="!isYourself && UserProfile.blocked"
+                        (click)="
+                          clickBlockUser(UserProfile.id, UserProfile.fullName)
+                        "
+                        style="cursor: pointer"
+                        class="dropdown-item"
+                        ><i class="fa fa-ban"></i>Bỏ chặn</a
+                      >
+                      <a
+                        *ngIf="!isYourself && !UserProfile.blocked"
+                        (click)="
+                          clickBlockUser(UserProfile.id, UserProfile.fullName)
+                        "
+                        style="cursor: pointer"
+                        class="dropdown-item"
+                        ><i class="fa fa-ban"></i>Không muốn gặp lại</a
+                      >
+                      <a
+                        *ngIf="isYourself"
+                        (click)="onViewBlockList()"
+                        style="cursor: pointer"
+                        class="dropdown-item"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        ><i class="fa fa-users"></i>Xem danh sách đen</a
+                      >
 
-                    <a
-                      *ngIf="isYourself && relationship.id != 0"
-                      style="cursor: pointer"
-                      class="dropdown-item"
-                      data-toggle="modal"
-                      data-target="#relationshipModal"
-                      ><i class="fa fa-heart"></i>Hủy mối quan hệ</a
-                    >
+                      <a
+                        *ngIf="isYourself && relationship.id != 0"
+                        style="cursor: pointer"
+                        class="dropdown-item"
+                        data-toggle="modal"
+                        data-target="#relationshipModal"
+                        ><i class="fa fa-heart"></i>Hủy mối quan hệ</a
+                      >
 
-                    <a
-                      *ngIf="!isYourself"
-                      style="cursor: pointer"
-                      class="dropdown-item"
-                      data-toggle="modal"
-                      data-target="#relationshipModal"
-                      ><i class="fa fa-heart"></i>Tạo mối quan hệ</a
-                    >
+                      <a
+                        *ngIf="!isYourself"
+                        style="cursor: pointer"
+                        class="dropdown-item"
+                        data-toggle="modal"
+                        data-target="#relationshipModal"
+                        ><i class="fa fa-heart"></i>Tạo mối quan hệ</a
+                      >
+                    </div>
                   </div>
-                </div>
 
-                <div *ngIf="checkUser">
-                  <span class="heading">{{
-                    UserProfile.numberOfFollowers
-                  }}</span>
-                  <button class="btn-icon-card" (click)="onViewFriendList()">
-                    <span class="description"
-                      ><i class="fa fa-user text-info"></i
-                    ></span>
-                  </button>
-                  <!--Xem danh sách bạn bè-->
-                </div>
+                  <div *ngIf="checkUser">
+                    <span class="heading">{{
+                      UserProfile.numberOfFollowers
+                    }}</span>
+                    <button class="btn-icon-card" (click)="onViewFriendList()">
+                      <span class="description"
+                        ><i class="fa fa-user text-info"></i
+                      ></span>
+                    </button>
+                    <!--Xem danh sách bạn bè-->
+                  </div>
 
-                <div>
-                  <span class="heading">{{ UserProfile.numberOfImages }}</span>
-                  <button
-                    class="btn-icon-card"
-                    id="img_{{ UserProfile.id }}"
-                    (click)="viewImageList()"
-                  >
-                    <span class="description">
-                      <i class="fa fa-camera text-dark"></i>
-                    </span>
-                    <img
-                      *ngFor="let item of imagesResponse; let i = index"
-                      display="true"
-                      class="avatar-custom"
-                      hidden="true"
-                      id="img_{{ i + 1 }}_{{ item.liked }}_{{
-                        imagesResponse.length
-                      }}_{{ item.id }}_{{ item.numberOfLikes }}"
-                      src=""
-                      alt="{{ item.imagePath }}"
-                    />
-                    <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
-                  </button>
-                </div>
-                <div>
-                  <span class="heading">{{
-                    UserProfile.numberOfFavoritors
-                  }}</span>
-                  <button class="btn-icon-card">
-                    <span
-                      *ngIf="UserProfile.favorited"
-                      style="cursor: pointer"
-                      (click)="clickFavourite()"
-                      class="description"
-                      ><i class="ni ni-favourite-28 text-danger"></i
-                    ></span>
-                    <span
-                      *ngIf="!UserProfile.favorited"
-                      style="cursor: pointer"
-                      (click)="clickFavourite()"
-                      class="description"
-                      ><i class="ni ni-favourite-28"></i
-                    ></span>
-                    <!--Lượt yêu thích từ mọi người chưa yêu thích-->
-                  </button>
+                  <div>
+                    <span class="heading">{{
+                      UserProfile.numberOfImages
+                    }}</span>
+                    <button
+                      class="btn-icon-card"
+                      id="img_{{ UserProfile.id }}"
+                      (click)="viewImageList()"
+                    >
+                      <span class="description">
+                        <i class="fa fa-camera text-dark"></i>
+                      </span>
+                      <img
+                        *ngFor="let item of imagesResponse; let i = index"
+                        display="true"
+                        class="avatar-custom"
+                        hidden="true"
+                        id="img_{{ i + 1 }}_{{ item.liked }}_{{
+                          imagesResponse.length
+                        }}_{{ item.id }}_{{ item.numberOfLikes }}"
+                        src=""
+                        alt="{{ item.imagePath }}"
+                      />
+                      <!--Những hình ảnh mà người đó đã up để người tìm kiếm có thể xem-->
+                    </button>
+                  </div>
+                  <div>
+                    <span class="heading">{{
+                      UserProfile.numberOfFavoritors
+                    }}</span>
+                    <button class="btn-icon-card">
+                      <span
+                        *ngIf="UserProfile.favorited"
+                        style="cursor: pointer"
+                        (click)="clickFavourite()"
+                        class="description"
+                        ><i class="ni ni-favourite-28 text-danger"></i
+                      ></span>
+                      <span
+                        *ngIf="!UserProfile.favorited"
+                        style="cursor: pointer"
+                        (click)="clickFavourite()"
+                        class="description"
+                        ><i class="ni ni-favourite-28"></i
+                      ></span>
+                      <!--Lượt yêu thích từ mọi người chưa yêu thích-->
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -280,7 +293,11 @@
               *ngIf="editing"
               type="text"
               placeholder="Họ và tên"
-              class="text-center form-control col-5 col-xl-5 col-md-5 col-lg-5"
+              class="
+                text-center
+                form-control
+                 col-xl-5 col-md-5 col-lg-5 col-sm-10 col-xs-10
+              "
               value="{{ UserProfile.fullName }}"
               [(ngModel)]="UserProfile.fullName"
               [ngModelOptions]="{ standalone: true }"
@@ -440,7 +457,7 @@
                     </div>
 
                     <div class="card shadow">
-                      <div class="card-body">
+                      <div class="card-body info-container">
                         <div class="tab-content" id="myTabContent">
                           <!-- Tab 01 - Thông tin cơ bản -->
                           <div

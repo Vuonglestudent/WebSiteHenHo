@@ -208,7 +208,7 @@ h6,
 }
 
 .person-card {
-  height: 322px;
+  height: 100%;
 }
 
 .person-card:hover {
@@ -441,6 +441,7 @@ ngx-dropzone,
   .icons {
     display: flex;
     justify-content: center;
+    padding-bottom: 10px;
   }
 
   .btn-icon-card {
@@ -498,7 +499,7 @@ ngx-dropzone,
   position: fixed;
   width: 20%;
   right: 15%;
-  bottom: 20%;
+  bottom: 5%;
 }
 
 .image-title {
@@ -559,13 +560,33 @@ ngx-dropzone,
   }
 }
 
-@media (max-width: 1024.01px) {
+@media (max-width: 1025px) {
   .p-carousel {
     padding: 0 5% 0% 5%;
   }
+  #myBtn {
+    display: none;
+  }
+
+  .onlineCount {
+    display: none;
+  }
+
+  .left-content {
+    width: 80%;
+  }
+  .fixed-content {
+    position: fixed;
+    width: 20%;
+    right: 0%;
+    bottom: 5%;
+  }
 }
 
-@media (max-width: 769.01px) {
+@media (max-width: 800px) {
+  .p-carousel {
+    padding: 0;
+  }
   .thumb-table {
     min-height: 250px;
     max-height: 250px;
@@ -599,7 +620,30 @@ ngx-dropzone,
   }
 }
 
-@media (max-width: 426.01px) {
+.input-container {
+  position: relative;
+
+  app-chat-icon {
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+  }
+}
+
+@media (max-width: 500px) {
+  .p-carousel {
+    padding: 0;
+  }
+  .input-container {
+    position: relative;
+
+    app-chat-icon {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+    }
+  }
+
   .image-title {
     font-size: 14px;
   }
@@ -662,7 +706,7 @@ ngx-dropzone,
   .news {
     margin: 0 0 5px 0;
     width: 100%;
-    height: 40px;
+    height: 50px;
     font-size: 12px;
   }
 
@@ -920,16 +964,6 @@ img.hover-shadow {
 #myModal {
   padding: 0;
   z-index: 102;
-}
-
-.input-container {
-  position: relative;
-
-  app-chat-icon {
-    position: absolute;
-    right: 20px;
-    bottom: 5px;
-  }
 }
 
 ///////////

@@ -1,0 +1,47 @@
+.name {
+  margin-top: 10%;
+  margin-left: 2%;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+}
+
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s;
+}
+
+section {
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
+
+.main-content {
+  height: 100%;
+  section {
+    height: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section {
+    margin-top: 50px;
+  }
+
+  .card-header {
+    padding: 20px 5px 20px 5px;
+  }
+}
+
+@media (max-width: 500px) {
+  .btn-icon {
+    .btn-inner--text {
+      display: none;
+    }
+  }
+}

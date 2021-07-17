@@ -186,15 +186,15 @@ export class NavbarComponent implements OnInit {
 
     if (item.type === "relationship") {
       console.log(item);
-      this.getRelationship(item.fromId);
+      this.getRelationship(item.fromId, item.toId);
       this.modal.nativeElement.click();
     }
   }
 
   relationshipNotification: IRelationship = {} as IRelationship;
 
-  getRelationship(fromId: string) {
-    this.relationshipService.GetByFromId(fromId).subscribe(
+  getRelationship(fromId: string, toId: string) {
+    this.relationshipService.GetByIds(fromId, toId).subscribe(
       (data) => {
         this.relationshipNotification = data;
       },

@@ -1,28 +1,34 @@
-import { UsersService } from './../service/users.service';
-import { IUserInfo } from '../../models/models';
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { AuthenticationService } from '../service/authentication.service';
-import { faSpinner, faCheck, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
-import { AlertService } from '../_alert';
-import { User, SocialUser } from '../../models/models';
+import { UsersService } from "./../service/users.service";
+import { IUserInfo } from "../../models/models";
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AuthenticationService } from "../service/authentication.service";
+import {
+  faSpinner,
+  faCheck,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import { Router } from "@angular/router";
+import { AlertService } from "../_alert";
+import { User, SocialUser } from "../../models/models";
 import { SocialAuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-import { from } from 'rxjs';
-import { slideInOutAnimation } from '../_animates/animates';
-import { GeolocationService } from '@ng-web-apis/geolocation';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+} from "angularx-social-login";
+import { from } from "rxjs";
+import { slideInOutAnimation } from "../_animates/animates";
+import { GeolocationService } from "@ng-web-apis/geolocation";
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
   animations: [slideInOutAnimation],
 
   // attach the slide in/out animation to the host (root) element of this component
-  host: { '[@slideInOutAnimation]': '' },
+  host: { "[@slideInOutAnimation]": "" },
 })
 export class LoginComponent implements OnInit {
-
   userInfo: IUserInfo;
 
   constructor(
@@ -31,25 +37,22 @@ export class LoginComponent implements OnInit {
     protected alertService: AlertService,
     private authService: SocialAuthService,
     private usersService: UsersService,
-    private readonly geolocationService: GeolocationService,
+    private readonly geolocationService: GeolocationService
   ) {
-    this.authenticationService.userInfoObservable
-      .subscribe(user => {
-        if (user != undefined) {
-          this.userInfo = user;
-          this.getPosition();
-        }
-      })
+    this.authenticationService.userInfoObservable.subscribe((user) => {
+      if (user != undefined) {
+        this.userInfo = user;
+        this.getPosition();
+      }
+    });
   }
 
   options = {
     autoClose: false,
-    keepAfterRouteChange: false
+    keepAfterRouteChange: false,
   };
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   user: SocialUser;
   public loggedIn: boolean;
@@ -77,35 +80,34 @@ export class LoginComponent implements OnInit {
     }
 
     this.Loading = true;
-    this.authenticationService.Login(f.value.Email, f.value.Password)
-      .then(response => {
+    this.authenticationService
+      .Login(f.value.Email, f.value.Password)
+      .then((response) => {
         this.Loading = false;
         this.userInfo = response;
 
         this.authenticationService.setUserInfo(this.userInfo);
 
         this.alertService.clear();
-        this.alertService.success('Success!!', this.options);
+        this.alertService.success("Success!!", this.options);
 
         if (!this.userInfo.isInfoUpdated) {
-          this.router.navigate(['/profile', this.userInfo.id]);
+          this.router.navigate(["/profile", this.userInfo.id]);
           return;
         }
         if (this.userInfo.role == "User") {
-          this.router.navigateByUrl('/home');
-        }
-        else if (this.userInfo.role == "Admin") {
+          this.router.navigateByUrl("/home");
+        } else if (this.userInfo.role == "Admin") {
           // this.router.navigateByUrl("/statistic");
           this.router.navigateByUrl("/home");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.error);
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
         this.Loading = false;
-      })
-
+      });
   }
 
   confirmEmail(f: NgForm) {
@@ -117,8 +119,9 @@ export class LoginComponent implements OnInit {
     }
     this.Loading = true;
 
-    this.authenticationService.ForgotPasswordRequest(f.value.Email)
-      .then(response => {
+    this.authenticationService
+      .ForgotPasswordRequest(f.value.Email)
+      .then((response) => {
         this.Loading = false;
         this.UserData = new User();
         console.log(response);
@@ -131,13 +134,12 @@ export class LoginComponent implements OnInit {
         console.log(this.UserData);
         this.Index = 3;
       })
-      .catch(error => {
+      .catch((error) => {
         this.Loading = false;
         console.log(error);
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
-
-      })
+      });
   }
 
   confirmCode(f: NgForm) {
@@ -145,7 +147,11 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    if (f.value.Code == "" || f.value.NewPassword == "" || f.value.ConfirmPassword == "") {
+    if (
+      f.value.Code == "" ||
+      f.value.NewPassword == "" ||
+      f.value.ConfirmPassword == ""
+    ) {
       this.alertService.clear();
       this.alertService.warn("Vui lòng nhập đầy đủ thông tin!", this.options);
       return;
@@ -153,7 +159,10 @@ export class LoginComponent implements OnInit {
 
     if (f.value.NewPassword != f.value.ConfirmPassword) {
       this.alertService.clear();
-      this.alertService.warn("Xác nhận mật khẩu không chính xác, vui lòng nhập lại!", this.options);
+      this.alertService.warn(
+        "Xác nhận mật khẩu không chính xác, vui lòng nhập lại!",
+        this.options
+      );
       return;
     }
 
@@ -166,18 +175,22 @@ export class LoginComponent implements OnInit {
 
     this.Loading = true;
 
-    this.authenticationService.CodeValidation(f.value.Code, this.UserData.email, f.value.NewPassword)
-      .then(response => {
+    this.authenticationService
+      .CodeValidation(f.value.Code, this.UserData.email, f.value.NewPassword)
+      .then((response) => {
         this.Loading = false;
         this.alertService.clear();
-        this.alertService.success("Mật khẩu đã được thay đổi thành công, vui lòng đăng nhập!", this.options);
+        this.alertService.success(
+          "Mật khẩu đã được thay đổi thành công, vui lòng đăng nhập!",
+          this.options
+        );
         this.Index = 1;
       })
-      .catch(error => {
+      .catch((error) => {
         this.Loading = false;
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
-      })
+      });
   }
 
   cancelClick() {
@@ -189,42 +202,40 @@ export class LoginComponent implements OnInit {
   }
 
   validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
-
   saveInfo() {
-    this.authenticationService.FacebookLogin(this.user)
-      .then(response => {
+    this.authenticationService
+      .FacebookLogin(this.user)
+      .then((response) => {
         this.loggedIn = true;
         this.userInfo = response;
         this.authenticationService.setUserInfo(this.userInfo);
         // Put the object into storage
         if (!this.userInfo.isInfoUpdated) {
-          this.router.navigate(['/profile', this.userInfo.id]);
+          this.router.navigate(["/profile", this.userInfo.id]);
         }
         if (this.userInfo.role == "User") {
-          this.router.navigateByUrl('/home');
-        }
-        else if (this.userInfo.role == "Admin") {
+          this.router.navigateByUrl("/home");
+        } else if (this.userInfo.role == "Admin") {
           this.router.navigateByUrl("/statistic");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.loggedIn = false;
         this.alertService.clear();
         this.alertService.error(error.error.message, this.options);
-      })
+      });
   }
 
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then(data => {
-        this.user = data;
-        this.saveInfo();
-      })
-
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
+      this.user = data;
+      this.saveInfo();
+    });
   }
 
   signInWithFB(): void {
@@ -233,35 +244,43 @@ export class LoginComponent implements OnInit {
     this.authService.authState.subscribe((user) => {
       this.user = user;
       this.saveInfo();
-    })
+    });
   }
 
   signOut(): void {
     this.authService.signOut();
   }
 
-
   isSubscribe = false;
 
   getPosition() {
-    this.geolocationService.subscribe(position => {
-
-      if (!this.isSubscribe) {
-        console.log(position);
-        this.savePosition(position.coords.latitude, position.coords.longitude);
+    this.geolocationService.subscribe(
+      (position) => {
+        if (!this.isSubscribe) {
+          console.log(position);
+          this.savePosition(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+        }
+        this.isSubscribe = true;
+      },
+      (err) => {
+        console.log(err);
       }
-      this.isSubscribe = true;
-    }, err => {
-      console.log(err);
-    })
+    );
   }
 
   savePosition(latitude: number, longitude: number) {
-    this.usersService.SavePosition(this.userInfo.id, latitude, longitude)
-      .subscribe(data => {
-        console.log('saved successful');
-      }, err => {
-        console.log(err.error.message);
-      })
+    this.usersService
+      .SavePosition(this.userInfo.id, latitude, longitude)
+      .subscribe(
+        (data) => {
+          console.log("saved successful");
+        },
+        (err) => {
+          console.log(err.error.message);
+        }
+      );
   }
 }
