@@ -213,7 +213,11 @@ export class NavbarComponent implements OnInit {
         this.alertService.success(
           "Chúc mừng, bạn đã có mối quan hệ mới, hãy cố gắng nhé!"
         );
-        this.deleteNotification();
+
+        this.notificationUserService.Notification =
+          this.notificationUserService.Notification.filter(
+            (x) => x.type != "relationship"
+          );
       },
       (err) => {
         this.alertService.error("Không thể chấp nhận lúc này");
@@ -230,23 +234,10 @@ export class NavbarComponent implements OnInit {
             "Bạn đã từ chối mối quan hệ với " +
               this.getLastName(this.relationshipNotification.fromName)
           );
-          this.deleteNotification();
-        },
-        (err) => {
-          this.alertService.error("Không thể từ chối lúc này");
-        }
-      );
-  }
-
-  deleteNotification() {
-    this.notificationUserService
-      .DeleteNotification(this.currentNotification.id)
-      .subscribe(
-        (data) => {
           this.removeNotificationFromList(this.currentNotification.id);
         },
         (err) => {
-          alert("Không thể xóa notification");
+          this.alertService.error("Không thể từ chối lúc này");
         }
       );
   }
