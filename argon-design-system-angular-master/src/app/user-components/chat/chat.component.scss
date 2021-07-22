@@ -3,6 +3,9 @@
   margin: auto;
 }
 
+.back-icon {
+  display: none;
+}
 .space {
   margin: 70px;
 }
@@ -203,11 +206,6 @@ img {
   width: 100%;
 }
 
-.type_msg {
-  border-top: 1px solid #c4c4c4;
-  position: relative;
-}
-
 .msg_send_btn {
   background: #808f05 none repeat scroll 0 0;
   border: medium none;
@@ -281,7 +279,7 @@ img {
 }
 
 .type_msg {
-  width: 92%;
+  width: 90%;
   border: 1 #66a3ff solid !important;
   color: black !important;
   height: 60px !important;
@@ -512,12 +510,6 @@ textarea.textarea_chat {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 576px) {
-  .contacts_card {
-    margin-bottom: 15px !important;
-  }
-}
-
 .input-group .form-control:not(:first-child) {
   border-left: 0;
   padding-left: 15px;
@@ -542,8 +534,30 @@ textarea.textarea_chat {
   width: 100%;
   app-chat-icon {
     position: absolute;
+    right: 60px;
+    bottom: 10px;
+  }
+  app-upload-image {
+    position: absolute;
     right: 10px;
     bottom: 10px;
+  }
+}
+
+.img-container-left {
+  display: flex;
+  .image-message {
+    margin: 5px;
+    max-width: 250px;
+  }
+}
+
+.image-container {
+  display: flex;
+  justify-content: flex-end;
+  .image-message {
+    max-width: 250px;
+    margin: 5px;
   }
 }
 
@@ -554,7 +568,94 @@ textarea.textarea_chat {
 }
 
 @media (max-width: 1025px) {
+  .chat {
+    margin-bottom: 40px;
+  }
+  .back-icon {
+    display: block;
+    i {
+      font-size: 40px;
+      color: #5e72e4;
+      padding-right: 10px;
+      margin-right: 5px;
+    }
+  }
+  .user_info {
+    span {
+      font-size: 16px;
+    }
+  }
   .card {
     height: 743px;
+  }
+  .card-header {
+    padding: 20px 10px;
+    .user_info {
+      margin-left: 5px;
+      span {
+        font-size: 14px;
+      }
+    }
+
+    .img_cont {
+      width: 50px;
+      height: 50px;
+    }
+
+    #action_menu_btn {
+      right: 10px;
+      align-items: center;
+      .custom-icon {
+        padding: 10px;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .dropdown-icon {
+        margin-top: 10px;
+        margin-left: 10px;
+        font-size: 14px;
+      }
+    }
+  }
+  .card-footer {
+    width: 58%;
+  }
+}
+@media (max-width: 576px) {
+  .chat {
+    margin-bottom: 40px;
+  }
+  .card-header {
+    position: sticky;
+    top: 70px;
+    z-index: 5;
+  }
+  .contacts_card {
+    margin-bottom: 15px !important;
+  }
+
+  .card-footer {
+    width: 100%;
+  }
+  .type_msg {
+    width: 70%;
+  }
+
+  .chat-content-show {
+    display: block;
+  }
+  .chat-content-hide {
+    display: none;
+  }
+
+  .contact-content-hide {
+    display: none;
+  }
+  .contact-content-show {
+    display: block;
+  }
+  .message-container {
+    margin-bottom: 70px;
   }
 }

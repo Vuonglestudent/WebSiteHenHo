@@ -123,7 +123,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     console.log(this.txtMessage.length);
     if (this.txtMessage.length > 0) {
       this.messageService
-        .SendMessage(this.CurrentUserId, this.DestUserId, this.txtMessage)
+        .SendMessage(
+          this.CurrentUserId,
+          this.DestUserId,
+          this.txtMessage,
+          undefined
+        )
         .then((data) => {
           this.setScroll();
         })
@@ -154,6 +159,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         userId
       )
       .then((data) => {
+        console.log(data);
         this.friendList[userIndex].pageIndex += 1;
         data.forEach((element) => {
           if (!this.IsExist(element.id, this.friendList[userIndex].messages)) {
@@ -164,8 +170,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
       })
       .catch((error) => {});
   };
+  chat = false;
 
   clickSendUser = (idUser, nameUser) => {
+    this.chat = false;
+    console.log(this.chat);
     var destUserIdOld = <HTMLElement>(
       document.getElementById(
         `DestUserId_${localStorage.getItem("DestUserId")}`
@@ -285,5 +294,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   iconEvent(event: any) {
     this.txtMessage += event;
+  }
+
+  onSendImage(files: File[]) {
+    console.log(files);
+    this.messageService
+      .SendMessage(this.CurrentUserId, this.DestUserId, "file", files)
+      .then((data) => {
+        this.setScroll();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }

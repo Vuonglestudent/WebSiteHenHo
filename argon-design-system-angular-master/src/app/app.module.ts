@@ -48,6 +48,7 @@ import { SharedStoryComponent } from './user-components/shared-story/shared-stor
 import { StringEnumPipe } from './shared/pipe/string-enum-pipe';
 import { ScanAroundComponent } from './user-components/scan-around/scan-around.component';
 import { ChatIconComponent } from './shared/chat-icon/chat-icon.component';
+import { UploadImageComponent } from './shared/upload-image/upload-image.component';
 @NgModule({
   declarations: [
     StringEnumPipe,
@@ -75,6 +76,7 @@ import { ChatIconComponent } from './shared/chat-icon/chat-icon.component';
     SharedStoryComponent,
     ScanAroundComponent,
     ChatIconComponent,
+    UploadImageComponent,
   ],
   imports: [
     NgxStarRatingModule,

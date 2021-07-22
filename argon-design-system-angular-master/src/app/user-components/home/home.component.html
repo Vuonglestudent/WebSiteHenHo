@@ -179,6 +179,7 @@
                       <div
                         *ngFor="let item of NewImages; let i = index"
                         class="new-content"
+                        (dblclick)="onLikeImage(item.id, i)"
                       >
                         <div class="news-header">
                           <div class="header-image">
@@ -511,30 +512,23 @@
                   id="GioiTinh"
                 >
                   <option *ngFor="let item of filterData.gender">
-                    Tìm {{ item }}
-                  </option>
-                </select>
-                <select
-                  [(ngModel)]="fromAge"
-                  [ngModelOptions]="{ standalone: true }"
-                  class="form-control dropbtn"
-                  id="TuoiBatDau"
-                >
-                  <option *ngFor="let item of filterData.fromAge">
-                    Từ tuổi {{ item }}
+                    {{ item }}
                   </option>
                 </select>
 
                 <select
-                  [(ngModel)]="toAge"
+                  [(ngModel)]="ageGroup"
                   [ngModelOptions]="{ standalone: true }"
                   class="form-control dropbtn"
-                  id="TuoiKetThuc"
                 >
-                  <option *ngFor="let item of filterData.toAge">
-                    Đến tuổi {{ item }}
+                  <option
+                    *ngFor="let item of filterData.ageGroup"
+                    value="{{ item }}"
+                  >
+                    {{ item | stringEnum }}
                   </option>
                 </select>
+
                 <select
                   [(ngModel)]="location"
                   [ngModelOptions]="{ standalone: true }"

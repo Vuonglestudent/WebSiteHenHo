@@ -1,0 +1,17 @@
+.icon-button {
+  font-size: 34px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  margin: 0px;
+  background-color: white;
+  i {
+    font-size: 20px;
+    color: #5e72e4;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}

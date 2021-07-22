@@ -163,14 +163,20 @@ export class HomeComponent implements OnInit {
         filter,
         this.location,
         this.name,
-        this.fromAge,
-        this.toAge,
+        this.ageGroup,
         this.gender
       )
       .then((response) => {
         this.Loading = false;
         if (this.isFilter) {
-          this.usersService.Favoritors = response.data;
+          if (this.usersService.FavoritePage.index === 1) {
+            this.usersService.Favoritors = response.data;
+          } else {
+            this.usersService.Favoritors = this.usersService.Favoritors.concat(
+              response.data
+            );
+          }
+
           if (response.data.length == 0) {
             this.alertService.warn(
               "Không tìm thấy người dùng phù hợp",
@@ -422,26 +428,30 @@ export class HomeComponent implements OnInit {
     gender: ["Nam", "Nữ"],
     fromAge: [],
     toAge: [],
+    ageGroup: [
+      "Dưới_18_tuổi",
+      "Từ_18_đến_25",
+      "Từ_25_đến_30",
+      "Từ_31_đến_40",
+      "Từ_41_đến_50",
+      "Trên_50",
+    ],
   };
-  gender = "Tất cả";
+  gender = "Chọn giới tính";
   name = "";
-  fromAge = 15;
-  toAge = 60;
-  location = "Tất cả";
-  LoadFilterData() {
-    for (let i = 16; i <= 60; i++) {
-      this.filterData.fromAge.push(i);
-      this.filterData.toAge.push(i);
-    }
 
+  location = "Tỉnh - thành phố";
+  ageGroup = "Chọn độ tuổi";
+  LoadFilterData() {
     this.usersService
       .GetProfileData()
       .then((response) => {
         this.filterData.location = response.location;
-        this.filterData.location.unshift("Tất cả");
+        this.filterData.location.unshift("Tỉnh - thành phố");
         this.filterData.fromAge.unshift("15");
         this.filterData.toAge.unshift("60");
-        this.filterData.gender.unshift("Tất cả");
+        this.filterData.gender.unshift("Chọn giới tính");
+        this.filterData.ageGroup.unshift("Chọn độ tuổi");
       })
       .catch((error) => {
         console.log(error);
@@ -513,6 +523,7 @@ export class HomeComponent implements OnInit {
   };
 
   onLikeImage = (imageId, index) => {
+    console.log(index);
     this.NewImages[index].liked = !this.NewImages[index].liked;
     this.imageService
       .likeImage(this.userInfo.id, imageId)
@@ -572,6 +583,7 @@ export class HomeComponent implements OnInit {
           this.alertService.success(response.message, this.options);
           this.PageSizeImage = 10;
           this.PageIndexImage = 1;
+          this.NewImages = [];
           this.loadNewImages();
         } else {
           this.alertService.warn(response.message, this.options);

@@ -440,7 +440,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     console.log(id, this.txtMessage);
     if (this.txtMessage != "") {
       this.messageService
-        .SendMessage(this.userInfo.id, id, this.txtMessage)
+        .SendMessage(this.userInfo.id, id, this.txtMessage, null)
         .then((data) => {
           this.alertService.clear();
           this.alertService.success(

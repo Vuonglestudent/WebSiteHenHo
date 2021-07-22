@@ -6,6 +6,7 @@
 <div class="container-fluid">
   <div class="row justify-content-start">
     <div
+      [ngClass]="chat ? 'contact-content-show' : 'contact-content-hide'"
       class="col-md-5 col-xl-3 chat"
       style="padding-left: 0px; padding-right: 0px"
     >
@@ -95,9 +96,17 @@
       class="col-md-7 col-xl-9 chat"
       style="padding-right: 0px; padding-left: 0px"
     >
-      <div class="card">
+      <div
+        [ngClass]="chat ? 'chat-content-hide' : 'chat-content-show'"
+        class="card"
+      >
         <div *ngIf="friendList.length != 0" class="card-header msg_head">
           <div class="d-flex bd-highlight" style="height: 40px">
+            <div (click)="chat = true" class="back-icon">
+              <span>
+                <i class="fa fa-angle-left"></i>
+              </span>
+            </div>
             <div class="img_cont">
               <img src="{{ avatarPath }}" class="rounded-circle user_img" />
             </div>
@@ -133,7 +142,7 @@
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              style="margin-top: 15px; margin-left: 10px"
+              class="dropdown-icon"
             >
               <fa-icon
                 style="color: #5e72e4"
@@ -166,7 +175,10 @@
             </div>
           </div>
 
-          <div *ngIf="friendList[UserIndex] != undefined">
+          <div
+            *ngIf="friendList[UserIndex] != undefined"
+            class="message-container"
+          >
             <div
               class="text-primary text-center"
               *ngIf="friendList[UserIndex].messages.length == 0"
@@ -190,6 +202,12 @@
                   />
                 </div>
                 <div
+                  *ngIf="
+                    msg.messageType === '' ||
+                    msg.messageType === 'text' ||
+                    msg.messageType === undefined ||
+                    msg.messageType === null
+                  "
                   style="min-width: 130px; max-width: 90%"
                   class="msg_cotainer"
                 >
@@ -198,12 +216,30 @@
                     {{ msg.sentAt | date: "medium" }}
                   </span>
                 </div>
+
+                <div
+                  *ngIf="msg.messageType == 'image'"
+                  class="img-container-left"
+                >
+                  <img
+                    *ngFor="let img of msg.filePaths"
+                    class="image-message"
+                    src="{{ img }}"
+                  />
+                </div>
               </div>
+
               <div
                 *ngIf="msg.type == 'sent'"
                 class="d-flex justify-content-end mb-4"
               >
                 <div
+                  *ngIf="
+                    msg.messageType === '' ||
+                    msg.messageType === 'text' ||
+                    msg.messageType === undefined ||
+                    msg.messageType === null
+                  "
                   style="margin-left: 48%; min-width: 130px"
                   class="msg_cotainer_send"
                 >
@@ -214,6 +250,17 @@
                   >
                     {{ msg.sentAt | date: "medium" }}</span
                   >
+                </div>
+
+                <div
+                  *ngIf="msg.messageType === 'image'"
+                  class="image-container"
+                >
+                  <img
+                    *ngFor="let img of msg?.filePaths"
+                    class="image-message"
+                    src="{{ img }}"
+                  />
                 </div>
               </div>
             </div>
@@ -241,7 +288,17 @@
                 placeholder="Type a message"
               ></textarea>
 
-              <app-chat-icon (iconEvent)="iconEvent($event)"></app-chat-icon>
+              <div class="group-actions">
+                <app-chat-icon
+                  class="chat-icon"
+                  (iconEvent)="iconEvent($event)"
+                ></app-chat-icon>
+                <app-upload-image
+                  (fileEvent)="onSendImage($event)"
+                  class="upload-image"
+                >
+                </app-upload-image>
+              </div>
             </div>
 
             <!-- <div class="input-group-append">
