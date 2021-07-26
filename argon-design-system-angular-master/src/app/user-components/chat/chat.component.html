@@ -221,11 +221,13 @@
                   *ngIf="msg.messageType == 'image'"
                   class="img-container-left"
                 >
-                  <img
+                  <a
                     *ngFor="let img of msg.filePaths"
-                    class="image-message"
-                    src="{{ img }}"
-                  />
+                    target="_blank"
+                    href="{{ img }}"
+                  >
+                    <img class="image-message" src="{{ img }}" />
+                  </a>
                 </div>
               </div>
 
@@ -256,11 +258,13 @@
                   *ngIf="msg.messageType === 'image'"
                   class="image-container"
                 >
-                  <img
+                  <a
                     *ngFor="let img of msg?.filePaths"
-                    class="image-message"
-                    src="{{ img }}"
-                  />
+                    target="_blank"
+                    href="{{ img }}"
+                  >
+                    <img class="image-message" src="{{ img }}" />
+                  </a>
                 </div>
               </div>
             </div>

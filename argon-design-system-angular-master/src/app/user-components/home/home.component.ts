@@ -7,7 +7,12 @@ import { UsersService } from "../../shared/service/users.service";
 import { AlertService } from "../../shared/_alert";
 import { AuthenticationService } from "../../shared/service/authentication.service";
 import { fadeInAnimation } from "../../shared/_animates/animates";
-import { faSpinner, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSpinner,
+  faSyncAlt,
+  faUsers,
+  faImages,
+} from "@fortawesome/free-solid-svg-icons";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -64,9 +69,10 @@ export class HomeComponent implements OnInit {
       (onlineCount) => (this.onlineCount = onlineCount)
     );
   }
-
+  faImages = faImages;
   faSpinner = faSpinner;
   faSyncAlt = faSyncAlt;
+  faUsers = faUsers;
 
   options = {
     autoClose: false,

@@ -1,3 +1,22 @@
+.tooltip-custom .tooltiptext-custom {
+  visibility: hidden;
+  width: 150px;
+  background-color: #5e72e4;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  top: -40px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip-custom:hover .tooltiptext-custom {
+  visibility: visible;
+  animation: fadeIn;
+  animation-duration: 0.5s;
+}
+
 .container-body {
   width: 100%;
   display: flex;
@@ -625,7 +644,7 @@ ngx-dropzone,
 
   app-chat-icon {
     position: absolute;
-    right: 20px;
+    right: 30px;
     bottom: 5px;
   }
 }
