@@ -296,7 +296,7 @@
               class="
                 text-center
                 form-control
-                 col-xl-5 col-md-5 col-lg-5 col-sm-10 col-xs-10
+                col-xl-5 col-md-5 col-lg-5 col-sm-10 col-xs-10
               "
               value="{{ UserProfile.fullName }}"
               [(ngModel)]="UserProfile.fullName"
@@ -1259,7 +1259,7 @@
                       id="img_{{ UserProfile.id }}_{{ i }}"
                       onclick="selectImage(id)"
                     >
-                      <a style="cursor: pointer"
+                      <a style="cursor: pointer" class="image-container"
                         ><img
                           class="card-img-top thumb-table avatar-custom"
                           src="{{ item.imagePath }}"
@@ -1328,7 +1328,7 @@
                     class="d-flex justify-content-center"
                     (click)="clickProfileUser(item.id)"
                   >
-                    <a style="cursor: pointer"
+                    <a style="cursor: pointer" class="image-container"
                       ><img
                         class="card-img-top thumb-table avatar-custom"
                         src="{{ item.avatarPath }}"
@@ -1423,6 +1423,7 @@
   <div class="message-container">
     <textarea
       class="textareaMessage"
+      placeholder="Nhập tin nhắn..."
       name=""
       id=""
       cols=""
@@ -1430,7 +1431,6 @@
       (keyup.enter)="sendMessage(UserProfile.id)"
       [(ngModel)]="txtMessage"
     ></textarea>
-    <app-chat-icon (iconEvent)="iconMessageEvent($event)"></app-chat-icon>
   </div>
   <section class="messagePopUnder" (click)="nonePopMessage()"></section>
   <button

@@ -146,7 +146,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 feature.featureId = this.profileData.features[i].id;
                 feature.featureDetailId = -1;
                 feature.name = this.profileData.features[i].name;
-                feature.content = "CHƯA CẬP NHẬT!";
+                feature.content = "CHƯA CẬP NHẬT";
                 feature.isSearchFeature =
                   this.profileData.features[i].isSearchFeature;
                 feature.featureDetails =
@@ -181,7 +181,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
                 feature.featureId = this.profileData.features[i].id;
                 feature.featureDetailId = -1;
                 feature.name = this.profileData.features[i].name;
-                feature.content = "CHƯA CẬP NHẬT!";
+                feature.content = "CHƯA CẬP NHẬT";
                 feature.isSearchFeature =
                   this.profileData.features[i].isSearchFeature;
                 feature.featureDetails =
@@ -363,6 +363,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.isViewFriendList = false;
   }
   uploadStatus: string = "none";
+
   onUpload() {
     this.uploadStatus = "loading";
     this.imageService
@@ -370,14 +371,17 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       .then((response) => {
         this.uploadStatus = "none";
         this.alertService.clear();
+        this.pageIndexImage = 1;
+        this.imagesResponse = [];
         if (response.approved) {
           this.alertService.success(response.message, this.options);
         } else {
           this.alertService.warn(response.message, this.options);
         }
         this.files = [];
-        this.ngOnInit();
+
         this.uploadImage = !this.uploadImage;
+        this.onViewImage();
       })
       .catch((error) => {
         this.uploadStatus = "none";

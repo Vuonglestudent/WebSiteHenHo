@@ -65,10 +65,11 @@
 }
 
 .textareaMessage {
+  padding: 10px;
   position: absolute;
   z-index: 14;
   width: 40%;
-  height: 30vh;
+  height: 20vh;
   top: 20%;
   left: 30%;
   cursor: pointer;
@@ -85,7 +86,7 @@
 .btnSendMessage {
   position: absolute;
   z-index: 14;
-  top: 50%;
+  top: 40%;
   left: 30%;
   width: 40%;
 }
