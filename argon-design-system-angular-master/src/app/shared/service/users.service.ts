@@ -186,11 +186,12 @@ export class UsersService {
   public FilterUsers = (
     feature: string,
     isAscending: boolean,
+    name: string,
     pageIndex: number,
     pageSize: number
   ) => {
     var headers = this.authenticationService.GetHeader();
-    var query = `${this.url.urlHost}/api/v1/Users/filterUsers?Feature=${feature}&IsAscending=${isAscending}&PageIndex=${pageIndex}&pageSize=${pageSize}`;
+    var query = `${this.url.urlHost}/api/v1/Users/filterUsers?Feature=${feature}&IsAscending=${isAscending}&PageIndex=${pageIndex}&pageSize=${pageSize}&name=${name}`;
 
     return this.http.get<any>(query, { headers: headers }).toPromise();
   };

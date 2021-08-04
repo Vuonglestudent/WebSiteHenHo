@@ -50,9 +50,10 @@ export class NavbarComponent implements OnInit {
     private relationshipService: RelationshipService,
     private alertService: AlertService
   ) {
-    this.authenticationService.userInfoObservable.subscribe(
-      (user) => (this.userInfo = user)
-    );
+    this.authenticationService.userInfoObservable.subscribe((user) => {
+      this.userInfo = user;
+      console.log(this.userInfo);
+    });
   }
   onMessageClick() {
     this.router.navigateByUrl("chat");

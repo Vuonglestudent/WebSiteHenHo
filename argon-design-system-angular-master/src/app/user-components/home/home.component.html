@@ -183,7 +183,10 @@
                         class="new-content"
                         (dblclick)="onLikeImage(item.id, i)"
                       >
-                        <div class="news-header">
+                        <div
+                          (click)="clickProfileUser(item.userId)"
+                          class="news-header"
+                        >
                           <div class="header-image">
                             <img
                               src="{{ item.avatarPath }}"

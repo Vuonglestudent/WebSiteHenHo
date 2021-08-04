@@ -1,118 +1,163 @@
-<div style="display: flex; flex-direction: row;">
-    <app-navbar-admin></app-navbar-admin>
-    <div class="col-10 col-xl-10 col-lg-10 col-md-10 p-5 contain-manager-user">
-        <div *ngIf="Loading">
-            <div id="loader"></div>
-        </div>
-        <div *ngIf="!Loading" class="d-flex justify-content-end">
-            <div class="col-lg-4 col-md-4" style="padding: 0%;">
-                <div class="form-group">
-                    <div class="input-group input-group-alternative mb-4">
-                        <input class="form-control" placeholder="Nhập tên người dùng" type="text">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="ni ni-zoom-split-in text-success"></i></span>
-                        </div>
-                    </div>
-                </div>
+<div style="display: flex; flex-direction: row">
+  <app-navbar-admin></app-navbar-admin>
+  <div class="col-10 col-xl-10 col-lg-10 col-md-10 p-5 contain-manager-user">
+    <div *ngIf="Loading">
+      <div id="loader"></div>
+    </div>
+    <div *ngIf="!Loading" class="d-flex justify-content-end">
+      <div class="col-lg-4 col-md-4" style="padding: 0%">
+        <div class="form-group">
+          <div class="input-group input-group-alternative mb-4">
+            <input
+              (keydown.enter)="onSearch()"
+              [(ngModel)]="username"
+              class="form-control"
+              placeholder="Nhập tên người dùng"
+              type="text"
+            />
+            <div (click)="onSearch()" class="input-group-append">
+              <span class="input-group-text"
+                ><i class="ni ni-zoom-split-in text-success"></i
+              ></span>
             </div>
+          </div>
         </div>
-        <div *ngIf="!Loading" class="card table-responsive">
-            <table class="table align-items-center table-dark table-flush">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div>
-                                    <a class="text-success" (click)="clickfilterName()">
-                                        <i class="fa fa-filter"></i>
-                                    </a>
-                                    <span *ngIf="filterName"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
-                                    <span *ngIf="!filterName"><i class="btn-sm fa fa-arrow-down text-danger"></i></span>
-                                </div>
-                                Tên Người Dùng
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div>
-                                    <a class="text-success" (click)="clickfilterFollow()">
-                                        <i class="fa fa-filter"></i>
-                                    </a>
-                                    <span *ngIf="filterFollower"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
-                                    <span *ngIf="!filterFollower"><i
-                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
-                                </div>
-                                Theo dõi
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div>
-                                    <a class="text-success" (click)="clickfilterFavorite()">
-                                        <i class="fa fa-filter"></i>
-                                    </a>
-                                    <span *ngIf="filterFavorite"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
-                                    <span *ngIf="!filterFavorite"><i
-                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
-                                </div>
-                                Yêu thích
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div>
-                                    <a class="text-success" (click)="clickfilterImage()">
-                                        <i class="fa fa-filter"></i>
-                                    </a>
-                                    <span *ngIf="filterImage"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
-                                    <span *ngIf="!filterImage"><i
-                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
-                                </div>
-                                Hình ảnh
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="d-flex align-items-center justify-content-start">
-                                <div>
-                                    <a class="text-success" (click)="clickfilterStatus()">
-                                        <i class="fa fa-filter"></i>
-                                    </a>
-                                    <span *ngIf="filterStatus"><i class="btn-sm fa fa-arrow-up text-info"></i></span>
-                                    <span *ngIf="!filterStatus"><i
-                                            class="btn-sm fa fa-arrow-down text-danger"></i></span>
-                                </div>
-                                Trạng thái
-                            </div>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of Users; let i = index">
-                        <th scope="row">
-                            <div class="media align-items-center">
-                                <a href="#" class="avatar rounded-circle mr-3">
-                                    <img alt="Image placeholder" src="{{item.avatarPath}}"
-                                        style="width: 48px; height: 48px;">
-                                </a>
-                                <div class="media-body">
-                                    <span class="mb-0 text-sm">{{item.fullName}}</span>
-                                </div>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex media-body align-items-center" style="height: 48px;">
-                                <span class="mb-0 text-sm">{{item.numberOfFollowers}}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex media-body align-items-center" style="height: 48px;">
-                                <span class="mb-0 text-sm">{{item.numberOfFavoritors}}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex avatar-group align-items-center" style="height: 48px;">
-                                <!-- <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
+      </div>
+    </div>
+    <div *ngIf="!Loading" class="card table-responsive">
+      <table class="table align-items-center table-dark table-flush">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">
+              <div class="d-flex align-items-center justify-content-start">
+                <div>
+                  <a class="text-success" (click)="clickfilterName()">
+                    <i class="fa fa-filter"></i>
+                  </a>
+                  <span *ngIf="filterName"
+                    ><i class="btn-sm fa fa-arrow-up text-info"></i
+                  ></span>
+                  <span *ngIf="!filterName"
+                    ><i class="btn-sm fa fa-arrow-down text-danger"></i
+                  ></span>
+                </div>
+                Tên Người Dùng
+              </div>
+            </th>
+            <th scope="col">
+              <div class="d-flex align-items-center justify-content-start">
+                <div>
+                  <a class="text-success" (click)="clickfilterFollow()">
+                    <i class="fa fa-filter"></i>
+                  </a>
+                  <span *ngIf="filterFollower"
+                    ><i class="btn-sm fa fa-arrow-up text-info"></i
+                  ></span>
+                  <span *ngIf="!filterFollower"
+                    ><i class="btn-sm fa fa-arrow-down text-danger"></i
+                  ></span>
+                </div>
+                Theo dõi
+              </div>
+            </th>
+            <th scope="col">
+              <div class="d-flex align-items-center justify-content-start">
+                <div>
+                  <a class="text-success" (click)="clickfilterFavorite()">
+                    <i class="fa fa-filter"></i>
+                  </a>
+                  <span *ngIf="filterFavorite"
+                    ><i class="btn-sm fa fa-arrow-up text-info"></i
+                  ></span>
+                  <span *ngIf="!filterFavorite"
+                    ><i class="btn-sm fa fa-arrow-down text-danger"></i
+                  ></span>
+                </div>
+                Yêu thích
+              </div>
+            </th>
+            <th scope="col">
+              <div class="d-flex align-items-center justify-content-start">
+                <div>
+                  <a class="text-success" (click)="clickfilterImage()">
+                    <i class="fa fa-filter"></i>
+                  </a>
+                  <span *ngIf="filterImage"
+                    ><i class="btn-sm fa fa-arrow-up text-info"></i
+                  ></span>
+                  <span *ngIf="!filterImage"
+                    ><i class="btn-sm fa fa-arrow-down text-danger"></i
+                  ></span>
+                </div>
+                Hình ảnh
+              </div>
+            </th>
+            <th scope="col">
+              <div class="d-flex align-items-center justify-content-start">
+                <div>
+                  <a class="text-success" (click)="clickfilterStatus()">
+                    <i class="fa fa-filter"></i>
+                  </a>
+                  <span *ngIf="filterStatus"
+                    ><i class="btn-sm fa fa-arrow-up text-info"></i
+                  ></span>
+                  <span *ngIf="!filterStatus"
+                    ><i class="btn-sm fa fa-arrow-down text-danger"></i
+                  ></span>
+                </div>
+                Trạng thái
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Users; let i = index">
+            <th scope="row">
+              <div class="media align-items-center">
+                <a
+                  style="cursor: pointer"
+                  (click)="onClickUser(item)"
+                  class="avatar rounded-circle mr-3"
+                >
+                  <img
+                    alt="Image placeholder"
+                    src="{{ item.avatarPath }}"
+                    style="width: 48px; height: 48px"
+                  />
+                </a>
+                <div class="media-body">
+                  <span
+                    style="cursor: pointer"
+                    (click)="onClickUser(item)"
+                    class="mb-0 text-sm"
+                    >{{ item.fullName }}</span
+                  >
+                </div>
+              </div>
+            </th>
+            <td>
+              <div
+                class="d-flex media-body align-items-center"
+                style="height: 48px"
+              >
+                <span class="mb-0 text-sm">{{ item.numberOfFollowers }}</span>
+              </div>
+            </td>
+            <td>
+              <div
+                class="d-flex media-body align-items-center"
+                style="height: 48px"
+              >
+                <span class="mb-0 text-sm">{{ item.numberOfFavoritors }}</span>
+              </div>
+            </td>
+            <td>
+              <div
+                class="d-flex avatar-group align-items-center"
+                style="height: 48px"
+              >
+                <!-- <a href="#" class="avatar avatar-sm" data-toggle="tooltip"
                                     data-original-title="Ryan Tompson">
                                     <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg"
                                         class="rounded-circle">
@@ -127,95 +172,173 @@
                                     <img alt="Image placeholder" src="assets/img/theme/team-3-800x800.jpg"
                                         class="rounded-circle">
                                 </a> -->
-                                <div class="media-body ml-1">
-                                    <span class="mb-0 text-sm">{{item.numberOfImages}}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div *ngIf="item.status!='IsVerifying'&& item.status != 'Active'" class="media align-items-center" style="height: 48px;">
-                                <div class="media-body btn-flip active-btn-flip" data-back="Inactive" data-front="Active"
-                                    (click)="setActiveUser($event, item.id)">
-                                </div>
-                            </div>
-                            <div *ngIf="item.status!='IsVerifying'&& item.status == 'Active'" class="media align-items-center" style="height: 48px;">
-                                <div class="media-body btn-flip" data-back="Inactive" data-front="Active"
-                                    (click)="setActiveUser($event, item.id)">
-                                </div>
-                            </div>
+                <div class="media-body ml-1">
+                  <span class="mb-0 text-sm">{{ item.numberOfImages }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div
+                *ngIf="item.status != 'IsVerifying' && item.status != 'Active'"
+                class="media align-items-center"
+                style="height: 48px"
+              >
+                <div
+                  class="media-body btn-flip active-btn-flip"
+                  data-back="Inactive"
+                  data-front="Active"
+                  (click)="setActiveUser($event, item.id)"
+                ></div>
+              </div>
+              <div
+                *ngIf="item.status != 'IsVerifying' && item.status == 'Active'"
+                class="media align-items-center"
+                style="height: 48px"
+              >
+                <div
+                  class="media-body btn-flip"
+                  data-back="Inactive"
+                  data-front="Active"
+                  (click)="setActiveUser($event, item.id)"
+                ></div>
+              </div>
 
-                            <div *ngIf="item.status=='IsVerifying'" class="media align-items-center" style="height: 48px;">
-                                <div class="media-body btn-flip-warning" data-front="IsVerifying">
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">
-                            <div *ngIf="i < 4" ngbDropdown placement="bottom-right">
-                                <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </a>
-                                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="javascript:;">Action</a>
-                                    <a class="dropdown-item" href="javascript:;">Another action</a>
-                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
-                                </div>
-                            </div>
-                            <div *ngIf="i >= 4" ngbDropdown placement="top-right">
-                                <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </a>
-                                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="javascript:;">Action</a>
-                                    <a class="dropdown-item" href="javascript:;">Another action</a>
-                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div *ngIf="!Loading" class="d-flex justify-content-end"
-            style="padding-bottom: 15px; padding-top: 15px; padding-left:30px">
-
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a (click)="previousPage()" class="page-link"  tabindex="-1">
-                            <i class="fa fa-angle-left"></i>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-
-                    <li *ngIf="PagingInfo.position==1" (click)="paging(PagingInfo.current - 1)"
-                        class="page-item active"><a class="page-link" href="javascript:;">{{PagingInfo.current - 1}}</a>
-                    </li>
-                    <li *ngIf="PagingInfo.position!=1" (click)="paging(PagingInfo.current - 1)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{PagingInfo.current - 1}}</a></li>
-
-                    <li *ngIf="PagingInfo.position==2" (click)="paging(PagingInfo.current)" class="page-item active"><a
-                            class="page-link" href="javascript:;">{{PagingInfo.current}}</a>
-                    </li>
-                    <li *ngIf="PagingInfo.position!=2" (click)="paging(PagingInfo.current)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{PagingInfo.current}}</a></li>
-
-                    <li *ngIf="PagingInfo.position==3" (click)="paging(PagingInfo.current + 1)"
-                        class="page-item active"><a class="page-link" href="javascript:;">{{PagingInfo.current + 1}}</a>
-                    </li>
-                    <li *ngIf="PagingInfo.position!=3" (click)="paging(PagingInfo.current + 1)" class="page-item"><a
-                            class="page-link" href="javascript:;">{{PagingInfo.current + 1}}</a></li>
-
-
-
-                    <li class="page-item">
-                        <a (click)="nextPage()" class="page-link" >
-                            <i class="fa fa-angle-right"></i>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+              <div
+                *ngIf="item.status == 'IsVerifying'"
+                class="media align-items-center"
+                style="height: 48px"
+              >
+                <div
+                  class="media-body btn-flip-warning"
+                  data-front="IsVerifying"
+                ></div>
+              </div>
+            </td>
+            <td class="text-right">
+              <div *ngIf="i < 4" ngbDropdown placement="bottom-right">
+                <a
+                  class="btn btn-sm btn-icon-only text-light"
+                  ngbDropdownToggle
+                >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <div
+                  ngbDropdownMenu
+                  class="dropdown-menu-right dropdown-menu-arrow"
+                >
+                  <a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;"
+                    >Another action</a
+                  >
+                  <a class="dropdown-item" href="javascript:;"
+                    >Something else here</a
+                  >
+                </div>
+              </div>
+              <div *ngIf="i >= 4" ngbDropdown placement="top-right">
+                <a
+                  class="btn btn-sm btn-icon-only text-light"
+                  ngbDropdownToggle
+                >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <div
+                  ngbDropdownMenu
+                  class="dropdown-menu-right dropdown-menu-arrow"
+                >
+                  <a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;"
+                    >Another action</a
+                  >
+                  <a class="dropdown-item" href="javascript:;"
+                    >Something else here</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div
+      *ngIf="!Loading"
+      class="d-flex justify-content-end"
+      style="padding-bottom: 15px; padding-top: 15px; padding-left: 30px"
+    >
+      <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item">
+            <a (click)="previousPage()" class="page-link" tabindex="-1">
+              <i class="fa fa-angle-left"></i>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
 
+          <li
+            *ngIf="PagingInfo.position == 1"
+            (click)="paging(PagingInfo.current - 1)"
+            class="page-item active"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current - 1
+            }}</a>
+          </li>
+          <li
+            *ngIf="PagingInfo.position != 1"
+            (click)="paging(PagingInfo.current - 1)"
+            class="page-item"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current - 1
+            }}</a>
+          </li>
+
+          <li
+            *ngIf="PagingInfo.position == 2"
+            (click)="paging(PagingInfo.current)"
+            class="page-item active"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current
+            }}</a>
+          </li>
+          <li
+            *ngIf="PagingInfo.position != 2"
+            (click)="paging(PagingInfo.current)"
+            class="page-item"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current
+            }}</a>
+          </li>
+
+          <li
+            *ngIf="PagingInfo.position == 3"
+            (click)="paging(PagingInfo.current + 1)"
+            class="page-item active"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current + 1
+            }}</a>
+          </li>
+          <li
+            *ngIf="PagingInfo.position != 3"
+            (click)="paging(PagingInfo.current + 1)"
+            class="page-item"
+          >
+            <a class="page-link" href="javascript:;">{{
+              PagingInfo.current + 1
+            }}</a>
+          </li>
+
+          <li class="page-item">
+            <a (click)="nextPage()" class="page-link">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </div>

@@ -1,23 +1,28 @@
-import { AuthenticationService } from '../service/authentication.service';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { IUserInfo } from 'src/app/models/models';
+import { AuthenticationService } from "../service/authentication.service";
+import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { IUserInfo } from "src/app/models/models";
 
 @Component({
-  selector: 'app-navbar-admin',
-  templateUrl: './navbar-admin.component.html',
-  styleUrls: ['./navbar-admin.component.css']
+  selector: "app-navbar-admin",
+  templateUrl: "./navbar-admin.component.html",
+  styleUrls: ["./navbar-admin.component.css"],
 })
 export class NavbarAdminComponent implements OnInit {
-
-  userInfo:IUserInfo;
+  userInfo: IUserInfo;
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {
-    this.authenticationService.userInfoObservable
-	  .subscribe(user => this.userInfo = user)
-   }
+    this.authenticationService.userInfoObservable.subscribe((user) => {
+      if (user) {
+        this.userInfo = user;
+        if (this.userInfo.role !== "Admin") {
+          this.router.navigate([""]);
+        }
+      }
+    });
+  }
   data: any;
   salesChart;
 
@@ -26,28 +31,27 @@ export class NavbarAdminComponent implements OnInit {
   urlFeatureManger = false;
   urlImageScore = false;
 
-
   ngOnInit(): void {
     var url = this.router.url.split("/")[1];
-    if (url === 'statistic') {
+    if (url === "statistic") {
       this.urlStatistic = true;
 
       this.urlFeatureManger = false;
       this.urlManagerUser = false;
       this.urlImageScore = false;
-    } else if (url === 'manager-user') {
+    } else if (url === "manager-user") {
       this.urlManagerUser = true;
 
       this.urlStatistic = false;
       this.urlFeatureManger = false;
       this.urlImageScore = false;
-    } else if (url === 'feature-manager'){
+    } else if (url === "feature-manager") {
       this.urlFeatureManger = true;
 
       this.urlStatistic = false;
       this.urlManagerUser = false;
       this.urlImageScore = false;
-    }else if(url === 'image-score'){
+    } else if (url === "image-score") {
       this.urlImageScore = true;
 
       this.urlStatistic = false;
@@ -56,53 +60,51 @@ export class NavbarAdminComponent implements OnInit {
     }
   }
 
-
-
   clickMyProfile = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
-    this.router.navigate(['/profile', this.userInfo.id]);
-  }
+    this.router.navigate(["/profile", this.userInfo.id]);
+  };
 
   clickMessage = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
-    this.router.navigate(['/chat']);
-  }
+    this.router.navigate(["/chat"]);
+  };
 
   clickStatistic = () => {
     this.urlStatistic = true;
     this.urlManagerUser = false;
     this.urlFeatureManger = false;
     this.urlImageScore = false;
-    this.router.navigate(['/statistic']);
-  }
+    this.router.navigate(["/statistic"]);
+  };
 
   clickManagerUser = () => {
     this.urlStatistic = false;
     this.urlManagerUser = true;
     this.urlFeatureManger = false;
     this.urlImageScore = false;
-    this.router.navigate(['/manager-user']);
-  }
+    this.router.navigate(["/manager-user"]);
+  };
 
   clickHome = () => {
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlFeatureManger = false;
     this.urlImageScore = false;
-    this.router.navigate(['/home'])
-  }
-  
+    this.router.navigate(["/home"]);
+  };
+
   clickFeatureManager = () => {
     this.urlFeatureManger = true;
     this.urlManagerUser = false;
     this.urlStatistic = false;
     this.urlImageScore = false;
-    this.router.navigate(['/feature-manager']);
-  }
+    this.router.navigate(["/feature-manager"]);
+  };
 
   clickImageScore = () => {
     this.urlImageScore = true;
@@ -110,7 +112,6 @@ export class NavbarAdminComponent implements OnInit {
     this.urlStatistic = false;
     this.urlFeatureManger = false;
     this.urlManagerUser = false;
-    this.router.navigate(['/image-score']);
-  }
-
+    this.router.navigate(["/image-score"]);
+  };
 }

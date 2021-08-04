@@ -124,7 +124,11 @@
               ></fa-icon>
               Đổi mật khẩu
             </a>
-            <a class="dropdown-item" href="/#/statistic;">
+            <a
+              *ngIf="userInfo.role === 'Admin'"
+              class="dropdown-item"
+              href="/#/statistic;"
+            >
               <fa-icon
                 class="space-right"
                 size="1x"
@@ -238,13 +242,13 @@
                 <i class="ni ni-settings-gear-65"></i>
                 <span>Đổi mật khẩu</span>
               </a>
-              <a href="/#/statistic;" class="dropdown-item">
-                <i class="ni ni-image"></i>
-                <span>Thống kê</span>
-              </a>
-              <a href="/#/manager-user" class="dropdown-item">
-                <i class="ni ni-image"></i>
-                <span>Quản lý người dùng</span>
+              <a
+                *ngIf="userInfo.role === 'Admin'"
+                href="/#/statistic;"
+                class="dropdown-item"
+              >
+                <i class="ni ni-chart-pie-35"></i>
+                <span>Quản trị viên</span>
               </a>
               <div class="dropdown-divider"></div>
               <a
